@@ -1,61 +1,90 @@
 #include "stdafx.h"
 #include "cMapTool.h"
-
+#include "cMapTerrainTool.h"
+#include "cMapObjectTool.h"
 
 cMapTool::cMapTool()
+	: m_pTerrainTool(NULL)
+	, m_pObjectTool(NULL)
+	, m_eMapSize(DEFAULT_MAP_SIZE)
+	, m_eDefaultGroundType(E_SOIL_GROUND)
 {
 }
-
-
 cMapTool::~cMapTool()
 {
+	// 메모리 관리 설정하면 이부분은 삭제 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	SAFE_RELEASE(m_pTerrainTool);
+	SAFE_RELEASE(m_pObjectTool);
 }
 
-// 크기 설정한 맵 생성, NewMap.raw 파일로 높이 저장 
-// Defalut 128
-void cMapTool::CreateNewMap(int SizeX, int SizeZ)
+HRESULT cMapTool::Setup()
 {
-    // ex) 128 * 128
-    Vector3 vec;
-    int _0;
-    int _1;
-    int _2;
-    int _3;
-    ofstream c; 
-    c.open("NewMap.raw");
+	return S_OK;
+}
 
-    // 인덱스 벡터                   
+HRESULT cMapTool::Update()
+{
+	if (m_pTerrainTool)
+	{
+		m_pTerrainTool->Update();
+	}
+	if (m_pObjectTool)
+	{
+		m_pObjectTool->Update();
+	}
 
-    //   1 3
-    //   0 2
+	return S_OK;
+}
 
-    for (int z = 0; z < SizeZ; ++z)
-    {
-        for (int x = 0; x < SizeX; ++x)
-        {
-            _0 = x + (SizeX + 1) * (z + 1);
-            _1 = x + (SizeX + 1) * z;
-            _2 = x + 1 + (SizeX + 1) * (z + 1);
-            _3 = x + 1 + (SizeX + 1) * z;
-            m_vecVertexIndex.push_back(_0);
-            m_vecVertexIndex.push_back(_1);
-            m_vecVertexIndex.push_back(_2);
-            m_vecVertexIndex.push_back(_2);
-            m_vecVertexIndex.push_back(_1);
-            m_vecVertexIndex.push_back(_3);
-        }
+HRESULT cMapTool::Render()
+{
+	if (m_pTerrainTool)
+	{
+		m_pTerrainTool->Render();
+	}
+	if (m_pObjectTool)
+	{
+		m_pObjectTool->Render();
+	}
 
-    }
+	return S_OK;
+}
 
-    // 버텍스 벡터
-    for (int n = 0; n < (SizeX + 1) * (SizeZ + 1); ++n)
-    {
-        vec = Vector3(n % (SizeX + 1), DEFAULT_Y, n / (SizeX + 1));
-        m_vecVertex.push_back(vec);
-        c << (char)vec.y;
-    }
+HRESULT cMapTool::SetMapSize(IN E_MAP_SIZE eMapSize)
+{
+	// 예외처리
+	if (eMapSize < E_MAP_SIZE_BEGIN || eMapSize >= E_MAP_SIZE_MAX)
+	{
+		return E_INVALIDARG;
+	}
 
-  
-   
-    
+	m_eMapSize = eMapSize;
+
+	return S_OK;
+}
+
+HRESULT cMapTool::SetDefaultTextureType(IN E_GROUND_TYPE eGroundType)
+{
+	// 예외처리
+	if (eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
+	{
+		return E_INVALIDARG;
+	}
+
+	m_eDefaultGroundType = eGroundType;
+
+	return S_OK;
+}
+
+// 셋팅한 기본 설정으로 맵 만들기
+HRESULT cMapTool::CreateMap()
+{
+	m_pTerrainTool = new cMapTerrainTool;
+	m_pTerrainTool->Setup(m_eMapSize, m_eDefaultGroundType);
+
+	m_pObjectTool = new cMapObjectTool;
+	m_pObjectTool->Setup();
+
+	return S_OK;
 }

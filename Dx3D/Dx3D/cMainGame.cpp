@@ -13,13 +13,14 @@ cMainGame::cMainGame()
     g_pLogManager->Setup("\\Log\\");
     g_pKeyManager->Setup();
     SetCursorPos(W_WIDTH / 2, W_HEIGHT / 2);
-    m_pMapTool = new cMapTool;
-    
 }
 
 
 cMainGame::~cMainGame()
 {
+	// 메모리 관리 방법에 따라 변경하기!!!!!!
+	SAFE_RELEASE(m_pMapTool);
+
     SAFE_RELEASE(m_pMesh);
     SAFE_RELEASE(m_pEffect);
 
@@ -38,7 +39,9 @@ void cMainGame::Setup()
 {
     srand((int)time(NULL));
 
-    m_pMapTool->CreateNewMap(512,512);
+	m_pMapTool = new cMapTool;
+	m_pMapTool->Setup();
+    m_pMapTool->CreateMap();
 
     Vector3 dir(1.0f, -1.0f, 0.0f);
     D3DXVec3Normalize(&dir, &dir);
@@ -82,6 +85,11 @@ void cMainGame::Update()
         m_pCamera->Update();
     }
 
+	if (m_pMapTool)
+	{
+		m_pMapTool->Update();
+	}
+
     Matrix4 matWorld, matView, matProjection;
     Vector4 gWorldLightPosition(500.0f, 500.0f, -500.0f, 1.0f);
     Vector4 gWorldCameraPosition(0.0f, 0.0f, -200.0f, 1.0f);
@@ -112,6 +120,11 @@ void cMainGame::Render()
                      0);
 
     g_pDevice->BeginScene();
+
+	if (m_pMapTool)
+	{
+		m_pMapTool->Render();
+	}
 
     UINT numPasses = 0;
     m_pEffect->Begin(&numPasses, NULL);

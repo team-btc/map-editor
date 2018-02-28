@@ -180,6 +180,15 @@
     <ClInclude Include="cMapTool.h">
       <Filter>1. 클래스 파일\5. 맵 클래스</Filter>
     </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>3. 헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapTerrainTool.h">
+      <Filter>3. 헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapObjectTool.h">
+      <Filter>3. 헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cCamera.cpp">
@@ -274,6 +283,12 @@
     </ClCompile>
     <ClCompile Include="cMapTool.cpp">
       <Filter>1. 클래스 파일\5. 맵 클래스</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapTerrainTool.cpp">
+      <Filter>2. 소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapObjectTool.cpp">
+      <Filter>2. 소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

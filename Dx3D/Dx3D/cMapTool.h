@@ -1,15 +1,35 @@
 #pragma once
-#define DEFAULT_Y   128
-class cMapTool
+
+#include "cObject.h"
+
+class cMapTerrainTool;
+class cMapObjectTool;
+
+#define DEFAULT_MAP_SIZE		E_SIZE_256											// 기본 맵 크기
+#define DEFAULT_G_TYPE			E_SOIL_GROUND										// 기본 지형 타입
+
+class cMapTool : public cObject
 {
 private:
-    vector<Vector3> m_vecVertex;                // 맵에 사용할 점 벡터
-    vector<int> m_vecVertexIndex;               // Height맵 좌표 인덱스 벡터
+	cMapTerrainTool*			m_pTerrainTool;
+	cMapObjectTool*				m_pObjectTool;
+
+	E_MAP_SIZE					m_eMapSize;											// 맵 사이즈
+	E_GROUND_TYPE				m_eDefaultGroundType;								// 기본 지형 타입
+
+private:
 
 public:
-    void CreateNewMap(int SizeX, int SizeZ);            // 크기 설정한 맵 생성
-
     cMapTool();
     ~cMapTool();
+
+	HRESULT Setup();
+	HRESULT Update();
+	HRESULT Render();
+
+	HRESULT SetMapSize(IN E_MAP_SIZE eMapSize);										// 맵 사이즈 셋팅
+	HRESULT SetDefaultTextureType(IN E_GROUND_TYPE eGroundType);					// 기본 지형 텍스쳐 셋팅
+
+	HRESULT CreateMap();															// Create버튼을 눌렀을 때 발동
 };
 
