@@ -120,10 +120,10 @@ HRESULT cMapTerrainTool::CreateNewMap(int SizeX, int SizeZ)
     {
         for (int x = 0; x < SizeX; ++x)
         {
-            _0 = x + (SizeX + 1) * (z + 1);
-            _1 = x + (SizeX + 1) * z;
-            _2 = x + 1 + (SizeX + 1) * (z + 1);
-            _3 = x + 1 + (SizeX + 1) * z;
+            _0 = x + (SizeX + 1) * z;
+            _1 = x + (SizeX + 1) * (z + 1);
+            _2 = x + 1 + (SizeX + 1) * z;
+            _3 = x + 1 + (SizeX + 1) * (z + 1);
             m_vecVertexIndex.push_back(_0);
             m_vecVertexIndex.push_back(_1);
             m_vecVertexIndex.push_back(_2);
@@ -148,11 +148,6 @@ HRESULT cMapTerrainTool::CreateNewMap(int SizeX, int SizeZ)
 
 }
 
-// 크기 설정한 맵 생성 (x사이즈, z사이즈)
-HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ)
-{
-	return E_NOTIMPL;
-}
 
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)
 HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)

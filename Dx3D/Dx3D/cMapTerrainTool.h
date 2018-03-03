@@ -17,6 +17,7 @@
 
 // 지형 면(삼각형)정보
 struct ST_TERRAIN_FACE_INFO {
+    ST_PT_VERTEX*                   pVertexArr[3];                                   // 면이 가지고 있는 삼각형
 	E_GROUND_TYPE                   eGroundType[GT_MAX_NUM];
     float                           fBlending[GT_MAX_NUM];
     bool                            isWalkable;                                     // true 면 지나갈 수있음

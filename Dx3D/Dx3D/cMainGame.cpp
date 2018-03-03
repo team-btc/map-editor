@@ -54,7 +54,7 @@ void cMainGame::Setup()
 
     m_pCamera = new cCamera;
     m_pCamera->Setup();
-
+    
     if (FAILED(D3DXLoadMeshFromXA("./Shader/Model/Sphere.x",
                                   D3DXMESH_SYSTEMMEM,
                                   g_pDevice,
@@ -68,7 +68,10 @@ void cMainGame::Setup()
     };
 
     g_pShaderManager->AddEffect("specular-mapping", "./Shader/FX/SpecularMapping.fx");
-    m_pEffect = g_pShaderManager->GetEffect("specular-mapping");
+    g_pShaderManager->AddEffect("specular-lighting", "./Shader/FX/SpecularLighting.fx");
+    g_pShaderManager->AddEffect("texture-mapping", "./Shader/FX/TextureMapping.fx");
+    g_pShaderManager->AddEffect("lighting", "./Shader/FX/Lighting.fx.fx");
+    m_pEffect = g_pShaderManager->GetEffect("specular-lighting");
 
     g_pTextureManager->AddTexture("diffuse-map", "./Shader/Texture/Fieldstone_DM.tga");
     g_pTextureManager->AddTexture("specular-map", "./Shader/Texture/Fieldstone_SM.tga");
