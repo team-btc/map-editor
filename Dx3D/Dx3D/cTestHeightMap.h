@@ -10,6 +10,13 @@ class cMtlTex;
 #define NEAR_PLANE   1									// 근접 평면
 #define FAR_PLANE    10000								// 원거리 평면
 
+enum E_SHADERTYPE
+{
+    E_UVANIMATION,
+    E_SKYBOX,
+    E_NONE
+};
+
 class cHeightMap : public cObject, public iMap
 {
 private:
@@ -28,6 +35,11 @@ private:
     // 쉐이더
     LPD3DXEFFECT			m_pUVAnimationShader;
     LPDIRECT3DTEXTURE9      m_pTexture;
+    LPDIRECT3DCUBETEXTURE9  m_pCubeTexture;
+
+    LPD3DXEFFECT			m_pSkyBoxShader;
+    LPDIRECT3DTEXTURE9	    m_pSkyBoxTexture;
+    LPD3DXBUFFER            m_pMaterial;
     // 회전값
     float					gRotationY = 0.0f;
 
@@ -47,13 +59,14 @@ public:
     void LoadShader();
     bool LoadAssets();
 	virtual void Load(IN char* szRawFilePath, IN char* szTexFileKey, IN char* szTexFilePath, IN D3DXMATRIXA16* pMat = NULL) override;
-    void WaterUpdate(vector<ST_PNT_VERTEX>& vecVertex, float waveHeight = 0.25f, float Speed = 0.15f, float waveFrequency = NULL, float uvSpeed = NULL);
+    //void WaterUpdate(vector<ST_PNT_VERTEX>& vecVertex, float waveHeight = 0.25f, float Speed = 0.15f, float waveFrequency = NULL, float uvSpeed = NULL);
 	virtual bool GetHeight(IN const float& x, OUT float& y, IN const float& z) override;
 	virtual vector<D3DXVECTOR3>& GetVertex() override;
     vector<ST_PNT_VERTEX>* GetPNTVertex() { return &m_vecPNTVertex; }
 	virtual vector<DWORD>& GetIndex() override;
     void Update(cCamera* pCamera);
-	void Render(bool isShader);
+	void Render(E_SHADERTYPE type);
+    void CreateCube(char* szTexFileKey, char* TexFilePath, int nCubeSize);
 };
 
 /*

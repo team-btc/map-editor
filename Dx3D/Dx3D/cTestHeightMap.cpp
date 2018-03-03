@@ -10,6 +10,7 @@ cHeightMap::cHeightMap()
     , m_nTime(0)
     , m_meshWater(NULL)
     , m_pUVAnimationShader(NULL)
+    , m_pSkyBoxShader(NULL)
     , gWorldLightPosition(10.0f, 1000.0f, 0.0, 1.0f)
     , gLightColor(0.7f, 0.7f, 1.0f, 1.0f)
     , gWorldCameraPosition(NULL, NULL, NULL, NULL)
@@ -30,8 +31,13 @@ void cHeightMap::LoadShader()
 
     g_pShaderManager->AddEffect("1", "UVAnimation.fx");
     m_pUVAnimationShader = g_pShaderManager->GetEffect("1");
+    g_pShaderManager->AddEffect("2", "SkyBox.fx");
+    m_pSkyBoxShader = g_pShaderManager->GetEffect("2");
     g_pTextureManager->AddTexture("W", "HeightMapData/water.jpg");
+    g_pTextureManager->AddTexture("S", "HeightMapData/skybox.dds");
+
     m_pTexture = g_pTextureManager->GetTexture("W");
+    m_pSkyBoxTexture = g_pTextureManager->GetTexture("S");
 }
 
 
@@ -257,9 +263,9 @@ void cHeightMap::Update(cCamera* pCamera)
   
 }
 
-void cHeightMap::Render(bool isShader)
+void cHeightMap::Render(E_SHADERTYPE type)
 {
-    if (!isShader)
+    if (type == E_NONE)
     {
         D3DXMATRIXA16 matW;
         D3DXMatrixIdentity(&matW);
@@ -269,7 +275,7 @@ void cHeightMap::Render(bool isShader)
         g_pD3DDevice->SetTexture(0, m_pMtlTex->GetTexture());
         m_pMesh->DrawSubset(0);
     }
-    else
+    else if ( type == E_UVANIMATION)
     {
         D3DXMATRIXA16 matW, matView, matProjection;
         D3DXMatrixIdentity(&matW);
@@ -299,13 +305,6 @@ void cHeightMap::Render(bool isShader)
         m_pUVAnimationShader->SetFloat("gTime", tick / 1000.0f);
 
         // 쉐이더를 시작한다.
-      //  g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-      //  g_pD3DDevice->SetRenderState(D3DRS_TEXTUREFACTOR, D3DCOLOR_ARGB(50, 255, 255, 255)); // 앞이 알파
-      //  g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-      //  g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TFACTOR);
-      //  g_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_TEXTURE);
-      //  g_pD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-      //  g_pD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
         UINT numPasses = 0;
         m_pUVAnimationShader->Begin(&numPasses, NULL);
         {
@@ -320,6 +319,37 @@ void cHeightMap::Render(bool isShader)
         }
         m_pUVAnimationShader->End();
     }
+
+    else if (type == E_SKYBOX)
+    {
+        D3DXMATRIXA16 matW, matView, matProjection, matViewProjection;
+        D3DXMatrixIdentity(&matW);
+        //matProjection = m_pCamera->GetProjMatrix();
+        gWorldCameraPosition = D3DXVECTOR4(m_pCamera->GetEye().x, m_pCamera->GetEye().y, m_pCamera->GetEye().z, 1.0f);
+        
+
+        // D3DXMatrixLookAtLH(&matView, &m_pCamera->GetEye() , &m_pCamera->GetLookat(), &m_pCamera->GetUp());
+        g_pD3DDevice->GetTransform(D3DTS_VIEW, &matView);
+        g_pD3DDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+        matViewProjection = matView * matProjection;
+        m_pSkyBoxShader->SetMatrix("ViewProjection", &matViewProjection);
+        m_pSkyBoxShader->SetVector("ViewPosition", &gWorldCameraPosition);
+        m_pSkyBoxShader->SetTexture("Snow_Tex", m_pCubeTexture);
+        UINT numPasses = 0;
+        m_pSkyBoxShader->Begin(&numPasses, NULL);
+        {
+            for (UINT i = 0; i < numPasses; ++i)
+            {
+                m_pSkyBoxShader->BeginPass(i);
+                {
+                    m_pMesh->DrawSubset(0);
+                }
+                m_pSkyBoxShader->EndPass();
+            }
+        }
+        m_pSkyBoxShader->End();
+    }
   //  g_pD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
    // g_pD3DDevice->SetMaterial(m_pMtlTex->GetMtl());
@@ -327,4 +357,117 @@ void cHeightMap::Render(bool isShader)
    // m_pMesh->DrawSubset(0);
 	
 	//m_pMesh->DrawSubset(0);
+}
+
+void cHeightMap::CreateCube(char * szTexFileKey, char * TexFilePath, int nCubeSize)
+{
+    LoadShader();
+    //D3DXCreateBox(DirectX::device, 1.0f, 1.0f, 1.0f, &mesh, NULL);
+
+    //vector<D3DXVECTOR3> vecVertex;
+    //vecVertex.push_back(D3DXVECTOR3(-1.0 * nCubeSize, -1.0 * nCubeSize, -1.0 * nCubeSize));	// 0
+    //vecVertex.push_back(D3DXVECTOR3(-1.0 * nCubeSize, 1.0 * nCubeSize, -1.0* nCubeSize));	// 1
+    //vecVertex.push_back(D3DXVECTOR3(1.0 * nCubeSize, 1.0 * nCubeSize, -1.0 * nCubeSize));	// 2
+    //vecVertex.push_back(D3DXVECTOR3(1.0 * nCubeSize, -1.0 * nCubeSize, -1.0 * nCubeSize));	// 3
+    //vecVertex.push_back(D3DXVECTOR3(-1.0 * nCubeSize, -1.0 * nCubeSize, 1.0 * nCubeSize));	// 4
+    //vecVertex.push_back(D3DXVECTOR3(-1.0 * nCubeSize, 1.0 * nCubeSize, 1.0 * nCubeSize));	// 5
+    //vecVertex.push_back(D3DXVECTOR3(1.0 * nCubeSize, 1.0 * nCubeSize, 1.0 * nCubeSize));	// 6
+    //vecVertex.push_back(D3DXVECTOR3(1.0 * nCubeSize, -1.0 * nCubeSize, 1.0 * nCubeSize));	// 7
+    //
+    //
+    //// 아랫면
+    //m_vecIndex.push_back(4);
+    //m_vecIndex.push_back(0);
+    //m_vecIndex.push_back(3);
+    //m_vecIndex.push_back(4);
+    //m_vecIndex.push_back(3);
+    //m_vecIndex.push_back(7);
+    //// 윗쪽
+    //m_vecIndex.push_back(1);
+    //m_vecIndex.push_back(5);
+    //m_vecIndex.push_back(6);
+    //m_vecIndex.push_back(1);
+    //m_vecIndex.push_back(6);
+    //m_vecIndex.push_back(2);
+    //// 왼쪽
+    //m_vecIndex.push_back(4);
+    //m_vecIndex.push_back(5);
+    //m_vecIndex.push_back(1);
+    //m_vecIndex.push_back(4);
+    //m_vecIndex.push_back(1);
+    //m_vecIndex.push_back(0);
+    //// 앞면
+    //m_vecIndex.push_back(7);
+    //m_vecIndex.push_back(6);
+    //m_vecIndex.push_back(5);
+    //m_vecIndex.push_back(7);
+    //m_vecIndex.push_back(5);
+    //m_vecIndex.push_back(4);
+    //// 오른쪽
+    //m_vecIndex.push_back(3);
+    //m_vecIndex.push_back(2);
+    //m_vecIndex.push_back(6);
+    //m_vecIndex.push_back(3);
+    //m_vecIndex.push_back(6);
+    //m_vecIndex.push_back(7);
+    //// 뒷면
+    //m_vecIndex.push_back(0);
+    //m_vecIndex.push_back(1);
+    //m_vecIndex.push_back(2);
+    //m_vecIndex.push_back(0);
+    //m_vecIndex.push_back(2);
+    //m_vecIndex.push_back(3);
+    //
+    ////m_vecPNTVertex[nIndex].p = D3DXVECTOR3(x, y, z);
+    ////m_vecPNTVertex[nIndex].n = D3DXVECTOR3(0, 1, 0);
+    ////m_vecPNTVertex[nIndex].t = D3DXVECTOR2(x / (float)TILE_N, z / (float)TILE_N);
+    //m_vecPNTVertex.resize(36);
+    //for (int n = 0; n < m_vecIndex.size(); ++n)
+    //{
+    //    m_vecPNTVertex[n].p = vecVertex.at(m_vecIndex.at(n));
+    //    m_vecPNTVertex[n].n = D3DXVECTOR3(0, 1, 0);
+    //    m_vecPNTVertex[n].t = D3DXVECTOR2(1,1);
+    //}
+    DWORD numMaterial;
+    D3DXLoadMeshFromX("HeightMapData/Box.x", NULL, g_pD3DDevice, NULL, &m_pMaterial, NULL, &numMaterial, &m_pMesh);
+    
+    D3DXCreateCubeTextureFromFile(g_pD3DDevice, TexFilePath, &m_pCubeTexture);
+    
+   // // 메쉬 생성 및 셋팅
+   // D3DXCreateMeshFVF(m_vecIndex.size() / 3, m_vecPNTVertex.size(),
+   //     D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pD3DDevice, &m_pMesh);
+   //
+   // ST_PNT_VERTEX* pV = NULL;
+   // m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
+   // memcpy(pV, &m_vecPNTVertex[0], m_vecPNTVertex.size() * sizeof(ST_PNT_VERTEX));
+   // m_pMesh->UnlockVertexBuffer();
+   //
+   // DWORD* pI = NULL;
+   // m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
+   // memcpy(pI, &m_vecIndex[0], m_vecIndex.size() * sizeof(DWORD));
+   // m_pMesh->UnlockIndexBuffer();
+   //
+   // DWORD* pA = NULL;
+   // m_pMesh->LockAttributeBuffer(0, &pA);
+   // ZeroMemory(pA, m_pMesh->GetNumFaces());
+   // m_pMesh->UnlockAttributeBuffer();
+   //
+   // // 메쉬 최적화
+   // vector<DWORD> vecAdjBuf(m_pMesh->GetNumFaces() * 3);
+   // m_pMesh->GenerateAdjacency(D3DX_16F_EPSILON, &vecAdjBuf[0]);
+   // m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
+   //     &vecAdjBuf[0], 0, 0, 0);
+   //
+   // 속성 설정(메터리얼, 텍스쳐)
+   //m_pMtlTex = new cMtlTex;
+   //D3DMATERIAL9 stMtl = WHITE_MTRL;
+   //m_pMtlTex->SetMtl(stMtl);
+   //g_pTextureManager->AddTexture(szTexFileKey, TexFilePath);
+   //m_pMtlTex->SetTexture(g_pTextureManager->GetTexture(szTexFileKey));
+   
+  // m_pTexture = g_pTextureManager->GetTexture("S");
+    
+    //m_stMaterial = material;
+
+    //SetD3DVertex(vecVertex);
 }
