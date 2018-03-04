@@ -2,78 +2,97 @@
 
 #include "cObject.h"
 
-#define GT_MAX_NUM			5														// ม๖วü ลธภิ ฐณผ๖
-#define DEFAULT_BLD			1.0f													// บํทปต๙ ฑโบป ฐช
-#define DEFAULT_OBJ_PROP	E_OBJ_NONE												// ฟภบ๊มงฦฎ ผบม๚ ฑโบป ฐช
-#define DEFAULT_BR_SZ		10.0f													// บ๊ทฏฝฌ ฑโบป ป็ภฬม๎
-#define DEFAULT_BRD_SZ		5.0f													// บ๊ทฏฝฌ ณ๓ตต ฑโบป ป็ภฬม๎
-#define DEFAULT_BRD			0.5f													// บ๊ทฏฝฌ ฑโบป ณ๓ตต ฐช
-#define DEFAULT_TXD			1.0f													// ลุฝบรฤ ฑโบป ณ๓ตตฐช
-#define WATER_BRUSH_SIZE	8.0f													// นฐ บ๊ทฏฝฌ ฑโบป ป็ภฬม๎
-#define DEFAULT_FLUID_SPEED 0.5f													// นฐ ฑโบป ภฏผำ
-#define DEFAULT_FOLDER		"*/Map/"												// ฑโบป ฦฤภฯ ฦ๚ด๕
-#define DEFAULT_FILE_NAME	"MapData"												// ฑโบป ฦฤภฯธํ
+#define GT_MAX_NUM			5														// รรถรรผ ร…ยธร€ร” ยฐยณยผรถ
+#define DEFAULT_BLD			1.0f													// ยบรญยทยปยตรน ยฑรขยบยป ยฐยช
+#define DEFAULT_OBJ_PROP	E_OBJ_NONE												// ยฟร€ยบรชรยงรยฎ ยผยบรรบ ยฑรขยบยป ยฐยช
+#define DEFAULT_BR_SZ		10.0f													// ยบรชยทยฏยฝยฌ ยฑรขยบยป ยปรงร€รรรฎ
+#define DEFAULT_BRD_SZ		5.0f													// ยบรชยทยฏยฝยฌ ยณรณยตยต ยฑรขยบยป ยปรงร€รรรฎ
+#define DEFAULT_BRD			0.5f													// ยบรชยทยฏยฝยฌ ยฑรขยบยป ยณรณยตยต ยฐยช
+#define DEFAULT_TXD			1.0f													// ร…รยฝยบรร ยฑรขยบยป ยณรณยตยตยฐยช
+#define WATER_BRUSH_SIZE	8.0f													// ยนยฐ ยบรชยทยฏยฝยฌ ยฑรขยบยป ยปรงร€รรรฎ
+#define DEFAULT_FLUID_SPEED 0.5f													// ยนยฐ ยฑรขยบยป ร€ยฏยผร“
+#define DEFAULT_FOLDER		"*/Map/"												// ยฑรขยบยป รรร€ร รรบยดรต
+#define DEFAULT_FILE_NAME	"MapData"												// ยฑรขยบยป รรร€รยธรญ
 //
 
-// ม๖วü ธ้(ป๏ฐขวü)มคบธ
+// รรถรรผ ยธรฉ(ยปรฏยฐยขรรผ)รยคยบยธ
 struct ST_TERRAIN_FACE_INFO {
+	DWORD							dVertexIndedArr[3];								// ยธรฉร€ร ยฐยกรรถยฐรญ ร€ร–ยดร ยปรฏยฐยขรรผ ยนรถร…รยฝยบ รรรยฅ ร€รยตยฆยฝยบ
+	//ST_PT_VERTEX*					pVertexArr[3];									// ยธรฉร€ร ยฐยกรรถยฐรญ ร€ร–ยดร ยปรฏยฐยขรรผ รยคยบยธ
 	E_GROUND_TYPE                   eGroundType[GT_MAX_NUM];
     float                           fBlending[GT_MAX_NUM];
-    bool                            isWalkable;                                     // true ธ้ ม๖ณชฐฅ ผ๖ภึภฝ
-    E_OBJECT_PROPERTY               eObjProp;                                       // ฟภบ๊มงฦฎ ผบม๚ (ฦฤฑซฟฉบฮ, รๆตนฟฉบฮ)
+    bool                            isWalkable;                                     // true ยธรฉ รรถยณยชยฐยฅ ยผรถร€ร–ร€ยฝ
+    E_OBJECT_PROPERTY               eObjProp;                                       // ยฟร€ยบรชรยงรยฎ ยผยบรรบ (รรยฑยซยฟยฉยบร, รรฆยตยนยฟยฉยบร)
+
+	ST_TERRAIN_FACE_INFO() {
+		//for (int i = 0; i < 3; ++i)
+		//{
+		//	pVertexArr[i] = NULL;
+		//}
+		for (int i = 0; i < GT_MAX_NUM; ++i)
+		{
+			eGroundType[i] = E_SOIL_GROUND;
+		}
+		for (int i = 0; i < GT_MAX_NUM; ++i)
+		{
+			fBlending[i] = 0.0f;
+		}
+	}
 };
 
-// บ๊ทฏฝฌ มคบธ
+// ยบรชยทยฏยฝยฌ รยคยบยธ
 struct ST_BRUSH_INFO {
-	float							fBrushSize;										// บ๊ทฏฝฌ ป็ภฬม๎
-	float							fBrushDensitySize;								// บ๊ทฏฝฌ ณ๓ตต ป็ภฬม๎
-	float							fBrushDensity;									// บ๊ทฏฝฌ ณ๓ตต ฐช
-	float							fTextureDensity;								// ลุฝบรฤ ณ๓ตต ฐช
-	float							fWaterSpeed;									// นฐภว ภฏผำ
+	float							fBrushSize;										// ยบรชยทยฏยฝยฌ ยปรงร€รรรฎ
+	float							fBrushDensitySize;								// ยบรชยทยฏยฝยฌ ยณรณยตยต ยปรงร€รรรฎ
+	float							fBrushDensity;									// ยบรชยทยฏยฝยฌ ยณรณยตยต ยฐยช
+	float							fTextureDensity;								// ร…รยฝยบรร ยณรณยตยต ยฐยช
+	float							fWaterSpeed;									// ยนยฐร€ร ร€ยฏยผร“
 };
 
-// นฐ ม๖วü มคบธ
+// ยนยฐ รรถรรผ รยคยบยธ
 struct ST_WATER_INFO {
-	Vector2							vPosition;										// นฐภว ม฿พำ ภงฤก
-	float							fHeight;										// นฐภว ณ๔ภฬ
-	float							fSpeed;											// นฐภว ภฏผำ
-	float							fDensity;										// นฐภว ณ๓ตต
+	Vector2							vPosition;										// ยนยฐร€ร รรยพร“ ร€ยงรยก
+	float							fHeight;										// ยนยฐร€ร ยณรดร€ร
+	float							fSpeed;											// ยนยฐร€ร ร€ยฏยผร“
+	float							fDensity;										// ยนยฐร€ร ยณรณยตยต
 };
 
 class cMapTerrainTool : public cObject
 {
 private:
-    POINT                           m_ptSize;                                       // ธส ลฉฑโ
+    POINT                           m_ptSize;                                       // ยธร ร…ยฉยฑรข
 
-    vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // ธสฟก ป็ฟ๋วา มก บคลอ
-    vector<int>                     m_vecVertexIndex;                               // Heightธส มยวฅ ภฮตฆฝบ บคลอ
+    vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // ยธรยฟยก ยปรงยฟรซรร’ รยก ยบยคร…ร
+    vector<DWORD>                   m_vecVertexIndex;                               // Heightยธร รรรยฅ ร€รยตยฆยฝยบ ยบยคร…ร
 
-	vector<ST_WATER_INFO>			m_vecWaterInfo;									// นฐมคบธ(ฑโบป 8*8ป็ภฬม๎ทฮ ณชดฎ)
+	vector<ST_WATER_INFO>			m_vecWaterInfo;									// ยนยฐรยคยบยธ(ยฑรขยบยป 8*8ยปรงร€รรรฎยทร ยณยชยดยฎ)
 
-	E_GROUND_TYPE                   m_eCurrTextureType;								// ว๖ภ็ ลุฝบรฤ ภฮตฆฝบ
-    vector<string>                  m_vecTextureKey;                                // ลุฝบรฤ ลฐฐช บคลอ
+	E_GROUND_TYPE                   m_eCurrTextureType;								// รรถร€รง ร…รยฝยบรร ร€รยตยฆยฝยบ
+    vector<string>                  m_vecTextureKey;                                // ร…รยฝยบรร ร…ยฐยฐยช ยบยคร…ร
 
-    vector<ST_TERRAIN_FACE_INFO>    m_vecFaceInfo;                                  // ธ้มคบธ (ผ๘ย๗ภ๛)
+    vector<ST_TERRAIN_FACE_INFO>    m_vecFaceInfo;                                  // ยธรฉรยคยบยธ (ยผรธรรทร€รป)
 
-    string                          m_sFileName;                                    // ฦฤภฯ ภฬธง
+    string                          m_sFileName;                                    // รรร€ร ร€รยธยง
 
-	ST_BRUSH_INFO					m_BrushInfo;									// บ๊ทฏฝฌ มคบธ
+	ST_BRUSH_INFO					m_BrushInfo;									// ยบรชยทยฏยฝยฌ รยคยบยธ
+
+	LPD3DXMESH						m_pMesh;										// ยธร…ยฝยฌ
 
 private:
-    HRESULT CreateNewMap(IN int nSizeX, IN int nSizeZ);										// ลฉฑโ ผณมควั ธส ปýผบ
-	HRESULT SetBrushSize(IN float fSize);													// บ๊ทฏฝฌ ป็ภฬม๎ ผณมค
-	HRESULT SetBrushDensity(IN float fSize);												// บ๊ทฏฝฌ ณ๓ตต ป็ภฬม๎ ผณมค
-	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								// ม๖วü ณ๔ภฬ ผณมค
-	HRESULT SetTextureDensity(IN float& fDensity);											// ลุฝบรฤภว นะตต ผณมค (ภฬดย บ๊ทฏฝฌภว ผำผบภป ผณมควุมÜ)
-	HRESULT SetTextureType(IN E_GROUND_TYPE eGroundType);									// ลุฝบรฤ ลธภิ ผณมค
-	HRESULT SetWaterBrushSize(IN float fSize);												// นฐ บ๊ทฏฝฌ ป็ภฬม๎ ผณมค
-	HRESULT SetWaterSpeed(IN float fSpeed);													// นฐภว ภฏผำ ผณมค (นฐภว นะตตฟอ ฟ๒ม๗ภำ ฐชภป ฐ่ป๊ นื ผณมค)
-	HRESULT SetDrawTexture(IN Vector2 vPosition, IN E_GROUND_TYPE eGroundType);				// ม๖วüฟก ลุฝบรฤ ภิศ๗ฑโ
-	HRESULT SetDuplicateHeight(IN Vector2 vPosition, IN ST_TERRAIN_FACE_INFO stFaceInfo);	// ม๖วü ณ๔ภฬ บนมฆ
-	// บ๊ทฏฝฌฐก ม๖มควั ม๖วü ฐูลอ -> vector<ST_PT_VERTEX> Get~~~~();
+    HRESULT CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_TYPE eGroundType);		// ร…ยฉยฑรข ยผยณรยครร‘ ยธร ยปรฝยผยบ
+	HRESULT SetBrushSize(IN float fSize);													// ยบรชยทยฏยฝยฌ ยปรงร€รรรฎ ยผยณรยค
+	HRESULT SetBrushDensity(IN float fSize);												// ยบรชยทยฏยฝยฌ ยณรณยตยต ยปรงร€รรรฎ ยผยณรยค
+	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								// รรถรรผ ยณรดร€ร ยผยณรยค
+	HRESULT SetTextureDensity(IN float& fDensity);											// ร…รยฝยบรรร€ร ยนรยตยต ยผยณรยค (ร€รยดร ยบรชยทยฏยฝยฌร€ร ยผร“ยผยบร€ยป ยผยณรยครรรร)
+	HRESULT SetTextureType(IN E_GROUND_TYPE eGroundType);									// ร…รยฝยบรร ร…ยธร€ร” ยผยณรยค
+	HRESULT SetWaterBrushSize(IN float fSize);												// ยนยฐ ยบรชยทยฏยฝยฌ ยปรงร€รรรฎ ยผยณรยค
+	HRESULT SetWaterSpeed(IN float fSpeed);													// ยนยฐร€ร ร€ยฏยผร“ ยผยณรยค (ยนยฐร€ร ยนรยตยตยฟร ยฟรฒรรทร€ร“ ยฐยชร€ยป ยฐรจยปรช ยนร— ยผยณรยค)
+	HRESULT SetDrawTexture(IN Vector2 vPosition, IN E_GROUND_TYPE eGroundType);				// รรถรรผยฟยก ร…รยฝยบรร ร€ร”รรทยฑรข
+	HRESULT SetDuplicateHeight(IN Vector2 vPosition, IN ST_TERRAIN_FACE_INFO stFaceInfo);	// รรถรรผ ยณรดร€ร ยบยนรยฆ
+	// ยบรชยทยฏยฝยฌยฐยก รรถรยครร‘ รรถรรผ ยฐรร…ร -> vector<ST_PT_VERTEX> Get~~~~();
 
-	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							// ม๖วüธส ฦฤภฯ ภ๚ภๅวฯฑโ
-	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							// ม๖วüธส ฦฤภฯ ทฮตๅวฯฑโ
+	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							// รรถรรผยธร รรร€ร ร€รบร€รฅรรยฑรข
+	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							// รรถรรผยธร รรร€ร ยทรยตรฅรรยฑรข
 
 public:
 
