@@ -113,8 +113,13 @@ using namespace std;
 
 extern HWND g_hWnd;
 
+#include "Enum.h"
 #include "DefineMacro.h"
 #include "DataStructure.h"
+
+#include "D3DUtility.h"
+
+using namespace D3DUTILITY;
 
 #include "cKeyManager.h"
 #include "cLogManager.h"

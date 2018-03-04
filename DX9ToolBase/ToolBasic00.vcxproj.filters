@@ -25,6 +25,12 @@
     <Filter Include="Macro">
       <UniqueIdentifier>{a71d56cd-8eeb-4583-b973-d49d5b5c2ffc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="D3DX">
+      <UniqueIdentifier>{954f90e6-2fc9-47ac-a16c-17f514e20839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC">
+      <UniqueIdentifier>{eb278a5d-fd6a-4e58-9150-1babaf44632e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -52,12 +58,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrm.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuFormView.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -89,12 +89,6 @@
     </ClInclude>
     <ClInclude Include="cMeshManager.h">
       <Filter>Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="cMainGame.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="D3DApp.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="iObject.h">
       <Filter>Interface</Filter>
@@ -129,36 +123,51 @@
     <ClInclude Include="cKeyManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="cMapTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapObjectTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapTerrainTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
     <ClInclude Include="cCreateMapDlg.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cTerrainTab.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="cTextureTab.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC</Filter>
     </ClInclude>
     <ClInclude Include="cObjectTab.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrainTab.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureTab.h">
+      <Filter>MFC</Filter>
     </ClInclude>
     <ClInclude Include="cWaterTab.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuFormView.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cMainGame.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DApp.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Macro</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DUtility.h">
+      <Filter>Macro</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuFormView.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="D3DApp.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cMainGame.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ToolBasic.cpp">
@@ -212,20 +221,44 @@
     <ClCompile Include="cKeyManager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
+    <ClCompile Include="cMapObjectTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapTerrainTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
     <ClCompile Include="cCreateMapDlg.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cTerrainTab.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="cTextureTab.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC</Filter>
     </ClCompile>
     <ClCompile Include="cObjectTab.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrainTab.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureTab.cpp">
+      <Filter>MFC</Filter>
     </ClCompile>
     <ClCompile Include="cWaterTab.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFormView.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DApp.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DUtility.cpp">
+      <Filter>Macro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

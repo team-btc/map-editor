@@ -202,6 +202,9 @@
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cLogManager.h" />
+    <ClInclude Include="cMapObjectTool.h" />
+    <ClInclude Include="cMapTerrainTool.h" />
+    <ClInclude Include="cMapTool.h" />
     <ClInclude Include="cMeshManager.h" />
     <ClInclude Include="cObject.h" />
     <ClInclude Include="cObjectManager.h" />
@@ -215,8 +218,10 @@
     <ClInclude Include="cWaterTab.h" />
     <ClInclude Include="D3DApp.h" />
     <ClInclude Include="cMainGame.h" />
+    <ClInclude Include="D3DUtility.h" />
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DefineMacro.h" />
+    <ClInclude Include="Enum.h" />
     <ClInclude Include="iObject.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MenuFormView.h" />
@@ -236,6 +241,9 @@
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cLogManager.cpp" />
+    <ClCompile Include="cMapObjectTool.cpp" />
+    <ClCompile Include="cMapTerrainTool.cpp" />
+    <ClCompile Include="cMapTool.cpp" />
     <ClCompile Include="cMeshManager.cpp" />
     <ClCompile Include="cObject.cpp" />
     <ClCompile Include="cObjectManager.cpp" />
@@ -249,6 +257,7 @@
     <ClCompile Include="cWaterTab.cpp" />
     <ClCompile Include="D3DApp.cpp" />
     <ClCompile Include="cMainGame.cpp" />
+    <ClCompile Include="D3DUtility.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MenuFormView.cpp" />
     <ClCompile Include="stdafx.cpp">
