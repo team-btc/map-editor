@@ -202,6 +202,7 @@
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cLogManager.h" />
+    <ClInclude Include="cMapDataManager.h" />
     <ClInclude Include="cMapObjectTool.h" />
     <ClInclude Include="cMapTerrainTool.h" />
     <ClInclude Include="cMapTool.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cLogManager.cpp" />
+    <ClCompile Include="cMapDataManager.cpp" />
     <ClCompile Include="cMapObjectTool.cpp" />
     <ClCompile Include="cMapTerrainTool.cpp" />
     <ClCompile Include="cMapTool.cpp" />

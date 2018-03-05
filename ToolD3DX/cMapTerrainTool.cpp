@@ -216,13 +216,13 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)
 HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
 {
-	// 예외처리
-	if (fSize < 0 || fSize < m_BrushInfo.fBrushDensitySize)
-	{
-		return E_INVALIDARG;
-	}
+	//// 예외처리
+	//if (fSize < 0 || fSize < m_BrushInfo.fBrushDensitySize)
+	//{
+	//	return E_INVALIDARG;
+	//}
 
-	m_BrushInfo.fBrushSize = fSize;
+	//m_BrushInfo.fBrushSize = fSize;
 
 	return S_OK;
 }
@@ -230,13 +230,13 @@ HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
 // 브러쉬 농도 사이즈 설정(농도 사이즈)
 HRESULT cMapTerrainTool::SetBrushDensity(IN float fSize)
 {
-	// 예외처리
-	if (fSize < 0 || fSize > m_BrushInfo.fBrushSize)
-	{
-		return E_INVALIDARG;
-	}
+	//// 예외처리
+	//if (fSize < 0 || fSize > m_BrushInfo.fBrushSize)
+	//{
+	//	return E_INVALIDARG;
+	//}
 
-	m_BrushInfo.fBrushDensitySize = fSize;
+	//m_BrushInfo.fBrushDensitySize = fSize;
 
 	return S_OK;
 }

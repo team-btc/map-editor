@@ -6,9 +6,9 @@
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
 	, m_pObjectTool(NULL)
-	, m_eMapSize(DEFAULT_MAP_SIZE)
-	, m_eDefaultGroundType(E_SOIL_GROUND)
+    , m_eMapSize(g_pMapDataManager->GetMapSize())
 {
+
 }
 cMapTool::~cMapTool()
 {
@@ -20,6 +20,19 @@ cMapTool::~cMapTool()
 
 HRESULT cMapTool::Setup()
 {
+    //E_MAP_SIZE& n = g_pMapDataManager->GetMapSize();
+    //m_eMapSize = n;// g_pMapDataManager->GetMapSize();
+    //m_eMapSize = DEFAULT_MAP_SIZE;
+
+    //m_eDefaultGroundType = g_pMapDataManager->GetDefGroundType();
+    //m_eDefaultGroundType = E_SOIL_GROUND;
+
+    //m_fDefaultHeight = g_pMapDataManager->GetDefHeight();
+    //m_fDefaultHeight = DEFAULT_HEIGHT;
+
+    //m_isDefaultWalkable = g_pMapDataManager->GetDefWalkable();
+    //m_isDefaultWalkable = true;
+
 	return S_OK;
 }
 
@@ -47,32 +60,6 @@ HRESULT cMapTool::Render()
 	{
 		m_pObjectTool->Render();
 	}
-
-	return S_OK;
-}
-
-HRESULT cMapTool::SetMapSize(IN E_MAP_SIZE eMapSize)
-{
-	// 抗寇贸府
-	if (eMapSize < E_MAP_SIZE_BEGIN || eMapSize >= E_MAP_SIZE_MAX)
-	{
-		return E_INVALIDARG;
-	}
-
-	m_eMapSize = eMapSize;
-
-	return S_OK;
-}
-
-HRESULT cMapTool::SetDefaultTextureType(IN E_GROUND_TYPE eGroundType)
-{
-	// 抗寇贸府
-	if (eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
-	{
-		return E_INVALIDARG;
-	}
-
-	m_eDefaultGroundType = eGroundType;
 
 	return S_OK;
 }

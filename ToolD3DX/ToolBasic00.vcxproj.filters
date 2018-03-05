@@ -165,6 +165,9 @@
     <ClInclude Include="D3DUtility.h">
       <Filter>Macro</Filter>
     </ClInclude>
+    <ClInclude Include="cMapDataManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="D3DUtility.cpp">
       <Filter>Macro</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapDataManager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
