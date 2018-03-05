@@ -37,11 +37,12 @@ struct ST_TERRAIN_FACE_INFO {
 
 // 브러쉬 정보
 struct ST_BRUSH_INFO {
-	float							fBrushSize;										// 브러쉬 사이즈
-	float							fBrushDensitySize;								// 브러쉬 농도 사이즈
-	float							fBrushDensity;									// 브러쉬 농도 값
+	float							fTerrainBrushSize;								// 지형 브러쉬 사이즈
+	float							fTerrainFlatSize;								// 지형 평지 사이즈
+	float							fTextureBrushSize;								// 텍스쳐 브러쉬 사이즈
+	float							fTextureBrushDenSize;							// 텍스쳐 브러쉬 농도 사이즈
+	float							fTexturBrushDensity;							// 텍스쳐 농도 값
 	float							fTextureDensity;								// 텍스쳐 농도 값
-	float							fWaterSpeed;									// 물의 유속
 };
 
 // 물 지형 정보
@@ -60,7 +61,12 @@ private:
 	vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
 
-	vector<ST_WATER_INFO>			m_vecWaterInfo;									// 물정보(기본 8*8사이즈로 나눔)
+	ST_BRUSH_INFO					m_BrushInfo;									// 브러쉬 정보
+
+	E_TERRAIN_EDIT_TYPE				m_eTerraingEditType;							// 지형맵 편집 타입
+
+	float							m_fIncrementHeight;								// 높이 증가값(정해진 간격마다 올라가는 높이값)
+	float							m_fGradient;									// 경사값
 
 	E_GROUND_TYPE                   m_eCurrTextureType;								// 현재 텍스쳐 인덱스
 	vector<string>                  m_vecTextureKey;                                // 텍스쳐 키값 벡터
@@ -69,7 +75,7 @@ private:
 
 	string                          m_sFileName;                                    // 파일 이름
 
-	ST_BRUSH_INFO					m_BrushInfo;									// 브러쉬 정보
+	vector<ST_WATER_INFO>			m_vecWaterInfo;									// 물정보(기본 8*8사이즈로 나눔)
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
 

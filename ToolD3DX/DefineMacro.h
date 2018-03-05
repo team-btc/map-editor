@@ -24,6 +24,12 @@ public:\
     inline varType& Get##funName() { return varName; }\
     inline void Set##funName(varType& var) { varName = var; }
 
+#define SYNTHESIZE_PASS_BY_REF_NO_SET(varType, varName, funName)\
+private:\
+    varType varName;\
+public:\
+    inline varType& Get##funName() { return varName; }
+
 #define SYNTHESIZE_PASS_BY_PT(varType, varName, funName)\
 private:\
     varType varName;\

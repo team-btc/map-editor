@@ -54,3 +54,12 @@ enum E_MAP_SIZE {
 	E_SIZE_1024,
 	E_MAP_SIZE_MAX
 };
+
+// 지형 편집 타입
+enum E_TERRAIN_EDIT_TYPE {
+	E_TER_EDIT_INCREASE,		// 높이 올리기
+	E_TER_EDIT_DECREASE,		// 높이 내리기
+	E_TER_EDIT_SHAVE,			// 지형 깍기
+	E_TER_EDIT_DUPLICATE,		// 지형 복제
+	E_TER_EDIT_RESET			// 지형 리셋
+};

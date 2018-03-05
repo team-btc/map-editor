@@ -16,6 +16,8 @@ private:
 
 	E_MAP_SIZE					m_eMapSize;											// 맵 사이즈
 	E_GROUND_TYPE				m_eDefaultGroundType;								// 기본 지형 타입
+	int							m_nDefaultHeight;									// 맵 기본 높이 값
+	bool						m_isDefaultWalkable;								// 걸을 수 있는지 여부 기본 값
 
 private:
 
