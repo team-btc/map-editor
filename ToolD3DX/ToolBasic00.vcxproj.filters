@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{9ba61301-ba55-4171-bc03-f8e40afd6847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{78bfa102-cf55-409b-a9b6-8b8af5196a2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{b0fff9e8-a115-4af1-9b50-8e4c2bbd2862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Macro">
+      <UniqueIdentifier>{a71d56cd-8eeb-4583-b973-d49d5b5c2ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="D3DX">
+      <UniqueIdentifier>{954f90e6-2fc9-47ac-a16c-17f514e20839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC">
+      <UniqueIdentifier>{eb278a5d-fd6a-4e58-9150-1babaf44632e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="UserImages.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\ToolBasic00.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\ToolBasic00Doc.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\ToolBasic00.ico">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBasic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBasicDoc.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBasicView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cDeviceManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkinnedMesh.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cAllocateHierarchy.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cMeshManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="iObject.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure.h">
+      <Filter>Macro</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineMacro.h">
+      <Filter>Macro</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cTimerManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cAutoReleasePool.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cFontManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjectManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cKeyManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapObjectTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="cMapTerrainTool.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="cCreateMapDlg.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cObjectTab.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cTerrainTab.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureTab.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cWaterTab.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuFormView.h">
+      <Filter>MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="cMainGame.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DApp.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
+    <ClInclude Include="Enum.h">
+      <Filter>Macro</Filter>
+    </ClInclude>
+    <ClInclude Include="D3DUtility.h">
+      <Filter>Macro</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBasic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBasicDoc.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBasicView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkinnedMesh.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cDeviceManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cAllocateHierarchy.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cMeshManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cTimerManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cAutoReleasePool.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cLogManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cFontManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjectManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cKeyManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapObjectTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapTerrainTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapTool.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cCreateMapDlg.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cObjectTab.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cTerrainTab.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureTab.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cWaterTab.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuFormView.cpp">
+      <Filter>MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="cMainGame.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DApp.cpp">
+      <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="D3DUtility.cpp">
+      <Filter>Macro</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ToolBasic00.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Texture\soil.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Texture\ston.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Texture\grass.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Texture\drymud.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="Texture\cement.bmp">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

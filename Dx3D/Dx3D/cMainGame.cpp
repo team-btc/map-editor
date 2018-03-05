@@ -129,7 +129,7 @@ void cMainGame::Render()
 		m_pMapTool->Render();
 	}
 
-    UINT numPasses = 0;
+    /*UINT numPasses = 0;
     m_pEffect->Begin(&numPasses, NULL);
     {
         for (UINT i = 0; i < numPasses; ++i)
@@ -144,7 +144,7 @@ void cMainGame::Render()
             m_pEffect->EndPass();
         }
     }
-    m_pEffect->End();
+    m_pEffect->End();*/
     
     g_pDevice->EndScene();
     g_pDevice->Present(0, 0, 0, 0);
