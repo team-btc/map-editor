@@ -37,27 +37,43 @@ struct ST_TERRAIN_FACE_INFO {
 
 // 지형 브러쉬 정보
 struct ST_TER_BRUSH_INFO {
-	float							fTerrainBrushSize;								// 지형 브러쉬 사이즈
-	float							fTerrainFlatSize;							    // 지형 평지 사이즈
+	float&							fTerrainBrushSize;								// 지형 브러쉬 사이즈
+	float&							fTerrainFlatSize;							    // 지형 평지 사이즈
+    float&							fIncrementHeight;								// 높이 증가값(정해진 간격마다 올라가는 높이값)
+    float&							fGradient;									    // 경사값
+
+    ST_TER_BRUSH_INFO(float& _fBS, float& _fFS, float& _fI, float& _fG)
+        : fTerrainBrushSize(_fBS), fTerrainFlatSize(_fFS), fIncrementHeight(_fI), fGradient(_fG) {}
 };
 
 // 텍스쳐 브러쉬 정보
 struct ST_TEX_BRUSH_INFO {
-    float							fTextureBrushSize;								// 텍스쳐 브러쉬 사이즈
-    float							fTextureBrushDenSize;							// 텍스쳐 브러쉬 농도 사이즈
-    float							fTexturBrushDensity;							// 텍스쳐 농도 값
-    float							fTextureDensity;								// 텍스쳐 농도 값
+    E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
+    bool&                           m_isWalkable;                                   // 걸을 수 있는지 여부
+    float&							fTextureDensity;								// 텍스쳐 농도 값
+    float&							fTextureBrushSize;								// 텍스쳐 브러쉬 사이즈
+    float&							fTextureBrushDenSize;							// 텍스쳐 브러쉬 농도 사이즈
+    float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
+
+    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, bool& _isW, float& _fTD, float& _fBS, float& _fBDS, float& _fBD)
+        : m_eCurrTextureType(_eCTT), m_isWalkable(_isW), fTextureDensity(_fTD)
+        , fTextureBrushSize(_fBS), fTextureBrushDenSize(_fBDS), fTexturBrushDensity(_fBD) {}
+
 };
 
 // 물 정보
 struct ST_WATER_INFO {
-	//Vector2							vPosition;										// 물의 중앙 위치
-	float							fHeight;										// 물의 높이
-	float							fUVSpeed;										// UV 스피드
-    float                           fWaveHeight;                                    // 물의 진폭
-    float                           fHeightSpeed;                                   // 물의 상하 스피드
-    float                           fFrequency;                                     // 물결 간격
-	float							fTransparent;									// 물의 투명값
+	//Vector2							vPosition;									// 물의 중앙 위치
+	float&						    fHeight;										// 물의 높이
+	float&						    fUVSpeed;										// UV 스피드
+    float&                          fWaveHeight;                                    // 물의 진폭
+    float&                          fHeightSpeed;                                   // 물의 상하 스피드
+    float&                          fFrequency;                                     // 물결 간격
+	float&						    fTransparent;									// 물의 투명값
+
+    ST_WATER_INFO(float& _fH, float& _fUVS, float& _fWH, float& _fHS, float& _fF, float& _fT)
+        : fHeight(_fH), fUVSpeed(_fUVS), fWaveHeight(_fWH)
+        , fHeightSpeed(_fHS), fFrequency(_fF), fTransparent(_fT) {}
 };
 
 class cMapTerrainTool : public cObject
@@ -68,27 +84,22 @@ private:
 	vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
 
-	ST_TER_BRUSH_INFO				m_TerBrushInfo;									// 지형 브러쉬 정보
-    ST_TEX_BRUSH_INFO				m_TexBrushInfo;									// 텍스쳐 브러쉬 정보
-
-	E_TERRAIN_EDIT_TYPE				m_eTerraingEditType;							// 지형맵 편집 타입
-
-	float							m_fIncrementHeight;								// 높이 증가값(정해진 간격마다 올라가는 높이값)
-	float							m_fGradient;									// 경사값
-
-	E_GROUND_TYPE                   m_eCurrTextureType;								// 현재 텍스쳐 인덱스
-	vector<string>                  m_vecTextureKey;                                // 텍스쳐 키값 벡터
-
 	vector<ST_TERRAIN_FACE_INFO>    m_vecFaceInfo;                                  // 면정보 (순차적)
 
-	string                          m_sFileName;                                    // 파일 이름
+	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
-	vector<ST_WATER_INFO>			m_vecWaterInfo;									// 물정보
+	E_TERRAIN_EDIT_TYPE&			m_eTerraingEditType;							// 지형맵 편집 타입
+
+	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;								// 지형 브러쉬 정보
+    ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;								// 텍스쳐 브러쉬 정보
+
+    vector<string>                  m_vecTextureKey;                                // 텍스쳐 키값 벡터
+
+	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
 
 private:
-    HRESULT CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_TYPE eGroundType);		// 크기 설정한 맵 생성
 	HRESULT SetBrushSize(IN float fSize);													// 브러쉬 사이즈 설정
 	HRESULT SetBrushDensity(IN float fSize);												// 브러쉬 농도 사이즈 설정
 	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								// 지형 높이 설정
@@ -108,8 +119,10 @@ public:
     cMapTerrainTool();
     ~cMapTerrainTool();
 
-	HRESULT Setup(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType);
+	HRESULT Setup();
 	HRESULT Update();
 	HRESULT Render();
+
+    HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
 };
 

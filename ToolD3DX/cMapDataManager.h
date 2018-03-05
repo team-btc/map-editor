@@ -7,15 +7,14 @@ class cMapDataManager
 	SINGLETON(cMapDataManager);
 
 	// == 기본 맵 생성 시 필요한 정보 ==
-    E_MAP_SIZE m_eMapSize;
-    E_MAP_SIZE& GetMapSize() { return m_eMapSize; }
-	//SYNTHESIZE_PASS_BY_REF_NO_SET(E_MAP_SIZE, m_eMapSize, MapSize);							// 맵사이즈
+	SYNTHESIZE_PASS_BY_REF_NO_SET(E_MAP_SIZE, m_eMapSize, MapSize);							// 맵사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eDefGroundType, DefGroundType);			// 기본 지형 타입
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fDefHeight, DefHeight);							// 맵 기본 높이 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isDefWalkable, DefWalkable);						// 걸을 수 있는지 여부 기본 값
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isCreateMap, CreateMap);                          // 맵 생성 여부
 
 	// == 지형 정보 ==
-	SYNTHESIZE_PASS_BY_REF_NO_SET(E_TERRAIN_EDIT_TYPE, m_eTerEditType, TerrEditType);		// 지형맵 편집 타입
+	SYNTHESIZE_PASS_BY_REF_NO_SET(E_TERRAIN_EDIT_TYPE, m_eTerEditType, TerEditType);		// 지형맵 편집 타입
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerIncrement, TerIncrement);					// 높이 증가값(정해진 간격마다 올라가는 높이값)
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerGradient, TerGradient);						// 경사 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerBrushSize, TerBrushSize);					// 지형맵 브러쉬 사이즈
@@ -27,6 +26,7 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexDensity, TexDensity);						// 텍스쳐맵 브러쉬 농도 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushSize, TexBrushSize);					// 텍스쳐맵 브러쉬 사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushDenSize, TexBrushDenSize);				// 텍스쳐맵 브러쉬 농도 사이즈
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushDensity, TexBrushDensity);				// 텍스쳐맵 브러쉬 농도 값
 
 	// == 물 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fWaterHeight, WaterHeight);						// 물 기본 높이

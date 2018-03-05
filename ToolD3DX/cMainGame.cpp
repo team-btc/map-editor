@@ -25,8 +25,6 @@ void cMainGame::OnInit()
 
 	m_pMapTool = new cMapTool;
 	m_pMapTool->Setup();
-	m_pMapTool->CreateMap();
-
 }
 
 void cMainGame::OnUpdate()
