@@ -111,7 +111,8 @@ using namespace std;
 #include <d3d9.h>
 #include <d3dx9.h>
 
-extern HWND g_hWnd;
+extern HWND		g_hWnd;
+//extern POINT    g_ptMouse;
 
 #include "Enum.h"
 #include "DefineMacro.h"

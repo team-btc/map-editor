@@ -11,6 +11,9 @@ private:
     Vector3         m_vLookAt;      // 바라보는 위치
     Vector3         m_vUp;          // 임의의 업 벡터
 
+	Vector3			m_vPosition;	// 카메라 포지션
+
+
     Matrix4         m_matView;
     Matrix4         m_matProj;
 

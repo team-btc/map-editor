@@ -9,6 +9,7 @@ cMapTerrainTool::cMapTerrainTool()
 
 cMapTerrainTool::~cMapTerrainTool()
 {
+	SAFE_RELEASE(m_pMesh);
 }
 
 HRESULT cMapTerrainTool::Setup(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType)
@@ -85,15 +86,18 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetMaterial(&WHITE_MTRL);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-	
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+
+
 	// 메쉬로 그리기
 	for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
 	{
-    	g_pD3DDevice->SetTexture(0, g_pTextureManager->GetTexture("Grass"));
+    	g_pDevice->SetTexture(0, g_pTextureManager->GetTexture("Grass"));
     	m_pMesh->DrawSubset(i);
 	}
 
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 
 	return S_OK;
 }
@@ -115,8 +119,8 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 	// 버텍스 벡터
 	for (int n = 0; n < (nSizeX + 1) * (nSizeZ + 1); ++n)
 	{
-		Vector3 vec = Vector3(n % (nSizeZ + 1), DEFAULT_TERRAIN_HEIGHT, n / (nSizeZ + 1));
-		m_vecPTVertex.push_back(ST_PT_VERTEX(vec, Vector2((n % (nSizeZ + 1)) / nSizeX, (n / (nSizeZ + 1) / nSizeZ))));
+		Vector3 vec = Vector3(n % (nSizeZ + 1), 0, n / (nSizeZ + 1));
+		m_vecPTVertex.push_back(ST_PT_VERTEX(vec, Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
 	}
 
     // 인덱스 벡터, 면정보 벡터
@@ -176,11 +180,11 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
     // 매쉬 정보 셋팅
     // == 매쉬 생성, 기록, 최적화
     // 생성
-    D3DXCreateMeshFVF(m_vecVertexIndex.size() / 3, D3DXCreateMeshFVF.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
-        ST_PT_VERTEX::FVF, g_pD3DDevice, &m_pMesh);
+    D3DXCreateMeshFVF(m_vecVertexIndex.size() / 3, m_vecPTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
+        ST_PT_VERTEX::FVF, g_pDevice, &m_pMesh);
 
     // 버텍스 버퍼 기록
-    ST_PNT_VERTEX* pV = NULL;
+    ST_PT_VERTEX* pV = NULL;
     m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
     memcpy(pV, &m_vecPTVertex[0], m_vecPTVertex.size() * sizeof(ST_PT_VERTEX));
     m_pMesh->UnlockVertexBuffer();
@@ -216,7 +220,7 @@ HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
 	// 예외처리
 	if (fSize < 0 || fSize < m_BrushInfo.fBrushDensitySize)
 	{
-		return E_INVALIDARG
+		return E_INVALIDARG;
 	}
 
 	m_BrushInfo.fBrushSize = fSize;
@@ -230,7 +234,7 @@ HRESULT cMapTerrainTool::SetBrushDensity(IN float fSize)
 	// 예외처리
 	if (fSize < 0 || fSize > m_BrushInfo.fBrushSize)
 	{
-		return E_INVALIDARG
+		return E_INVALIDARG;
 	}
 
 	m_BrushInfo.fBrushDensitySize = fSize;

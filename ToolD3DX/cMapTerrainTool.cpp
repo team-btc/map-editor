@@ -9,6 +9,7 @@ cMapTerrainTool::cMapTerrainTool()
 
 cMapTerrainTool::~cMapTerrainTool()
 {
+	SAFE_RELEASE(m_pMesh);
 }
 
 HRESULT cMapTerrainTool::Setup(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType)
@@ -94,45 +95,6 @@ HRESULT cMapTerrainTool::Render()
     	m_pMesh->DrawSubset(i);
 	}
 
-	// 테스트 ==
-	LPD3DXMESH mesh;
-	// 생성
-	D3DXCreateMeshFVF(1, 3, D3DXMESH_MANAGED | D3DXMESH_32BIT,
-		ST_PT_VERTEX::FVF, g_pDevice, &mesh);
-
-	// 버텍스 버퍼 기록
-	ST_PT_VERTEX* pV = NULL;
-	mesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
-	pV[0] = ST_PT_VERTEX(Vector3(0, 0, 0), Vector2(0, 1));
-	pV[1] = ST_PT_VERTEX(Vector3(0, 0, 10), Vector2(0, 0));
-	pV[2] = ST_PT_VERTEX(Vector3(10, 0, 0), Vector2(1, 1));
-	mesh->UnlockVertexBuffer();
-
-	// 인덱스 버퍼 기록
-	DWORD* pI = NULL;
-	mesh->LockIndexBuffer(NULL, (LPVOID*)&pI);
-	for (DWORD i = 0; i < 3; ++i)
-	{
-		pI[i] = i;
-	}
-	mesh->UnlockIndexBuffer();
-
-	// 속성 버퍼 기록
-	DWORD* pA = NULL;
-	mesh->LockAttributeBuffer(NULL, &pA);
-	pA[0] = 0;
-	mesh->UnlockAttributeBuffer();
-
-	// 메쉬 최적화 : 버텍스 개수 만큼 인접정보를 담을 공간을 확보
-	vector<DWORD> vecAdjBuf(m_pMesh->GetNumFaces() * 3);
-
-	mesh->GenerateAdjacency(D3DX_16F_EPSILON, &vecAdjBuf[0]);
-
-	mesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
-		&vecAdjBuf[0], 0, 0, 0);
-
-	mesh->DrawSubset(0);
-
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
 
@@ -157,7 +119,7 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 	for (int n = 0; n < (nSizeX + 1) * (nSizeZ + 1); ++n)
 	{
 		Vector3 vec = Vector3(n % (nSizeZ + 1), 0, n / (nSizeZ + 1));
-		m_vecPTVertex.push_back(ST_PT_VERTEX(vec, Vector2((n % (nSizeZ + 1)) / nSizeX, (n / (nSizeZ + 1) / nSizeZ))));
+		m_vecPTVertex.push_back(ST_PT_VERTEX(vec, Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
 	}
 
     // 인덱스 벡터, 면정보 벡터
