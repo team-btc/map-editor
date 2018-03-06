@@ -64,67 +64,69 @@ BOOL cWaterTab::OnInitDialog()
 	m_pUVSpeedEditCtl = (CEdit*)GetDlgItem(IDC_WATER_UV_SPEED_EDI);
 
 	// 물 UV 스피드 슬라이더 기본 설정
-	m_pUVSpeedSliderCtl->SetRange(0, 10);			// 사용영역 값 설정
+	m_pUVSpeedSliderCtl->SetRange(0, 30);			// 사용영역 값 설정
 	m_pUVSpeedSliderCtl->SetRangeMin(0);			// 최소 값 설정
-	m_pUVSpeedSliderCtl->SetRangeMax(10);			// 최대 값 설정
-	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed);		// 위치 설정
-	m_pUVSpeedSliderCtl->SetTicFreq(1);			    // 눈금 간격 설정
+	m_pUVSpeedSliderCtl->SetRangeMax(30);			// 최대 값 설정
+	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed * 100.0f);		// 위치 설정
+	m_pUVSpeedSliderCtl->SetTicFreq(5);			    // 눈금 간격 설정
 	m_pUVSpeedSliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
-	m_pUVSpeedSliderCtl->SetPageSize(1);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pUVSpeedSliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 물 UV 스피드 출력
-	SetDlgItemInt(IDC_WATER_UV_SPEED_EDI, m_fUVSpeed);
+    char str[10];
+    sprintf(str, "%0.2f", m_fUVSpeed);
+    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
 	// == 물 진폭 설정 초기화 ==
 	m_pWaveHeightSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_WAVE_HEIGHT_SLI);
 	m_pWaveHeightEditCtl = (CEdit*)GetDlgItem(IDC_WATER_WAVE_HEIGHT_EDI);
 
 	// 물 진폭값 슬라이더 기본 설정
-	m_pWaveHeightSliderCtl->SetRange(0, 10);			// 사용영역 값 설정
+	m_pWaveHeightSliderCtl->SetRange(0, 100);			// 사용영역 값 설정
 	m_pWaveHeightSliderCtl->SetRangeMin(0);			    // 최소 값 설정
-	m_pWaveHeightSliderCtl->SetRangeMax(10);			// 최대 값 설정
-	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight);		// 위치 설정
-	m_pWaveHeightSliderCtl->SetTicFreq(1);			    // 눈금 간격 설정
+	m_pWaveHeightSliderCtl->SetRangeMax(100);			// 최대 값 설정
+	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight * 10.0f);		// 위치 설정
+	m_pWaveHeightSliderCtl->SetTicFreq(20);			    // 눈금 간격 설정
 	m_pWaveHeightSliderCtl->SetLineSize(1);			    // 증가 크기(키보드로 컨트롤 할 때)
-	m_pWaveHeightSliderCtl->SetPageSize(1);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pWaveHeightSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 물 진폭값 출력
-	SetDlgItemInt(IDC_WATER_WAVE_HEIGHT_EDI, m_fWaveHeight);
+    sprintf(str, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
     // == 물 상하 스피드 설정 초기화 ==
     m_pHeightSpeedSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_HEIGHT_SPEED_SLI);
     m_pHeightSpeedEditCtl = (CEdit*)GetDlgItem(IDC_WATER_HEIGHT_SPEED_EDI);
 
     // 물 상하 스피드 슬라이더 기본 설정
-    m_pHeightSpeedSliderCtl->SetRange(0, 10);			    // 사용영역 값 설정
+    m_pHeightSpeedSliderCtl->SetRange(0, 100);			    // 사용영역 값 설정
     m_pHeightSpeedSliderCtl->SetRangeMin(0);			    // 최소 값 설정
-    m_pHeightSpeedSliderCtl->SetRangeMax(10);			    // 최대 값 설정
-    m_pHeightSpeedSliderCtl->SetPos(m_fHeightSpeed);		// 위치 설정
-    m_pHeightSpeedSliderCtl->SetTicFreq(1);			        // 눈금 간격 설정
+    m_pHeightSpeedSliderCtl->SetRangeMax(100);			    // 최대 값 설정
+    m_pHeightSpeedSliderCtl->SetPos(m_fHeightSpeed * 10.0f);		// 위치 설정
+    m_pHeightSpeedSliderCtl->SetTicFreq(20);			    // 눈금 간격 설정
     m_pHeightSpeedSliderCtl->SetLineSize(1);			    // 증가 크기(키보드로 컨트롤 할 때)
-    m_pHeightSpeedSliderCtl->SetPageSize(1);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+    m_pHeightSpeedSliderCtl->SetPageSize(10);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 물 상하 스피드 출력
-    SetDlgItemInt(IDC_WATER_HEIGHT_SPEED_EDI, m_fHeightSpeed);
-
-    // 물 상하 스피드 출력
-    SetDlgItemInt(IDC_WATER_WAVE_HEIGHT_EDI, m_fWaveHeight);
+    sprintf(str, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     // == 물결 간격 설정 초기화 ==
     m_pFrequencySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_WAVE_FREQUENCY_SLI);
     m_pFrequencyEditCtl = (CEdit*)GetDlgItem(IDC_WATER_WAVE_FREQUENCY_EDI);
 
     // 물결 간격 슬라이더 기본 설정
-    m_pFrequencySliderCtl->SetRange(0, 10);			    // 사용영역 값 설정
+    m_pFrequencySliderCtl->SetRange(0, 500);			    // 사용영역 값 설정
     m_pFrequencySliderCtl->SetRangeMin(0);			    // 최소 값 설정
-    m_pFrequencySliderCtl->SetRangeMax(10);			    // 최대 값 설정
-    m_pFrequencySliderCtl->SetPos(m_fFrequency);		// 위치 설정
-    m_pFrequencySliderCtl->SetTicFreq(1);			    // 눈금 간격 설정
-    m_pFrequencySliderCtl->SetLineSize(1);			    // 증가 크기(키보드로 컨트롤 할 때)
-    m_pFrequencySliderCtl->SetPageSize(1);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+    m_pFrequencySliderCtl->SetRangeMax(500);			    // 최대 값 설정
+    m_pFrequencySliderCtl->SetPos(m_fFrequency * 10.0f);	// 위치 설정
+    m_pFrequencySliderCtl->SetTicFreq(50);			    // 눈금 간격 설정
+    m_pFrequencySliderCtl->SetLineSize(5);			    // 증가 크기(키보드로 컨트롤 할 때)
+    m_pFrequencySliderCtl->SetPageSize(10);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 물결 간격 스피드 출력
-    SetDlgItemInt(IDC_WATER_WAVE_FREQUENCY_EDI, m_fFrequency);
+    sprintf(str, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     // == 물 투명값 설정 초기화 ==
     m_pTransparentSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_TRANSPARENT_SLI);
@@ -134,13 +136,14 @@ BOOL cWaterTab::OnInitDialog()
     m_pTransparentSliderCtl->SetRange(0, 10);			    // 사용영역 값 설정
     m_pTransparentSliderCtl->SetRangeMin(0);			    // 최소 값 설정
     m_pTransparentSliderCtl->SetRangeMax(10);			    // 최대 값 설정
-    m_pTransparentSliderCtl->SetPos(m_fTransparent);		// 위치 설정
-    m_pTransparentSliderCtl->SetTicFreq(1);			    // 눈금 간격 설정
+    m_pTransparentSliderCtl->SetPos(m_fTransparent * 10.0f);		// 위치 설정
+    m_pTransparentSliderCtl->SetTicFreq(1);			        // 눈금 간격 설정
     m_pTransparentSliderCtl->SetLineSize(1);			    // 증가 크기(키보드로 컨트롤 할 때)
     m_pTransparentSliderCtl->SetPageSize(1);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 물 투명값 스피드 출력
-    SetDlgItemInt(IDC_WATER_TRANSPARENT_EDI, m_fTransparent);
+    sprintf(str, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
@@ -260,10 +263,12 @@ void cWaterTab::OnChangeWaterUVSpeedEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fUVSpeed = GetDlgItemInt(IDC_WATER_UV_SPEED_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_WATER_UV_SPEED_EDI, str);
+    m_fUVSpeed = atof(str);
 
 	// 슬라이더 위치 설정
-	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed);		// 위치 설정
+	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed * 100.0f);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pUVSpeedEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -280,11 +285,11 @@ void cWaterTab::OnDeltaposWaterUVSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fUVSpeed >= 10)
+		if (m_fUVSpeed >= 30)
 		{
 			return;
 		}
-		++m_fUVSpeed;
+		m_fUVSpeed += 0.01f;
 	}
 	// Down 버튼 눌렀을 경우
 	else
@@ -293,14 +298,16 @@ void cWaterTab::OnDeltaposWaterUVSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			return;
 		}
-		--m_fUVSpeed;
+		m_fUVSpeed -= 0.01f;
 	}
 
 	// 물 유속값 출력
-	SetDlgItemInt(IDC_WATER_UV_SPEED_EDI, m_fUVSpeed);
+    char str[10];
+    sprintf(str, "%0.2f", m_fUVSpeed);
+	SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
 	// 슬라이더 위치 설정
-	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed);		// 위치 설정
+	m_pUVSpeedSliderCtl->SetPos(m_fUVSpeed * 100.0f);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -312,10 +319,12 @@ void cWaterTab::OnCustomDrawWaterUVSpeedSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 물 유속값 넣기
-	m_fUVSpeed = m_pUVSpeedSliderCtl->GetPos();
+	m_fUVSpeed = m_pUVSpeedSliderCtl->GetPos() * 0.01f;
 
 	// 물 유속값 출력
-	SetDlgItemInt(IDC_WATER_UV_SPEED_EDI, m_fUVSpeed);
+    char str[10];
+    sprintf(str, "%0.2f", m_fUVSpeed);
+    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
 	*pResult = 0;
 }
@@ -332,10 +341,12 @@ void cWaterTab::OnChangeWaveHeightEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fWaveHeight = GetDlgItemInt(IDC_WATER_WAVE_HEIGHT_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_WATER_WAVE_HEIGHT_EDI, str);
+    m_fWaveHeight = atof(str);
 
 	// 슬라이더 위치 설정
-	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight);		// 위치 설정
+	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight * 10.0f);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pWaveHeightEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
@@ -352,11 +363,11 @@ void cWaterTab::OnDeltaposWaveHeightSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fWaveHeight >= 10)
+		if (m_fWaveHeight >= 100)
 		{
 			return;
 		}
-		++m_fWaveHeight;
+        m_fWaveHeight += 0.1f;
 	}
 	// Down 버튼 눌렀을 경우
 	else
@@ -365,14 +376,16 @@ void cWaterTab::OnDeltaposWaveHeightSpin(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			return;
 		}
-		--m_fWaveHeight;
+        m_fWaveHeight -= 0.1f;
 	}
 
 	// 물 진폭값 출력
-	SetDlgItemInt(IDC_WATER_WAVE_HEIGHT_EDI, m_fWaveHeight);
+    char str[10];
+    sprintf(str, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
 	// 슬라이더 위치 설정
-	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight);		// 위치 설정
+	m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight * 10.0f);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -384,10 +397,12 @@ void cWaterTab::OnCustomDrawWaveHeightSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 물 진폭값 넣기
-	m_fWaveHeight = m_pWaveHeightSliderCtl->GetPos();
+	m_fWaveHeight = m_pWaveHeightSliderCtl->GetPos() * 0.1f;
 
 	// 물 진폭값 출력
-	SetDlgItemInt(IDC_WATER_WAVE_HEIGHT_EDI, m_fWaveHeight);
+    char str[10];
+    sprintf(str, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
 	*pResult = 0;
 }
@@ -404,10 +419,12 @@ void cWaterTab::OnChangeHeightSpeedEditer()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fHeightSpeed = GetDlgItemInt(IDC_WATER_HEIGHT_SPEED_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_WATER_HEIGHT_SPEED_EDI, str);
+    m_fHeightSpeed = atof(str);
 
     // 슬라이더 위치 설정
-    m_pHeightSpeedSliderCtl->SetPos(m_fHeightSpeed);		// 위치 설정
+    m_pWaveHeightSliderCtl->SetPos(m_fWaveHeight * 10.0f);		// 위치 설정
 
     // 커서를 맨 뒤로 셋팅
     m_pHeightSpeedEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -424,11 +441,11 @@ void cWaterTab::OnDeltaposHeightSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fHeightSpeed >= 255)
+        if (m_fHeightSpeed >= 100)
         {
             return;
         }
-        ++m_fHeightSpeed;
+        m_fHeightSpeed += 0.1f;
     }
     // Down 버튼 눌렀을 경우
     else
@@ -437,14 +454,16 @@ void cWaterTab::OnDeltaposHeightSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
         {
             return;
         }
-        --m_fHeightSpeed;
+        m_fHeightSpeed -= 0.1f;
     }
 
     // 물 상하 스피드값 출력
-    SetDlgItemInt(IDC_WATER_HEIGHT_SPEED_EDI, m_fHeightSpeed);
+    char str[10];
+    sprintf(str, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     // 슬라이더 위치 설정
-    m_pHeightSpeedSliderCtl->SetPos(m_fHeightSpeed);		// 위치 설정
+    m_pHeightSpeedSliderCtl->SetPos(m_fHeightSpeed * 10.0f);		// 위치 설정
 
     *pResult = 0;
 }
@@ -456,10 +475,12 @@ void cWaterTab::OnCustomDrawHeightSpeedSlider(NMHDR *pNMHDR, LRESULT *pResult)
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 물 상하 스피드 넣기
-    m_fHeightSpeed = m_pHeightSpeedSliderCtl->GetPos();
+    m_fHeightSpeed = m_pHeightSpeedSliderCtl->GetPos() * 0.1f;
 
     // 물 상하 스피드 출력
-    SetDlgItemInt(IDC_WATER_HEIGHT_SPEED_EDI, m_fHeightSpeed);
+    char str[10];
+    sprintf(str, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     *pResult = 0;
 }
@@ -476,10 +497,12 @@ void cWaterTab::OnChangeFrequencyEditer()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fFrequency = GetDlgItemInt(IDC_WATER_WAVE_FREQUENCY_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_WATER_WAVE_FREQUENCY_EDI, str);
+    m_fFrequency = atof(str);
 
     // 슬라이더 위치 설정
-    m_pFrequencySliderCtl->SetPos(m_fFrequency);		// 위치 설정
+    m_pFrequencySliderCtl->SetPos(m_fFrequency * 10.0f);		// 위치 설정
 
     // 커서를 맨 뒤로 셋팅
     m_pFrequencyEditCtl->SetSel(0, -1);	    // 모든 영역을 드레그
@@ -493,14 +516,15 @@ void cWaterTab::OnDeltaposFrequencySpin(NMHDR *pNMHDR, LRESULT *pResult)
     LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
+
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fFrequency >= 255)
+        if (m_fFrequency >= 500)
         {
             return;
         }
-        ++m_fFrequency;
+        m_fFrequency += 0.5f;
     }
     // Down 버튼 눌렀을 경우
     else
@@ -509,14 +533,16 @@ void cWaterTab::OnDeltaposFrequencySpin(NMHDR *pNMHDR, LRESULT *pResult)
         {
             return;
         }
-        --m_fFrequency;
+        m_fFrequency -= 0.5f;
     }
 
     // 물결 간격 값 출력
-    SetDlgItemInt(IDC_WATER_WAVE_FREQUENCY_EDI, m_fFrequency);
+    char str[10];
+    sprintf(str, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     // 슬라이더 위치 설정
-    m_pFrequencySliderCtl->SetPos(m_fFrequency);		// 위치 설정
+    m_pFrequencySliderCtl->SetPos(m_fFrequency * 10.0f);		// 위치 설정
 
     *pResult = 0;
 }
@@ -528,10 +554,12 @@ void cWaterTab::OnCustomDrawFrequencySlider(NMHDR *pNMHDR, LRESULT *pResult)
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 물결 간격 넣기
-    m_fFrequency = m_pFrequencySliderCtl->GetPos();
+    m_fFrequency = m_pFrequencySliderCtl->GetPos() * 0.1f;
 
     // 물결 간격 출력
-    SetDlgItemInt(IDC_WATER_WAVE_FREQUENCY_EDI, m_fFrequency);
+    char str[10];
+    sprintf(str, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     *pResult = 0;
 }
@@ -548,10 +576,12 @@ void cWaterTab::OnChangeTransparentEditer()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fTransparent = GetDlgItemInt(IDC_WATER_TRANSPARENT_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_WATER_TRANSPARENT_EDI, str);
+    m_fTransparent = atof(str);
 
     // 슬라이더 위치 설정
-    m_pTransparentSliderCtl->SetPos(m_fTransparent);		// 위치 설정
+    m_pTransparentSliderCtl->SetPos(m_fTransparent * 10.0f);		// 위치 설정
 
     // 커서를 맨 뒤로 셋팅
     m_pTransparentEditCtl->SetSel(0, -1);	    // 모든 영역을 드레그
@@ -568,11 +598,11 @@ void cWaterTab::OnDeltaposTransparentSpin(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fTransparent >= 255)
+        if (m_fTransparent >= 10)
         {
             return;
         }
-        ++m_fTransparent;
+        m_fTransparent += 0.1f;
     }
     // Down 버튼 눌렀을 경우
     else
@@ -581,14 +611,16 @@ void cWaterTab::OnDeltaposTransparentSpin(NMHDR *pNMHDR, LRESULT *pResult)
         {
             return;
         }
-        --m_fTransparent;
+        m_fTransparent -= 0.1f;
     }
 
     // 물 투명값 출력
-    SetDlgItemInt(IDC_WATER_TRANSPARENT_EDI, m_fTransparent);
+    char str[10];
+    sprintf(str, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     // 슬라이더 위치 설정
-    m_pTransparentSliderCtl->SetPos(m_fTransparent);		// 위치 설정
+    m_pTransparentSliderCtl->SetPos(m_fTransparent * 10.0f);		// 위치 설정
 
     *pResult = 0;
 }
@@ -600,10 +632,12 @@ void cWaterTab::OnCustomDrawTransparentSlider(NMHDR *pNMHDR, LRESULT *pResult)
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 물 투명값 넣기
-    m_fTransparent = m_pTransparentSliderCtl->GetPos();
+    m_fTransparent = m_pTransparentSliderCtl->GetPos() * 0.1f;
 
     // 물 투명값 출력
-    SetDlgItemInt(IDC_WATER_TRANSPARENT_EDI, m_fTransparent);
+    char str[10];
+    sprintf(str, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     *pResult = 0;
 }
