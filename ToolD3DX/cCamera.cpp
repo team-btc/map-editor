@@ -71,7 +71,8 @@ void cCamera::Update(Vector3* pTarget)
 	if (g_pKeyManager->isOnceKeyDown(VK_RBUTTON))
 	{
 		m_isRButtonDown = true;
-		GetCursorPos(&m_ptPrevMouse);
+        m_ptPrevMouse = g_ptMouse;
+		//GetCursorPos(&m_ptPrevMouse);
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_RBUTTON))
 	{
@@ -81,9 +82,9 @@ void cCamera::Update(Vector3* pTarget)
 	{
 		if (m_isRButtonDown)
 		{
-
 			POINT ptCurrMouse;
-			GetCursorPos(&ptCurrMouse);
+            ptCurrMouse = g_ptMouse;
+			//GetCursorPos(&ptCurrMouse);
 
 			m_fRotY += (ptCurrMouse.x - m_ptPrevMouse.x) / 100.0f;
 			m_fRotX += (ptCurrMouse.y - m_ptPrevMouse.y) / 100.0f;
@@ -97,25 +98,16 @@ void cCamera::Update(Vector3* pTarget)
 			m_ptPrevMouse = ptCurrMouse;
 		}
 	}
-	//if (g_nWheelDelta != 0)
-	//{
-	//	m_fDistance -= g_nWheelDelta * 0.1f;
-	//	g_nWheelDelta = 0;
-	//}
+	if (g_nWheelDelta != 0)
+	{
+		m_fDistance -= g_nWheelDelta * 0.1f;
+		g_nWheelDelta = 0;
 
-    if (g_pKeyManager->isStayKeyDown('I'))
-    {
-    	m_fDistance -= 1.0f;
-        
         if (m_fDistance < 5.0f)
         {
             m_fDistance = 5.0f;
         }
-    }
-    else if (g_pKeyManager->isStayKeyDown('O'))
-    {
-        m_fDistance += 1.0f;
-    }
+	}
 
 	D3DXMATRIXA16 matRotX, matRotY;
 	D3DXMatrixRotationX(&matRotX, m_fRotX);

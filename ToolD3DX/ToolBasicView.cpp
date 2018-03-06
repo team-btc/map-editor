@@ -24,6 +24,8 @@ BEGIN_MESSAGE_MAP(CToolBasicView, CView)
     ON_WM_CONTEXTMENU()
     ON_WM_RBUTTONUP()
     ON_WM_ERASEBKGND()
+    ON_WM_MOUSEMOVE()
+    ON_WM_MOUSEHWHEEL()
 END_MESSAGE_MAP()
 
 // CToolBasic00View 생성/소멸
@@ -112,4 +114,32 @@ BOOL CToolBasicView::OnEraseBkgnd(CDC* pDC)
 {
     // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
     return FALSE;
+}
+
+void CToolBasicView::OnMouseMove(UINT nFlags, CPoint point)
+{
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+    g_ptMouse = point;
+
+    //RECT rtClient, rtWindow;
+    //GetClientRect(&rtClient);
+    //GetWindowRect(&rtWindow);
+
+    //g_ptMouse.x = (rtWindow.right - rtWindow.left) - rtClient.right;
+    //g_ptMouse.y = (rtWindow.bottom - rtWindow.top) - rtClient.bottom;
+
+    CView::OnMouseMove(nFlags, point);
+}
+
+
+void CToolBasicView::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+    // 이 기능을 사용하려면 Windows Vista 이상이 있어야 합니다.
+    // _WIN32_WINNT 기호는 0x0600보다 크거나 같아야 합니다.
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+    g_nWheelDelta = (int)zDelta;
+
+    CView::OnMouseHWheel(nFlags, zDelta, pt);
 }

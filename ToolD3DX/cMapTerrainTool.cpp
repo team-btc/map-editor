@@ -47,6 +47,7 @@ HRESULT cMapTerrainTool::Setup()
     m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
+
     m_stWaterInfo.fUVSpeed = 0.01f;
     m_stWaterInfo.fWaveHeight = 0.6f;
     m_stWaterInfo.fHeightSpeed = 2.4f;
