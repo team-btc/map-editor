@@ -122,7 +122,7 @@ HRESULT cMapTerrainTool::Render()
 	// 메쉬로 그리기
 	for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
 	{
-		g_pDevice->SetTexture(0, g_pTextureManager->GetTexture("Grass"));
+		g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("Grass"));
     	m_pMesh->DrawSubset(i);
 	}
 
