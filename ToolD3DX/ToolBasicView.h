@@ -46,7 +46,7 @@ public:
     virtual void OnInitialUpdate();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-    afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
+    afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };
 
 #ifndef _DEBUG  // ToolBasic00View.cpp의 디버그 버전
