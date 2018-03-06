@@ -64,8 +64,8 @@ void CToolBasicView::OnDraw(CDC* /*pDC*/)
 
 void CToolBasicView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-    // ClientToScreen(&point);
-    // OnContextMenu(this, point);
+     // ClientToScreen(&point);
+     // OnContextMenu(this, point);
 }
 
 void CToolBasicView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
@@ -123,9 +123,12 @@ void CToolBasicView::OnMouseMove(UINT nFlags, CPoint point)
     g_ptMouse = point;
 
     //RECT rtClient, rtWindow;
-    //GetClientRect(&rtClient);
     //GetWindowRect(&rtWindow);
-
+    ////GetClientRect(&rtClient);
+    //
+    //
+    //CPoint pos = { rtWindow.left, rtWindow.top };
+    //
     //g_ptMouse.x = (rtWindow.right - rtWindow.left) - rtClient.right;
     //g_ptMouse.y = (rtWindow.bottom - rtWindow.top) - rtClient.bottom;
 
