@@ -31,7 +31,26 @@ cMapTerrainTool::~cMapTerrainTool()
 
 HRESULT cMapTerrainTool::Setup()
 {
+    m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
+    m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
+    m_stTerrainBrushInfo.fGradient = 45.0f;
+    m_stTerrainBrushInfo.fTerrainBrushSize = 5.0f;
+    m_stTerrainBrushInfo.fTerrainFlatSize = 2.0f;
+
+    m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
+    m_stTextureBrushInfo.m_isWalkable = g_pMapDataManager->GetDefWalkable();
+    m_stTextureBrushInfo.fTextureDensity = 1.0f;
+    m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
+    m_stTextureBrushInfo.fTextureBrushDenSize = 2.0f;
+    m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
+
+    m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
+    m_stWaterInfo.fUVSpeed = 1.0f;
+    m_stWaterInfo.fWaveHeight = 1.0f;
+    m_stWaterInfo.fHeightSpeed = 1.0f;
+    m_stWaterInfo.fFrequency = 1.0f;
+    m_stWaterInfo.fTransparent = 0.5f;
 
 	return S_OK;
 }

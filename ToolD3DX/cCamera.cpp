@@ -3,15 +3,15 @@
 
 
 cCamera::cCamera()
-    : m_fDistance(5)
+    : m_fDistance(250)
     , m_vEye(0, LOOKAT_POS, -m_fDistance)
-    , m_vLookAt(0, LOOKAT_POS, 0)
+    , m_vLookAt(0 + 128, LOOKAT_POS, 0 + 128)
     , m_vUp(0, 1, 0)
-    , m_fRotX(0)
+    , m_fRotX(0.9)
     , m_fRotY(0)
     , m_isRButtonDown(false)
     , m_isFocus(false)
-	, m_vPosition(0, 0, 0)
+	, m_vPosition(128, 0, 128)
 {
 }
 
@@ -103,6 +103,20 @@ void cCamera::Update(Vector3* pTarget)
 	//	g_nWheelDelta = 0;
 	//}
 
+    if (g_pKeyManager->isStayKeyDown('I'))
+    {
+    	m_fDistance -= 1.0f;
+        
+        if (m_fDistance < 5.0f)
+        {
+            m_fDistance = 5.0f;
+        }
+    }
+    else if (g_pKeyManager->isStayKeyDown('O'))
+    {
+        m_fDistance += 1.0f;
+    }
+
 	D3DXMATRIXA16 matRotX, matRotY;
 	D3DXMatrixRotationX(&matRotX, m_fRotX);
 	D3DXMatrixRotationY(&matRotY, m_fRotY);
@@ -116,6 +130,7 @@ void cCamera::Update(Vector3* pTarget)
 	//	m_vLookAt.y += LOOKAT_POS;
 	//	m_vPosition = *pTarget;
 	//}
+    
 
 	// 카메라를 컨트롤 해야 한다면
 	//else
