@@ -7,6 +7,7 @@
 #include "Resource.h"
 
 // cCreateMapDlg 대화 상자
+//  encode
 
 IMPLEMENT_DYNAMIC(cCreateMapDlg, CDialogEx)
 
