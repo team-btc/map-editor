@@ -6,6 +6,9 @@ class cMapDataManager
 {
 	SINGLETON(cMapDataManager);
 
+    // == 현재 탭 정보 ==
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_TAB_TYPE, m_eTabType, TabType);                         // 탭 타입
+
 	// == 기본 맵 생성 시 필요한 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_MAP_SIZE, m_eMapSize, MapSize);							// 맵사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eDefGroundType, DefGroundType);			// 기본 지형 타입
@@ -16,7 +19,6 @@ class cMapDataManager
 	// == 지형 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_TERRAIN_EDIT_TYPE, m_eTerEditType, TerEditType);		// 지형맵 편집 타입
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerIncrement, TerIncrement);					// 높이 증가값(정해진 간격마다 올라가는 높이값)
-	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerGradient, TerGradient);						// 경사 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerBrushSize, TerBrushSize);					// 지형맵 브러쉬 사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerFlatSize, TerFlatSize);						// 지형맵 평지 사이즈
 

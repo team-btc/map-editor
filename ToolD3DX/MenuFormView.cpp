@@ -22,6 +22,7 @@ CMenuFormView::CMenuFormView()
 	, m_pTextureTab(NULL)
 	, m_pWaterTab(NULL)
 	, m_pObjectTab(NULL)
+    , m_eCurrTabType(g_pMapDataManager->GetTabType())
 {
 
 }
@@ -101,6 +102,7 @@ void CMenuFormView::OnInitialUpdate()
 	m_pObjectTab->SetWindowPos(NULL, 5, 25, rect.Width(), rect.Height(), SWP_NOZORDER);
 	// 기본은 첫번째탭으로 설정
 	m_pWndShow = m_pTerrainTab;
+    m_eCurrTabType = E_TERRAIN_TAB;
 }
 
 
@@ -123,18 +125,22 @@ void CMenuFormView::OnSelectChangeTab(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		m_pTerrainTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pTerrainTab;
+        m_eCurrTabType = E_TERRAIN_TAB;
 		break;
 	case 1:
 		m_pTextureTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pTextureTab;
+        m_eCurrTabType = E_TEXTURE_TAB;
 		break;
 	case 2:
 		m_pWaterTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pWaterTab;
+        m_eCurrTabType = E_WATER_TAB;
 		break;
 	case 3:
 		m_pObjectTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pObjectTab;
+        m_eCurrTabType = E_OBJECT_TAB;
 		break;
 	default:
 		break;

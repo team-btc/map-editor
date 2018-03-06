@@ -14,8 +14,11 @@ class cMapObjectTool;
 class cMapTool : public cObject
 {
 private:
+    E_TAB_TYPE&                 m_eCurrTabType;                                     // 탭 상태                
+
     cRay*                       m_pRay;
-    Vector3                     v;                                                  // 마우스 픽킹 좌표
+    Vector3                     m_vPickPos;                                         // 마우스 픽킹 좌표
+
 	cMapTerrainTool*			m_pTerrainTool;
 	cMapObjectTool*				m_pObjectTool;
 
@@ -32,13 +35,15 @@ private:
 public:
     cMapTool();
     ~cMapTool();
-    HRESULT GetPtMouse();
-    void RendPtMouse();
 
 	HRESULT Setup();
 	HRESULT Update();
 	HRESULT Render();
 
 	HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
+                                                                                    
+    HRESULT GetPtMouse();                                                           // 마우스 위치 가져오기
+    void RendPtMouse();                                                             // 마우스 위치 출력
+    bool IsPickMap();                                                               // 마우스가 클라이언트 영역 안에서 맵을 클릭 했는지 체크
 };
 

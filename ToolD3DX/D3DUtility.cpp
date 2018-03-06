@@ -3,6 +3,12 @@
 
 namespace D3DUTILITY
 {
+    float GetLength(Vector2 v1, Vector2 v2)
+    {
+        Vector2 v3 = v1 - v2;
+        return D3DXVec2Length(&v3);
+    }
+
     MATERIAL9 InitMtrl(XColor a, XColor d, XColor s, XColor e, float p)
     {
         MATERIAL9 mtrl;

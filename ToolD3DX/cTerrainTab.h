@@ -15,11 +15,6 @@ private:
 	CEdit*					m_pIncrementEditCtl;		// 에디터 컨트롤러
 	float&					m_fIncrement;				// 높이 증가 값
 
-	// == 경사 값 ==
-	CSliderCtrl*			m_pGradientSliderCtl;		// 슬라이더 컨트롤러
-	CEdit*					m_pGradientEditCtl;			// 에디터 컨트롤러
-	float&					m_fGradient;				// 경사 값
-
 	// == 브러쉬 크기 ==
 	CSliderCtrl*			m_pBrushSizeSliderCtl;		// 슬라이더 컨트롤러
 	CEdit*					m_pBrushSizeEditCtl;		// 에디터 컨트롤러
@@ -49,9 +44,6 @@ public:
 	afx_msg void OnChangeIncrementEditer();
 	afx_msg void OnDeltaposIncrementSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawIncrementSlider(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnChangeGradientEditer();
-	afx_msg void OnDeltaposGradientSpin(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnCustomDrawGradientSlider(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnChangeBrushSizeEditer();
 	afx_msg void OnDeltaposBrushSizeSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawBrushSizeSlider(NMHDR *pNMHDR, LRESULT *pResult);

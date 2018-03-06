@@ -123,13 +123,6 @@ void CToolBasicView::OnMouseMove(UINT nFlags, CPoint point)
 
     g_ptMouse = point;
 
-    RECT rtClient, rtWindow;
-    GetClientRect(&rtClient);
-    GetWindowRect(&rtWindow);
-
-    g_ptMouse.x += (rtWindow.right - rtWindow.left) - rtClient.right;
-    g_ptMouse.y += (rtWindow.bottom - rtWindow.top) - rtClient.bottom;
-
     CView::OnMouseMove(nFlags, point);
 }
 

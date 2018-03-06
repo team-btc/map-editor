@@ -6,8 +6,7 @@ cMapTerrainTool::cMapTerrainTool()
     : m_eTerraingEditType(g_pMapDataManager->GetTerEditType())
     , m_stTerrainBrushInfo(g_pMapDataManager->GetTerBrushSize()
         , g_pMapDataManager->GetTerFlatSize()
-        , g_pMapDataManager->GetTerIncrement()
-        , g_pMapDataManager->GetTerGradient())
+        , g_pMapDataManager->GetTerIncrement())
     , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
         , g_pMapDataManager->GetWalkable()
         , g_pMapDataManager->GetTexDensity()
@@ -21,6 +20,7 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterFrequency()
         , g_pMapDataManager->GetWaterTransparent())
     , m_pMesh(NULL)
+    , m_vPickPos(NULL)
 {
 }
 
@@ -32,10 +32,12 @@ cMapTerrainTool::~cMapTerrainTool()
 
 HRESULT cMapTerrainTool::Setup()
 {
+    // 텍스쳐 셋팅
+    g_pTextureManager->AddTexture("default", "Texture/Default.jpg");
+
     m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
-    m_stTerrainBrushInfo.fGradient = 45.0f;
     m_stTerrainBrushInfo.fTerrainBrushSize = 5.0f;
     m_stTerrainBrushInfo.fTerrainFlatSize = 2.0f;
 
@@ -134,17 +136,52 @@ HRESULT cMapTerrainTool::Render()
 	return S_OK;
 }
 
+// 마우스를 픽킹 했을 때 발동
+void cMapTerrainTool::PickMouse(E_TAB_TYPE eTabType)
+{
+    // 지형탭
+    if (eTabType == E_TERRAIN_TAB)
+    {
+        // 마우스 위치에 따른 면정보 가져오기
+        if (m_vPickPos)
+        {
+            // 선택된 면정보 인덱스
+            m_vecSelFace.clear();
+            m_vecSelFace = GetFaceInBrush(*m_vPickPos, 10);
+
+            // 버텍스 버퍼 기록
+            ST_PT_VERTEX* pV = NULL;
+            m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
+
+            for (int i = 0; i < m_vecSelFace.size(); ++i)
+            {
+                int nFaceIndex = m_vecSelFace[i];
+                for (int j = 0; j < 3; ++j)
+                {
+                    int nVerIndex = m_vecFaceInfo[nFaceIndex].dVertexIndedArr[j];
+                    pV[nVerIndex].p.y += 10.0f;
+                }
+            }
+
+            m_pMesh->UnlockVertexBuffer();
+        }
+    }
+
+    // 텍스쳐탭
+    else if (eTabType == E_TEXTURE_TAB)
+    {
+
+    }
+}
+
 // 크기 설정한 맵 생성 (x사이즈, z사이즈, 지형 타입)
 HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable)
 {
     // 가로 세로 사이즈 계산 후 맵 만들기
-    m_ptSize.x = m_ptSize.y = (eMapSize + 1) * 64;
+    m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
 
-    int nSizeX = m_ptSize.x;
-    int nSizeZ = m_ptSize.y;
-
-    // 텍스쳐 셋팅
-    g_pTextureManager->AddTexture("default", "Texture/Default.jpg");
+    int nSizeX = m_ptMapSize.x;
+    int nSizeZ = m_ptMapSize.y;
 
 	// 예외처리
 	if (nSizeX <= 0 || nSizeZ < 0 || eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
@@ -248,11 +285,80 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 
     m_pMesh->GenerateAdjacency(D3DX_16F_EPSILON, &vecAdjBuf[0]);
 
-    m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
+    m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT,
         &vecAdjBuf[0], 0, 0, 0);
 
 	return S_OK;
 
+}
+
+// 브러쉬 안에 있는 면정보 인덱스 벡터
+vector<int> cMapTerrainTool::GetFaceInBrush(Vector3 vPickPos, float fRadius)
+{
+    // 브러쉬 영역을 임의로 구분 한다. (정사각형 모양으로)
+    int nMinX = vPickPos.x - fRadius + 1;
+    if (nMinX < 0)
+    {
+        nMinX = 0;
+    }
+
+    int nMaxX = vPickPos.x + fRadius;
+    if (nMaxX > m_ptMapSize.x)
+    {
+        nMaxX = m_ptMapSize.x;
+    }
+
+    int nMinZ = vPickPos.z - fRadius + 1;
+    if (nMinZ < 0)
+    {
+        nMinZ = 0;
+    }
+
+    int nMaxZ = vPickPos.z + fRadius;
+    if (nMaxZ > m_ptMapSize.y)
+    {
+        nMaxZ = m_ptMapSize.y;
+    }
+
+    vector<int> vecSelFace;
+    // 브러쉬(원) 안에 위치하는 면정보의 인덱스를 벡터에 담는다.
+    for (int z = nMinZ; z < nMaxZ; ++z)
+    {
+        for (int x = nMinX; x < nMaxX; ++x)
+        {
+            int nFaceIndex = ((m_ptMapSize.y * z) + x) * 2; // 면정보가 하단 삼각형, 상단 삼각형으로 나눠져 있기 때문에 (* 2)!
+            // 하단 삼각형 체크
+            for (int i = 0; i < 3; ++i)
+            {
+                int nVerIndex = m_vecFaceInfo[nFaceIndex].dVertexIndedArr[i];
+                float fLength = GetLength(Vector2(m_vecPTVertex[nVerIndex].p.x, m_vecPTVertex[nVerIndex].p.z),
+                    Vector2(vPickPos.x, vPickPos.z));
+                // 픽킹위치와 삼각형의 점 위치의 거리가 반지름보다 짧으면
+                if (fLength < fRadius)
+                {
+                    // 점 하나라도 브러쉬 안에 있으면 푸쉬하고 나가기
+                    vecSelFace.push_back(nFaceIndex);
+                    break; 
+                }
+            }
+            // 상단 삼각형 체크
+            for (int i = 0; i < 3; ++i)
+            {
+                int nVerIndex = m_vecFaceInfo[nFaceIndex + 1].dVertexIndedArr[i];
+                float fLength = GetLength(Vector2(m_vecPTVertex[nVerIndex].p.x, m_vecPTVertex[nVerIndex].p.z),
+                    Vector2(vPickPos.x, vPickPos.z));
+                // 픽킹위치와 삼각형의 점 위치의 거리가 반지름보다 짧으면
+                if (fLength < fRadius)
+                {
+                    // 점 하나라도 브러쉬 안에 있으면 푸쉬하고 나가기
+                    vecSelFace.push_back(nFaceIndex + 1);
+                    break;
+                }
+            }
+        }
+    }
+    
+    return vecSelFace;
 }
 
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)

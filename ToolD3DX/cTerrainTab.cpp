@@ -14,15 +14,12 @@ cTerrainTab::cTerrainTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_TERRAIN_TAB, pParent)
 	, m_pIncrementSliderCtl(NULL)
 	, m_pIncrementEditCtl(NULL)
-	, m_pGradientSliderCtl(NULL)
-	, m_pGradientEditCtl(NULL)
 	, m_pBrushSizeSliderCtl(NULL)
 	, m_pBrushSizeEditCtl(NULL)
 	, m_pFlatSizeSliderCtl(NULL)
 	, m_pFlatSizeEditCtl(NULL)
     , m_eEditType(g_pMapDataManager->GetTerEditType())
     , m_fIncrement(g_pMapDataManager->GetTerIncrement())
-    , m_fGradient(g_pMapDataManager->GetTerGradient())
     , m_fBrushSize(g_pMapDataManager->GetTerBrushSize())
     , m_fFlatSize(g_pMapDataManager->GetTerFlatSize())
 {
@@ -55,34 +52,18 @@ BOOL cTerrainTab::OnInitDialog()
 	// 높이 증가율 출력
 	SetDlgItemInt(IDC_INCREMENT_EDI, m_fIncrement);
 
-	// == 지형 경사율 설정 초기화 ==
-	m_pGradientSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_GRADIENT_SLI);
-	m_pGradientEditCtl = (CEdit*)GetDlgItem(IDC_GRADIENT_EDI);
-
-	// 높이 증가율 슬라이더 기본 설정
-	m_pGradientSliderCtl->SetRange(0, 90);			// 사용영역 값 설정
-	m_pGradientSliderCtl->SetRangeMin(45);			// 최소 값 설정
-	m_pGradientSliderCtl->SetRangeMax(90);			// 최대 값 설정
-	m_pGradientSliderCtl->SetPos(m_fGradient);		// 위치 설정
-	m_pGradientSliderCtl->SetTicFreq(5);			// 눈금 간격 설정
-	m_pGradientSliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)
-	m_pGradientSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
-
-	// 경사율 출력
-	SetDlgItemInt(IDC_GRADIENT_EDI, m_fGradient);
-
 	// == 브러쉬 사이즈 설정 초기화 ==
 	m_pBrushSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_BRUSH_SIZE_SLI);
 	m_pBrushSizeEditCtl = (CEdit*)GetDlgItem(IDC_BRUSH_SIZE_EDI);
 
 	// 브러쉬 사이즈 슬라이더 기본 설정
-	m_pBrushSizeSliderCtl->SetRange(100, 500);		// 사용영역 값 설정
-	m_pBrushSizeSliderCtl->SetRangeMin(100);		// 최소 값 설정
-	m_pBrushSizeSliderCtl->SetRangeMax(500);		// 최대 값 설정
+	m_pBrushSizeSliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+	m_pBrushSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
+	m_pBrushSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
 	m_pBrushSizeSliderCtl->SetPos(m_fBrushSize);	// 위치 설정
-	m_pBrushSizeSliderCtl->SetTicFreq(50);			// 눈금 간격 설정
-	m_pBrushSizeSliderCtl->SetLineSize(20);			// 증가 크기(키보드로 컨트롤 할 때)
-	m_pBrushSizeSliderCtl->SetPageSize(50);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pBrushSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+	m_pBrushSizeSliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
+	m_pBrushSizeSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 브러쉬 사이즈 출력
 	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, m_fBrushSize);
@@ -122,9 +103,6 @@ BEGIN_MESSAGE_MAP(cTerrainTab, CDialogEx)
 	ON_EN_CHANGE(IDC_INCREMENT_EDI, &cTerrainTab::OnChangeIncrementEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_INCREMENT_SPI, &cTerrainTab::OnDeltaposIncrementSpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_INCREMENT_SLI, &cTerrainTab::OnCustomDrawIncrementSlider)
-	ON_EN_CHANGE(IDC_GRADIENT_EDI, &cTerrainTab::OnChangeGradientEditer)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_GRADIENT_SPI, &cTerrainTab::OnDeltaposGradientSpin)
-	ON_NOTIFY(NM_CUSTOMDRAW, IDC_GRADIENT_SLI, &cTerrainTab::OnCustomDrawGradientSlider)
 	ON_EN_CHANGE(IDC_BRUSH_SIZE_EDI, &cTerrainTab::OnChangeBrushSizeEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_BRUSH_SIZE_SPI, &cTerrainTab::OnDeltaposBrushSizeSpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_BRUSH_SIZE_SLI, &cTerrainTab::OnCustomDrawBrushSizeSlider)
@@ -217,78 +195,6 @@ void cTerrainTab::OnCustomDrawIncrementSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-// == 지형 경사율 ==================================================================================================
-// 지형 경사율 설정 (에디터)
-void cTerrainTab::OnChangeGradientEditer()
-{
-	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
-	// CDialogEx::OnInitDialog() 함수를 재지정 
-	//하고 마스크에 OR 연산하여 설정된 ENM_CHANGE 플래그를 지정하여 CRichEditCtrl().SetEventMask()를 호출하지 않으면
-	// 이 알림 메시지를 보내지 않습니다.
-
-	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
-	// 에디터에 입력 된 값  가져오기
-	m_fGradient = GetDlgItemInt(IDC_GRADIENT_EDI);
-
-	// 슬라이더 위치 설정
-	m_pGradientSliderCtl->SetPos(m_fGradient);		// 위치 설정
-
-	// 커서를 맨 뒤로 셋팅
-	m_pGradientEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
-	m_pGradientEditCtl->SetFocus();		// 포커스를 맞춤
-	m_pGradientEditCtl->SetSel(-1, -1);	// 커서를 맨 뒤로 보냄
-}
-
-// 지형 경사율 설정 (스핀)
-void cTerrainTab::OnDeltaposGradientSpin(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
-	// Up 버튼 눌렀을 경우
-	if (pNMUpDown->iDelta < 0)
-	{
-		if (m_fGradient >= 90)
-		{
-			return;
-		}
-		++m_fGradient;
-	}
-	// Down 버튼 눌렀을 경우
-	else
-	{
-		if (m_fGradient <= 45)
-		{
-			return;
-		}
-		--m_fGradient;
-	}
-
-	// 경사 값 출력
-	SetDlgItemInt(IDC_GRADIENT_EDI, m_fGradient);
-
-	// 슬라이더 위치 설정
-	m_pGradientSliderCtl->SetPos(m_fGradient);		// 위치 설정
-
-	*pResult = 0;
-}
-
-// 지형 경사율 설정 (슬라이더)
-void cTerrainTab::OnCustomDrawGradientSlider(NMHDR *pNMHDR, LRESULT *pResult)
-{
-	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
-	// 경사 값 넣기
-	m_fGradient = m_pGradientSliderCtl->GetPos();
-
-	// 경사 값 출력
-	SetDlgItemInt(IDC_GRADIENT_EDI, m_fGradient);
-
-	*pResult = 0;
-}
-
 // == 브러쉬 사이즈 ==================================================================================================
 // 브러쉬 사이즈 설정 (에디터)
 void cTerrainTab::OnChangeBrushSizeEditer()
@@ -321,7 +227,7 @@ void cTerrainTab::OnDeltaposBrushSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fBrushSize >= 500)
+		if (m_fBrushSize >= 100)
 		{
 			return;
 		}
@@ -330,7 +236,7 @@ void cTerrainTab::OnDeltaposBrushSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Down 버튼 눌렀을 경우
 	else
 	{
-		if (m_fBrushSize <= 100)
+		if (m_fBrushSize <= 1)
 		{
 			return;
 		}

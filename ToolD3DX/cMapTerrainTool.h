@@ -40,10 +40,9 @@ struct ST_TER_BRUSH_INFO {
 	float&							fTerrainBrushSize;								// 지형 브러쉬 사이즈
 	float&							fTerrainFlatSize;							    // 지형 평지 사이즈
     float&							fIncrementHeight;								// 높이 증가값(정해진 간격마다 올라가는 높이값)
-    float&							fGradient;									    // 경사값
 
-    ST_TER_BRUSH_INFO(float& _fBS, float& _fFS, float& _fI, float& _fG)
-        : fTerrainBrushSize(_fBS), fTerrainFlatSize(_fFS), fIncrementHeight(_fI), fGradient(_fG) {}
+    ST_TER_BRUSH_INFO(float& _fBS, float& _fFS, float& _fI)
+        : fTerrainBrushSize(_fBS), fTerrainFlatSize(_fFS), fIncrementHeight(_fI) {}
 };
 
 // 텍스쳐 브러쉬 정보
@@ -79,7 +78,7 @@ struct ST_WATER_INFO {
 class cMapTerrainTool : public cObject
 {
 private:
-    POINT                           m_ptSize;                                       // 맵 크기
+    POINT                           m_ptMapSize;                                    // 맵 크기
 
 	vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
@@ -98,6 +97,10 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
+    
+    Vector3*                        m_vPickPos;                                     // 픽킹 위치
+
+    vector<int>                     m_vecSelFace;                                   // 브러쉬 안에 있는 면정보 인덱스
 
 private:
 	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
@@ -118,12 +121,18 @@ public:
 
     cMapTerrainTool();
     ~cMapTerrainTool();
-    LPD3DXMESH GetMesh() { return m_pMesh; }
 
 	HRESULT Setup();
-	HRESULT Update();
+    HRESULT Update();
 	HRESULT Render();
+    void PickMouse(E_TAB_TYPE eTabType);                                                                                // 마우스를 픽킹 했을 때 발동
 
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
+
+    // == 겟터 ==
+    LPD3DXMESH GetMesh() { return m_pMesh; }
+    vector<int> GetFaceInBrush(Vector3 vPickPos, float fRadius);                                                        // 브러쉬 안에 있는 면정보 인덱스 벡터
+    // == 셋터 ==
+    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }                                                               // 픽킹 위치 세팅
 };
 

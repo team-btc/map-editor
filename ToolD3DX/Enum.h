@@ -64,3 +64,11 @@ enum E_TERRAIN_EDIT_TYPE {
 	E_TER_EDIT_DUPLICATE,		// 지형 복제
 	E_TER_EDIT_RESET			// 지형 리셋
 };
+
+enum E_TAB_TYPE {
+    E_CREATE_TAB,
+    E_TERRAIN_TAB,
+    E_TEXTURE_TAB,
+    E_WATER_TAB,
+    E_OBJECT_TAB
+};

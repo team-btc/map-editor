@@ -49,16 +49,12 @@
 #define IDC_RESET_RAD                   1011
 #define IDC_INCREMENT_GRO               1015
 #define IDC_INCREMENT_SLI               1016
-#define IDC_GRADIENT_GRO                1017
-#define IDC_GRADIENT_SLI                1018
 #define IDC_BRUSH_SIZE_GRO              1019
 #define IDC_BRUSH_SIZE_SLI              1020
 #define IDC_INCREMENT_EDI               1021
-#define IDC_GRADIENT_EDI                1022
 #define IDC_INCREMENT_SPI               1023
 #define IDC_SET_BRUSH_GRO               1024
 #define IDC_BRUSH_SIZE_EDI              1025
-#define IDC_GRADIENT_SPI                1026
 #define IDC_FLAT_SIZE_GRO               1028
 #define IDC_BRUSH_SIZE_SPI              1029
 #define IDC_FLAT_SIZE_SLI               1030
