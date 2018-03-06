@@ -168,6 +168,9 @@
     <ClInclude Include="cMapDataManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="cRay.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="cMapDataManager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="cRay.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

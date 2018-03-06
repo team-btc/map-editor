@@ -62,8 +62,8 @@ void CToolBasicView::OnDraw(CDC* /*pDC*/)
 
 void CToolBasicView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-    ClientToScreen(&point);
-    OnContextMenu(this, point);
+    // ClientToScreen(&point);
+    // OnContextMenu(this, point);
 }
 
 void CToolBasicView::OnContextMenu(CWnd* /* pWnd */, CPoint point)

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "cObject.h"
+class cRay;
+
 
 class cMapTerrainTool;
 class cMapObjectTool;
@@ -12,6 +14,8 @@ class cMapObjectTool;
 class cMapTool : public cObject
 {
 private:
+    cRay*                       m_pRay;
+    Vector3                     v;                                                  // 마우스 픽킹 좌표
 	cMapTerrainTool*			m_pTerrainTool;
 	cMapObjectTool*				m_pObjectTool;
 
@@ -22,11 +26,14 @@ private:
 
     bool&                       m_isCreateMap;                                      // 맵을 새로 생성
 
+
 private:
 
 public:
     cMapTool();
     ~cMapTool();
+    HRESULT GetPtMouse();
+    void RendPtMouse();
 
 	HRESULT Setup();
 	HRESULT Update();

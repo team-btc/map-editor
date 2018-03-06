@@ -20,6 +20,7 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterHeightSpeed()
         , g_pMapDataManager->GetWaterFrequency()
         , g_pMapDataManager->GetWaterTransparent())
+    , m_pMesh(NULL)
 {
 }
 
@@ -46,12 +47,12 @@ HRESULT cMapTerrainTool::Setup()
     m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
-    m_stWaterInfo.fUVSpeed = 1.0f;
-    m_stWaterInfo.fWaveHeight = 1.0f;
-    m_stWaterInfo.fHeightSpeed = 1.0f;
-    m_stWaterInfo.fFrequency = 1.0f;
-    m_stWaterInfo.fTransparent = 0.5f;
-
+    m_stWaterInfo.fUVSpeed = 0.01f;
+    m_stWaterInfo.fWaveHeight = 0.6f;
+    m_stWaterInfo.fHeightSpeed = 2.4f;
+    m_stWaterInfo.fFrequency = 7.0f;
+    m_stWaterInfo.fTransparent = 0.6f;
+    
 	return S_OK;
 }
 
@@ -122,7 +123,7 @@ HRESULT cMapTerrainTool::Render()
 	// 메쉬로 그리기
 	for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
 	{
-		g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("Grass"));
+		g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
     	m_pMesh->DrawSubset(i);
 	}
 
@@ -142,7 +143,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
     int nSizeZ = m_ptSize.y;
 
     // 텍스쳐 셋팅
-    g_pTextureManager->AddTexture("Grass", "Texture/Grass.jpg");
+    g_pTextureManager->AddTexture("default", "Texture/Default.jpg");
 
 	// 예외처리
 	if (nSizeX <= 0 || nSizeZ < 0 || eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)

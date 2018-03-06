@@ -17,7 +17,7 @@
 
 // 면 정보
 struct ST_TERRAIN_FACE_INFO {
-	DWORD							dVertexIndedArr[3];								// 면이 가지고 있는 삼 각형 인덱스
+	DWORD							dVertexIndedArr[3];								// 면이 가지고 있는 삼각형 버텍스 인덱스
 	E_GROUND_TYPE                   eGroundType[GT_MAX_NUM];
     float                           fBlending[GT_MAX_NUM];
     bool                            isWalkable;                                     // true 면 지나갈 수있음
@@ -90,8 +90,8 @@ private:
 
 	E_TERRAIN_EDIT_TYPE&			m_eTerraingEditType;							// 지형맵 편집 타입
 
-	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;								// 지형 브러쉬 정보
-    ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;								// 텍스쳐 브러쉬 정보
+	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
+    ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;							// 텍스쳐 브러쉬 정보
 
     vector<string>                  m_vecTextureKey;                                // 텍스쳐 키값 벡터
 
@@ -100,24 +100,25 @@ private:
 	LPD3DXMESH						m_pMesh;										// 매쉬
 
 private:
-	HRESULT SetBrushSize(IN float fSize);													// 브러쉬 사이즈 설정
-	HRESULT SetBrushDensity(IN float fSize);												// 브러쉬 농도 사이즈 설정
-	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								// 지형 높이 설정
-	HRESULT SetTextureDensity(IN float& fDensity);											// 텍스쳐의 밀도 설정 (이는 브러쉬의 속성을 설정해줌)
-	HRESULT SetTextureType(IN E_GROUND_TYPE eGroundType);									// 텍스쳐 타입 설정
-	HRESULT SetWaterBrushSize(IN float fSize);												// 물 브러쉬 사이즈 설정
-	HRESULT SetWaterSpeed(IN float fSpeed);													// 물의 유속 설정 (물의 밀도와 움직임 값을 계산 및 설정)
-	HRESULT SetDrawTexture(IN Vector2 vPosition, IN E_GROUND_TYPE eGroundType);				// 지형에 텍스쳐 입히기
-	HRESULT SetDuplicateHeight(IN Vector2 vPosition, IN ST_TERRAIN_FACE_INFO stFaceInfo);	// 지형 높이 복제
-	// 브러쉬가 지정한 지형 겟터 -> vector<ST_PT_VERTEX> Get~~~~();
-
-	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							// 지형맵 파일 저장하기
-	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							// 지형맵 파일 로드하기
+	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
+	HRESULT SetBrushDensity(IN float fSize);												 // 브러쉬 농도 사이즈 설정
+	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								 // 지형 높이 설정
+	HRESULT SetTextureDensity(IN float& fDensity);											 // 텍스쳐의 밀도 설정 (이는 브러쉬의 속성을 설정해줌)
+	HRESULT SetTextureType(IN E_GROUND_TYPE eGroundType);									 // 텍스쳐 타입 설정
+	HRESULT SetWaterBrushSize(IN float fSize);												 // 물 브러쉬 사이즈 설정
+	HRESULT SetWaterSpeed(IN float fSpeed);													 // 물의 유속 설정 (물의 밀도와 움직임 값을 계산 및 설정)
+	HRESULT SetDrawTexture(IN Vector2 vPosition, IN E_GROUND_TYPE eGroundType);				 // 지형에 텍스쳐 입히기
+	HRESULT SetDuplicateHeight(IN Vector2 vPosition, IN ST_TERRAIN_FACE_INFO stFaceInfo);	 // 지형 높이 복제
+	// 브러쉬가 지정한 지형 겟터 -> vector<ST_PT_VERTEX> Get~~~~();                            
+                                                                                             
+	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
+	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 로드하기
 
 public:
 
     cMapTerrainTool();
     ~cMapTerrainTool();
+    LPD3DXMESH GetMesh() { return m_pMesh; }
 
 	HRESULT Setup();
 	HRESULT Update();
