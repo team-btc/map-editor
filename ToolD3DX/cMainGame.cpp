@@ -33,7 +33,15 @@ void cMainGame::OnUpdate()
 
     if (m_pCamera)
     {
-        m_pCamera->Update();
+        if (g_pMapDataManager->GetCreateMap())
+        {
+            float size = ((g_pMapDataManager->GetMapSize() + 1) * 64) * 0.5f;
+            m_pCamera->Update(&Vector3(size, g_pMapDataManager->GetDefHeight(), size));
+        }
+        else
+        {
+            m_pCamera->Update();
+        }
     }
 
     if (g_pKeyManager->isStayKeyDown('A'))

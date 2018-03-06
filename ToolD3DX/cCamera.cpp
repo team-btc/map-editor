@@ -5,13 +5,13 @@
 cCamera::cCamera()
     : m_fDistance(250)
     , m_vEye(0, LOOKAT_POS, -m_fDistance)
-    , m_vLookAt(0 + 128, LOOKAT_POS, 0 + 128)
+    , m_vLookAt(0, LOOKAT_POS, 0)
     , m_vUp(0, 1, 0)
     , m_fRotX(0.9)
     , m_fRotY(0)
     , m_isRButtonDown(false)
     , m_isFocus(false)
-	, m_vPosition(128, 0, 128)
+	, m_vPosition(0, 0, 0)
 {
 }
 
@@ -123,52 +123,52 @@ void cCamera::Update(Vector3* pTarget)
 
 	D3DXVec3TransformCoord(&m_vEye, &m_vEye, &(matRotX * matRotY));
 
-	//// 카메라가 고정으로 봐야하는 타겟이 있다면
-	//if (pTarget)
-	//{
-	//	m_vLookAt = *pTarget;
-	//	m_vLookAt.y += LOOKAT_POS;
-	//	m_vPosition = *pTarget;
-	//}
+	// 카메라가 고정으로 봐야하는 타겟이 있다면
+	if (pTarget)
+	{
+		m_vLookAt = *pTarget;
+		m_vLookAt.y += LOOKAT_POS;
+		m_vPosition = *pTarget;
+	}
     
 
 	// 카메라를 컨트롤 해야 한다면
-	//else
-	//{
-		if (g_pKeyManager->isStayKeyDown('A')
-			|| g_pKeyManager->isStayKeyDown('D')
-			|| g_pKeyManager->isStayKeyDown('W')
-			|| g_pKeyManager->isStayKeyDown('S'))
-		{
-			D3DXVECTOR3 dirX, dirZ;
-			D3DXVec3Normalize(&dirZ, &m_vEye);
-			D3DXVec3Cross(&dirX, &m_vEye, &D3DXVECTOR3(0, 1, 0));
-			D3DXVec3Cross(&dirZ, &dirX, &D3DXVECTOR3(0, 1, 0));
-			float fMovePower = m_fDistance * 0.0009f;
+    else
+    {
+        if (g_pKeyManager->isStayKeyDown('A')
+            || g_pKeyManager->isStayKeyDown('D')
+            || g_pKeyManager->isStayKeyDown('W')
+            || g_pKeyManager->isStayKeyDown('S'))
+        {
+            D3DXVECTOR3 dirX, dirZ;
+            D3DXVec3Normalize(&dirZ, &m_vEye);
+            D3DXVec3Cross(&dirX, &m_vEye, &D3DXVECTOR3(0, 1, 0));
+            D3DXVec3Cross(&dirZ, &dirX, &D3DXVECTOR3(0, 1, 0));
+            float fMovePower = m_fDistance * 0.0001f;
 
-			// == 키보드 컨트롤 ======= 
-			if (g_pKeyManager->isStayKeyDown('A'))
-			{
-				m_vPosition -= dirX * fMovePower;
-				m_vLookAt -= dirX * fMovePower;
-			}
-			if (g_pKeyManager->isStayKeyDown('D'))
-			{
-				m_vPosition += dirX * fMovePower;
-				m_vLookAt += dirX * fMovePower;
-			}
-			if (g_pKeyManager->isStayKeyDown('W'))
-			{
-				m_vPosition += dirZ * fMovePower;
-				m_vLookAt += dirZ * fMovePower;
-			}
-			if (g_pKeyManager->isStayKeyDown('S'))
-			{
-				m_vPosition -= dirZ * fMovePower;
-				m_vLookAt -= dirZ * fMovePower;
-			}
-		}
-	//}
+            // == 키보드 컨트롤 ======= 
+            if (g_pKeyManager->isStayKeyDown('A'))
+            {
+                m_vPosition -= dirX * fMovePower;
+                m_vLookAt -= dirX * fMovePower;
+            }
+            if (g_pKeyManager->isStayKeyDown('D'))
+            {
+                m_vPosition += dirX * fMovePower;
+                m_vLookAt += dirX * fMovePower;
+            }
+            if (g_pKeyManager->isStayKeyDown('W'))
+            {
+                m_vPosition += dirZ * fMovePower;
+                m_vLookAt += dirZ * fMovePower;
+            }
+            if (g_pKeyManager->isStayKeyDown('S'))
+            {
+                m_vPosition -= dirZ * fMovePower;
+                m_vLookAt -= dirZ * fMovePower;
+            }
+        }
+    }
 
 	m_vEye += m_vPosition;
 
