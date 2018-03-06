@@ -6,8 +6,11 @@
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
 	, m_pObjectTool(NULL)
-	, m_eMapSize(DEFAULT_MAP_SIZE)
-	, m_eDefaultGroundType(E_SOIL_GROUND)
+    , m_eMapSize(g_pMapDataManager->GetMapSize())
+    , m_eDefaultGroundType(g_pMapDataManager->GetDefGroundType())
+    , m_fDefaultHeight(g_pMapDataManager->GetDefHeight())
+    , m_isDefaultWalkable(g_pMapDataManager->GetDefWalkable())
+    , m_isCreateMap(g_pMapDataManager->GetCreateMap())
 {
 }
 cMapTool::~cMapTool()
@@ -20,11 +23,26 @@ cMapTool::~cMapTool()
 
 HRESULT cMapTool::Setup()
 {
+    m_eMapSize = DEFAULT_MAP_SIZE;
+    m_eDefaultGroundType = E_SOIL_GROUND;
+    m_fDefaultHeight = DEFAULT_HEIGHT;
+    m_isDefaultWalkable = true;
+
+    m_pTerrainTool = new cMapTerrainTool;
+    m_pTerrainTool->Setup();
+
+    m_pObjectTool = new cMapObjectTool;
+    m_pObjectTool->Setup();
+
 	return S_OK;
 }
 
 HRESULT cMapTool::Update()
 {
+    if (m_isCreateMap)
+    {
+        CreateMap();
+    }
 	if (m_pTerrainTool)
 	{
 		m_pTerrainTool->Update();
@@ -51,40 +69,15 @@ HRESULT cMapTool::Render()
 	return S_OK;
 }
 
-HRESULT cMapTool::SetMapSize(IN E_MAP_SIZE eMapSize)
-{
-	// 예외처리
-	if (eMapSize < E_MAP_SIZE_BEGIN || eMapSize >= E_MAP_SIZE_MAX)
-	{
-		return E_INVALIDARG;
-	}
-
-	m_eMapSize = eMapSize;
-
-	return S_OK;
-}
-
-HRESULT cMapTool::SetDefaultTextureType(IN E_GROUND_TYPE eGroundType)
-{
-	// 예외처리
-	if (eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
-	{
-		return E_INVALIDARG;
-	}
-
-	m_eDefaultGroundType = eGroundType;
-
-	return S_OK;
-}
-
 // 셋팅한 기본 설정으로 맵 만들기
 HRESULT cMapTool::CreateMap()
 {
-	m_pTerrainTool = new cMapTerrainTool;
-	m_pTerrainTool->Setup(m_eMapSize, m_eDefaultGroundType);
+    m_isCreateMap = false;
 
-	m_pObjectTool = new cMapObjectTool;
-	m_pObjectTool->Setup();
+    if (m_pTerrainTool)
+    {
+        m_pTerrainTool->CreateMap(m_eMapSize, m_eDefaultGroundType, m_fDefaultHeight, m_isDefaultWalkable);
+    }
 
 	return S_OK;
 }

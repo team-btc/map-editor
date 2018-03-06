@@ -3,6 +3,23 @@
 
 
 cMapTerrainTool::cMapTerrainTool()
+    : m_eTerraingEditType(g_pMapDataManager->GetTerEditType())
+    , m_stTerrainBrushInfo(g_pMapDataManager->GetTerBrushSize()
+        , g_pMapDataManager->GetTerFlatSize()
+        , g_pMapDataManager->GetTerIncrement()
+        , g_pMapDataManager->GetTerGradient())
+    , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
+        , g_pMapDataManager->GetWalkable()
+        , g_pMapDataManager->GetTexDensity()
+        , g_pMapDataManager->GetTexBrushSize()
+        , g_pMapDataManager->GetTexBrushDenSize()
+        , g_pMapDataManager->GetTexBrushDensity())
+    , m_stWaterInfo(g_pMapDataManager->GetWaterHeight()
+        , g_pMapDataManager->GetWaterUVSpeed()
+        , g_pMapDataManager->GetWaterWaveHeight()
+        , g_pMapDataManager->GetWaterHeightSpeed()
+        , g_pMapDataManager->GetWaterFrequency()
+        , g_pMapDataManager->GetWaterTransparent())
 {
 }
 
@@ -12,14 +29,28 @@ cMapTerrainTool::~cMapTerrainTool()
 	SAFE_RELEASE(m_pMesh);
 }
 
-HRESULT cMapTerrainTool::Setup(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType)
+HRESULT cMapTerrainTool::Setup()
 {
-	// 가로 세로 사이즈 계산 후 맵 만들기
-	int nSize = (eMapSize + 1) * 64;
-	CreateNewMap(nSize, nSize, eGroundType);
+    m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
-	// 텍스쳐 셋팅
-	g_pTextureManager->AddTexture("Grass", "Texture/Grass.jpg");
+    m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
+    m_stTerrainBrushInfo.fGradient = 45.0f;
+    m_stTerrainBrushInfo.fTerrainBrushSize = 5.0f;
+    m_stTerrainBrushInfo.fTerrainFlatSize = 2.0f;
+
+    m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
+    m_stTextureBrushInfo.m_isWalkable = g_pMapDataManager->GetDefWalkable();
+    m_stTextureBrushInfo.fTextureDensity = 1.0f;
+    m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
+    m_stTextureBrushInfo.fTextureBrushDenSize = 2.0f;
+    m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
+
+    m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
+    m_stWaterInfo.fUVSpeed = 1.0f;
+    m_stWaterInfo.fWaveHeight = 1.0f;
+    m_stWaterInfo.fHeightSpeed = 1.0f;
+    m_stWaterInfo.fFrequency = 1.0f;
+    m_stWaterInfo.fTransparent = 0.5f;
 
 	return S_OK;
 }
@@ -102,8 +133,17 @@ HRESULT cMapTerrainTool::Render()
 }
 
 // 크기 설정한 맵 생성 (x사이즈, z사이즈, 지형 타입)
-HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_TYPE eGroundType)
+HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable)
 {
+    // 가로 세로 사이즈 계산 후 맵 만들기
+    m_ptSize.x = m_ptSize.y = (eMapSize + 1) * 64;
+
+    int nSizeX = m_ptSize.x;
+    int nSizeZ = m_ptSize.y;
+
+    // 텍스쳐 셋팅
+    g_pTextureManager->AddTexture("Grass", "Texture/Grass.jpg");
+
 	// 예외처리
 	if (nSizeX <= 0 || nSizeZ < 0 || eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
 	{
@@ -118,7 +158,7 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 	// 버텍스 벡터
 	for (int n = 0; n < (nSizeX + 1) * (nSizeZ + 1); ++n)
 	{
-		Vector3 vec = Vector3(n % (nSizeZ + 1), 0, n / (nSizeZ + 1));
+		Vector3 vec = Vector3(n % (nSizeZ + 1), fHeight, n / (nSizeZ + 1));
 		m_vecPTVertex.push_back(ST_PT_VERTEX(vec, Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
 	}
 
@@ -216,13 +256,13 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)
 HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
 {
-	// 예외처리
-	if (fSize < 0 || fSize < m_BrushInfo.fBrushDensitySize)
-	{
-		return E_INVALIDARG;
-	}
+	//// 예외처리
+	//if (fSize < 0 || fSize < m_BrushInfo.fBrushDensitySize)
+	//{
+	//	return E_INVALIDARG;
+	//}
 
-	m_BrushInfo.fBrushSize = fSize;
+	//m_BrushInfo.fBrushSize = fSize;
 
 	return S_OK;
 }
@@ -230,13 +270,13 @@ HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
 // 브러쉬 농도 사이즈 설정(농도 사이즈)
 HRESULT cMapTerrainTool::SetBrushDensity(IN float fSize)
 {
-	// 예외처리
-	if (fSize < 0 || fSize > m_BrushInfo.fBrushSize)
-	{
-		return E_INVALIDARG;
-	}
+	//// 예외처리
+	//if (fSize < 0 || fSize > m_BrushInfo.fBrushSize)
+	//{
+	//	return E_INVALIDARG;
+	//}
 
-	m_BrushInfo.fBrushDensitySize = fSize;
+	//m_BrushInfo.fBrushDensitySize = fSize;
 
 	return S_OK;
 }

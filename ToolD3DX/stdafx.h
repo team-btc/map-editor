@@ -132,6 +132,7 @@ using namespace D3DUTILITY;
 #include "cAutoReleasePool.h"
 #include "cMeshManager.h"
 #include "cShaderManager.h"
+#include "cMapDataManager.h"
 #include <afxcontrolbars.h>
 #include <afxcontrolbars.h>
 #include <afxcontrolbars.h>
