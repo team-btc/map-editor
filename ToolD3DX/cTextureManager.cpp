@@ -31,8 +31,7 @@ void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight)
 {
     HRESULT hr;
     LPTEXTURE9 t;
-    hr = g_pDevice->CreateTexture(nWidth, nHeight, 1, 0,
-        D3DFMT_A8B8G8R8, D3DPOOL_DEFAULT, &t, NULL);
+    hr = D3DXCreateTexture(g_pDevice, nWidth, nHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &t);
 
     D3DLOCKED_RECT  AlphaMap_Locked;
     memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
