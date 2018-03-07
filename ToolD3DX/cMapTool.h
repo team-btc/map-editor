@@ -15,9 +15,10 @@ class cMapTool : public cObject
 {
 private:
     cRay*                       m_pRay;
-    Vector3                     v;                                                  // 마우스 픽킹 좌표
+    Vector3                     m_vPickPos;                                                  // 마우스 픽킹 좌표
 	cMapTerrainTool*			m_pTerrainTool;
 	cMapObjectTool*				m_pObjectTool;
+
 
 	E_MAP_SIZE&					m_eMapSize;											// 맵 사이즈
 	E_GROUND_TYPE&				m_eDefaultGroundType;								// 기본 지형 타입
@@ -34,7 +35,7 @@ public:
     ~cMapTool();
     HRESULT GetPtMouse();
     void RendPtMouse();
-
+ 
 	HRESULT Setup();
 	HRESULT Update();
 	HRESULT Render();

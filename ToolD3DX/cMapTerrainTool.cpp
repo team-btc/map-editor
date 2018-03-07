@@ -21,6 +21,8 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterFrequency()
         , g_pMapDataManager->GetWaterTransparent())
     , m_pMesh(NULL)
+    , m_vPickPos(NULL)
+    , m_pTextureShader(NULL)
 {
 }
 
@@ -28,10 +30,13 @@ cMapTerrainTool::cMapTerrainTool()
 cMapTerrainTool::~cMapTerrainTool()
 {
 	SAFE_RELEASE(m_pMesh);
+    SAFE_DELETE(m_pTextureShader);
 }
 
 HRESULT cMapTerrainTool::Setup()
 {
+    m_pTextureShader = new cTextureShader;
+    m_pTextureShader->SetTexture();
     m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
@@ -42,9 +47,9 @@ HRESULT cMapTerrainTool::Setup()
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
     m_stTextureBrushInfo.m_isWalkable = g_pMapDataManager->GetDefWalkable();
     m_stTextureBrushInfo.fTextureDensity = 1.0f;
-    m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
-    m_stTextureBrushInfo.fTextureBrushDenSize = 2.0f;
-    m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
+    m_stTextureBrushInfo.fTextureBrushSize = 25.0f;
+    m_stTextureBrushInfo.fTextureBrushSpraySize = 2.0f;
+    //m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
 
@@ -59,6 +64,8 @@ HRESULT cMapTerrainTool::Setup()
 
 HRESULT cMapTerrainTool::Update()
 {
+    Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
+    m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
 	{
@@ -122,15 +129,16 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	
 	// 메쉬로 그리기
-	for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
-	{
-		g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
-    	m_pMesh->DrawSubset(i);
-	}
+	//for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
+	//{
+	//	g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
+    //	m_pMesh->DrawSubset(i);
+	//}
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-
+    RendBrush();
+    m_pTextureShader->Render();
 	return S_OK;
 }
 
@@ -138,10 +146,10 @@ HRESULT cMapTerrainTool::Render()
 HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable)
 {
     // 가로 세로 사이즈 계산 후 맵 만들기
-    m_ptSize.x = m_ptSize.y = (eMapSize + 1) * 64;
+    m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
 
-    int nSizeX = m_ptSize.x;
-    int nSizeZ = m_ptSize.y;
+    int nSizeX = m_ptMapSize.x;
+    int nSizeZ = m_ptMapSize.y;
 
     // 텍스쳐 셋팅
     g_pTextureManager->AddTexture("default", "Texture/Default.jpg");
@@ -251,8 +259,45 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
     m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
         &vecAdjBuf[0], 0, 0, 0);
 
+    m_pTextureShader->SetMesh(m_pMesh);
+
 	return S_OK;
 
+}
+
+void cMapTerrainTool::RendBrush()
+{
+
+    Matrix4 matRotY;
+    ST_PC_VERTEX InitBrush[2];
+    InitBrush[0].c = D3DCOLOR_XRGB(255, 255, 255);
+    InitBrush[1].c = D3DCOLOR_XRGB(255, 255, 255);
+   
+   
+    Vector3 vCenter ;                                      // vCenter : 원의 중점, InitBrush 선을 그을 두 점
+    vCenter = *m_vPickPos;
+   
+    float f = g_pMapDataManager->GetTexBrushSize();
+   
+    InitBrush[0].p = *m_vPickPos;
+    InitBrush[0].p.x += f;
+   
+    float RotY = 2.0 * D3DX_PI / 60.0f;                                 // 60번 회전할 각도. 한 회당 6도
+    
+    for (int i = 0; i < 60; ++i)
+    {
+   
+        InitBrush[1].p.x = vCenter.x + f * cosf(RotY * (i + 1));
+        InitBrush[1].p.z = vCenter.z + f * sinf(RotY * (i + 1));
+        InitBrush[1].p.y = 128.001f;
+   
+        g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, InitBrush, sizeof(ST_PC_VERTEX));
+   
+        //배열의 1번값을 0번으로 돌려준다
+        InitBrush[0] = InitBrush[1];
+    }
+
+    
 }
 
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)

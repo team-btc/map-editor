@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "cTextureShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -51,13 +51,13 @@ struct ST_TEX_BRUSH_INFO {
     E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
     bool&                           m_isWalkable;                                   // 걸을 수 있는지 여부
     float&							fTextureDensity;								// 텍스쳐 농도 값
-    float&							fTextureBrushSize;								// 텍스쳐 브러쉬 사이즈
-    float&							fTextureBrushDenSize;							// 텍스쳐 브러쉬 농도 사이즈
-    float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
-
+    float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
+    float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
+    //float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
+    
     ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, bool& _isW, float& _fTD, float& _fBS, float& _fBDS, float& _fBD)
         : m_eCurrTextureType(_eCTT), m_isWalkable(_isW), fTextureDensity(_fTD)
-        , fTextureBrushSize(_fBS), fTextureBrushDenSize(_fBDS), fTexturBrushDensity(_fBD) {}
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS) {}
 
 };
 
@@ -79,7 +79,7 @@ struct ST_WATER_INFO {
 class cMapTerrainTool : public cObject
 {
 private:
-    POINT                           m_ptSize;                                       // 맵 크기
+    POINT                           m_ptMapSize;                                    // 맵 크기
 
 	vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
@@ -99,6 +99,8 @@ private:
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
 
+    Vector3*                        m_vPickPos;                                     // 픽킹 위치
+    cTextureShader*                 m_pTextureShader;
 private:
 	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
 	HRESULT SetBrushDensity(IN float fSize);												 // 브러쉬 농도 사이즈 설정
@@ -123,7 +125,10 @@ public:
 	HRESULT Setup();
 	HRESULT Update();
 	HRESULT Render();
-
+    
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
+    
+    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }                                                               // 픽킹 위치 세팅
+    void RendBrush();
 };
 

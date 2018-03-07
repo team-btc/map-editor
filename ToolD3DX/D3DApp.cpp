@@ -34,7 +34,7 @@ HRESULT CD3DApp::InitD3D(HWND hWnd)
     }
 
     g_pDeviceManager->SetDevice(m_pd3dDevice);
-
+    
     OnInit();
 
     return S_OK;

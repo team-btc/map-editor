@@ -3,6 +3,8 @@
 #include "cMapTerrainTool.h"
 #include "cMapObjectTool.h"
 #include "cRay.h"
+
+
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
 	, m_pObjectTool(NULL)
@@ -12,7 +14,7 @@ cMapTool::cMapTool()
     , m_isDefaultWalkable(g_pMapDataManager->GetDefWalkable())
     , m_isCreateMap(g_pMapDataManager->GetCreateMap())
     , m_pRay(NULL)
-    , v(0,0,0)
+    , m_vPickPos(0,0,0)
 {
 }
 cMapTool::~cMapTool()
@@ -29,20 +31,16 @@ HRESULT cMapTool::GetPtMouse()
     {
         return E_FAIL;
     }
-    POINT   ptMouse;
-    GetCursorPos(&ptMouse);
-    m_pRay->m_vOrg = Vector3(ptMouse.x, ptMouse.y, 0);
-    m_pRay->m_vDir = Vector3(0, 0, 1);
-    *m_pRay = cRay::RayAtWorldSpace(ptMouse.x, ptMouse.y);
+    *m_pRay = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
     BOOL isHit = false;
     float fDist;
     
     D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
     if (isHit)
     {
-        v = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
+        m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
     }
-
+    
     return S_OK;
 }
 
@@ -51,7 +49,7 @@ void cMapTool::RendPtMouse()
    
     RECT rt = { 0, 30, W_WIDTH, W_HEIGHT };
     string s = "Mouse : ";
-    s = s + to_string((int)v.x) + " , " + to_string((int)v.y) + " , " + to_string((int)v.z);
+    s = s + to_string((int)m_vPickPos.x) + " , " + to_string((int)m_vPickPos.y) + " , " + to_string((int)m_vPickPos.z);
     g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
         s.c_str(),
         -1,
@@ -59,6 +57,7 @@ void cMapTool::RendPtMouse()
         DT_LEFT | DT_NOCLIP,
         D3DCOLOR_XRGB(128, 128, 128));
 }
+
 
 HRESULT cMapTool::Setup()
 {
@@ -70,6 +69,7 @@ HRESULT cMapTool::Setup()
 
     m_pTerrainTool = new cMapTerrainTool;
     m_pTerrainTool->Setup();
+    m_pTerrainTool->SetPickPos(&m_vPickPos);
 
     m_pObjectTool = new cMapObjectTool;
     m_pObjectTool->Setup();
