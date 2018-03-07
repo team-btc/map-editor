@@ -4,7 +4,6 @@
 #include "cMapObjectTool.h"
 #include "cRay.h"
 
-
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
 	, m_pObjectTool(NULL)
@@ -25,38 +24,7 @@ cMapTool::~cMapTool()
 	SAFE_RELEASE(m_pTerrainTool);
 	SAFE_RELEASE(m_pObjectTool);
 }
-HRESULT cMapTool::GetPtMouse()
-{
-    if (m_pTerrainTool->GetMesh() == NULL)
-    {
-        return E_FAIL;
-    }
-    *m_pRay = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-    BOOL isHit = false;
-    float fDist;
-    
-    D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
-    if (isHit)
-    {
-        m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
-    }
-    
-    return S_OK;
-}
 
-void cMapTool::RendPtMouse()
-{
-   
-    RECT rt = { 0, 30, W_WIDTH, W_HEIGHT };
-    string s = "Mouse : ";
-    s = s + to_string((int)m_vPickPos.x) + " , " + to_string((int)m_vPickPos.y) + " , " + to_string((int)m_vPickPos.z);
-    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
-        s.c_str(),
-        -1,
-        &rt,
-        DT_LEFT | DT_NOCLIP,
-        D3DCOLOR_XRGB(128, 128, 128));
-}
 HRESULT cMapTool::Setup()
 {
     m_pRay = new cRay;
@@ -99,11 +67,24 @@ HRESULT cMapTool::Update()
     {
         if (m_pTerrainTool && (m_eCurrTabType == E_TERRAIN_TAB || m_eCurrTabType == E_TEXTURE_TAB))
         {
-            m_pTerrainTool->PickMouse(m_eCurrTabType);
+            m_pTerrainTool->OnceLButtonDown(m_eCurrTabType);
         }
         else if (m_pObjectTool && m_eCurrTabType == E_OBJECT_TAB)
         {
-            m_pObjectTool->PickMouse();
+            m_pObjectTool->OnceLButtonDown();
+        }
+    }
+
+    // 왼쪽 마우스를 계속 누르고 있고, 마우스가 클라이언트 영역 안에 있으면
+    if (g_pKeyManager->isStayKeyDown(VK_LBUTTON) && IsPickMap())
+    {
+        if (m_pTerrainTool && (m_eCurrTabType == E_TERRAIN_TAB || m_eCurrTabType == E_TEXTURE_TAB))
+        {
+            m_pTerrainTool->StayLButtonDown(m_eCurrTabType);
+        }
+        else if (m_pObjectTool && m_eCurrTabType == E_OBJECT_TAB)
+        {
+            m_pObjectTool->StayLButtonDown();
         }
     }
   
@@ -139,17 +120,85 @@ HRESULT cMapTool::CreateMap()
 	return S_OK;
 }
 
+// 마우스 위치 가져오기
+HRESULT cMapTool::GetPtMouse()
+{
+    if (m_pTerrainTool->GetMesh() == NULL)
+    {
+        return E_FAIL;
+    }
+
+    *m_pRay = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+
+    BOOL isHit = false;
+    float fDist;
+    D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
+    if (isHit)
+    {
+        m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
+    }
+
+    return S_OK;
+}
+
+// 마우스 위치 출력
+void cMapTool::RendPtMouse()
+{
+    RECT rt = { 0, 30, W_WIDTH, W_HEIGHT };
+    string s = "MousePos : ";
+    s = s + to_string((int)g_ptMouse.x) + " , " + to_string((int)g_ptMouse.y);
+    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
+        s.c_str(),
+        -1,
+        &rt,
+        DT_LEFT | DT_NOCLIP,
+        D3DCOLOR_XRGB(128, 128, 128));
+
+    rt = { 0, 45, W_WIDTH, W_HEIGHT };
+    s = "PickPos : ";
+    s = s + to_string((int)m_vPickPos.x) + " , " + to_string((int)m_vPickPos.y) + " , " + to_string((int)m_vPickPos.z);
+    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
+        s.c_str(),
+        -1,
+        &rt,
+        DT_LEFT | DT_NOCLIP,
+        D3DCOLOR_XRGB(128, 128, 128));
+}
+
 // 마우스가 클라이언트 영역 안에서 맵을 클릭 했는지 체크
 bool cMapTool::IsPickMap()
 {
-    // 클라이언트 영역 안에 있는지 체크
     RECT rtClient;
     GetClientRect(g_hWnd, &rtClient);
+    
+    POINT ptCurrMouse;
+    GetCursorPos(&ptCurrMouse); // 윈도우 상의 마우스 좌표를 넘겨줌
+
+    ScreenToClient(g_hWnd, &ptCurrMouse); // 윈도우 상의 마우스 좌표를 클라이언트 상의 좌표로 바꿔줌!
+
+    // MFC에서 작업표시줄 크기 구하는 방법! (작업표시줄 윈도우 핸들, 크기 구함)
+    HWND hWndTrayWnd = ::FindWindow("Shell_TrayWnd", "");
+    RECT rt;
+    int nTrayHeight = 0;
+    if (hWndTrayWnd)
+    {
+        ::GetWindowRect(hWndTrayWnd, &rt);
+        nTrayHeight = rt.bottom - rt.top;
+    }
+
+    // 작업표시줄 높이 만큼 마우스위치를 옮기고, 클라이언트 영역을 줄인다.
+    ptCurrMouse.y -= nTrayHeight;
+    rtClient.bottom -= nTrayHeight;
+
+    // 다이얼로그 너비만큼 클라이언트 영역을 줄인다.
+    int nDlgWidth = g_pMapDataManager->GetDlgWidth();
+    rtClient.right -= nDlgWidth;
 
     bool isPick = false;
 
-    if (g_ptMouse.x > rtClient.left && g_ptMouse.x < rtClient.right
-        && g_ptMouse.y > rtClient.top && g_ptMouse.y < rtClient.bottom)
+    // 마우스가 클라이언트 영역 안에 있는지 체크
+    if (ptCurrMouse.x > rtClient.left && ptCurrMouse.x < rtClient.right
+        && ptCurrMouse.y > rtClient.top && ptCurrMouse.y < rtClient.bottom)
     {
         // 맵을 클릭 했는지 체크
         BOOL isHit = false;

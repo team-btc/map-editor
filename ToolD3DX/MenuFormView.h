@@ -6,6 +6,7 @@
 #include "cTextureTab.h"
 #include "cObjectTab.h"
 #include "cWaterTab.h"
+#include "Resource.h"
 
 // CMenuFormView 폼 뷰입니다.
 
@@ -46,8 +47,13 @@ public:
 	cWaterTab*		m_pWaterTab;			// 물 탭
 	cObjectTab*		m_pObjectTab;			// 오브젝트 탭
 
+    int&            m_nDlgWidth;            // 다이얼로그 가로 사이즈
+
 public:
 	afx_msg void OnSelectChangeTab(NMHDR *pNMHDR, LRESULT *pResult);
+
+public:
+    void Update();
 };
 
 

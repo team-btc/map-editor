@@ -2,12 +2,14 @@
 #include "cMainGame.h"
 #include <D3dx9math.h>
 #include <stdio.h>
+#include "MenuFormView.h"
 
 cMainGame::cMainGame(void)
     : m_szText("")
     , m_pCamera(NULL)
     , m_vRot(0, 0, 0)
 	, m_pMapTool(NULL)
+    , m_pMainFormView(NULL)
 {
 }
 
@@ -30,6 +32,11 @@ void cMainGame::OnInit()
 void cMainGame::OnUpdate()
 {
     g_pTimerManager->Update(60.0f);
+
+    if (m_pMainFormView)
+    {
+        m_pMainFormView->Update();
+    }
 
     if (m_pCamera)
     {
