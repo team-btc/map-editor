@@ -10,8 +10,9 @@ private:
     map<string, IMAGE_INFO>     m_mapImageInfo;
 public:
     void Destroy();
+    void AddTexture(string szKey, int nSize);
+    void AddTexture(string szKey, int nWidth, int nHeight);
     void AddTexture(string szKey, string szFilepath, bool saveImageInfo = false);
     void AddCubeTexture(string szKey, string szFilepath);
     BASETEXTURE9* GetTexture(string szKey, OUT IMAGE_INFO* pImageInfo = NULL);
-
 };

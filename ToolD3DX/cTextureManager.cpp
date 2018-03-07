@@ -22,6 +22,36 @@ void cTextureManager::Destroy()
     m_mapTexture.clear();
 }
 
+void cTextureManager::AddTexture(string szKey, int nSize)
+{
+    AddTexture(szKey, nSize, nSize);
+}
+
+void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight)
+{
+    HRESULT hr;
+    LPTEXTURE9 t;
+    hr = g_pDevice->CreateTexture(nWidth, nHeight, 1, 0,
+        D3DFMT_A8B8G8R8, D3DPOOL_DEFAULT, &t, NULL);
+
+    D3DLOCKED_RECT  AlphaMap_Locked;
+    memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+
+    hr = t->LockRect(0, &AlphaMap_Locked, NULL, 0);
+    LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+    for (int j = 0; j < nHeight; ++j)
+    {
+        LPDWORD pDWordDST = (LPDWORD)(pDataDST + j * AlphaMap_Locked.Pitch);
+
+        for (int i = 0; i < nWidth; ++i)
+        {
+            *(pDWordDST + i) = 0x00000000;
+        }
+    }
+    hr = t->UnlockRect(0);
+
+    m_mapTexture[szKey] = t;
+}
 
 
 void cTextureManager::AddTexture(string szKey, string szFilepath, bool saveImageInfo)
