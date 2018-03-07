@@ -3,6 +3,8 @@
 #include "cMapTerrainTool.h"
 #include "cMapObjectTool.h"
 #include "cRay.h"
+
+
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
 	, m_pObjectTool(NULL)
@@ -23,7 +25,38 @@ cMapTool::~cMapTool()
 	SAFE_RELEASE(m_pTerrainTool);
 	SAFE_RELEASE(m_pObjectTool);
 }
+HRESULT cMapTool::GetPtMouse()
+{
+    if (m_pTerrainTool->GetMesh() == NULL)
+    {
+        return E_FAIL;
+    }
+    *m_pRay = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+    BOOL isHit = false;
+    float fDist;
+    
+    D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
+    if (isHit)
+    {
+        m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
+    }
+    
+    return S_OK;
+}
 
+void cMapTool::RendPtMouse()
+{
+   
+    RECT rt = { 0, 30, W_WIDTH, W_HEIGHT };
+    string s = "Mouse : ";
+    s = s + to_string((int)m_vPickPos.x) + " , " + to_string((int)m_vPickPos.y) + " , " + to_string((int)m_vPickPos.z);
+    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
+        s.c_str(),
+        -1,
+        &rt,
+        DT_LEFT | DT_NOCLIP,
+        D3DCOLOR_XRGB(128, 128, 128));
+}
 HRESULT cMapTool::Setup()
 {
     m_pRay = new cRay;
@@ -104,41 +137,6 @@ HRESULT cMapTool::CreateMap()
     }
     
 	return S_OK;
-}
-
-// 마우스 위치 가져오기
-HRESULT cMapTool::GetPtMouse()
-{
-    if (m_pTerrainTool->GetMesh() == NULL)
-    {
-        return E_FAIL;
-    }
-
-    *m_pRay = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-
-    BOOL isHit = false;
-    float fDist;
-    D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
-    if (isHit)
-    {
-        m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;
-    }
-
-    return S_OK;
-}
-
-// 마우스 위치 출력
-void cMapTool::RendPtMouse()
-{
-    RECT rt = { 0, 30, W_WIDTH, W_HEIGHT };
-    string s = "Mouse : ";
-    s = s + to_string((int)m_vPickPos.x) + " , " + to_string((int)m_vPickPos.y) + " , " + to_string((int)m_vPickPos.z);
-    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
-        s.c_str(),
-        -1,
-        &rt,
-        DT_LEFT | DT_NOCLIP,
-        D3DCOLOR_XRGB(128, 128, 128));
 }
 
 // 마우스가 클라이언트 영역 안에서 맵을 클릭 했는지 체크

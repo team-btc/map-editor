@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "cTextureShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -50,13 +50,13 @@ struct ST_TEX_BRUSH_INFO {
     E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
     bool&                           m_isWalkable;                                   // 걸을 수 있는지 여부
     float&							fTextureDensity;								// 텍스쳐 농도 값
-    float&							fTextureBrushSize;								// 텍스쳐 브러쉬 사이즈
-    float&							fTextureBrushDenSize;							// 텍스쳐 브러쉬 농도 사이즈
-    float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
-
+    float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
+    float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
+    //float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
+    
     ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, bool& _isW, float& _fTD, float& _fBS, float& _fBDS, float& _fBD)
         : m_eCurrTextureType(_eCTT), m_isWalkable(_isW), fTextureDensity(_fTD)
-        , fTextureBrushSize(_fBS), fTextureBrushDenSize(_fBDS), fTexturBrushDensity(_fBD) {}
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS) {}
 
 };
 
@@ -102,6 +102,8 @@ private:
 
     vector<int>                     m_vecSelFace;                                   // 브러쉬 안에 있는 면정보 인덱스
 
+    Vector3*                        m_vPickPos;                                     // 픽킹 위치
+    cTextureShader*                 m_pTextureShader;
 private:
 	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
 	HRESULT SetBrushDensity(IN float fSize);												 // 브러쉬 농도 사이즈 설정
@@ -125,14 +127,16 @@ public:
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
+
     void PickMouse(E_TAB_TYPE eTabType);                                                                                // 마우스를 픽킹 했을 때 발동
 
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
-
+	void RendBrush();                                                            // 픽킹 위치 세팅
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
     vector<int> GetFaceInBrush(Vector3 vPickPos, float fRadius);                                                        // 브러쉬 안에 있는 면정보 인덱스 벡터
     // == 셋터 ==
-    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }                                                               // 픽킹 위치 세팅
+    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }   
+   
 };
 

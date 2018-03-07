@@ -75,13 +75,13 @@ BOOL cTextureTab::OnInitDialog()
 	m_pBrushSizeEditCtl = (CEdit*)GetDlgItem(IDC_BRUSH_SIZE_EDI);
 
 	// 브러쉬 사이즈 슬라이더 기본 설정
-	m_pBrushSizeSliderCtl->SetRange(100, 500);		// 사용영역 값 설정
-	m_pBrushSizeSliderCtl->SetRangeMin(100);		// 최소 값 설정
-	m_pBrushSizeSliderCtl->SetRangeMax(500);		// 최대 값 설정
+	m_pBrushSizeSliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+	m_pBrushSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
+	m_pBrushSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
 	m_pBrushSizeSliderCtl->SetPos(m_fBrushSize);	// 위치 설정
-	m_pBrushSizeSliderCtl->SetTicFreq(50);			// 눈금 간격 설정
-	m_pBrushSizeSliderCtl->SetLineSize(20);			// 증가 크기(키보드로 컨트롤 할 때)
-	m_pBrushSizeSliderCtl->SetPageSize(50);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pBrushSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+	m_pBrushSizeSliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
+	m_pBrushSizeSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 브러쉬 사이즈 출력
 	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, m_fBrushSize);

@@ -17,10 +17,11 @@ private:
     E_TAB_TYPE&                 m_eCurrTabType;                                     // 탭 상태                
 
     cRay*                       m_pRay;
-    Vector3                     m_vPickPos;                                         // 마우스 픽킹 좌표
+    Vector3                     m_vPickPos;                                                  // 마우스 픽킹 좌표
 
 	cMapTerrainTool*			m_pTerrainTool;
 	cMapObjectTool*				m_pObjectTool;
+
 
 	E_MAP_SIZE&					m_eMapSize;											// 맵 사이즈
 	E_GROUND_TYPE&				m_eDefaultGroundType;								// 기본 지형 타입

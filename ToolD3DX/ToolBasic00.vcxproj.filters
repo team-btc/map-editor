@@ -31,6 +31,9 @@
     <Filter Include="MFC">
       <UniqueIdentifier>{eb278a5d-fd6a-4e58-9150-1babaf44632e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="D3DX\Shader">
+      <UniqueIdentifier>{03ef28ec-7583-473e-af2c-bef1e0a24a63}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -171,6 +174,18 @@
     <ClInclude Include="cRay.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="cFogShader.h">
+      <Filter>D3DX\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="cWaveShader.h">
+      <Filter>D3DX\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="cSkyBoxShader.h">
+      <Filter>D3DX\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="cTextureShader.h">
+      <Filter>D3DX\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -271,6 +286,18 @@
     </ClCompile>
     <ClCompile Include="cRay.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cWaveShader.cpp">
+      <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cSkyBoxShader.cpp">
+      <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cFogShader.cpp">
+      <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cTextureShader.cpp">
+      <Filter>D3DX\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
