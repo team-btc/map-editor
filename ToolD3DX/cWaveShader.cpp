@@ -13,12 +13,14 @@ cWaveShader::cWaveShader()
 
 cWaveShader::~cWaveShader()
 {
+
 }
 
-void cWaveShader::SetShader(char * sTexFile, char * sTexFileKey, float fHeight, float fWaveHeight, float fSpeed, float fUVSpeed, float fWaveFrequency, float fTransparent)
+void cWaveShader::SetShader(/* char * sTexFile, char * sTexFileKey, */float fHeight, float fWaveHeight, float fSpeed, float fUVSpeed, float fWaveFrequency, float fTransparent)
 {
-    m_pWaterMap = new cHeightMap;
-    m_pWaterMap->Load("HeightMapData/WaterMap.raw", sTexFileKey, sTexFile, m_pMesh);   // 툴에서는 다르게 만들거라 생각댐
+    g_pTextureManager->AddTexture("Water", "Shader/Texture/water.jpg")
+  //  m_pWaterMap = new cHeightMap;
+    m_pWaterMap->Load("Shader/Model/WaterMap.raw", Water, "Shader/Texture/water.jpg", m_pMesh);   // 툴에서는 다르게 만들거라 생각댐
     m_pHeight = fHeight;
     m_pWaveHeight = fWaveHeight;
     m_pSpeed = fSpeed;

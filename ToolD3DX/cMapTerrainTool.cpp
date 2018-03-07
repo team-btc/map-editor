@@ -22,6 +22,7 @@ cMapTerrainTool::cMapTerrainTool()
     , m_pMesh(NULL)
     , m_vPickPos(NULL)
     , m_pTextureShader(NULL)
+    //, m_pWaveShader(NULL)
     , m_fPassedEditTime(0.0f)
 {
 }
@@ -31,23 +32,27 @@ cMapTerrainTool::~cMapTerrainTool()
 {
 	SAFE_RELEASE(m_pMesh);
     SAFE_DELETE(m_pTextureShader);
+    //SAFE_DELETE(m_pWaveShader);
 }
 
 HRESULT cMapTerrainTool::Setup()
 {
     m_pTextureShader = new cTextureShader;
     m_pTextureShader->SetTexture();
-    m_eTerraingEditType = E_TER_EDIT_BEGIN;
+
+    //m_pWaveShader = new cWaveShader;
+    //m_pWaveShader->SetMesh(m_pMesh);
+    //m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
     m_stTerrainBrushInfo.fTerrainBrushSize = 5.0f;
     m_stTerrainBrushInfo.fTerrainFlatSize = 2.0f;
-
+    
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
     m_stTextureBrushInfo.m_isWalkable = g_pMapDataManager->GetDefWalkable();
-    m_stTextureBrushInfo.fTextureDensity = 1.0f;
-    m_stTextureBrushInfo.fTextureBrushSize = 25.0f;
-    m_stTextureBrushInfo.fTextureBrushSpraySize = 2.0f;
+    m_stTextureBrushInfo.fTextureDensity = 50.0f;
+    m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
+    m_stTextureBrushInfo.fTextureBrushSpraySize = 10.0f;
     //m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
@@ -65,6 +70,7 @@ HRESULT cMapTerrainTool::Update()
 {
     Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
     m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
+    //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
 	{
@@ -125,7 +131,7 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetMaterial(&WHITE_MTRL);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
-    g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME); //와이어버전
+    g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); //와이어버전
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	
 	// 메쉬로 그리기
@@ -162,6 +168,7 @@ void cMapTerrainTool::OnceLButtonDown(E_TAB_TYPE eTabType)
 // 마우스 왼쪽 버튼 계속 누를 때 발동
 void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
 {
+    m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
     // 지형탭
     if (eTabType == E_TERRAIN_TAB)
     {
@@ -180,7 +187,8 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
     // 텍스쳐탭
     else if (eTabType == E_TEXTURE_TAB)
     {
-
+        m_pTextureShader->Update();
+       // DrawAlphaMap();
     }
 }
 
@@ -297,6 +305,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 
     m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT,
         &vecAdjBuf[0], 0, 0, 0);
+   
 
     m_pTextureShader->SetMesh(m_pMesh);
 
@@ -421,6 +430,32 @@ vector<int> cMapTerrainTool::GetFaceInBrush(Vector3 vPickPos, float fRadius)
     }
     
     return vecSelFace;
+}
+
+void cMapTerrainTool::DrawAlphaMap()
+{
+    auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("test");
+
+    D3DLOCKED_RECT      AlphaMap_Locked;
+    memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+    t->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+    LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+    for (int i = 0; i < 50; i++)
+    {
+        LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+        for (int y = 0; y < 50; y++)
+        {
+            *(pDWordDST + y) = 0xffffffff;
+        }
+    }
+
+    t->UnlockRect(0);
+
+    HRESULT hr = D3DXSaveTextureToFileA("test.png",
+        D3DXIFF_PNG,
+        t,
+        NULL);
 }
 
 void cMapTerrainTool::RendBrush()

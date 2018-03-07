@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "cTextureShader.h"
+//#include "cWaveShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -97,15 +98,13 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
+
     
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelFace;                                   // 브러쉬 안에 있는 면정보 인덱스
-
-
-    Vector3*                        m_vPickPos;                                     // 픽킹 위치
     cTextureShader*                 m_pTextureShader;
-
+    //cWaveShader*                    m_pWaveShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:
@@ -134,6 +133,7 @@ public:
 
     void PickMouse(E_TAB_TYPE eTabType);                                                                                // 마우스를 픽킹 했을 때 발동
 
+    void DrawAlphaMap();
 	void RendBrush();                                                            										// 픽킹 위치 세팅
 
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
@@ -148,6 +148,6 @@ public:
     vector<int> GetFaceInBrush(Vector3 vPickPos, float fRadius);                                                        // 브러쉬 안에 있는 면정보 인덱스 벡터
     // == 셋터 ==
     void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }   
-   
+    
 };
 
