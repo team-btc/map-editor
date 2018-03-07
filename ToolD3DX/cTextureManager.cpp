@@ -22,6 +22,35 @@ void cTextureManager::Destroy()
     m_mapTexture.clear();
 }
 
+void cTextureManager::AddTexture(string szKey, int nSize)
+{
+    AddTexture(szKey, nSize, nSize);
+}
+
+void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight)
+{
+    HRESULT hr;
+    LPTEXTURE9 t;
+    hr = D3DXCreateTexture(g_pDevice, nWidth, nHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &t);
+
+    D3DLOCKED_RECT  AlphaMap_Locked;
+    memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+
+    hr = t->LockRect(0, &AlphaMap_Locked, NULL, 0);
+    LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+    for (int j = 0; j < nHeight; ++j)
+    {
+        LPDWORD pDWordDST = (LPDWORD)(pDataDST + j * AlphaMap_Locked.Pitch);
+
+        for (int i = 0; i < nWidth; ++i)
+        {
+            *(pDWordDST + i) = 0x00000000;
+        }
+    }
+    hr = t->UnlockRect(0);
+
+    m_mapTexture[szKey] = t;
+}
 
 
 void cTextureManager::AddTexture(string szKey, string szFilepath, bool saveImageInfo)
@@ -113,4 +142,16 @@ BASETEXTURE9* cTextureManager::GetTexture(string key, OUT IMAGE_INFO* pImageInfo
     {
         return NULL;
     }
+}
+
+void cTextureManager::SaveTexture(string szKey, string szFilepath, D3DXIMAGE_FILEFORMAT format)
+{
+    HRESULT hr;
+    hr = D3DXSaveTextureToFile(szFilepath.c_str(), format, m_mapTexture[szKey], NULL);
+}
+
+void cTextureManager::SaveTexture(BASETEXTURE9* pTexture, string szFilepath, D3DXIMAGE_FILEFORMAT format)
+{
+    HRESULT hr;
+    hr = D3DXSaveTextureToFile(szFilepath.c_str(), format, pTexture, NULL);
 }
