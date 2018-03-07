@@ -8,6 +8,7 @@ class cMapDataManager
 
     // == 현재 탭 정보 ==
     SYNTHESIZE_PASS_BY_REF_NO_SET(E_TAB_TYPE, m_eTabType, TabType);                         // 탭 타입
+    SYNTHESIZE_PASS_BY_REF_NO_SET(int, m_nDlgWidth, DlgWidth);                              // 다이얼로그 가로 사이즈
 
 	// == 기본 맵 생성 시 필요한 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_MAP_SIZE, m_eMapSize, MapSize);							// 맵사이즈

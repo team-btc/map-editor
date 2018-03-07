@@ -13,7 +13,7 @@
 #define DEFAULT_FLUID_SPEED 0.5f													// 물 기본 유속
 #define DEFAULT_FOLDER		"*/Map/"												// 기본 파일 폴더
 #define DEFAULT_FILE_NAME	"MapData"												// 기본 파일명
-
+#define EDIT_DURATION_TIME  0.1f                                                    // 편집 지속 기준 시간
 
 // 면 정보
 struct ST_TERRAIN_FACE_INFO {
@@ -87,7 +87,7 @@ private:
 
 	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
-	E_TERRAIN_EDIT_TYPE&			m_eTerraingEditType;							// 지형맵 편집 타입
+	E_TERRAIN_EDIT_TYPE&			m_eTerrainEditType;							    // 지형맵 편집 타입
 
 	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
     ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;							// 텍스쳐 브러쉬 정보
@@ -101,6 +101,8 @@ private:
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelFace;                                   // 브러쉬 안에 있는 면정보 인덱스
+
+    float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:
 	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
@@ -125,9 +127,12 @@ public:
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
-    void PickMouse(E_TAB_TYPE eTabType);                                                                                // 마우스를 픽킹 했을 때 발동
+    void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
+    void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
 
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
+    void EditTerrain();                                                                                                 // 지형 편집 함수
+    void InCrementHeight();                                                                                             // 지형 높이 높이기
 
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }

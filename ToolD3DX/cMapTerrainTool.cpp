@@ -3,7 +3,7 @@
 
 
 cMapTerrainTool::cMapTerrainTool()
-    : m_eTerraingEditType(g_pMapDataManager->GetTerEditType())
+    : m_eTerrainEditType(g_pMapDataManager->GetTerEditType())
     , m_stTerrainBrushInfo(g_pMapDataManager->GetTerBrushSize()
         , g_pMapDataManager->GetTerFlatSize()
         , g_pMapDataManager->GetTerIncrement())
@@ -21,6 +21,7 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterTransparent())
     , m_pMesh(NULL)
     , m_vPickPos(NULL)
+    , m_fPassedEditTime(0.0f)
 {
 }
 
@@ -35,7 +36,7 @@ HRESULT cMapTerrainTool::Setup()
     // 텍스쳐 셋팅
     g_pTextureManager->AddTexture("default", "Texture/Default.jpg");
 
-    m_eTerraingEditType = E_TER_EDIT_BEGIN;
+    m_eTerrainEditType = E_TER_EDIT_BEGIN;
 
     m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
     m_stTerrainBrushInfo.fTerrainBrushSize = 5.0f;
@@ -121,6 +122,7 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetMaterial(&WHITE_MTRL);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+    g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME); //와이어버전
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	
 	// 메쉬로 그리기
@@ -136,8 +138,25 @@ HRESULT cMapTerrainTool::Render()
 	return S_OK;
 }
 
-// 마우스를 픽킹 했을 때 발동
-void cMapTerrainTool::PickMouse(E_TAB_TYPE eTabType)
+// 마우스 왼쪽 버튼 클릭 했을 때 발동
+void cMapTerrainTool::OnceLButtonDown(E_TAB_TYPE eTabType)
+{
+    // 지형탭
+    if (eTabType == E_TERRAIN_TAB)
+    {
+        // 초기화
+        m_fPassedEditTime = 0.0f;
+    }
+
+    // 텍스쳐탭
+    else if (eTabType == E_TEXTURE_TAB)
+    {
+
+    }
+}
+
+// 마우스 왼쪽 버튼 계속 누를 때 발동
+void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
 {
     // 지형탭
     if (eTabType == E_TERRAIN_TAB)
@@ -147,23 +166,10 @@ void cMapTerrainTool::PickMouse(E_TAB_TYPE eTabType)
         {
             // 선택된 면정보 인덱스
             m_vecSelFace.clear();
-            m_vecSelFace = GetFaceInBrush(*m_vPickPos, 10);
+            m_vecSelFace = GetFaceInBrush(*m_vPickPos, m_stTerrainBrushInfo.fTerrainBrushSize);
 
-            // 버텍스 버퍼 기록
-            ST_PT_VERTEX* pV = NULL;
-            m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
-
-            for (int i = 0; i < m_vecSelFace.size(); ++i)
-            {
-                int nFaceIndex = m_vecSelFace[i];
-                for (int j = 0; j < 3; ++j)
-                {
-                    int nVerIndex = m_vecFaceInfo[nFaceIndex].dVertexIndedArr[j];
-                    pV[nVerIndex].p.y += 10.0f;
-                }
-            }
-
-            m_pMesh->UnlockVertexBuffer();
+            // 지형 편집하기
+            EditTerrain();
         }
     }
 
@@ -292,29 +298,79 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 
 }
 
+// 지형 편집
+void cMapTerrainTool::EditTerrain()
+{
+    switch (m_eTerrainEditType)
+    {
+    case E_TER_EDIT_INCREASE:
+    {
+        m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
+
+        // 아직 편집 시간이 되었을 때 함수 발동
+        if (m_fPassedEditTime >= EDIT_DURATION_TIME)
+        {
+            m_fPassedEditTime = 0.0f;
+            InCrementHeight();
+        }
+    }
+        break;
+    case E_TER_EDIT_DECREASE:
+        break;
+    case E_TER_EDIT_SHAVE:
+        break;
+    case E_TER_EDIT_DUPLICATE:
+        break;
+    case E_TER_EDIT_RESET:
+        break;
+    default:
+        break;
+    }
+}
+
+// 지형 높이 높이기
+void cMapTerrainTool::InCrementHeight()
+{
+    // 버텍스 버퍼 가져오기
+    ST_PT_VERTEX * pV = NULL;
+    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
+
+    for (int i = 0; i < m_vecSelFace.size(); ++i)
+    {
+        int nFaceIndex = m_vecSelFace[i];
+        for (int j = 0; j < 3; ++j)
+        {
+            int nVerIndex = m_vecFaceInfo[nFaceIndex].dVertexIndedArr[j];
+            pV[nVerIndex].p.y += m_stTerrainBrushInfo.fIncrementHeight;
+        }
+    }
+
+    m_pMesh->UnlockVertexBuffer();
+}
+
 // 브러쉬 안에 있는 면정보 인덱스 벡터
 vector<int> cMapTerrainTool::GetFaceInBrush(Vector3 vPickPos, float fRadius)
 {
     // 브러쉬 영역을 임의로 구분 한다. (정사각형 모양으로)
-    int nMinX = vPickPos.x - fRadius + 1;
+    int nMinX = vPickPos.x - fRadius;
     if (nMinX < 0)
     {
         nMinX = 0;
     }
 
-    int nMaxX = vPickPos.x + fRadius;
+    int nMaxX = vPickPos.x + fRadius + 1;
     if (nMaxX > m_ptMapSize.x)
     {
         nMaxX = m_ptMapSize.x;
     }
 
-    int nMinZ = vPickPos.z - fRadius + 1;
+    int nMinZ = vPickPos.z - fRadius;
     if (nMinZ < 0)
     {
         nMinZ = 0;
     }
 
-    int nMaxZ = vPickPos.z + fRadius;
+    int nMaxZ = vPickPos.z + fRadius + 1;
     if (nMaxZ > m_ptMapSize.y)
     {
         nMaxZ = m_ptMapSize.y;
