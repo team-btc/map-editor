@@ -144,3 +144,15 @@ BASETEXTURE9* cTextureManager::GetTexture(string key, OUT IMAGE_INFO* pImageInfo
         return NULL;
     }
 }
+
+void cTextureManager::SaveTexture(string szKey, string szFilepath, D3DXIMAGE_FILEFORMAT format)
+{
+    HRESULT hr;
+    hr = D3DXSaveTextureToFile(szFilepath.c_str(), format, m_mapTexture[szKey], NULL);
+}
+
+void cTextureManager::SaveTexture(BASETEXTURE9* pTexture, string szFilepath, D3DXIMAGE_FILEFORMAT format)
+{
+    HRESULT hr;
+    hr = D3DXSaveTextureToFile(szFilepath.c_str(), format, pTexture, NULL);
+}
