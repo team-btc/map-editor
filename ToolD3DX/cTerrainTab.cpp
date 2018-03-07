@@ -41,16 +41,18 @@ BOOL cTerrainTab::OnInitDialog()
 	m_pIncrementEditCtl = (CEdit*)GetDlgItem(IDC_INCREMENT_EDI);
 
 	// 높이 증가율 슬라이더 기본 설정
-	m_pIncrementSliderCtl->SetRange(0, 256);			// 사용영역 값 설정
-	m_pIncrementSliderCtl->SetRangeMin(0);				// 최소 값 설정
-	m_pIncrementSliderCtl->SetRangeMax(255);			// 최대 값 설정
-	m_pIncrementSliderCtl->SetPos(m_fIncrement);		// 위치 설정
-	m_pIncrementSliderCtl->SetTicFreq(32);				// 눈금 간격 설정
-	m_pIncrementSliderCtl->SetLineSize(4);				// 증가 크기(키보드로 컨트롤 할 때)
-	m_pIncrementSliderCtl->SetPageSize(12);				// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pIncrementSliderCtl->SetRange(1, 100);			// 사용영역 값 설정
+	m_pIncrementSliderCtl->SetRangeMin(1);				// 최소 값 설정
+	m_pIncrementSliderCtl->SetRangeMax(100);			// 최대 값 설정
+	m_pIncrementSliderCtl->SetPos(m_fIncrement * 10.0f);		// 위치 설정
+	m_pIncrementSliderCtl->SetTicFreq(10);				// 눈금 간격 설정
+	m_pIncrementSliderCtl->SetLineSize(1);				// 증가 크기(키보드로 컨트롤 할 때)
+	m_pIncrementSliderCtl->SetPageSize(5);				// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 높이 증가율 출력
-	SetDlgItemInt(IDC_INCREMENT_EDI, m_fIncrement);
+    char str[10];
+    sprintf(str, "%0.1f", m_fIncrement);
+    SetDlgItemTextA(IDC_INCREMENT_EDI, str);
 
 	// == 브러쉬 사이즈 설정 초기화 ==
 	m_pBrushSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_BRUSH_SIZE_SLI);
@@ -72,14 +74,14 @@ BOOL cTerrainTab::OnInitDialog()
 	m_pFlatSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_FLAT_SIZE_SLI);
 	m_pFlatSizeEditCtl = (CEdit*)GetDlgItem(IDC_FLAT_SIZE_EDI);
 
-	// 브러쉬 사이즈 슬라이더 기본 설정
-	m_pFlatSizeSliderCtl->SetRange(100, 500);		// 사용영역 값 설정
-	m_pFlatSizeSliderCtl->SetRangeMin(100);			// 최소 값 설정
-	m_pFlatSizeSliderCtl->SetRangeMax(500);			// 최대 값 설정
+	// 평지 사이즈 슬라이더 기본 설정
+	m_pFlatSizeSliderCtl->SetRange(0, 100);		// 사용영역 값 설정
+	m_pFlatSizeSliderCtl->SetRangeMin(0);			// 최소 값 설정
+	m_pFlatSizeSliderCtl->SetRangeMax(100);			// 최대 값 설정
 	m_pFlatSizeSliderCtl->SetPos(m_fFlatSize);		// 위치 설정
-	m_pFlatSizeSliderCtl->SetTicFreq(50);			// 눈금 간격 설정
-	m_pFlatSizeSliderCtl->SetLineSize(20);			// 증가 크기(키보드로 컨트롤 할 때)
-	m_pFlatSizeSliderCtl->SetPageSize(50);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pFlatSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+	m_pFlatSizeSliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
+	m_pFlatSizeSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 평지 사이즈 출력
 	SetDlgItemInt(IDC_FLAT_SIZE_EDI, m_fFlatSize);
@@ -99,7 +101,7 @@ void cTerrainTab::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(cTerrainTab, CDialogEx)
-	ON_BN_CLICKED(IDC_INCREASE_RAD, &cTerrainTab::OnClickIncreaseRadio)
+    ON_CONTROL_RANGE(BN_CLICKED, IDC_INCREASE_RAD, IDC_RESET_RAD, &cTerrainTab::OnSelectTextureRadio)
 	ON_EN_CHANGE(IDC_INCREMENT_EDI, &cTerrainTab::OnChangeIncrementEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_INCREMENT_SPI, &cTerrainTab::OnDeltaposIncrementSpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_INCREMENT_SLI, &cTerrainTab::OnCustomDrawIncrementSlider)
@@ -115,7 +117,7 @@ END_MESSAGE_MAP()
 // cTerrainTab 메시지 처리기
 
 // 지형 편집 타입 설정 (라디오 버튼으로 셋팅)
-void cTerrainTab::OnClickIncreaseRadio()
+void cTerrainTab::OnSelectTextureRadio(UINT ID)
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
@@ -135,10 +137,12 @@ void cTerrainTab::OnChangeIncrementEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fIncrement = GetDlgItemInt(IDC_INCREMENT_EDI);
+    CString str = "";
+    GetDlgItemText(IDC_INCREMENT_EDI, str);
+    m_fIncrement = atof(str);
 
 	// 슬라이더 위치 설정
-	m_pIncrementSliderCtl->SetPos(m_fIncrement);		// 위치 설정
+	m_pIncrementSliderCtl->SetPos(m_fIncrement * 10.0f);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pIncrementEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -155,11 +159,11 @@ void cTerrainTab::OnDeltaposIncrementSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fIncrement >= 255)
+		if (m_fIncrement >= 100)
 		{
 			return;
 		}
-		++m_fIncrement;
+		m_fIncrement += 0.1f;
 	}
 	// Down 버튼 눌렀을 경우
 	else
@@ -168,14 +172,16 @@ void cTerrainTab::OnDeltaposIncrementSpin(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			return;
 		}
-		--m_fIncrement;
+		m_fIncrement -= 0.1f;
 	}
 
 	// 높이 값 출력
-	SetDlgItemInt(IDC_INCREMENT_EDI, m_fIncrement);
+    char str[10];
+    sprintf(str, "%0.1f", m_fIncrement);
+    SetDlgItemTextA(IDC_INCREMENT_EDI, str);
 
 	// 슬라이더 위치 설정
-	m_pIncrementSliderCtl->SetPos(m_fIncrement);		// 위치 설정
+	m_pIncrementSliderCtl->SetPos(m_fIncrement * 10.0f);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -187,10 +193,12 @@ void cTerrainTab::OnCustomDrawIncrementSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 높이 값 넣기
-	m_fIncrement = m_pIncrementSliderCtl->GetPos();
+	m_fIncrement = m_pIncrementSliderCtl->GetPos() * 0.1f;
 
 	// 높이 값 출력
-	SetDlgItemInt(IDC_INCREMENT_EDI, m_fIncrement);
+    char str[10];
+    sprintf(str, "%0.1f", m_fIncrement);
+    SetDlgItemTextA(IDC_INCREMENT_EDI, str);
 
 	*pResult = 0;
 }
@@ -299,7 +307,7 @@ void cTerrainTab::OnDeltaposFlatSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fFlatSize >= 500)
+		if (m_fFlatSize >= 100)
 		{
 			return;
 		}
@@ -308,7 +316,7 @@ void cTerrainTab::OnDeltaposFlatSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Down 버튼 눌렀을 경우
 	else
 	{
-		if (m_fFlatSize <= 100)
+		if (m_fFlatSize <= 0)
 		{
 			return;
 		}

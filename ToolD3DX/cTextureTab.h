@@ -54,7 +54,7 @@ protected:
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
-	afx_msg void OnClickTerrainRadio();
+	afx_msg void OnSelectTextureRadio(UINT ID);
 	afx_msg void OnChangeTextureDensityEditer();
 	afx_msg void OnDeltaposTextureDensitySpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawTextureDensitySlider(NMHDR *pNMHDR, LRESULT *pResult);

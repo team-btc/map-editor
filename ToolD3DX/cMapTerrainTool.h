@@ -80,7 +80,7 @@ class cMapTerrainTool : public cObject
 private:
     POINT                           m_ptMapSize;                                    // 맵 크기
 
-	vector<ST_PT_VERTEX>            m_vecPTVertex;                                  // 맵에 사용할 점 벡터
+	vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
 
 	vector<ST_TERRAIN_FACE_INFO>    m_vecFaceInfo;                                  // 면정보 (순차적)
@@ -100,31 +100,26 @@ private:
     
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
-    vector<int>                     m_vecSelFace;                                   // 브러쉬 안에 있는 면정보 인덱스
+    vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
 
-
-    Vector3*                        m_vPickPos;                                     // 픽킹 위치
     cTextureShader*                 m_pTextureShader;
 
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:
-	HRESULT SetBrushSize(IN float fSize);													 // 브러쉬 사이즈 설정
-	HRESULT SetBrushDensity(IN float fSize);												 // 브러쉬 농도 사이즈 설정
-	HRESULT SetHeight(IN Vector2 vPosition, IN float fHeight);								 // 지형 높이 설정
-	HRESULT SetTextureDensity(IN float& fDensity);											 // 텍스쳐의 밀도 설정 (이는 브러쉬의 속성을 설정해줌)
-	HRESULT SetTextureType(IN E_GROUND_TYPE eGroundType);									 // 텍스쳐 타입 설정
-	HRESULT SetWaterBrushSize(IN float fSize);												 // 물 브러쉬 사이즈 설정
-	HRESULT SetWaterSpeed(IN float fSpeed);													 // 물의 유속 설정 (물의 밀도와 움직임 값을 계산 및 설정)
-	HRESULT SetDrawTexture(IN Vector2 vPosition, IN E_GROUND_TYPE eGroundType);				 // 지형에 텍스쳐 입히기
-	HRESULT SetDuplicateHeight(IN Vector2 vPosition, IN ST_TERRAIN_FACE_INFO stFaceInfo);	 // 지형 높이 복제
-	// 브러쉬가 지정한 지형 겟터 -> vector<ST_PT_VERTEX> Get~~~~();                            
-                                                                                             
 	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
 	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 로드하기
 
-public:
+    void EditTerrain();                                                                      // 지형 편집 함수
+    void IncrementHeight();                                                                  // 지형 높이 높이기
+    void DecreaseHeight();                                                                   // 지형 높이 낮추기
+    void ResetHeight();                                                                      // 지형 높이 리셋
+    void ChangeNormalValue(int nIndex, ST_PNT_VERTEX** vEditV);                              // 변경된 버텍스와 주변 버텍스 노말값 변경
+    void SetNormal(int nIndex, ST_PNT_VERTEX** vEditV);                                      // 버텍스 노말 계산, 셋팅
+    int GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVertex);                      // 픽킹 지점에서 가장 가까운 버텍스 인덱스 가져오기
+    vector<int> GetVertexInBrush(Vector3 vPickPos, float fRadius);                           // 브러쉬 안에 있는 버텍스 인덱스 벡터 가져오기
 
+public:
     cMapTerrainTool();
     ~cMapTerrainTool();
 
@@ -132,20 +127,15 @@ public:
     HRESULT Update();
 	HRESULT Render();
 
-    void PickMouse(E_TAB_TYPE eTabType);                                                                                // 마우스를 픽킹 했을 때 발동
-
 	void RendBrush();                                                            										// 픽킹 위치 세팅
 
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
 
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
-    void EditTerrain();                                                                                                 // 지형 편집 함수
-    void InCrementHeight();                                                                                             // 지형 높이 높이기
 
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
-    vector<int> GetFaceInBrush(Vector3 vPickPos, float fRadius);                                                        // 브러쉬 안에 있는 면정보 인덱스 벡터
     // == 셋터 ==
     void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }   
    

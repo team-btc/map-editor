@@ -40,7 +40,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	afx_msg void OnClickIncreaseRadio();
+	afx_msg void OnSelectTextureRadio(UINT ID);
 	afx_msg void OnChangeIncrementEditer();
 	afx_msg void OnDeltaposIncrementSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawIncrementSlider(NMHDR *pNMHDR, LRESULT *pResult);

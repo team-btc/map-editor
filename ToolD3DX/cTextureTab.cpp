@@ -170,7 +170,7 @@ void cTextureTab::OnPaint()
 
 BEGIN_MESSAGE_MAP(cTextureTab, CDialogEx)
 	ON_WM_PAINT()
-	ON_BN_CLICKED(ID_TERRAIN1_RAD, &cTextureTab::OnClickTerrainRadio)
+    ON_CONTROL_RANGE(BN_CLICKED, ID_TERRAIN1_RAD, ID_TERRAIN5_RAD, &cTextureTab::OnSelectTextureRadio)
 	ON_EN_CHANGE(IDC_TEXTURE_DENSITY_EDI, &cTextureTab::OnChangeTextureDensityEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_TEXTURE_DENSITY_SPI, &cTextureTab::OnDeltaposTextureDensitySpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_TEXTURE_DENSITY_SLI, &cTextureTab::OnCustomDrawTextureDensitySlider)
@@ -190,7 +190,7 @@ END_MESSAGE_MAP()
 // cTextureTab 메시지 처리기
 
 // 텍스쳐 선택
-void cTextureTab::OnClickTerrainRadio()
+void cTextureTab::OnSelectTextureRadio(UINT ID)
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
