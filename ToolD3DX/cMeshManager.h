@@ -14,8 +14,7 @@ private:
 
 public:
     void Load();
-    cSkinnedMesh* GetMesh(string szKey);
-    cSkinnedMesh* GetMesh(string szKey, string szDirectory, string szFilepath);
+    cSkinnedMesh* GetMesh(string szKey, string szDirectory = "", string szFilepath = "");
     void Destroy();
 };
 

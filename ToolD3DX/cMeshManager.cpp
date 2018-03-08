@@ -15,19 +15,6 @@ void cMeshManager::Load()
 {
 }
 
-cSkinnedMesh* cMeshManager::GetMesh(string szKey)
-{
-    auto iter = m_mapSkinnedMesh.find(szKey);
-    if (iter != m_mapSkinnedMesh.end())
-    {
-        return iter->second;
-    }
-    else
-    {
-        return NULL;
-    }
-}
-
 cSkinnedMesh* cMeshManager::GetMesh(string szKey, string szDirectory, string szFilepath)
 {
     auto iter = m_mapSkinnedMesh.find(szKey);
@@ -41,7 +28,7 @@ cSkinnedMesh* cMeshManager::GetMesh(string szKey, string szDirectory, string szF
     }
     else
     {
-        return NULL;
+        return m_mapSkinnedMesh[szKey];
     }
 }
 
