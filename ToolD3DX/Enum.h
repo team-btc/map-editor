@@ -72,3 +72,10 @@ enum E_TAB_TYPE {
     E_WATER_TAB,
     E_OBJECT_TAB
 };
+
+enum E_DRAW_TYPE {
+    E_DRAW_BRUSH,
+    E_DRAW_SPRAY,
+    E_DRAW_ERASE,
+    E_DRAW_NONE
+};

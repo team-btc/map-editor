@@ -8,11 +8,10 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetTerFlatSize()
         , g_pMapDataManager->GetTerIncrement())
     , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
-        , g_pMapDataManager->GetWalkable()
         , g_pMapDataManager->GetTexDensity()
         , g_pMapDataManager->GetTexBrushSize()
         , g_pMapDataManager->GetTexBrushDenSize()
-        , g_pMapDataManager->GetTexBrushDensity())
+        , g_pMapDataManager->GetDrawType())
     , m_stWaterInfo(g_pMapDataManager->GetWaterHeight()
         , g_pMapDataManager->GetWaterUVSpeed()
         , g_pMapDataManager->GetWaterWaveHeight()
@@ -61,11 +60,10 @@ HRESULT cMapTerrainTool::Setup()
     //m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
-    m_stTextureBrushInfo.m_isWalkable = g_pMapDataManager->GetDefWalkable();
     m_stTextureBrushInfo.fTextureDensity = 50.0f;
     m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
     m_stTextureBrushInfo.fTextureBrushSpraySize = 10.0f;
-    //m_stTextureBrushInfo.fTexturBrushDensity = 1.0f;
+    m_stTextureBrushInfo.m_eDrawType = E_DRAW_ERASE;
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
 
@@ -80,6 +78,7 @@ HRESULT cMapTerrainTool::Setup()
 
 HRESULT cMapTerrainTool::Update()
 {
+
     Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
 
     if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
@@ -126,7 +125,7 @@ HRESULT cMapTerrainTool::Update()
 	// 저장
 	else if (g_pKeyManager->isOnceKeyDown('S'))
 	{
-
+        m_pTextureShader->SaveTexture();
 	}
 	// 로드
 	else if (g_pKeyManager->isOnceKeyDown('L'))
@@ -217,7 +216,7 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
     else if (eTabType == E_TEXTURE_TAB)
     {
         // m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
-        m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
+        m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType, m_stTextureBrushInfo.m_eDrawType);
         m_pTextureShader->Update();
        // DrawAlphaMap();
     }

@@ -148,9 +148,13 @@
 #define IDC_WATER_TRANSPARENT_EDI       1097
 #define IDC_POS_Z_TEXT                  1098
 #define IDC_WATER_TRANSPARENT_SPI       1098
+#define IDC_BRUSH_RAD                   1098
 #define IDC_DELETE_BTN2                 1099
 #define IDC_DUPLCATION_BTN              1099
 #define IDC_WALKABLE_CHE                1100
+#define IDC_SPRAY_RAD                   1100
+//#define IDC_SPRAY_RAD2                  1101
+#define IDC_ERASE_RAD                   1101
 
 // Next default values for new objects
 // 
@@ -158,7 +162,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1098
+#define _APS_NEXT_CONTROL_VALUE         1099
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif

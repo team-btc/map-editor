@@ -6,6 +6,7 @@ class cTextureShader
     LPD3DXEFFECT            m_pTextureShader;
     Vector4                 m_vPickPos;
     LPDIRECT3DTEXTURE9      m_pTexture[4];
+    LPDIRECT3DTEXTURE9      m_pAlphaDraw;
     LPDIRECT3DTEXTURE9      m_pAlpha;
     
     cBrush*                 m_pBrush;
@@ -34,12 +35,9 @@ public:
     void SetBrush(cBrush* brush) { m_pBrush = brush; }
     void SetTexture();
     void SetMesh(LPD3DXMESH mesh) { m_pMesh = mesh; }
-   // void SetBrush(Vector4 v, float br, float sr, float density);
-   // void SetType(E_GROUND_TYPE Type) { m_eGroundType = Type; }
-   // void GetRect();
     void DrawTexture();
-   
-
+    void SaveTexture();
+    
     void Update();
     void Render();
 };

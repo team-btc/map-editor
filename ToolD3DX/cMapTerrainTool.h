@@ -50,15 +50,14 @@ struct ST_TER_BRUSH_INFO {
 // 텍스쳐 브러쉬 정보
 struct ST_TEX_BRUSH_INFO {
     E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
-    bool&                           m_isWalkable;                                   // 걸을 수 있는지 여부
     float&							fTextureDensity;								// 텍스쳐 농도 값
     float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
     float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
-    //float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
+    E_DRAW_TYPE&                    m_eDrawType;                                    // 그리기 타입
     
-    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, bool& _isW, float& _fTD, float& _fBS, float& _fBDS, float& _fBD)
-        : m_eCurrTextureType(_eCTT), m_isWalkable(_isW), fTextureDensity(_fTD)
-        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS) {}
+    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, float& _fTD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT)
+        : m_eCurrTextureType(_eCTT), fTextureDensity(_fTD)
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT) {}
 
 };
 

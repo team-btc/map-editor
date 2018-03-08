@@ -10,13 +10,10 @@ class cTextureTab : public CDialogEx
 private:
 	// == 텍스쳐 선택 ==
 	E_GROUND_TYPE&		m_eTextureIndex;			// 기본 텍스쳐 인덱스
+    E_DRAW_TYPE&        m_eDrawType;                // 그리기 타입
 
 	CStatic*			m_pPictureController[5];	// 픽쳐 컨트롤러
 	CBitmap				m_Bitmap[5];				// 텍스쳐 비트맵
-
-	// == 걸을 수 있는 지형 값 ==
-	CButton*			m_pWalkableCheck;			// 걸을 수 있는지 여부 체크박스
-	bool&				m_isWalkable;				// 걸을 수 있는지 여부
 
 	// == 텍스쳐 밀도값 ==
 	CSliderCtrl*		m_pTextureDensitySliderCtl;	// 슬라이더 컨트롤러
@@ -67,5 +64,5 @@ public:
 	afx_msg void OnChangeBrushDensityEditer();
 	afx_msg void OnDeltaposBrushDensitySpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawBrushDensitySlider(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnClickWalkableCheck();
+    afx_msg void OnSelectDrawModeRadio(UINT ID);
 };

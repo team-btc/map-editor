@@ -11,7 +11,7 @@ cTextureShader::cTextureShader()
     ZeroMemory(m_pTexture, 4);
     ZeroMemory(m_TexDensity, 4);
     g_pTextureManager->AddTexture("alpha", 256);
-    m_pAlpha = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 }
 cTextureShader::~cTextureShader()
 {
@@ -38,184 +38,387 @@ void cTextureShader::SetTexture()
 
 void cTextureShader::DrawTexture()
 {
+
+
     int Density = 0;
-
-    if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+    switch (m_pBrush->m_eDrawType)
     {
-        auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
-
-        D3DLOCKED_RECT AlphaMap_Locked;
-        memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
-        t->LockRect(0, &AlphaMap_Locked, NULL, NULL);
-        LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
-
-
-        for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+    case E_DRAW_BRUSH:
+        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
         {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
-            {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
-                if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
                 {
-                    continue;
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    
+                    DWORD lSour = *(pDWordDST + y) >> 16;
+                    lSour = lSour & 0x00ff;
+                    x = max(lSour, x);
+                  
+                    *(pDWordDST + y) =  0x00010000 * x;
                 }
-                int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
-                DWORD lSour = *(pDWordDST + y) >> 16;
-                lSour = lSour & 0x00ff;
-                lSour += x;
-                lSour = min(255, lSour);
-                lSour = lSour << 16;
-
-                *(pDWordDST + y) = *(pDWordDST + y) & 0xff00ffff;
-                *(pDWordDST + y) = *(pDWordDST + y) | lSour;
             }
-        }
-        for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
-        {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
             {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
-                if (length > m_pBrush->m_fNR)
-                    continue;
-                *(pDWordDST + y) = 0x00ff0000;
-            }
-        }
-
-        t->UnlockRect(0);
-
-        HRESULT hr = D3DXSaveTextureToFileA("test.png",
-            D3DXIFF_PNG,
-            t,
-            NULL);
-        g_pTextureManager->SaveTexture("alpha", "test.png");
-        m_pAlpha = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("alpha");
-    }
-    else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
-    {
-        auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
-
-        D3DLOCKED_RECT AlphaMap_Locked;
-        memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
-        t->LockRect(0, &AlphaMap_Locked, NULL, NULL);
-        LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
-
-
-        for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
-        {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
-            {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
-
-                if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
                 {
-                    continue;
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    *(pDWordDST + y) =  0x00ff0000;
                 }
-                int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
-                DWORD lSour = *(pDWordDST + y) >> 16;
-                lSour = lSour & 0x00ff;
-                lSour += x;
-                lSour = min(255, lSour);
-                lSour = lSour << 16;
-
-                *(pDWordDST + y) = *(pDWordDST + y) & 0xff00ffff;
-                *(pDWordDST + y) = *(pDWordDST + y) | lSour;
             }
+
+            m_pAlphaDraw->UnlockRect(0);
         }
-        for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
         {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
             {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
-                if (length > m_pBrush->m_fFR)
-                    continue;
-                *(pDWordDST + y) = 0x00ff0000;
-            }
-        }
-
-        t->UnlockRect(0);
-
-        HRESULT hr = D3DXSaveTextureToFileA("test.png",
-            D3DXIFF_PNG,
-            t,
-            NULL);
-        g_pTextureManager->SaveTexture("alpha", "test.png");
-        m_pAlpha = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("alpha");
-    }
-
-    else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
-    {
-        auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
-
-        D3DLOCKED_RECT AlphaMap_Locked;
-        memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
-        t->LockRect(0, &AlphaMap_Locked, NULL, NULL);
-        LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
-
-
-        for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
-        {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
-            {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
-
-                if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
                 {
-                    continue;
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+
+                    DWORD lSour = *(pDWordDST + y) >> 8;
+                    lSour = lSour & 0x0000ff;
+                    x = max(lSour, x);
+
+                    *(pDWordDST + y) = 0x00000100 * x;
                 }
-                int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
-                DWORD lSour = *(pDWordDST + y) >> 16;
-                lSour = lSour & 0x00ff;
-                lSour += x;
-                lSour = min(255, lSour);
-                lSour = lSour << 16;
-
-                *(pDWordDST + y) = *(pDWordDST + y) & 0xff00ffff;
-                *(pDWordDST + y) = *(pDWordDST + y) | lSour;
             }
-        }
-        for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
-        {
-            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-            for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
             {
-                float lx = m_pBrush->m_fPickX - (float)y;
-                float ly = m_pBrush->m_fPickZ - (float)i;
-                float length = sqrt(lx * lx + ly * ly);
-                if (length > m_pBrush->m_fFR)
-                    continue;
-                *(pDWordDST + y) = 0x00ff0000;
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    *(pDWordDST + y) = 0x0000ff00;
+                }
             }
+
+            m_pAlphaDraw->UnlockRect(0);
         }
+        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        {
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
-        t->UnlockRect(0);
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
 
-        HRESULT hr = D3DXSaveTextureToFileA("test.png",
-            D3DXIFF_PNG,
-            t,
-            NULL);
-        g_pTextureManager->SaveTexture("alpha", "test.png");
-        m_pAlpha = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+
+                    DWORD lSour = *(pDWordDST + y);
+                    lSour = lSour & 0x000000ff;
+                    x = max(lSour, x);
+
+                    *(pDWordDST + y) = 0x00000001 * x;
+                }
+            }
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    *(pDWordDST + y) = 0x000000ff;
+                }
+            }
+
+            m_pAlphaDraw->UnlockRect(0);
+        }
+        break;
+
+    case E_DRAW_SPRAY :
+        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+        {
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD lSour = *(pDWordDST + y) >> 16;
+                    lSour = lSour & 0x00ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+                    lSour = lSour << 16;
+
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xff00ffff;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    int x = 255;
+                    DWORD lSour = *(pDWordDST + y) >> 16;
+                    lSour = lSour & 0x00ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+                    lSour = lSour << 16;
+
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xff00ffff;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+
+            m_pAlphaDraw->UnlockRect(0);
+        }
+        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
+        {
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD lSour = *(pDWordDST + y) >> 8;
+                    lSour = lSour & 0x0000ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+                    lSour = lSour << 8;
+
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xffff00ff;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    int x = 255;
+                    DWORD lSour = *(pDWordDST + y) >> 8;
+                    lSour = lSour & 0x0000ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+                    lSour = lSour << 8;
+
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xffff00ff;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+
+            m_pAlphaDraw->UnlockRect(0);
+        }
+        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        {
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD lSour = *(pDWordDST + y);
+                    lSour = lSour & 0x000000ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+
+
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xffffff00;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    int x = 255;
+                    DWORD lSour = *(pDWordDST + y);
+                    lSour = lSour & 0x000000ff;
+                    lSour += x;
+                    lSour = min(255, lSour);
+                    *(pDWordDST + y) = *(pDWordDST + y) & 0xffffff00;
+                    *(pDWordDST + y) = *(pDWordDST + y) | lSour;
+                }
+            }
+
+            m_pAlphaDraw->UnlockRect(0);
+        }
+        break; 
+
+        case E_DRAW_ERASE :
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+
+            D3DLOCKED_RECT AlphaMap_Locked;
+            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+
+
+            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+
+                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                    {
+                        continue;
+                    }
+                    *(pDWordDST + y) = 0x00000000;
+                }
+            }
+            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+            {
+                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
+                {
+                    float lx = m_pBrush->m_fPickX - (float)y;
+                    float ly = m_pBrush->m_fPickZ - (float)i;
+                    float length = sqrt(lx * lx + ly * ly);
+                    if (length > m_pBrush->m_fNR)
+                        continue;
+                    *(pDWordDST + y) = 0x00000000;
+                }
+            }
+
+            m_pAlphaDraw->UnlockRect(0);
+            break;
     }
+}
+
+void cTextureShader::SaveTexture()
+{
+    //auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+    g_pTextureManager->SaveTexture(m_pAlphaDraw, "Save.png", D3DXIFF_BMP);
+
 }
 
 void cTextureShader::Update()
 {
+    
     DrawTexture();
 }
 
@@ -227,7 +430,7 @@ void cTextureShader::Render()
     m_pTextureShader->SetTexture("texture3", m_pTexture[3]);
 
     
-    m_pTextureShader->SetTexture("AlphaMap", m_pAlpha);
+    m_pTextureShader->SetTexture("AlphaMap", m_pAlphaDraw);
 
     m_pTextureShader->SetVector("gUV", &m_pBrush->m_pPick);
     m_pTextureShader->SetFloat("Brush_Radius", m_pBrush->m_fBrushRadius);

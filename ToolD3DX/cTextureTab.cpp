@@ -20,9 +20,8 @@ cTextureTab::cTextureTab(CWnd* pParent /*=nullptr*/)
     , m_pBrushDenSizeEditCtl(NULL)
 	, m_pBrushDensitySliderCtl(NULL)
 	, m_pBrushDensityEditCtl(NULL)
-	, m_pWalkableCheck(NULL)
     , m_eTextureIndex(g_pMapDataManager->GetCurrTexType())
-    , m_isWalkable(g_pMapDataManager->GetWalkable())
+    , m_eDrawType(g_pMapDataManager->GetDrawType())
     , m_fTextureDensity(g_pMapDataManager->GetTexDensity())
     , m_fBrushSize(g_pMapDataManager->GetTexBrushSize())
     , m_fBrushDenSize(g_pMapDataManager->GetTexBrushDenSize())
@@ -119,9 +118,6 @@ BOOL cTextureTab::OnInitDialog()
 	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, m_fBrushDensity);
 
 	// == 걸을 수 있는지형 체크박스 초기화 ==
-	m_pWalkableCheck = (CButton*)GetDlgItem(IDC_WALKABLE_CHE);
-	m_pWalkableCheck->SetCheck(m_isWalkable);
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -132,6 +128,9 @@ void cTextureTab::DoDataExchange(CDataExchange* pDX)
 
 	// == 텍스쳐 선택 라디오 버튼 초기화 및 연결 ==
 	DDX_Radio(pDX, ID_TERRAIN1_RAD, (int&)m_eTextureIndex); // 텍스쳐1번으로 라디오박스 설정
+
+    // == 텍스쳐 선택 라디오 버튼 초기화 및 연결 ==
+    DDX_Radio(pDX, IDC_BRUSH_RAD, (int&)m_eDrawType); // BRUSH로 그리기 설정
 }
 
 void cTextureTab::OnPaint()
@@ -183,7 +182,8 @@ BEGIN_MESSAGE_MAP(cTextureTab, CDialogEx)
 	ON_EN_CHANGE(IDC_BRUSH_DENSITY_EDI, &cTextureTab::OnChangeBrushDensityEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_BRUSH_DENSITY_SPI, &cTextureTab::OnDeltaposBrushDensitySpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_BRUSH_DENSITY_SLI, &cTextureTab::OnCustomDrawBrushDensitySlider)
-	ON_BN_CLICKED(IDC_WALKABLE_CHE, &cTextureTab::OnClickWalkableCheck)
+    ON_CONTROL_RANGE(BN_CLICKED, IDC_BRUSH_RAD, IDC_ERASE_RAD, &cTextureTab::OnSelectDrawModeRadio)
+
 END_MESSAGE_MAP()
 
 
@@ -486,10 +486,7 @@ void cTextureTab::OnCustomDrawBrushDensitySlider(NMHDR *pNMHDR, LRESULT *pResult
 	*pResult = 0;
 }
 
-// 걸을 수 있는 지형 설정
-void cTextureTab::OnClickWalkableCheck()
+void cTextureTab::OnSelectDrawModeRadio(UINT ID)
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
-	m_isWalkable =  m_pWalkableCheck->GetCheck();
+    UpdateData();
 }

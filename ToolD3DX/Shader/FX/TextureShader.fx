@@ -50,7 +50,11 @@ float4 main_0(PS_INPUT Input) : COLOR
 	float4 brush = float4(0,0,0,1);
 	float r = Brush_Radius;
 	float sr = Spray_Radius;
-	float d = Density;
+    float d = Alpha.r + Alpha.g + Alpha.b;
+    float Rd = Alpha.r / d;
+    float Gd = Alpha.g / d;
+    float Bd = Alpha.b / d;
+
 
 	float l;
 	float3 vPick = (float3)gUV;
@@ -68,7 +72,7 @@ float4 main_0(PS_INPUT Input) : COLOR
 		brush = float4(dV, dV, dV, 1);
 	}
 
-	return (Tex1 * Alpha.r + Tex2 * Alpha.g + Tex3 * Alpha.b + brush * 0.35f);
+	return (Tex1 * Alpha.r * Rd + Tex2 * Alpha.g * Gd + Tex3 * Alpha.b * Bd + brush * 0.35f);
 };
 
 technique Shader
