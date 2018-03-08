@@ -104,7 +104,7 @@ private:
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
     cTextureShader*                 m_pTextureShader;
-    //cWaveShader*                    m_pWaveShader;
+    //cWaveShader*                  m_pWaveShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:

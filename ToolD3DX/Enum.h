@@ -72,3 +72,12 @@ enum E_TAB_TYPE {
     E_WATER_TAB,
     E_OBJECT_TAB
 };
+
+// 오브젝트 탭 버튼 상태 
+enum E_OBJECT_TAB_BUTTON_STATE
+{
+    E_OBJ_TAB_BTN_LOCATE, 
+    E_OBJ_TAB_BTN_RELOCATE, 
+    E_OBJ_TAB_BTN_REMOVE, 
+    E_OBJ_TAB_BTN_MAX
+};

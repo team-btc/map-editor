@@ -41,7 +41,7 @@ HRESULT cMapTool::Setup()
 
     m_pObjectTool = new cMapObjectTool;
     m_pObjectTool->Setup();
-   
+	m_pObjectTool->SetPickPos(&m_vPickPos);
 	return S_OK;
 }
 

@@ -89,7 +89,7 @@ HRESULT cMapTerrainTool::Update()
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureDensity * 0.01f);
     }
-    m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
+    //m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
     //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
@@ -164,8 +164,8 @@ HRESULT cMapTerrainTool::Render()
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-    RendBrush();
-    m_pTextureShader->Render();
+    //RendBrush();
+    //m_pTextureShader->Render();
 	return S_OK;
 }
 

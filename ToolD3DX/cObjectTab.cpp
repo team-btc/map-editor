@@ -36,6 +36,8 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
 	, m_fObjRotX(g_pMapDataManager->GetObjRotX())
 	, m_fObjRotY(g_pMapDataManager->GetObjRotY())
 	, m_fObjRotZ(g_pMapDataManager->GetObjRotZ())
+	, m_isLocation(g_pMapDataManager->GetObjLocation())
+    , m_eObjectTabButtonState(g_pMapDataManager->GetObjectTabButtonState())
 {
 	ST_OBJ_FILE stObjHouse;
 	stObjHouse.strRoot = "HOUSE";
@@ -49,6 +51,8 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
 	stObjStone.strRoot = "STONE";
 	stObjStone.vecChild.push_back("Red Stone");
 	stObjStone.vecChild.push_back("Blue Stone");
+
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
 
 	m_vecObjectFile.push_back(stObjHouse);
 	m_vecObjectFile.push_back(stObjTree);
@@ -86,13 +90,13 @@ BOOL cObjectTab::OnInitDialog()
 	m_pObjSizeEditCtl = (CEdit*)GetDlgItem(IDC_OBJECT_SIZE_EDI);
 	
 	// 오브젝트 사이즈 슬라이더 기본 설정
-	m_pObjSizeSliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+	m_pObjSizeSliderCtl->SetRange(1, 10);		// 사용영역 값 설정
 	m_pObjSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
-	m_pObjSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
+	m_pObjSizeSliderCtl->SetRangeMax(10);		// 최대 값 설정
 	m_pObjSizeSliderCtl->SetPos(m_fObjSize);	// 위치 설정
-	m_pObjSizeSliderCtl->SetTicFreq(10);		// 눈금 간격 설정
-	m_pObjSizeSliderCtl->SetLineSize(2);		// 증가 크기(키보드로 컨트롤 할 때)
-	m_pObjSizeSliderCtl->SetPageSize(10);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pObjSizeSliderCtl->SetTicFreq(1);		// 눈금 간격 설정
+	m_pObjSizeSliderCtl->SetLineSize(0.5);		// 증가 크기(키보드로 컨트롤 할 때)
+	m_pObjSizeSliderCtl->SetPageSize(0.5);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 오브젝트 사이즈 출력
 	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
@@ -224,6 +228,11 @@ BEGIN_MESSAGE_MAP(cObjectTab, CDialogEx)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_OBJECT_ROT_Z_SLI, &cObjectTab::OnCustomDrawObjectRotZSlider)
 	ON_BN_CLICKED(IDC_DUPLCATION_BTN, &cObjectTab::OnClickObjectDuplcationBtn)
 	ON_BN_CLICKED(IDC_DELETE_BTN, &cObjectTab::OnClickObjectDeleteBtn)
+	ON_BN_CLICKED(IDC_BUTTON1, &cObjectTab::OnBnClickedButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, &cObjectTab::OnBnClickedButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, &cObjectTab::OnBnClickedButton3)
+    ON_BN_CLICKED(IDC_BUTTON5, &cObjectTab::OnBnClickedButton5)
+    ON_BN_CLICKED(IDC_BUTTON4, &cObjectTab::OnBnClickedButton4)
 END_MESSAGE_MAP()
 
 
@@ -595,4 +604,84 @@ void cObjectTab::OnClickObjectDeleteBtn()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	
 	// 삭제 처리 하기!!/////////////////////////////////////////////////////////////////////////
+}
+
+// File Open 버튼 
+void cObjectTab::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	char current_path[MAX_PATH];
+	GetCurrentDirectory(MAX_PATH, current_path);
+
+	// 확장자 필터
+	LPSTR szFilter = "X Files (*.x) |*.X|";
+
+	CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+	string text;
+	string caption = "X파일 불러오기";
+
+	if (FileDialog.DoModal() == IDOK)
+	{
+		//파일 확장자 가져오기 
+		CString check = FileDialog.GetFileExt();
+
+		// 확장자가 x인지 체크 
+		if (check == "X" || check == "x")
+		{
+			m_strFileKey = FileDialog.GetFileTitle();
+			m_strFilePath = FileDialog.GetFolderPath().GetString();
+			m_strFileName = FileDialog.GetFileName().GetString();
+
+			// 맵 데이터 매니져에 정보 세팅하기
+			g_pMapDataManager->SetMeshKey(m_strFileKey);
+			g_pMapDataManager->SetMeshFilePath(m_strFilePath);
+			g_pMapDataManager->SetMeshFileName(m_strFileName);
+
+			//여기서 메쉬를 추가 할지는 생각해보기 
+			//cSkinnedMesh* mesh = new cSkinnedMesh(m_strFileKey, m_strFilePath, m_strFileName);
+			//mesh->SetPosition(Vector3(0, 0, 0));
+
+			text = m_strFileName + " 파일 읽기 성공";
+			MessageBox(text.c_str(), caption.c_str());
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
+		}
+		else
+		{
+			text = "파일 읽기 실패";
+			MessageBox(text.c_str(), caption.c_str(), MB_ICONERROR);
+
+            string str = "None";
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_FILE_NAME_TEXT, str.c_str());
+		}
+	}
+}
+
+// Locate 버튼
+void cObjectTab::OnBnClickedButton2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_isLocation = true;    // 지우기
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_LOCATE;
+}
+// Cancel 버튼
+void cObjectTab::OnBnClickedButton3()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_isLocation = false;   // 지우기 
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
+}
+// Remove 버튼
+void cObjectTab::OnBnClickedButton5()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_REMOVE;
+}
+// Relocate 버튼
+void cObjectTab::OnBnClickedButton4()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_RELOCATE;
 }
