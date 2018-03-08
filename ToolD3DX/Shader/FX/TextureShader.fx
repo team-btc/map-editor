@@ -39,13 +39,17 @@ struct PS_INPUT
 
 float4 main_0(PS_INPUT Input) : COLOR
 {
+    float UVDensity = Density;
+    float2 UV = Input.uv;
+    UV.x *= UVDensity;
+    UV.y *= UVDensity;
 
-	float4 Tex0 = tex2D(TexSampler0, Input.uv);
-	float4 Tex1 = tex2D(TexSampler1, Input.uv);
-	float4 Tex2 = tex2D(TexSampler2, Input.uv);
-	float4 Tex3 = tex2D(TexSampler3, Input.uv);
+	float4 Tex0 = tex2D(TexSampler0, UV);
+	float4 Tex1 = tex2D(TexSampler1, UV);
+	float4 Tex2 = tex2D(TexSampler2, UV);
+	float4 Tex3 = tex2D(TexSampler3, UV);
 	float4 Alpha = tex2D(TexAlpha, Input.uv);
-
+    
 
 	float4 brush = float4(0,0,0,1);
 	float r = Brush_Radius;
@@ -58,7 +62,7 @@ float4 main_0(PS_INPUT Input) : COLOR
 
 	float l;
 	float3 vPick = (float3)gUV;
-	float3 vPixel = float3(Input.uv.x, 0, Input.uv.y);
+	float3 vPixel = float3(Input.uv.x , 0, Input.uv.y);
 	float3 vLen = vPick - vPixel;
 	l = length(vLen);
 	if (l < r)

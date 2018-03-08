@@ -60,7 +60,7 @@ HRESULT cMapTerrainTool::Setup()
     //m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
-    m_stTextureBrushInfo.fTextureDensity = 50.0f;
+    m_stTextureBrushInfo.fTextureDensity = 10.0f;
     m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
     m_stTextureBrushInfo.fTextureBrushSpraySize = 10.0f;
     m_stTextureBrushInfo.m_eDrawType = E_DRAW_ERASE;
@@ -94,7 +94,7 @@ HRESULT cMapTerrainTool::Update()
         //     m_stTextureBrushInfo.fTextureDensity * 0.01f);
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
-            m_stTextureBrushInfo.fTextureDensity * 0.01f);
+            m_stTextureBrushInfo.fTextureDensity * 0.1f);
     }
     //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
