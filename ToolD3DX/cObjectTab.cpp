@@ -36,7 +36,6 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
 	, m_fObjRotX(g_pMapDataManager->GetObjRotX())
 	, m_fObjRotY(g_pMapDataManager->GetObjRotY())
 	, m_fObjRotZ(g_pMapDataManager->GetObjRotZ())
-	, m_isLocation(g_pMapDataManager->GetObjLocation())
     , m_eObjectTabButtonState(g_pMapDataManager->GetObjectTabButtonState())
 {
 	ST_OBJ_FILE stObjHouse;
@@ -90,9 +89,9 @@ BOOL cObjectTab::OnInitDialog()
 	m_pObjSizeEditCtl = (CEdit*)GetDlgItem(IDC_OBJECT_SIZE_EDI);
 	
 	// 오브젝트 사이즈 슬라이더 기본 설정
-	m_pObjSizeSliderCtl->SetRange(1, 10);		// 사용영역 값 설정
+	m_pObjSizeSliderCtl->SetRange(1, 20);		// 사용영역 값 설정
 	m_pObjSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
-	m_pObjSizeSliderCtl->SetRangeMax(10);		// 최대 값 설정
+	m_pObjSizeSliderCtl->SetRangeMax(20);		// 최대 값 설정
 	m_pObjSizeSliderCtl->SetPos(m_fObjSize);	// 위치 설정
 	m_pObjSizeSliderCtl->SetTicFreq(1);		// 눈금 간격 설정
 	m_pObjSizeSliderCtl->SetLineSize(0.5);		// 증가 크기(키보드로 컨트롤 할 때)
@@ -658,30 +657,27 @@ void cObjectTab::OnBnClickedButton1()
 		}
 	}
 }
-
 // Locate 버튼
 void cObjectTab::OnBnClickedButton2()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_isLocation = true;    // 지우기
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_LOCATE;
 }
 // Cancel 버튼
 void cObjectTab::OnBnClickedButton3()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_isLocation = false;   // 지우기 
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
-}
-// Remove 버튼
-void cObjectTab::OnBnClickedButton5()
-{
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    m_eObjectTabButtonState = E_OBJ_TAB_BTN_REMOVE;
 }
 // Relocate 버튼
 void cObjectTab::OnBnClickedButton4()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_RELOCATE;
+}
+// Remove 버튼
+void cObjectTab::OnBnClickedButton5()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_REMOVE;
 }

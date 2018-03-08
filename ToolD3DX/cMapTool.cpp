@@ -210,6 +210,5 @@ bool cMapTool::IsPickMap()
             isPick = true;
         }
     }
-
     return isPick;
 }

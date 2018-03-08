@@ -7,7 +7,7 @@ class cSkinnedMesh : public cObject
 {
     friend class cMeshManager;
 
-private:
+protected:
     //하나만 생성
     ST_BONE*                    m_pRootFrame;
     DWORD                       m_dwWorkingPaletteSize;
@@ -16,12 +16,11 @@ private:
     ST_SPHERE                   m_stBoundingSphere;
 
     // 객체마다 생성
-    LPANIMCONTROLLER   m_pAnimController;
+    LPANIMCONTROLLER            m_pAnimController;
     Vector3                     m_vPosition;
 
-private:
-    cSkinnedMesh();
-
+protected:
+    
     void Load(string szFolder, string szFilename);
     LPEFFECT LoadEffect(string szFilename);
     void Update(ST_BONE* pCurrent, Matrix4* pmatParent);
@@ -32,9 +31,10 @@ private:
 
 public:
     cSkinnedMesh(string szKey, string szFolder, string szFilename);
+    cSkinnedMesh();
     ~cSkinnedMesh(void);
 
-    void UpdateAndRender();
+    void UpdateAndRender(Matrix4* pmatParent = NULL);
 
     void SetRandomTrackPosition();  // 테스트용
     void SetPosition(Vector3 v)

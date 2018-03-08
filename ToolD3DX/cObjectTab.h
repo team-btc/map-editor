@@ -63,8 +63,6 @@ private:
 	string                  m_strFilePath;          // 현재 사용 패스
 
 	// == 오브젝트 배치하기
-	bool&					m_isLocation;			// 오브젝트 배치하기 버튼과 연동
-
     E_OBJECT_TAB_BUTTON_STATE&  m_eObjectTabButtonState;
 
 public:

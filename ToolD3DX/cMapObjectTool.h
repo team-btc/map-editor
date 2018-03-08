@@ -1,24 +1,10 @@
 #pragma once
-
 #include "cObject.h"
+
+class cMapObject;
+class cRay;
 namespace objectTool
 {
-	struct ST_OBJECT_MESH
-	{
-		LPD3DXMESH					Mesh;		  // 매쉬
-		D3DMATERIAL9*				Materials;    // 매쉬에 대한 재질
-		LPDIRECT3DTEXTURE9*			Textures;	  // 매쉬에 대한 텍스쳐
-		DWORD						NumMaterials; // 재질의 수
-		
-        ST_OBJECT_MESH()
-		{
-			Mesh = NULL;
-			Materials = NULL;
-			Textures = NULL;
-			NumMaterials = NULL;
-		}
-	};
-
 	struct ST_MAP_OBJECT
 	{
 		int                 Id;
@@ -33,7 +19,6 @@ namespace objectTool
 		bool                Collision;
 		bool                Destruction;
 		D3DXMATRIXA16       World;
-		ST_OBJECT_MESH*		Mesh;
 
 		// ST_MAP_OBJECT Default Constructor!!
 		ST_MAP_OBJECT()
@@ -49,7 +34,7 @@ namespace objectTool
 			Collision = false;
 			Destruction = false;
 			D3DXMatrixIdentity(&World);
-			Mesh = NULL;
+			
 		}
 	};
 }
@@ -58,8 +43,8 @@ using namespace objectTool;
 class cMapObjectTool : public cObject
 {
 private:
-	map<string, ST_OBJECT_MESH*> m_mapMesh;
-	vector<ST_MAP_OBJECT*>       m_vecObjects;                // Object Storage Vector
+
+	vector<cMapObject*>          m_vecObjects;                // Object Storage Vector
 	string                       m_strCurrentMeshName;        // Current Selected MeshName
 	// 이름 바꾸기 
 	int                          m_nObjId;
@@ -74,8 +59,13 @@ private:
 	float&                       m_fObjRotY;
 	float&                       m_fObjRotZ;
 
+    int                          m_nSelectObjectId;
+    Matrix4                      m_matScale;
+    Matrix4                      m_matRotation;
+    Matrix4                      m_matTrans;
 	Vector3*				     m_pPickPos;
-	ST_MAP_OBJECT*			     m_pFollowObject;
+	cMapObject*			         m_pFollowObject;
+    bool                         m_isRelocation;
 public:
     cMapObjectTool();
     ~cMapObjectTool();
@@ -89,17 +79,17 @@ public:
 	void UpdateFollowObject();
 	void RenderFollowObject();
 	void InitDefaultFollowObject();
-
-    // 맵에서 메쉬 가져오기
-	ST_OBJECT_MESH* GetMesh(string key);
-	ST_OBJECT_MESH* GetMesh(string key, string filePath, string fileName);
+    void UpdateMatrix();
 
     // MapTool에서 픽킹된 위치의 벡터를 연결 시킴
 	void SetPickPos(Vector3* pos) { m_pPickPos = pos; }
-	
     void AddObject(Vector3 vCollisonPos);
  
 	void OnceLButtonDown();                    // 마우스 왼쪽 버튼을 클릭 했을 때 발동
     void StayLButtonDown();                    // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
+
+    int PickObject();
+    int FindObject(int nId);
+
 };
 

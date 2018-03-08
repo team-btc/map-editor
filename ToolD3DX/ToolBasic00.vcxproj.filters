@@ -186,6 +186,9 @@
     <ClInclude Include="cTextureShader.h">
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="cMapObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="cTextureShader.cpp">
       <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapObject.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

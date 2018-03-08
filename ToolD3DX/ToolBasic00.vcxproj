@@ -23,7 +23,7 @@
     <RootNamespace>ToolBasic00</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <ProjectName>ToolD3DX</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -196,6 +196,7 @@
   <ItemGroup>
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
+    <ClInclude Include="cMapObject.h" />
     <ClInclude Include="cTextureShader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -249,6 +250,7 @@
   <ItemGroup>
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
+    <ClCompile Include="cMapObject.cpp" />
     <ClCompile Include="cTextureShader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

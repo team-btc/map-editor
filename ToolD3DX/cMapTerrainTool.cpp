@@ -165,7 +165,7 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
     //RendBrush();
-    //m_pTextureShader->Render();
+    m_pTextureShader->Render();
 	return S_OK;
 }
 
