@@ -22,6 +22,7 @@ cMapTerrainTool::cMapTerrainTool()
     , m_pMesh(NULL)
     , m_vPickPos(NULL)
     , m_pTextureShader(NULL)
+    , m_pBrush(NULL)
     //, m_pWaveShader(NULL)
     , m_fPassedEditTime(0.0f)
 {
@@ -31,6 +32,7 @@ cMapTerrainTool::cMapTerrainTool()
 cMapTerrainTool::~cMapTerrainTool()
 {
 	SAFE_RELEASE(m_pMesh);
+    SAFE_DELETE(m_pBrush);
     SAFE_DELETE(m_pTextureShader);
     //SAFE_DELETE(m_pWaveShader);
 }
@@ -43,8 +45,11 @@ HRESULT cMapTerrainTool::Setup()
     D3DLIGHT9 stLight = InitDirectional(&dir, &WHITE);
     g_pDevice->SetLight(0, &stLight);
 
+    m_pBrush = new cBrush;
     m_pTextureShader = new cTextureShader;
     m_pTextureShader->SetTexture();
+    m_pTextureShader->SetBrush(m_pBrush);
+
     m_eTerrainEditType = E_TER_EDIT_BEGIN;
 
     m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
@@ -79,17 +84,19 @@ HRESULT cMapTerrainTool::Update()
 
     if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
     {
-        m_pTextureShader->SetBrush(v, m_stTerrainBrushInfo.fTerrainBrushSize / m_ptMapSize.x,
+        m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fTerrainBrushSize / m_ptMapSize.x,
             m_stTerrainBrushInfo.fTerrainFlatSize / m_ptMapSize.x,
             0.01f);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-        m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
+        // m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
+        //     m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
+        //     m_stTextureBrushInfo.fTextureDensity * 0.01f);
+        m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureDensity * 0.01f);
     }
-    m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
     //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
@@ -189,7 +196,8 @@ void cMapTerrainTool::OnceLButtonDown(E_TAB_TYPE eTabType)
 // 마우스 왼쪽 버튼 계속 누를 때 발동
 void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
 {
-    m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
+    
+
     // 지형탭
     if (eTabType == E_TERRAIN_TAB)
     {
@@ -208,6 +216,8 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
     // 텍스쳐탭
     else if (eTabType == E_TEXTURE_TAB)
     {
+        // m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
+        m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
         m_pTextureShader->Update();
        // DrawAlphaMap();
     }

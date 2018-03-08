@@ -39,10 +39,6 @@ struct PS_INPUT
 
 float4 main_0(PS_INPUT Input) : COLOR
 {
-	float TexDensity0;
-	float TexDensity1;
-	float TexDensity2;
-	float TexDensity3;
 
 	float4 Tex0 = tex2D(TexSampler0, Input.uv);
 	float4 Tex1 = tex2D(TexSampler1, Input.uv);
@@ -72,7 +68,7 @@ float4 main_0(PS_INPUT Input) : COLOR
 		brush = float4(dV, dV, dV, 1);
 	}
 
-	return (Tex0 * 0.2f + Tex1 * Alpha.r + Tex2 * Alpha.g + Tex3 * Alpha.b + brush * 0.25f);
+	return (Tex1 * Alpha.r + Tex2 * Alpha.g + Tex3 * Alpha.b + brush * 0.35f);
 };
 
 technique Shader

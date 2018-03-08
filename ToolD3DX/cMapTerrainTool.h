@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "cTextureShader.h"
+#include "cBrush.h"
 //#include "cWaveShader.h"
 #include "cObject.h"
 
@@ -104,6 +105,7 @@ private:
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
     cTextureShader*                 m_pTextureShader;
+    cBrush*                         m_pBrush;                                       // 브러쉬 클래스
     //cWaveShader*                    m_pWaveShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 

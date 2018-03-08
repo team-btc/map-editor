@@ -186,6 +186,9 @@
     <ClInclude Include="cTextureShader.h">
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="cBrush.h">
+      <Filter>D3DX\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -297,6 +300,9 @@
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
     <ClCompile Include="cTextureShader.cpp">
+      <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cBrush.cpp">
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
   </ItemGroup>
