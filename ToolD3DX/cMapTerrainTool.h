@@ -38,12 +38,16 @@ struct ST_TERRAIN_FACE_INFO {
 
 // 지형 브러쉬 정보
 struct ST_TER_BRUSH_INFO {
-	float&							fTerrainBrushSize;								// 지형 브러쉬 사이즈
-	float&							fTerrainFlatSize;							    // 지형 평지 사이즈
-    float&							fIncrementHeight;								// 높이 증가값(정해진 간격마다 올라가는 높이값)
+    E_UP_DOWN&                      eUpDown;                                        // 편집 업다운
+    E_TERRAIN_EDIT_TYPE&	        eEditType;                                      // 편집 타입
+    E_TER_BRUSH_TYPE&               eBrushType;                                     // 브러쉬 타입
+    float&                          fPower;                                         // 편집 파워
+    float&                          fEditHeight;                                    // 편집 높이
+    float&							fBrushSize;								        // 지형 브러쉬 사이즈
 
-    ST_TER_BRUSH_INFO(float& _fBS, float& _fFS, float& _fI)
-        : fTerrainBrushSize(_fBS), fTerrainFlatSize(_fFS), fIncrementHeight(_fI) {}
+    ST_TER_BRUSH_INFO(E_UP_DOWN& _eUD, E_TERRAIN_EDIT_TYPE& _eET,
+        E_TER_BRUSH_TYPE& _eBT, float& _fP, float& _fEH, float& _fBS)
+        : eUpDown(_eUD), eEditType(_eET), eBrushType(_eBT), fPower(_fP), fEditHeight(_fEH), fBrushSize(_fBS) {}
 };
 
 // 텍스쳐 브러쉬 정보
@@ -88,8 +92,6 @@ private:
 
 	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
-	E_TERRAIN_EDIT_TYPE&			m_eTerrainEditType;							    // 지형맵 편집 타입
-
 	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
     ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;							// 텍스쳐 브러쉬 정보
 
@@ -111,10 +113,13 @@ private:
 	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
 	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 로드하기
 
-    void EditTerrain();                                                                      // 지형 편집 함수
-    void IncrementHeight();                                                                  // 지형 높이 높이기
-    void DecreaseHeight();                                                                   // 지형 높이 낮추기
-    void ResetHeight();                                                                      // 지형 높이 리셋
+    void EditTerrain();                                                                      // 지형 편집 메인 함수
+    void EditHeight();                                                                       // 지형 높이 편집
+    void ReturnHeight();                                                                     // 지형 높이 되돌리기
+    void FixedHeight();                                                                      // 고정 지형 만들기
+    void SetFlat();                                                                          // 평지 셋팅하기
+    void TrimHeight();                                                                       // 지형 다듬기
+    void ResetHeight();                                                                      // 리셋
     void ChangeNormalValue(int nIndex, ST_PNT_VERTEX** vEditV);                              // 변경된 버텍스와 주변 버텍스 노말값 변경
     void SetNormal(int nIndex, ST_PNT_VERTEX** vEditV);                                      // 버텍스 노말 계산, 셋팅
     int GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVertex);                      // 픽킹 지점에서 가장 가까운 버텍스 인덱스 가져오기

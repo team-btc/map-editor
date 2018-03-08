@@ -3,10 +3,12 @@
 
 
 cMapTerrainTool::cMapTerrainTool()
-    : m_eTerrainEditType(g_pMapDataManager->GetTerEditType())
-    , m_stTerrainBrushInfo(g_pMapDataManager->GetTerBrushSize()
-        , g_pMapDataManager->GetTerFlatSize()
-        , g_pMapDataManager->GetTerIncrement())
+    : m_stTerrainBrushInfo(g_pMapDataManager->GetTerUpDown()
+        , g_pMapDataManager->GetTerEditType()
+        , g_pMapDataManager->GetTerBrushType()
+        , g_pMapDataManager->GetTerEditPower()
+        , g_pMapDataManager->GetTerEditHeight()
+        , g_pMapDataManager->GetTerBrushSize())
     , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
         , g_pMapDataManager->GetWalkable()
         , g_pMapDataManager->GetTexDensity()
@@ -45,11 +47,13 @@ HRESULT cMapTerrainTool::Setup()
 
     m_pTextureShader = new cTextureShader;
     m_pTextureShader->SetTexture();
-    m_eTerrainEditType = E_TER_EDIT_BEGIN;
 
-    m_stTerrainBrushInfo.fIncrementHeight = 3.0f;
-    m_stTerrainBrushInfo.fTerrainBrushSize = 10.0f;
-    m_stTerrainBrushInfo.fTerrainFlatSize = 5.0f;
+    m_stTerrainBrushInfo.eUpDown = E_UP;
+    m_stTerrainBrushInfo.eEditType = E_TER_EDIT_BEGIN;
+    m_stTerrainBrushInfo.eBrushType = E_TER_BRUSH_SMOOTH;
+    m_stTerrainBrushInfo.fPower = 3.0f;
+    m_stTerrainBrushInfo.fEditHeight = g_pMapDataManager->GetDefHeight();
+    m_stTerrainBrushInfo.fBrushSize = 30.0f;
 
     //m_pWaveShader = new cWaveShader;
     //m_pWaveShader->SetMesh(m_pMesh);
@@ -79,9 +83,9 @@ HRESULT cMapTerrainTool::Update()
 
     if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
     {
-        m_pTextureShader->SetBrush(v, m_stTerrainBrushInfo.fTerrainBrushSize / m_ptMapSize.x,
-            m_stTerrainBrushInfo.fTerrainFlatSize / m_ptMapSize.x,
-            0.01f);
+        m_pTextureShader->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
+            m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
+            0.1f);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
@@ -89,7 +93,6 @@ HRESULT cMapTerrainTool::Update()
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureDensity * 0.01f);
     }
-    m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x, m_stTextureBrushInfo.fTextureDensity * 0.01f);
     //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
@@ -151,21 +154,24 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
 	g_pDevice->SetMaterial(&WHITE_MTRL);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+    g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); 
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 
 	// 메쉬로 그리기
 	for (int i = 0; i < E_GROUND_TYPE_MAX; ++i)
 	{
-		// g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
-    	// m_pMesh->DrawSubset(i);
+		g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
+    	m_pMesh->DrawSubset(i);
 	}
 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+
     RendBrush();
-    m_pTextureShader->Render();
+    //m_pTextureShader->Render();
+
 	return S_OK;
 }
 
@@ -198,7 +204,7 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
         {
             // 선택된 면정보 인덱스
             m_vecSelVertex.clear();
-            m_vecSelVertex = GetVertexInBrush(*m_vPickPos, m_stTerrainBrushInfo.fTerrainBrushSize);
+            m_vecSelVertex = GetVertexInBrush(*m_vPickPos, m_stTerrainBrushInfo.fBrushSize);
 
             // 지형 편집하기
             EditTerrain();
@@ -337,21 +343,9 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 // 지형 편집
 void cMapTerrainTool::EditTerrain()
 {
-    switch (m_eTerrainEditType)
+    switch (m_stTerrainBrushInfo.eEditType)
     {
-    case E_TER_EDIT_INCREASE:
-    {
-        m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
-
-        // 편집 시간이 되었을 때 함수 발동
-        if (m_fPassedEditTime >= EDIT_DURATION_TIME)
-        {
-            m_fPassedEditTime = 0.0f;
-            IncrementHeight();
-        }
-    }
-        break;
-    case E_TER_EDIT_DECREASE:
+    case E_TER_EDIT_HEIGHT:
     {
         m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
 
@@ -359,80 +353,110 @@ void cMapTerrainTool::EditTerrain()
         if (m_fPassedEditTime >= EDIT_DURATION_TIME)
         {
             m_fPassedEditTime = 0.0f;
-            DecreaseHeight();
+            EditHeight();
         }
     }
         break;
-    case E_TER_EDIT_SHAVE:
+    case E_TER_EDIT_RETURN:
+    {
+        m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
+
+        // 편집 시간이 되었을 때 함수 발동
+        if (m_fPassedEditTime >= EDIT_DURATION_TIME)
+        {
+            m_fPassedEditTime = 0.0f;
+            ReturnHeight();
+        }
+    }
         break;
-    case E_TER_EDIT_DUPLICATE:
+    case E_TER_EDIT_FIXED_HEIGHT:
+    {
+        FixedHeight();
+    }
         break;
+    case E_TER_EDIT_FLAT:
+    {
+        SetFlat();
+    }
+        break;
+    case E_TER_EDIT_TRIM:
+    {
+        m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
+
+        // 편집 시간이 되었을 때 함수 발동
+        if (m_fPassedEditTime >= EDIT_DURATION_TIME)
+        {
+            m_fPassedEditTime = 0.0f;
+            TrimHeight();
+        }
+    }
+    break;
     case E_TER_EDIT_RESET:
     {
         ResetHeight();
     }
-        break;
-    default:
-        break;
+    break;
     }
 }
 
-// 지형 높이 높이기
-void cMapTerrainTool::IncrementHeight()
+// 지형 높이 편집
+void cMapTerrainTool::EditHeight()
 {
-    // 편집할 버텍스 로드
-    ST_PNT_VERTEX* pEditV = NULL;
-    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
-
-    // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
-    int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
-
-    // 픽킹 지점과 가장 가까운 거리에 있는 버텍스의 y값 높이기
-    pEditV[nNearIndex].p.y += m_stTerrainBrushInfo.fIncrementHeight;
-
-    // 255보다 크면 고정
-    if (pEditV[nNearIndex].p.y > 255)
+    switch (m_stTerrainBrushInfo.eUpDown)
     {
-        pEditV[nNearIndex].p.y = 255;
-    }
-
-    // 가장 높은 평지의 높이 설정
-    float fFlatHeight = pEditV[nNearIndex].p.y;
-
-    for (int i = 0; i < m_vecSelVertex.size(); ++i)
+    case E_UP:
     {
-        // 버텍스와 픽킹 지점과의 거리(y값은 제외)
-        float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
 
-        // 평지 구역 버텍스의 y값 높이기
-        if (fLength < m_stTerrainBrushInfo.fTerrainFlatSize)
+        // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+        int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
+
+        // 센터높이 셋팅
+        float fCenterHeight = pEditV[nNearIndex].p.y + m_stTerrainBrushInfo.fPower;
+
+        // 255보다 크면 고정
+        if (fCenterHeight > 255)
         {
-            // 평지의 높이가 기존의 높이보다 높을 때만 높이 갱신
-            if (pEditV[m_vecSelVertex[i]].p.y < fFlatHeight)
-            {
-                pEditV[m_vecSelVertex[i]].p.y = fFlatHeight;
-                // 갱신 했을 때만 노말(법선)값 바꾸기
-                ChangeNormalValue(m_vecSelVertex[i], &pEditV);
-            }
+            fCenterHeight = 255;
         }
-        // 평지 구역이 아닌 버텍스는 거리에 따라 높이를 다르게 설정
+
+        // 기준 높이
+        float fBaseHeight;
+        // 센터 높이가 기본 높이보다 높으면
+        if (fCenterHeight > g_pMapDataManager->GetDefHeight())
+        {
+            fBaseHeight = g_pMapDataManager->GetDefHeight();
+        }
+        // 평지의높이가 기본 높이보다 낮으면
         else
         {
-            float fBaseHeight; // 기준이 될 높이
-            // 평지의 높이가 기본 높이보다 높으면
-            if (fFlatHeight > g_pMapDataManager->GetDefHeight())
+            fBaseHeight = 0;
+        }
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+            float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+            // 기준높이와 센터높이의 차이값
+            float fHeightDiff = fCenterHeight - fBaseHeight;
+
+            float fRatio;           // 비율
+            float fHeightResult;    // 설정되어야 할 높이값
+
+            // == 부드러운 타입의 브러쉬면 ==
+            if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
-                fBaseHeight = g_pMapDataManager->GetDefHeight();
+                fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
+                fHeightResult = fBaseHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
-            // 평지의높이가 기본 높이보다 낮으면
+            // == 날카로운 타입의 브러쉬면 ==
             else
             {
-                fBaseHeight = 0;
+                fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
+                fHeightResult = fBaseHeight + (fHeightDiff * fRatio);
             }
-            float fBrushDiff = m_stTerrainBrushInfo.fTerrainBrushSize - m_stTerrainBrushInfo.fTerrainFlatSize;              // 브러쉬라인과 평지라인 사이의 거리
-            float fVertexDist = fLength - m_stTerrainBrushInfo.fTerrainFlatSize;                                            // 버텍스의 거리
-            float fHeightDiff = fFlatHeight - fBaseHeight;                                                                  // 기준높이와 평지높이의 차이값
-            float fHeightResult = fFlatHeight - (fHeightDiff * (fVertexDist / fBrushDiff));                                 // 설정 되어야 할 높이 값 (비율로 계산) : 평지 높이값 - (비율이 계산된 높이값)
 
             // 설정될 높이가 기존의 높이보다 높을 때만 높이 갱신
             if (pEditV[m_vecSelVertex[i]].p.y < fHeightResult)
@@ -440,75 +464,71 @@ void cMapTerrainTool::IncrementHeight()
                 pEditV[m_vecSelVertex[i]].p.y = fHeightResult;
                 // 갱신 했을 때만 노말(법선)값 바꾸기
                 ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+                // 높이가 255를 넘으면 고정
+                if (pEditV[m_vecSelVertex[i]].p.y > 255)
+                {
+                    pEditV[m_vecSelVertex[i]].p.y = 255;
+                }
             }
         }
 
-        // 높이가 255를 넘으면 고정
-        if (pEditV[m_vecSelVertex[i]].p.y > 255)
-        {
-            pEditV[m_vecSelVertex[i]].p.y = 255;
-        }
+        m_pMesh->UnlockVertexBuffer();
     }
+    break;
 
-    m_pMesh->UnlockVertexBuffer();
-}
-
-// 지형 높이 낮추기
-void cMapTerrainTool::DecreaseHeight()
-{
-    // 편집할 버텍스 로드
-    ST_PNT_VERTEX* pEditV = NULL;
-    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
-
-    // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
-    int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
-
-    // 픽킹 지점과 가장 가까운 거리에 있는 버텍스의 y값 낮추기
-    pEditV[nNearIndex].p.y -= m_stTerrainBrushInfo.fIncrementHeight;
-
-    // 0보다 작으면 고정
-    if (pEditV[nNearIndex].p.y < 0)
+    case E_DOWN:
     {
-        pEditV[nNearIndex].p.y = 0;
-    }
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
 
-    // 가장 낮은 평지의 높이 설정
-    float fFlatHeight = pEditV[nNearIndex].p.y;
+        // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+        int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
 
-    for (int i = 0; i < m_vecSelVertex.size(); ++i)
-    {
-        // 버텍스와 픽킹 지점과의 거리(y값은 제외)
-        float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+        // 센터높이 설정 (y값 낮추기)
+        float fCenterHeight = pEditV[nNearIndex].p.y - m_stTerrainBrushInfo.fPower;
 
-        // 평지 구역 버텍스의 y값 낮추기
-        if (fLength < m_stTerrainBrushInfo.fTerrainFlatSize)
+        // 기준 높이
+        float fBaseHeight;
+        // 센터 높이가 기본 높이보다 낮으면
+        if (fCenterHeight < g_pMapDataManager->GetDefHeight())
         {
-            // 평지의 높이가 기존의 높이보다 낮을 때만 높이 갱신
-            if (pEditV[m_vecSelVertex[i]].p.y > fFlatHeight)
-            {
-                pEditV[m_vecSelVertex[i]].p.y = fFlatHeight;
-                // 갱신 했을 때만 노말(법선)값 바꾸기
-                ChangeNormalValue(m_vecSelVertex[i], &pEditV);
-            }
+            fBaseHeight = g_pMapDataManager->GetDefHeight();
         }
-        // 평지 구역이 아닌 버텍스는 거리에 따라 높이를 다르게 설정
+        // 평지의높이가 기본 높이보다 높으면
         else
         {
-            float fBaseHeight; // 기준이 될 높이
-            // 평지의 높이가 기본 높이보다 낮으면
-            if (fFlatHeight < g_pMapDataManager->GetDefHeight())
+            fBaseHeight = 255;
+        }
+
+        // 0보다 크면 고정
+        if (fCenterHeight < 0)
+        {
+            fCenterHeight = 0;
+        }
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+            float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+            // 기준높이와 센터높이의 차이값
+            float fHeightDiff = fBaseHeight - fCenterHeight;
+
+            float fRatio;           // 비율
+            float fHeightResult;    // 설정되어야 할 높이값
+
+            // == 부드러운 타입의 브러쉬면 ==
+            if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
-                fBaseHeight = g_pMapDataManager->GetDefHeight();
+                fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
+                fHeightResult = fCenterHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
-            // 평지의높이가 기본 높이보다 높으면
+            // == 날카로운 타입의 브러쉬면 ==
             else
             {
-                fBaseHeight = 255;
+                fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
+                fHeightResult = fCenterHeight + (fHeightDiff * fRatio);
             }
-            float fBrushDiff = m_stTerrainBrushInfo.fTerrainBrushSize - m_stTerrainBrushInfo.fTerrainFlatSize;              // 브러쉬라인과 평지라인 사이의 거리
-            float fVertexDist = fLength - m_stTerrainBrushInfo.fTerrainFlatSize;                                            // 버텍스의 거리
-            float fHeightDiff = fBaseHeight - fFlatHeight;                                                                  // 기준 높이와 평지 높이의 차이값
-            float fHeightResult = fFlatHeight + (fHeightDiff * (fVertexDist / fBrushDiff));                                 // 설정 되어야 할 높이 값 (비율로 계산) : 평지 높이값 + (비율이 계산된 높이값)
 
             // 설정될 높이가 기존의 높이보다 낮을 때만 높이 갱신
             if (pEditV[m_vecSelVertex[i]].p.y > fHeightResult)
@@ -516,17 +536,279 @@ void cMapTerrainTool::DecreaseHeight()
                 pEditV[m_vecSelVertex[i]].p.y = fHeightResult;
                 // 갱신 했을 때만 노말(법선)값 바꾸기
                 ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+                // 높이가 0을 넘으면 고정
+                if (pEditV[m_vecSelVertex[i]].p.y < 0)
+                {
+                    pEditV[m_vecSelVertex[i]].p.y = 0;
+                }
             }
         }
 
-        // 높이가 255를 넘으면 고정
-        if (pEditV[m_vecSelVertex[i]].p.y < 0)
+        m_pMesh->UnlockVertexBuffer();
+    }
+    break;
+    }
+}
+
+// 지형 높이 되돌리기
+void cMapTerrainTool::ReturnHeight()
+{
+    switch (m_stTerrainBrushInfo.eUpDown)
+    {
+    case E_UP:
+    {
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+        // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+        int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
+
+        // 센터높이 셋팅
+        float fCenterHeight = pEditV[nNearIndex].p.y - m_stTerrainBrushInfo.fPower;
+
+        // 센터 높이가 기본 높이보다 낮으면 리턴
+        if (fCenterHeight < g_pMapDataManager->GetDefHeight())
         {
-            pEditV[m_vecSelVertex[i]].p.y = 0;
+            return;
+        }
+
+        // 기준 높이
+        float fBaseHeight = g_pMapDataManager->GetDefHeight();
+
+        // 기본 조정 높이
+        float fDefaultPlusHeight = m_stTerrainBrushInfo.fPower;
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+            float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+
+            float fRatio;               // 비율
+            float fHeightResult;        // 조정되어야 할 높이값
+
+            // == 부드러운 타입의 브러쉬면 ==
+            if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+            {
+                fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
+                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+            }
+            // == 날카로운 타입 브러쉬면 == 
+            else
+            {
+                fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
+                fHeightResult = fDefaultPlusHeight * fRatio;
+            }
+
+            // 높이 갱신
+            pEditV[m_vecSelVertex[i]].p.y -= fHeightResult;
+
+            // 노말(법선)값 바꾸기
+            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+                
+            // 설정된 높이가 기준 높이보다 낮으면 고정
+            if (pEditV[m_vecSelVertex[i]].p.y < fBaseHeight)
+            {
+                pEditV[m_vecSelVertex[i]].p.y = fBaseHeight;
+            }
+        }
+
+        m_pMesh->UnlockVertexBuffer();
+    }
+    break;
+
+    case E_DOWN:
+    {
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+        // 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+        int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
+
+        // 센터높이 셋팅
+        float fCenterHeight = pEditV[nNearIndex].p.y + m_stTerrainBrushInfo.fPower;
+
+        // 센터 높이가 기본 높이보다 높으면 리턴
+        if (fCenterHeight > g_pMapDataManager->GetDefHeight())
+        {
+            return;
+        }
+
+        // 기준 높이
+        float fBaseHeight = g_pMapDataManager->GetDefHeight();
+
+        // 기본 조정 높이
+        float fDefaultPlusHeight = m_stTerrainBrushInfo.fPower;
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+            float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+
+            float fRatio;           // 비율
+            float fHeightResult;    // 조정되어야 할 높이값
+
+            // == 부드러운 타입 브러쉬면 == 
+            if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+            {
+                fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
+                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+            }
+
+            // == 날카로운 타입 브러쉬면 ==
+            else
+            {
+                fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
+                fHeightResult = fDefaultPlusHeight * fRatio;
+            }
+
+            // 높이 갱신
+            pEditV[m_vecSelVertex[i]].p.y += fHeightResult;
+
+            // 노말(법선)값 바꾸기
+            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+
+            // 설정된 높이가 기준 높이보다 높으면 고정
+            if (pEditV[m_vecSelVertex[i]].p.y > fBaseHeight)
+            {
+                pEditV[m_vecSelVertex[i]].p.y = fBaseHeight;
+            }
+        }
+
+        m_pMesh->UnlockVertexBuffer();
+    }
+    break;
+    }
+}
+
+// 고정 지형 만들기
+void cMapTerrainTool::FixedHeight()
+{
+    switch (m_stTerrainBrushInfo.eUpDown)
+    {
+    case E_UP:
+    {
+        // 부드러운 타입
+        if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+        {
+
+        }
+
+        // 날카로운 타입
+        else
+        {
+
         }
     }
+    break;
 
-    m_pMesh->UnlockVertexBuffer();
+    case E_DOWN:
+    {
+        // 부드러운 타입
+        if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+        {
+
+        }
+
+        // 날카로운 타입
+        else
+        {
+
+        }
+    }
+    break;
+    }
+}
+
+// 평지 셋팅하기
+void cMapTerrainTool::SetFlat()
+{
+    switch (m_stTerrainBrushInfo.eUpDown)
+    {
+    case E_UP:
+    {
+        //차차진행되도록 하기!!!!!!!!!!!!!!!
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 설정될 높이가 기존의 높이보다 낮을 때만 높이 갱신
+            if (pEditV[m_vecSelVertex[i]].p.y > m_stTerrainBrushInfo.fEditHeight)
+            {
+                pEditV[m_vecSelVertex[i]].p.y = m_stTerrainBrushInfo.fEditHeight;
+                // 갱신 했을 때만 노말(법선)값 바꾸기
+                ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+            }
+        }
+
+        m_pMesh->UnlockVertexBuffer();
+    }
+    break;
+
+    case E_DOWN:
+    {
+        // 편집할 버텍스 로드
+        ST_PNT_VERTEX* pEditV = NULL;
+        m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+        for (int i = 0; i < m_vecSelVertex.size(); ++i)
+        {
+            // 설정될 높이가 기존의 높이보다 높을 때만 높이 갱신
+            if (pEditV[m_vecSelVertex[i]].p.y < m_stTerrainBrushInfo.fEditHeight)
+            {
+                pEditV[m_vecSelVertex[i]].p.y = m_stTerrainBrushInfo.fEditHeight;
+                // 갱신 했을 때만 노말(법선)값 바꾸기
+                ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+            }
+        }
+
+        m_pMesh->UnlockVertexBuffer();
+    }
+    break;
+    }
+}
+
+// 지형 다듬기
+void cMapTerrainTool::TrimHeight()
+{
+    switch (m_stTerrainBrushInfo.eUpDown)
+    {
+    case E_UP:
+    {
+        // 부드러운 타입
+        if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+        {
+
+        }
+
+        // 날카로운 타입
+        else
+        {
+
+        }
+    }
+    break;
+
+    case E_DOWN:
+    {
+        // 부드러운 타입
+        if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
+        {
+
+        }
+
+        // 날카로운 타입
+        else
+        {
+
+        }
+    }
+    break;
+    }
 }
 
 // 지형 높이 리셋
@@ -546,6 +828,178 @@ void cMapTerrainTool::ResetHeight()
 
     m_pMesh->UnlockVertexBuffer();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+// 지형 높이 높이기
+void cMapTerrainTool::IncrementHeight()
+{
+    // 브러쉬 사이즈와 평지 사이즈에 맞춰 지형 높이는 함수 구현
+    /*
+    //// 편집할 버텍스 로드
+    //ST_PNT_VERTEX* pEditV = NULL;
+    //m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+    //// 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+    //int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
+
+    //// 픽킹 지점과 가장 가까운 거리에 있는 버텍스의 y값 높이기
+    //pEditV[nNearIndex].p.y += m_stTerrainBrushInfo.fIncrementHeight;
+
+    //// 255보다 크면 고정
+    //if (pEditV[nNearIndex].p.y > 255)
+    //{
+    //    pEditV[nNearIndex].p.y = 255;
+    //}
+
+    //// 가장 높은 평지의 높이 설정
+    //float fFlatHeight = pEditV[nNearIndex].p.y;
+
+    //for (int i = 0; i < m_vecSelVertex.size(); ++i)
+    //{
+    //    // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+    //    float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+
+    //    // 평지 구역 버텍스의 y값 높이기
+    //    if (fLength < m_stTerrainBrushInfo.fTerrainFlatSize)
+    //    {
+    //        // 평지의 높이가 기존의 높이보다 높을 때만 높이 갱신
+    //        if (pEditV[m_vecSelVertex[i]].p.y < fFlatHeight)
+    //        {
+    //            pEditV[m_vecSelVertex[i]].p.y = fFlatHeight;
+    //            // 갱신 했을 때만 노말(법선)값 바꾸기
+    //            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+    //        }
+    //    }
+    //    // 평지 구역이 아닌 버텍스는 거리에 따라 높이를 다르게 설정
+    //    else
+    //    {
+    //        float fBaseHeight; // 기준이 될 높이
+    //        // 평지의 높이가 기본 높이보다 높으면
+    //        if (fFlatHeight > g_pMapDataManager->GetDefHeight())
+    //        {
+    //            fBaseHeight = g_pMapDataManager->GetDefHeight();
+    //        }
+    //        // 평지의높이가 기본 높이보다 낮으면
+    //        else
+    //        {
+    //            fBaseHeight = 0;
+    //        }
+    //        float fBrushDiff = m_stTerrainBrushInfo.fTerrainBrushSize - m_stTerrainBrushInfo.fTerrainFlatSize;              // 브러쉬라인과 평지라인 사이의 거리
+    //        float fVertexDist = fLength - m_stTerrainBrushInfo.fTerrainFlatSize;                                            // 버텍스의 거리
+    //        float fHeightDiff = fFlatHeight - fBaseHeight;                                                                  // 기준높이와 평지높이의 차이값
+    //        float fHeightResult = fFlatHeight - (fHeightDiff * (fVertexDist / fBrushDiff));                                 // 설정 되어야 할 높이 값 (비율로 계산) : 평지 높이값 - (비율이 계산된 높이값)
+
+    //        // 설정될 높이가 기존의 높이보다 높을 때만 높이 갱신
+    //        if (pEditV[m_vecSelVertex[i]].p.y < fHeightResult)
+    //        {
+    //            pEditV[m_vecSelVertex[i]].p.y = fHeightResult;
+    //            // 갱신 했을 때만 노말(법선)값 바꾸기
+    //            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+    //        }
+    //    }
+
+    //    // 높이가 255를 넘으면 고정
+    //    if (pEditV[m_vecSelVertex[i]].p.y > 255)
+    //    {
+    //        pEditV[m_vecSelVertex[i]].p.y = 255;
+    //    }
+    //}
+
+    //m_pMesh->UnlockVertexBuffer();
+    */
+
+/*
+// 지형 높이 낮추기
+void cMapTerrainTool::DecreaseHeight()
+{
+    
+    // 브러쉬 사이즈와 평지 사이즈를 계산하여 지형 높이를 낮춤
+    /*
+    //// 편집할 버텍스 로드
+    //ST_PNT_VERTEX* pEditV = NULL;
+    //m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+
+    //// 픽킹 지점과 가장 가까운거리에 있는 버텍스 인덱스 찾아오기
+    //int nNearIndex = GetNearVertexIndex(*m_vPickPos, m_vecSelVertex);
+
+    //// 픽킹 지점과 가장 가까운 거리에 있는 버텍스의 y값 낮추기
+    //pEditV[nNearIndex].p.y -= m_stTerrainBrushInfo.fIncrementHeight;
+
+    //// 0보다 작으면 고정
+    //if (pEditV[nNearIndex].p.y < 0)
+    //{
+    //    pEditV[nNearIndex].p.y = 0;
+    //}
+
+    //// 가장 낮은 평지의 높이 설정
+    //float fFlatHeight = pEditV[nNearIndex].p.y;
+
+    //for (int i = 0; i < m_vecSelVertex.size(); ++i)
+    //{
+    //    // 버텍스와 픽킹 지점과의 거리(y값은 제외)
+    //    float fLength = GetLength(Vector2(pEditV[m_vecSelVertex[i]].p.x, pEditV[m_vecSelVertex[i]].p.z), Vector2(m_vPickPos->x, m_vPickPos->z));
+
+    //    // 평지 구역 버텍스의 y값 낮추기
+    //    if (fLength < m_stTerrainBrushInfo.fTerrainFlatSize)
+    //    {
+    //        // 평지의 높이가 기존의 높이보다 낮을 때만 높이 갱신
+    //        if (pEditV[m_vecSelVertex[i]].p.y > fFlatHeight)
+    //        {
+    //            pEditV[m_vecSelVertex[i]].p.y = fFlatHeight;
+    //            // 갱신 했을 때만 노말(법선)값 바꾸기
+    //            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+    //        }
+    //    }
+    //    // 평지 구역이 아닌 버텍스는 거리에 따라 높이를 다르게 설정
+    //    else
+    //    {
+    //        float fBaseHeight; // 기준이 될 높이
+    //        // 평지의 높이가 기본 높이보다 낮으면
+    //        if (fFlatHeight < g_pMapDataManager->GetDefHeight())
+    //        {
+    //            fBaseHeight = g_pMapDataManager->GetDefHeight();
+    //        }
+    //        // 평지의높이가 기본 높이보다 높으면
+    //        else
+    //        {
+    //            fBaseHeight = 255;
+    //        }
+    //        float fBrushDiff = m_stTerrainBrushInfo.fTerrainBrushSize - m_stTerrainBrushInfo.fTerrainFlatSize;              // 브러쉬라인과 평지라인 사이의 거리
+    //        float fVertexDist = fLength - m_stTerrainBrushInfo.fTerrainFlatSize;                                            // 버텍스의 거리
+    //        float fHeightDiff = fBaseHeight - fFlatHeight;                                                                  // 기준 높이와 평지 높이의 차이값
+    //        float fHeightResult = fFlatHeight + (fHeightDiff * (fVertexDist / fBrushDiff));                                 // 설정 되어야 할 높이 값 (비율로 계산) : 평지 높이값 + (비율이 계산된 높이값)
+
+    //        // 설정될 높이가 기존의 높이보다 낮을 때만 높이 갱신
+    //        if (pEditV[m_vecSelVertex[i]].p.y > fHeightResult)
+    //        {
+    //            pEditV[m_vecSelVertex[i]].p.y = fHeightResult;
+    //            // 갱신 했을 때만 노말(법선)값 바꾸기
+    //            ChangeNormalValue(m_vecSelVertex[i], &pEditV);
+    //        }
+    //    }
+
+    //    // 높이가 255를 넘으면 고정
+    //    if (pEditV[m_vecSelVertex[i]].p.y < 0)
+    //    {
+    //        pEditV[m_vecSelVertex[i]].p.y = 0;
+    //    }
+    //}
+
+    //m_pMesh->UnlockVertexBuffer();
+    */
+
 
 // 변경된 버텍스와 주변 버텍스 노말값 변경
 void cMapTerrainTool::ChangeNormalValue(int nIndex, ST_PNT_VERTEX** vEditV)

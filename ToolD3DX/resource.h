@@ -39,27 +39,22 @@
 #define IDD_OBJECT_TAB                  337
 #define IDD_WATER_TAB                   339
 #define ID_TERRAIN1_RAD                 1006
-#define IDC_INCREASE_RAD                1006
-#define IDC_DECREASE_RAD                1007
 #define ID_TERRAIN3_RAD                 1008
 #define IDC_SETTYPE_GRO                 1008
 #define ID_TERRAIN4_RAD                 1009
-#define IDC_SHAVE_RAD                   1009
-#define IDC_DUPLICATE_RAD               1010
-#define IDC_RESET_RAD                   1011
-#define IDC_INCREMENT_GRO               1015
-#define IDC_INCREMENT_SLI               1016
+#define IDC_POWER_GRO                   1015
+#define IDC_POWER_SLI                   1016
 #define IDC_BRUSH_SIZE_GRO              1019
 #define IDC_BRUSH_SIZE_SLI              1020
-#define IDC_INCREMENT_EDI               1021
-#define IDC_INCREMENT_SPI               1023
+#define IDC_POWER_EDI                   1021
+#define IDC_POWER_SPI                   1023
 #define IDC_SET_BRUSH_GRO               1024
 #define IDC_BRUSH_SIZE_EDI              1025
-#define IDC_FLAT_SIZE_GRO               1028
+#define IDC_EDIT_HEIGHT_GRO             1028
 #define IDC_BRUSH_SIZE_SPI              1029
-#define IDC_FLAT_SIZE_SLI               1030
-#define IDC_FLAT_SIZE_EDI               1031
-#define IDC_FLAT_SIZE_SPI               1032
+#define IDC_EDIT_HEIGHT_SLI             1030
+#define IDC_EDIT_HEIGHT_EDI             1031
+#define IDC_EDIT_HEIGHT_SPI             1032
 #define IDD_CREATEMAP_VIEW              1033
 #define ID_MAP_SIZE_COM                 1034
 #define ID_MAP_SIZE_TEXT                1035
@@ -148,9 +143,20 @@
 #define IDC_WATER_TRANSPARENT_EDI       1097
 #define IDC_POS_Z_TEXT                  1098
 #define IDC_WATER_TRANSPARENT_SPI       1098
+#define IDC_SMOOTH_RAD                  1098
 #define IDC_DELETE_BTN2                 1099
 #define IDC_DUPLCATION_BTN              1099
+#define IDC_SHARP_RAD                   1099
 #define IDC_WALKABLE_CHE                1100
+#define IDC_BRUSH_TYPE_GRO              1100
+#define IDC_UP_RAD                      1102
+#define IDC_DOWN_RAD                    1103
+#define IDC_EDIT_RAD                    1104
+#define IDC_RETURN_RAD                  1105
+#define IDC_FIXED_RAD                   1106
+#define IDC_FLAT_RAD                    1107
+#define IDC_TRIM_RAD                    1108
+#define IDC_RESET_RAD                   1109
 
 // Next default values for new objects
 // 
@@ -158,7 +164,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1098
+#define _APS_NEXT_CONTROL_VALUE         1105
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif

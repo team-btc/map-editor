@@ -58,17 +58,30 @@ enum E_MAP_SIZE {
 // 지형 편집 타입
 enum E_TERRAIN_EDIT_TYPE {
 	E_TER_EDIT_BEGIN,
-	E_TER_EDIT_INCREASE = E_TER_EDIT_BEGIN,		// 높이 올리기
-	E_TER_EDIT_DECREASE,		// 높이 내리기
-	E_TER_EDIT_SHAVE,			// 지형 깍기
-	E_TER_EDIT_DUPLICATE,		// 지형 복제
-	E_TER_EDIT_RESET			// 지형 리셋
+	E_TER_EDIT_HEIGHT = E_TER_EDIT_BEGIN,		// 기본 편집
+	E_TER_EDIT_RETURN,		            // 되돌리기
+    E_TER_EDIT_FIXED_HEIGHT,			// 고정 높이로 편집
+	E_TER_EDIT_FLAT,		            // 평지작업
+	E_TER_EDIT_TRIM,        			// 지형 다듬기
+    E_TER_EDIT_RESET                    // 리셋
 };
 
+// 탭 타입
 enum E_TAB_TYPE {
     E_CREATE_TAB,
     E_TERRAIN_TAB,
     E_TEXTURE_TAB,
     E_WATER_TAB,
     E_OBJECT_TAB
+};
+
+enum E_UP_DOWN {
+    E_UP,
+    E_DOWN
+};
+
+// 지형맵 브러쉬 타입
+enum E_TER_BRUSH_TYPE {
+    E_TER_BRUSH_SMOOTH,     // 부드럽게
+    E_TER_BRUSH_SHARP       // 날카롭게
 };

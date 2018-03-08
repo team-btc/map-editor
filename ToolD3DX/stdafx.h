@@ -44,6 +44,7 @@
 
 #define W_WIDTH 1600
 #define W_HEIGHT 900
+#define PI 3.14
 
 #define SINGLETON(class_name)\
 private:\

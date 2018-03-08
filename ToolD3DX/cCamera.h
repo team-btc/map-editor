@@ -1,7 +1,7 @@
 #pragma once
 
 #define LOOKAT_POS 1.0f
-#define LIMITED_ROT 90.0f
+#define LIMITED_ROT 0.49f
 
 class cCamera
 {

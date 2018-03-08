@@ -72,7 +72,6 @@ void cCamera::Update(Vector3* pTarget)
 	{
 		m_isRButtonDown = true;
         m_ptPrevMouse = g_ptMouse;
-		//GetCursorPos(&m_ptPrevMouse);
 	}
 	if (g_pKeyManager->isOnceKeyUp(VK_RBUTTON))
 	{
@@ -84,16 +83,19 @@ void cCamera::Update(Vector3* pTarget)
 		{
 			POINT ptCurrMouse;
             ptCurrMouse = g_ptMouse;
-			//GetCursorPos(&ptCurrMouse);
 
 			m_fRotY += (ptCurrMouse.x - m_ptPrevMouse.x) / 100.0f;
 			m_fRotX += (ptCurrMouse.y - m_ptPrevMouse.y) / 100.0f;
 
 			// x축 회전은 -90 ~ 90 으로 고정
-			if (m_fRotX < -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON)
-				m_fRotX = -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON;
-			else if (m_fRotX > D3DX_PI * LIMITED_ROT - D3DX_16F_EPSILON)
-				m_fRotX = D3DX_PI * LIMITED_ROT - D3DX_16F_EPSILON;
+            if (m_fRotX < -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON)
+            {
+                m_fRotX = -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON;
+            }
+            else if (m_fRotX > D3DX_PI * LIMITED_ROT - D3DX_16F_EPSILON)
+            {
+                m_fRotX = D3DX_PI * LIMITED_ROT - D3DX_16F_EPSILON;
+            }
 
 			m_ptPrevMouse = ptCurrMouse;
 		}

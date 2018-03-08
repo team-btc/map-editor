@@ -18,10 +18,12 @@ class cMapDataManager
     SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isCreateMap, CreateMap);                          // 맵 생성 여부
 
 	// == 지형 정보 ==
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_UP_DOWN, m_eUpDown, TerUpDown);                         // 지형맵 편집 업다운 여부
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_TERRAIN_EDIT_TYPE, m_eTerEditType, TerEditType);		// 지형맵 편집 타입
-	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerIncrement, TerIncrement);					// 높이 증가값(정해진 간격마다 올라가는 높이값)
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerEditPower, TerEditPower);                    // 지형맵 편집 강도
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerEditHeight, TerEditHeight);                  // 지형맵 편집 높이
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_TER_BRUSH_TYPE, m_eTerBrushType, TerBrushType);         // 지형맵 브러쉬 타입
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerBrushSize, TerBrushSize);					// 지형맵 브러쉬 사이즈
-	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerFlatSize, TerFlatSize);						// 지형맵 평지 사이즈
 
 	// == 텍스쳐 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eCurrTexType, CurrTexType);				// 현재 선택된 텍스쳐 타입
