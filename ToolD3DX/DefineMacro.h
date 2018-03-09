@@ -112,3 +112,56 @@ using LPMESHDATA        = LPD3DXMESHDATA;
 using LPBONECOMBINATION = LPD3DXBONECOMBINATION;
 using LPSKININFO        = LPD3DXSKININFO;
 #pragma endregion
+
+
+inline Vector3 ColorToNormal(Color c)
+{
+    Vector3 result;
+
+    int r = c >> 16 & 255;
+    int g = c >> 8 & 255;
+    int b = c >> 0 & 255;
+
+    r -= 128;
+    g -= 128;
+    b -= 128;
+
+    result.x = r;
+    result.y = g;
+    result.z = b;
+
+    D3DXVec3Normalize(&result, &result);
+
+    return result;
+}
+
+inline Color NormalToColor(Vector3 v)
+{
+    Color c;
+
+    int r = (int)(v.x * 128.0f);
+    int g = (int)(v.y * 128.0f);
+    int b = (int)(v.z * 128.0f);
+
+    r += 128;
+    g += 128;
+    b += 128;
+
+    c = D3DCOLOR_XRGB(r, g, b);
+
+    return c;
+}
+
+inline int AvgColor(Color c)
+{
+    int avg = 0;
+
+    int r = c >> 16 & 255;
+    int g = c >> 8 & 255;
+    int b = c >> 0 & 255;
+
+    avg = r + g + b;
+    avg = (int)((float)avg / 3);
+
+    return avg;
+}

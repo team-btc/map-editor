@@ -22,14 +22,21 @@ void cTextureManager::Destroy()
     m_mapTexture.clear();
 }
 
-void cTextureManager::AddTexture(string szKey, int nSize)
+void cTextureManager::AddTexture(string szKey, int nSize, Color c)
 {
-    AddTexture(szKey, nSize, nSize);
+    AddTexture(szKey, nSize, nSize, c);
 }
 
-void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight)
+void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight, Color c)
 {
     HRESULT hr;
+    auto tex = GetTexture(szKey);
+    if (tex)
+    {
+        tex->Release();
+        m_mapTexture.erase(szKey);
+    }
+
     LPTEXTURE9 t;
     hr = D3DXCreateTexture(g_pDevice, nWidth, nHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &t);
 
@@ -44,7 +51,7 @@ void cTextureManager::AddTexture(string szKey, int nWidth, int nHeight)
 
         for (int i = 0; i < nWidth; ++i)
         {
-            *(pDWordDST + i) = 0x00000000;
+            *(pDWordDST + i) = c;
         }
     }
     hr = t->UnlockRect(0);

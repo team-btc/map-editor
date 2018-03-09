@@ -14,7 +14,7 @@
 #define DEFAULT_FLUID_SPEED 0.5f													// 물 기본 유속
 #define DEFAULT_FOLDER		"*/Map/"												// 기본 파일 폴더
 #define DEFAULT_FILE_NAME	"MapData"												// 기본 파일명
-#define EDIT_DURATION_TIME  0.1f                                                    // 편집 지속 기준 시간
+#define EDIT_DURATION_TIME  0.0f                                                    // 편집 지속 기준 시간
 
 // 면 정보
 struct ST_TERRAIN_FACE_INFO {
@@ -100,13 +100,16 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
-
     
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
     cTextureShader*                 m_pTextureShader;
-    //cWaveShader*                    m_pWaveShader;
+    LPEFFECT                        m_pHeightShader;
+    LPTEXTURE9                      m_pHeightMapTex;
+    LPTEXTURE9                      m_pNormalMapTex;
+    LPTEXTURE9                      m_pDiffuseTex;
+    D3DFILLMODE                     m_fillMode;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:
@@ -122,9 +125,9 @@ private:
     void ResetHeight();                                                                      // 리셋
     void ChangeNormalValue(int nIndex, ST_PNT_VERTEX** vEditV);                              // 변경된 버텍스와 주변 버텍스 노말값 변경
     void SetNormal(int nIndex, ST_PNT_VERTEX** vEditV);                                      // 버텍스 노말 계산, 셋팅
-    int GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVertex);                      // 픽킹 지점에서 가장 가까운 버텍스 인덱스 가져오기
-    vector<int> GetVertexInBrush(Vector3 vPickPos, float fRadius);                           // 브러쉬 안에 있는 버텍스 인덱스 벡터 가져오기
 
+    void DrawHeight(int nHeight);
+    void DrawFlat();
 public:
     cMapTerrainTool();
     ~cMapTerrainTool();
