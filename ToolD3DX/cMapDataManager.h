@@ -56,9 +56,9 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fObjRotY, ObjRotY);								// 오브젝트 Y축 회전
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fObjRotZ, ObjRotZ);								// 오브젝트 Z축 회전
 
-	SYNTHESIZE_PASS_BY_REF(string, m_strMeshKey, MeshKey);									// x파일 파일경로에서 읽었던 파일의 키값
-	SYNTHESIZE_PASS_BY_REF(string, m_strFilePath, MeshFilePath);							// x파일 파일경로
-	SYNTHESIZE_PASS_BY_REF(string, m_strFileName, MeshFileName);							// x파일 이름 .x 로 끝남
+	//SYNTHESIZE_PASS_BY_REF(string, m_strMeshKey, MeshKey);									// x파일 파일경로에서 읽었던 파일의 키값
+	SYNTHESIZE_PASS_BY_REF(string, m_strFilePath, FilePath);							// x파일 파일경로
+	SYNTHESIZE_PASS_BY_REF(string, m_strFileName, FileName);							// x파일 이름 .x 로 끝남
     SYNTHESIZE_PASS_BY_REF_NO_SET(E_OBJECT_TAB_BUTTON_STATE, m_eObjectTabButtonState, ObjectTabButtonState);  // 오브젝트 탭 버튼 클릭 상태 
 private:
 };

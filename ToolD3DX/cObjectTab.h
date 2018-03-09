@@ -12,7 +12,6 @@ struct ST_OBJ_FILE
 class cObjectTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(cObjectTab)
-
 private:
 	// == 오브젝트 파일 ==
 	vector<ST_OBJ_FILE>		m_vecObjectFile;		// 오브젝트 파일 목록
@@ -59,7 +58,7 @@ private:
 
 	// == X 파일 경로
 	string					m_strFileName;          // 현재 사용 파일 이름
-	string                  m_strFileKey;           // 현재 사용 키
+	//string                  m_strFileKey;           // 현재 사용 키
 	string                  m_strFilePath;          // 현재 사용 패스
 
 	// == 오브젝트 배치하기
@@ -107,4 +106,6 @@ public:
 	afx_msg void OnBnClickedButton3();
     afx_msg void OnBnClickedButton5();
     afx_msg void OnBnClickedButton4();
+
+    void Update();
 };

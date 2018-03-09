@@ -189,13 +189,13 @@ void cObjectTab::SetTreeController()
 void cObjectTab::SetListController()
 {
 	// 초기화
-	m_pObjListBox->AddString("HOUSE1"); // 가나다 순으로 자동정렬 됨
-	m_pObjListBox->AddString("HOUSE2");
-	m_pObjListBox->AddString("HOUSE3");
-	// 마지막에 추가한다는 의미
-	int index = m_pObjListBox->InsertString(-1, "HOUSE0");
-	// 리스트에 커서를 생성
-	m_pObjListBox->SetCurSel(index);
+	//m_pObjListBox->AddString("HOUSE1"); // 가나다 순으로 자동정렬 됨
+	//m_pObjListBox->AddString("HOUSE2");
+	//m_pObjListBox->AddString("HOUSE3");
+	//// 마지막에 추가한다는 의미
+	//int index = m_pObjListBox->InsertString(-1, "HOUSE0");
+	//// 리스트에 커서를 생성
+	//m_pObjListBox->SetCurSel(index);
 
 	// 해당 문자열을 지우는 함수
 	//m_pObjListBox->DeleteString(위치값);
@@ -594,7 +594,30 @@ void cObjectTab::OnClickObjectDuplcationBtn()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
-	// 복제 처리 하기!!///////////////////////////////////////////////////////////////////////////
+    m_strFileName = m_CurrSelectObj;
+
+    string caption;
+    string text;
+
+    if (!m_strFileName.empty())
+    {
+        // 파일 이름을 표시해줌
+        caption = "성공";
+        text = m_strFileName + "파일이 선택되었습니다.";        
+   
+        SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
+        g_pMapDataManager->SetFileName(m_strFileName);
+    }
+    else
+    {
+        caption = "실패";
+        text = "현재까지 읽은 파일이 없습니다.";
+
+        SetDlgItemText(IDC_FILE_NAME_TEXT, "None");
+    }
+
+    MessageBox(text.c_str(), caption.c_str(), MB_ICONERROR);
+    m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
 }
 
 // 오브젝트 삭제 버튼
@@ -627,22 +650,24 @@ void cObjectTab::OnBnClickedButton1()
 		// 확장자가 x인지 체크 
 		if (check == "X" || check == "x")
 		{
-			m_strFileKey = FileDialog.GetFileTitle();
+			//m_strFileKey = FileDialog.GetFileTitle();
 			m_strFilePath = FileDialog.GetFolderPath().GetString();
 			m_strFileName = FileDialog.GetFileName().GetString();
 
-			// 맵 데이터 매니져에 정보 세팅하기
-			g_pMapDataManager->SetMeshKey(m_strFileKey);
-			g_pMapDataManager->SetMeshFilePath(m_strFilePath);
-			g_pMapDataManager->SetMeshFileName(m_strFileName);
-
-			//여기서 메쉬를 추가 할지는 생각해보기 
-			//cSkinnedMesh* mesh = new cSkinnedMesh(m_strFileKey, m_strFilePath, m_strFileName);
-			//mesh->SetPosition(Vector3(0, 0, 0));
+			// 맵 데이터 매니져에 정보 세팅하기		
+			g_pMapDataManager->SetFilePath(m_strFilePath);
+			g_pMapDataManager->SetFileName(m_strFileName);
 
 			text = m_strFileName + " 파일 읽기 성공";
 			MessageBox(text.c_str(), caption.c_str());
 
+            int index = m_pObjListBox->FindString(-1, m_strFileName.c_str());
+
+            if (index == LB_ERR)
+            {
+                m_pObjListBox->AddString(m_strFileName.c_str());
+            }
+            
             // 파일 이름을 표시해줌
             SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
 		}
@@ -674,6 +699,14 @@ void cObjectTab::OnBnClickedButton4()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_RELOCATE;
+}
+void cObjectTab::Update()
+{
+    m_pObjSizeSliderCtl->SetPos(m_fObjSize);    // Scale 위치 설정 
+    m_pObjRotXSliderCtl->SetPos(m_fObjRotX);	// RotX 위치 설정
+    m_pObjRotYSliderCtl->SetPos(m_fObjRotY);    // RotY 위치 설정
+    m_pObjRotZSliderCtl->SetPos(m_fObjRotZ);    // RotZ 위치 설정
+
 }
 // Remove 버튼
 void cObjectTab::OnBnClickedButton5()

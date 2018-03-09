@@ -2,6 +2,7 @@
 #include "cMapObjectTool.h"
 #include "cMapObject.h"
 #include "cRay.h"
+#include "resource.h"
 
 cMapObjectTool::cMapObjectTool()
 	: m_SphereMesh(NULL)
@@ -125,7 +126,7 @@ void cMapObjectTool::SetFollowObject()
     // NULL이 아닐때만 생성 되게 
     if (!m_pFollowObject)
     {
-        m_pFollowObject = new cMapObject(g_pMapDataManager->GetMeshKey(), g_pMapDataManager->GetMeshFilePath(), g_pMapDataManager->GetMeshFileName());
+        m_pFollowObject = new cMapObject(g_pMapDataManager->GetFileName(), g_pMapDataManager->GetFilePath(), g_pMapDataManager->GetFileName());
         m_pFollowObject->Setup(Vector3(m_fObjSize, m_fObjSize, m_fObjSize), Vector3(m_fObjRotX, m_fObjRotY, m_fObjRotZ), *m_pPickPos);    
     }
 }
@@ -188,12 +189,11 @@ void cMapObjectTool::UpdateMatrix()
 // 오브젝트 생성(피킹 된 지점에 생성됨)
 void cMapObjectTool::AddObject(Vector3 vPickPos)
 {
-    string key = g_pMapDataManager->GetMeshKey();
-    string path = g_pMapDataManager->GetMeshFilePath();
-    string name = g_pMapDataManager->GetMeshFileName();
+    string filePath = g_pMapDataManager->GetFilePath();
+    string fileName = g_pMapDataManager->GetFileName();
 
     // 오브젝트 생성
-    cMapObject* pMapObject = new cMapObject(key, path, name);
+    cMapObject* pMapObject = new cMapObject(fileName, filePath, fileName);
     // 오브젝트 세팅(내부에서 월드매트릭스가 세팅됨)
     pMapObject->Setup(Vector3(m_fObjSize, m_fObjSize, m_fObjSize), Vector3(m_fObjRotX, m_fObjRotY, m_fObjRotZ), (*m_pPickPos));
     // 오브젝트 아이디 세팅 
@@ -228,11 +228,12 @@ void cMapObjectTool::OnceLButtonDown()
                     m_nSelectedIndex = FindObject(nId);  // id를 통해 오브젝트 벡터에서 해당 인덱스를 가져오기 
 
                     // 탭의 설정들이 해당되는 녀석의 정보로 바뀌게 설정은 다음에?
-                    // Vector3 RotXYZ = m_vecObjects[m_nSelectObjectId]->GetRotationXYZ();
-                    // m_fObjSize = m_vecObjects[m_nSelectObjectId]->GetScale().x;
-                    // m_fObjRotX = RotXYZ.x;
-                    // m_fObjRotY = RotXYZ.y;
-                    // m_fObjRotZ = RotXYZ.z;
+                 
+                    Vector3 RotXYZ = m_vecObjects[m_nSelectedIndex]->GetRotationXYZ();
+                    m_fObjSize = m_vecObjects[m_nSelectedIndex]->GetScale().x;
+                    m_fObjRotX = RotXYZ.x;
+                    m_fObjRotY = RotXYZ.y;
+                    m_fObjRotZ = RotXYZ.z;
                 }
             }
             else
