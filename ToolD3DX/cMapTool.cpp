@@ -5,8 +5,8 @@
 #include "cRay.h"
 
 cMapTool::cMapTool()
-	: m_pTerrainTool(NULL)
-	, m_pObjectTool(NULL)
+    : m_pTerrainTool(NULL)
+    , m_pObjectTool(NULL)
     , m_eCurrTabType(g_pMapDataManager->GetTabType())
     , m_eMapSize(g_pMapDataManager->GetMapSize())
     , m_eDefaultGroundType(g_pMapDataManager->GetDefGroundType())
@@ -15,6 +15,9 @@ cMapTool::cMapTool()
     , m_isCreateMap(g_pMapDataManager->GetCreateMap())
     , m_pRay(NULL)
     , m_vPickPos(0, 0, 0)
+    , test1(0)
+    , test2(0)
+    , test3(0)
 {
 }
 cMapTool::~cMapTool()
@@ -132,7 +135,9 @@ HRESULT cMapTool::GetPtMouse()
 
     BOOL isHit = false;
     float fDist;
+ 
     D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &m_pRay->m_vOrg, &m_pRay->m_vDir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
+    
     if (isHit)
     {
         m_vPickPos = m_pRay->m_vOrg + m_pRay->m_vDir * fDist;

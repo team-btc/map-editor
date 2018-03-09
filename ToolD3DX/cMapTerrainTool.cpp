@@ -162,7 +162,7 @@ HRESULT cMapTerrainTool::Render()
     	// m_pMesh->DrawSubset(i);
 	}
 
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
     //RendBrush();
     m_pTextureShader->Render();

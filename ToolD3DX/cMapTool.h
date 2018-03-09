@@ -30,7 +30,9 @@ private:
 
     bool&                       m_isCreateMap;                  // 맵을 새로 생성
 
-
+    float                       test1;
+    float                       test2;
+    float                       test3;
 private:
 
 public:

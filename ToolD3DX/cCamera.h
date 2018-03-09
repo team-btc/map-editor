@@ -13,7 +13,6 @@ private:
 
 	Vector3			m_vPosition;	// 카메라 포지션
 
-
     Matrix4         m_matView;
     Matrix4         m_matProj;
 
@@ -23,6 +22,7 @@ private:
     bool            m_isRButtonDown;
     bool            m_isFocus;
     HWND            m_hWnd;
+
 public:
     cCamera();
     ~cCamera();

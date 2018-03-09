@@ -187,7 +187,7 @@
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
     <ClInclude Include="cMapObject.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -303,7 +303,7 @@
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
     <ClCompile Include="cMapObject.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
