@@ -35,6 +35,21 @@ private:
 	CEdit*				m_pBrushDensityEditCtl;		// 에디터 컨트롤러
     float&				m_fBrushDensity;			// 브러쉬 밀도값
 
+    // == 텍스쳐 1 밀도값 ==
+    CSliderCtrl*		m_pTex1DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*				m_pTex1DensityEditCtl;		// 에디터 컨트롤러
+    float&				m_fTex1Density;			    // 텍스쳐 2 밀도값
+
+    // == 텍스쳐 2 밀도값 ==
+    CSliderCtrl*		m_pTex2DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*				m_pTex2DensityEditCtl;		// 에디터 컨트롤러
+    float&				m_fTex2Density;			    // 텍스쳐 2 밀도값
+
+    // == 텍스쳐 3 밀도값 ==
+    CSliderCtrl*		m_pTex3DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*				m_pTex3DensityEditCtl;		// 에디터 컨트롤러
+    float&				m_fTex3Density;			    // 텍스쳐 3 밀도값
+
 public:
 	cTextureTab(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~cTextureTab();
@@ -65,4 +80,14 @@ public:
 	afx_msg void OnDeltaposBrushDensitySpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawBrushDensitySlider(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnSelectDrawModeRadio(UINT ID);
+
+    afx_msg void OnNMCustomdrawTex1DsizeSli(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnNMCustomdrawTex2DsizeSli(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnNMCustomdrawTex3DsizeSli(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnEnChangeTex1DsizeEdi();
+    afx_msg void OnEnChangeTex2DsizeEdi();
+    afx_msg void OnEnChangeTex3DsizeEdi();
+    afx_msg void OnDeltaposTex1DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnDeltaposTex2DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnDeltaposTex3DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
 };

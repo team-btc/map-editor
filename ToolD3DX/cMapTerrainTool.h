@@ -50,14 +50,16 @@ struct ST_TER_BRUSH_INFO {
 // 텍스쳐 브러쉬 정보
 struct ST_TEX_BRUSH_INFO {
     E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
-    float&							fTextureDensity;								// 텍스쳐 농도 값
+    float&							fDrawDensity;								// 텍스쳐 농도 값
     float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
     float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
     E_DRAW_TYPE&                    m_eDrawType;                                    // 그리기 타입
-    
-    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, float& _fTD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT)
-        : m_eCurrTextureType(_eCTT), fTextureDensity(_fTD)
-        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT) {}
+    float&                          m_fTex1Density;                                 // 텍스쳐1 밀도
+    float&                          m_fTex2Density;                                 // 텍스쳐2 밀도
+    float&                          m_fTex3Density;                                 // 텍스쳐3 밀도
+    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, float& _fDD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT, float& _fTD1, float& _fTD2, float& _fTD3)
+        : m_eCurrTextureType(_eCTT), fDrawDensity(_fDD)
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT), m_fTex1Density(_fTD1), m_fTex2Density(_fTD2), m_fTex3Density(_fTD3){}
 
 };
 

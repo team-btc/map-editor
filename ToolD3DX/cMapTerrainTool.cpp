@@ -8,10 +8,13 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetTerFlatSize()
         , g_pMapDataManager->GetTerIncrement())
     , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
-        , g_pMapDataManager->GetTexDensity()
+        , g_pMapDataManager->GetDrawDensity()
         , g_pMapDataManager->GetTexBrushSize()
         , g_pMapDataManager->GetTexBrushDenSize()
-        , g_pMapDataManager->GetDrawType())
+        , g_pMapDataManager->GetDrawType()
+        , g_pMapDataManager->GetTex1Density()
+        , g_pMapDataManager->GetTex2Density()
+        , g_pMapDataManager->GetTex3Density())
     , m_stWaterInfo(g_pMapDataManager->GetWaterHeight()
         , g_pMapDataManager->GetWaterUVSpeed()
         , g_pMapDataManager->GetWaterWaveHeight()
@@ -60,10 +63,14 @@ HRESULT cMapTerrainTool::Setup()
     //m_eTerraingEditType = E_TER_EDIT_BEGIN;
 
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
-    m_stTextureBrushInfo.fTextureDensity = 10.0f;
+    m_stTextureBrushInfo.fDrawDensity = 100.0f;
     m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
     m_stTextureBrushInfo.fTextureBrushSpraySize = 10.0f;
     m_stTextureBrushInfo.m_eDrawType = E_DRAW_ERASE;
+    m_stTextureBrushInfo.m_fTex1Density = 10.0f;
+    m_stTextureBrushInfo.m_fTex2Density = 10.0f;
+    m_stTextureBrushInfo.m_fTex3Density = 10.0f;
+
 
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
 
@@ -85,7 +92,7 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fTerrainBrushSize / m_ptMapSize.x,
             m_stTerrainBrushInfo.fTerrainFlatSize / m_ptMapSize.x,
-            0.01f);
+            0.01f, NULL, NULL, NULL);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
@@ -94,7 +101,8 @@ HRESULT cMapTerrainTool::Update()
         //     m_stTextureBrushInfo.fTextureDensity * 0.01f);
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
-            m_stTextureBrushInfo.fTextureDensity * 0.1f);
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
+            m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
     //m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
@@ -168,9 +176,9 @@ HRESULT cMapTerrainTool::Render()
     	// m_pMesh->DrawSubset(i);
 	}
 
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+	//g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-    RendBrush();
+    //RendBrush();
     m_pTextureShader->Render();
 	return S_OK;
 }
@@ -227,7 +235,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 {
     // 가로 세로 사이즈 계산 후 맵 만들기
     m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
-
+    m_pTextureShader->SetMapSize();
     int nSizeX = m_ptMapSize.x;
     int nSizeZ = m_ptMapSize.y;
 
@@ -325,7 +333,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
     DWORD* pA = NULL;
     m_pMesh->LockAttributeBuffer(NULL, &pA);
     for (int i = 0; i < m_vecVertexIndex.size() / 3; ++i) // 페이스별로 하나씩 기록
-        pA[i] = (DWORD) eGroundType;
+        pA[i] = (DWORD) 0;
     m_pMesh->UnlockAttributeBuffer();
 
     // 메쉬 최적화 : 버텍스 개수 만큼 인접정보를 담을 공간을 확보

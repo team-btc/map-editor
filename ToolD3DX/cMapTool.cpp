@@ -115,6 +115,7 @@ HRESULT cMapTool::CreateMap()
     if (m_pTerrainTool)
     {
         m_pTerrainTool->CreateMap(m_eMapSize, m_eDefaultGroundType, m_fDefaultHeight, m_isDefaultWalkable);
+        
     }
     
 	return S_OK;

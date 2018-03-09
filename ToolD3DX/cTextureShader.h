@@ -27,6 +27,7 @@ class cTextureShader
   // E_GROUND_TYPE          m_eGroundType;
 
     float                   m_TexDensity[4];                                            // 타일의 밀도
+    int                     m_nTimer;
 public:
     cTextureShader();
     ~cTextureShader();
@@ -37,7 +38,8 @@ public:
     void SetMesh(LPD3DXMESH mesh) { m_pMesh = mesh; }
     void DrawTexture();
     void SaveTexture();
-    
+    void SetMapSize();
+
     void Update();
     void Render();
 };

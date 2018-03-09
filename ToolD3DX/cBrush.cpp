@@ -14,14 +14,18 @@ cBrush::~cBrush()
 
 }
 
-void cBrush::SetBrush(Vector4 v, float br, float sr, float density)
+void cBrush::SetBrush(Vector4 v, float br, float sr, float drawdensity, float tex1density, float tex2density, float tex3density)
 {
     int nSize = (g_pMapDataManager->GetMapSize() + 1) * 64;
 
     m_pPick = v;
     m_fBrushRadius = br;
     m_fSprayRadius = sr;
-    m_fDensity = density;
+    m_fDrawDensity = drawdensity;
+    m_fTex1Density = tex1density;
+    m_fTex2Density = tex2density;
+    m_fTex3Density = tex3density;
+
 
     m_fPickX = v.x * nSize;
     m_fPickZ = v.z * nSize;
@@ -71,9 +75,9 @@ void cBrush::GetRect()
     }
 
     nMaxX = (m_pPick.x + m_fSprayRadius) * nSize + 1;
-    if (nMaxX > 256)
+    if (nMaxX > nSize)
     {
-        nMaxX = 256;
+        nMaxX = nSize;
     }
 
     nMinZ = (m_pPick.z - m_fSprayRadius) * nSize;

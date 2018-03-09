@@ -10,8 +10,7 @@ cTextureShader::cTextureShader()
     m_pTextureShader = g_pShaderManager->GetEffect("rendtex");
     ZeroMemory(m_pTexture, 4);
     ZeroMemory(m_TexDensity, 4);
-    g_pTextureManager->AddTexture("alpha", 256);
-    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+    m_nTimer = 0;
 }
 cTextureShader::~cTextureShader()
 {
@@ -214,7 +213,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -235,7 +234,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255;
+                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -272,7 +271,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -293,7 +292,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255;
+                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -330,7 +329,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -351,7 +350,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255;
+                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -416,10 +415,20 @@ void cTextureShader::SaveTexture()
 
 }
 
+void cTextureShader::SetMapSize()
+{
+    g_pTextureManager->AddTexture("alpha", (g_pMapDataManager->GetMapSize() + 1) * 64);
+    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+}
+
 void cTextureShader::Update()
 {
-    
-    DrawTexture();
+    m_nTimer++;
+    if (m_nTimer >= 3)
+    {
+        DrawTexture();
+        m_nTimer = 0;
+    }
 }
 
 void cTextureShader::Render()
@@ -428,14 +437,16 @@ void cTextureShader::Render()
     m_pTextureShader->SetTexture("texture1", m_pTexture[1]);
     m_pTextureShader->SetTexture("texture2", m_pTexture[2]);
     m_pTextureShader->SetTexture("texture3", m_pTexture[3]);
-
     
     m_pTextureShader->SetTexture("AlphaMap", m_pAlphaDraw);
 
     m_pTextureShader->SetVector("gUV", &m_pBrush->m_pPick);
     m_pTextureShader->SetFloat("Brush_Radius", m_pBrush->m_fBrushRadius);
     m_pTextureShader->SetFloat("Spray_Radius", m_pBrush->m_fSprayRadius);
-    m_pTextureShader->SetFloat("Density", m_pBrush->m_fDensity);
+    m_pTextureShader->SetFloat("Density", m_pBrush->m_fDrawDensity);
+    m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
+    m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
+    m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
 
    
 
