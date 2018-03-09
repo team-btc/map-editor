@@ -331,7 +331,7 @@ void cTerrainTab::OnDeltaposEditHeightSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Up 버튼 눌렀을 경우
 	if (pNMUpDown->iDelta < 0)
 	{
-		if (m_fEditHeight >= 100)
+		if (m_fEditHeight >= 255)
 		{
 			return;
 		}
