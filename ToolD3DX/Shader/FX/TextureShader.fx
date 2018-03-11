@@ -25,14 +25,20 @@ sampler2D TexSampler0 = sampler_state
 sampler2D TexSampler1 = sampler_state
 {
    Texture = (texture1);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexSampler2 = sampler_state
 {
    Texture = (texture2);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexSampler3 = sampler_state
 {
    Texture = (texture3);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexAlpha = sampler_state
 {
@@ -133,7 +139,7 @@ technique Shader
        // BLENDOP = ADD;
        // DESTBLEND = INVSRCALPHA;
        // SRCBLEND = BOTHINVSRCALPHA;
-       
+      
 		PixelShader = compile ps_2_0 main_0();
 	}
 };

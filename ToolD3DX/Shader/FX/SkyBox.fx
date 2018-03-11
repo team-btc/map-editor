@@ -60,13 +60,13 @@ VS_OUTPUT SkyBox_Pass_0_Vertex_Shader_vs_main(VS_INPUT input)
   
    return output;
 }
-texture Snow_Tex
+texture Sky_Tex
 <
    string ResourceName = "..\\..\\Users\\ChanHyeok Park\\Desktop\\dds\\skybox2.dds";
 >;
 sampler Texture = sampler_state
 {
-   Texture = (Snow_Tex);
+   Texture = (Sky_Tex);
 };
   
 struct SkyBox_Pass_0_Pixel_Shader_VS_OUTPUT

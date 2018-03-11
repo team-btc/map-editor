@@ -13,7 +13,7 @@ public:
     cSkyBoxShader();
     ~cSkyBoxShader();
 
-    void SetBox(string sTexFileKey);
+    void SetBox(string sTexFileKey, string sTexFilePath);
     void Render(D3DXVECTOR4 vCameraPosition);
 };
 

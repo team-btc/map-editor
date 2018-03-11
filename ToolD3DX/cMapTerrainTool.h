@@ -3,6 +3,7 @@
 #include "cBrush.h"
 #include "cWaveShader.h"
 #include "cTotalShader.h"
+#include "cSkyBoxShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -110,7 +111,8 @@ private:
     cTextureShader*                 m_pTextureShader;
     cBrush*                         m_pBrush;                                       // 브러쉬 클래스
     cWaveShader*                    m_pWaveShader;
-    cTotalShader*                   m_pTotalShader;
+    //cTotalShader*                   m_pTotalShader;
+    cSkyBoxShader*                  m_pSkyBoxShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 

@@ -26,8 +26,9 @@ cMapTerrainTool::cMapTerrainTool()
     , m_pTextureShader(NULL)
     , m_pBrush(NULL)
     , m_pWaveShader(NULL)
-    , m_pTotalShader(NULL)
+    , m_pSkyBoxShader(NULL)
     , m_fPassedEditTime(0.0f)
+    
 {
 }
 
@@ -38,8 +39,7 @@ cMapTerrainTool::~cMapTerrainTool()
     SAFE_DELETE(m_pBrush);
     SAFE_DELETE(m_pTextureShader);
     SAFE_DELETE(m_pWaveShader);
-    SAFE_DELETE(m_pTotalShader);
-
+    SAFE_DELETE(m_pSkyBoxShader);
 }
 
 HRESULT cMapTerrainTool::Setup()
@@ -62,6 +62,8 @@ HRESULT cMapTerrainTool::Setup()
     m_stTerrainBrushInfo.fTerrainFlatSize = 5.0f;
 
     m_pWaveShader = new cWaveShader;
+    m_pSkyBoxShader = new cSkyBoxShader;
+    m_pSkyBoxShader->SetBox("skybox","Shader/Texture/skybox_interstellar.dds");
     //m_eTerraingEditType = E_TER_EDIT_BEGIN;
     //m_pTotalShader = new cTotalShader;
     //m_pTotalShader->SetTexture();
@@ -176,12 +178,14 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-    //Vector4 vCameraPos = Vector4(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1);
+    Vector4 vCameraPos = Vector4(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1);
     // Vector4 vCameraPos = Vector4(110, 100, 100, 1);
     //g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
-    
+   // g_pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+   // g_pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_GAUSSIANQUAD);
     //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
     //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    m_pSkyBoxShader->Render(vCameraPos);
     m_pTextureShader->Render();
     //matW._42 = 128.0f;
     //g_pDevice->SetTransform(D3DTS_WORLD, &matW);

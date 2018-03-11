@@ -148,6 +148,8 @@ texture DiffuseMap_Tex
 sampler2D DiffuseSampler = sampler_state
 {
    Texture = (DiffuseMap_Tex);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 texture SpecularMap_Tex
 <
