@@ -15,7 +15,7 @@ protected: // serialization에서만 만들어집니다.
     // 특성입니다.
 public:
     CToolBasicDoc * GetDocument() const;
-    cMainGame* m_pMainGame;
+    cMainGame*      m_pMainGame;
 
     // 작업입니다.
 public:
@@ -45,6 +45,8 @@ protected:
 public:
     virtual void OnInitialUpdate();
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+    afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+    afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
 };
 
 #ifndef _DEBUG  // ToolBasic00View.cpp의 디버그 버전

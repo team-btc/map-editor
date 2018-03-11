@@ -9,6 +9,8 @@
 
 namespace D3DUTILITY
 {
+    float GetLength(Vector2 v1, Vector2 v2);
+
     MATERIAL9 InitMtrl(XColor a, XColor d, XColor s, XColor e, float p);
 
     const MATERIAL9 WHITE_MTRL = InitMtrl(WHITE, WHITE, WHITE, BLACK, 8.0f);

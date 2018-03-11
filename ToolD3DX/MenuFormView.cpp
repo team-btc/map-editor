@@ -15,13 +15,15 @@ IMPLEMENT_DYNCREATE(CMenuFormView, CFormView)
 
 CMenuFormView::CMenuFormView()
     : CFormView(CMenuFormView::IDD)
-	, m_pCreateMapDlg(NULL)
-	, m_pTabController(NULL)
-	, m_pWndShow(NULL)
-	, m_pTerrainTab(NULL)
-	, m_pTextureTab(NULL)
-	, m_pWaterTab(NULL)
-	, m_pObjectTab(NULL)
+    , m_pCreateMapDlg(NULL)
+    , m_pTabController(NULL)
+    , m_pWndShow(NULL)
+    , m_pTerrainTab(NULL)
+    , m_pTextureTab(NULL)
+    , m_pWaterTab(NULL)
+    , m_pObjectTab(NULL)
+    , m_eCurrTabType(g_pMapDataManager->GetTabType())
+    , m_nDlgWidth(g_pMapDataManager->GetDlgWidth())
 {
 
 }
@@ -63,6 +65,10 @@ void CMenuFormView::OnInitialUpdate()
 
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 
+    // 메인 게임에 메인 뷰를 연결해준다.
+
+    g_pView->m_pMainGame->SetMainFormView(this);
+
 	// 맵 크기 설정 창 띄우기
 	m_pCreateMapDlg = new cCreateMapDlg;
 	m_pCreateMapDlg->DoModal();
@@ -101,6 +107,7 @@ void CMenuFormView::OnInitialUpdate()
 	m_pObjectTab->SetWindowPos(NULL, 5, 25, rect.Width(), rect.Height(), SWP_NOZORDER);
 	// 기본은 첫번째탭으로 설정
 	m_pWndShow = m_pTerrainTab;
+    m_eCurrTabType = E_TERRAIN_TAB;
 }
 
 
@@ -123,18 +130,22 @@ void CMenuFormView::OnSelectChangeTab(NMHDR *pNMHDR, LRESULT *pResult)
 	case 0:
 		m_pTerrainTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pTerrainTab;
+        m_eCurrTabType = E_TERRAIN_TAB;
 		break;
 	case 1:
 		m_pTextureTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pTextureTab;
+        m_eCurrTabType = E_TEXTURE_TAB;
 		break;
 	case 2:
 		m_pWaterTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pWaterTab;
+        m_eCurrTabType = E_WATER_TAB;
 		break;
 	case 3:
 		m_pObjectTab->ShowWindow(SW_SHOW);
 		m_pWndShow = m_pObjectTab;
+        m_eCurrTabType = E_OBJECT_TAB;
 		break;
 	default:
 		break;
@@ -142,3 +153,16 @@ void CMenuFormView::OnSelectChangeTab(NMHDR *pNMHDR, LRESULT *pResult)
 
 	*pResult = 0;
 }
+
+// 계속 도는 업데이트문 (메인게임에서 돌리고 있음 ㅠㅠ)
+void CMenuFormView::Update()
+{
+    // 다이얼로그 사이즈 계속 업데이트 시키기
+    RECT rt;
+    this->GetWindowRect(&rt);
+    m_nDlgWidth = rt.right - rt.left; // 메니져와 연결되어 있음
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 다른것도 업데이트 돌리기!
+}
+

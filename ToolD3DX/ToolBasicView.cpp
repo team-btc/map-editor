@@ -24,6 +24,9 @@ BEGIN_MESSAGE_MAP(CToolBasicView, CView)
     ON_WM_CONTEXTMENU()
     ON_WM_RBUTTONUP()
     ON_WM_ERASEBKGND()
+    ON_WM_MOUSEMOVE()
+//    ON_WM_MOUSEHWHEEL()
+    ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 // CToolBasic00View 생성/소멸
@@ -62,8 +65,8 @@ void CToolBasicView::OnDraw(CDC* /*pDC*/)
 
 void CToolBasicView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
-    ClientToScreen(&point);
-    OnContextMenu(this, point);
+     // ClientToScreen(&point);
+     // OnContextMenu(this, point);
 }
 
 void CToolBasicView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
@@ -112,4 +115,22 @@ BOOL CToolBasicView::OnEraseBkgnd(CDC* pDC)
 {
     // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
     return FALSE;
+}
+
+void CToolBasicView::OnMouseMove(UINT nFlags, CPoint point)
+{
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+    g_ptMouse = point;
+
+    CView::OnMouseMove(nFlags, point);
+}
+
+BOOL CToolBasicView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+    // TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+    g_nWheelDelta = (int)zDelta;
+
+    return CView::OnMouseWheel(nFlags, zDelta, pt);
 }

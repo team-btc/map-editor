@@ -2,13 +2,16 @@
 #include "cMainGame.h"
 #include <D3dx9math.h>
 #include <stdio.h>
+#include "MenuFormView.h"
 
 cMainGame::cMainGame(void)
     : m_szText("")
     , m_pCamera(NULL)
     , m_vRot(0, 0, 0)
 	, m_pMapTool(NULL)
+    , m_pMainFormView(NULL)
 {
+    
 }
 
 
@@ -25,17 +28,28 @@ void cMainGame::OnInit()
 
 	m_pMapTool = new cMapTool;
 	m_pMapTool->Setup();
-	m_pMapTool->CreateMap();
-
 }
 
 void cMainGame::OnUpdate()
 {
     g_pTimerManager->Update(60.0f);
 
+    if (m_pMainFormView)
+    {
+        m_pMainFormView->Update();
+    }
+
     if (m_pCamera)
     {
-        m_pCamera->Update();
+        if (g_pMapDataManager->GetCreateMap())
+        {
+            float size = ((g_pMapDataManager->GetMapSize() + 1) * 64) * 0.5f;
+            m_pCamera->Update(&Vector3(size, g_pMapDataManager->GetDefHeight(), size));
+        }
+        else
+        {
+            m_pCamera->Update();
+        }
     }
 
     if (g_pKeyManager->isStayKeyDown('A'))
