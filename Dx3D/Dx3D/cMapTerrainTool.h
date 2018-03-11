@@ -17,8 +17,12 @@
 
 // ÁöÇü ¸é(»ï°¢Çü)Á¤º¸
 struct ST_TERRAIN_FACE_INFO {
+<<<<<<< HEAD
+    ST_PT_VERTEX*                   pVertexArr[3];                                   // ���� ������ �ִ� �ﰢ��
+=======
 	DWORD							dVertexIndedArr[3];								// ¸éÀÌ °¡Áö°í ÀÖ´Â »ï°¢Çü ¹öÅØ½º ÁÂÇ¥ ÀÎµ¦½º
 	//ST_PT_VERTEX*					pVertexArr[3];									// ¸éÀÌ °¡Áö°í ÀÖ´Â »ï°¢Çü Á¤º¸
+>>>>>>> c71af561a0ff40e662b90c1efe7babb7e4267d18
 	E_GROUND_TYPE                   eGroundType[GT_MAX_NUM];
     float                           fBlending[GT_MAX_NUM];
     bool                            isWalkable;                                     // true ¸é Áö³ª°¥ ¼öÀÖÀ½

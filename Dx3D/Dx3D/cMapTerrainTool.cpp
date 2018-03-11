@@ -131,12 +131,19 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
     {
         for (DWORD x = 0; x < nSizeX; ++x)
         {
+<<<<<<< HEAD
+            _0 = x + (SizeX + 1) * z;
+            _1 = x + (SizeX + 1) * (z + 1);
+            _2 = x + 1 + (SizeX + 1) * z;
+            _3 = x + 1 + (SizeX + 1) * (z + 1);
+=======
 			// == 인덱스 벡터 ==
             DWORD _0 = (z * (nSizeZ + 1)) + x;
             DWORD _1 = ((z + 1) * (nSizeZ + 1)) + x;
 			DWORD _2 = (z * (nSizeZ + 1)) + (x + 1);
             DWORD _3 = (z + 1) * (nSizeZ + 1) + (x + 1);
 
+>>>>>>> c71af561a0ff40e662b90c1efe7babb7e4267d18
             m_vecVertexIndex.push_back(_0);
             m_vecVertexIndex.push_back(_1);
             m_vecVertexIndex.push_back(_2);
@@ -212,7 +219,10 @@ HRESULT cMapTerrainTool::CreateNewMap(IN int nSizeX, IN int nSizeZ, IN E_GROUND_
 
 	return S_OK;
 
+<<<<<<< HEAD
+=======
 }
+>>>>>>> c71af561a0ff40e662b90c1efe7babb7e4267d18
 
 // 브러쉬 사이즈 설정 (브러쉬 사이즈)
 HRESULT cMapTerrainTool::SetBrushSize(IN float fSize)
