@@ -3,7 +3,7 @@
 class cWaveShader
 {
 private:
-    LPD3DXMESH				m_pMesh;
+    LPMESH				    m_pMesh;
     LPD3DXEFFECT			m_pWaveShader;
     LPDIRECT3DTEXTURE9      m_pTexture;
 
@@ -25,6 +25,6 @@ public:
         float fUVSpeed = 7.0f, float fWaveFrequency = 0.01f, float fTransparent = 0.6f); 
     void SetMesh(LPMESH mesh) { m_pMesh = mesh; }
 
-    void Render();
+    void Render(D3DXVECTOR4 vCameraPosition);
 };
 

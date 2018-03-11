@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "cTextureShader.h"
-//#include "cWaveShader.h"
+#include "cBrush.h"
+#include "cWaveShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -15,6 +16,17 @@
 #define DEFAULT_FOLDER		"*/Map/"												// 기본 파일 폴더
 #define DEFAULT_FILE_NAME	"MapData"												// 기본 파일명
 #define EDIT_DURATION_TIME  0.0f                                                    // 편집 지속 기준 시간
+
+// 임시로 추가
+// #define TILE_N 256
+// #define VERTEX_DIM (TILE_N + 1)
+// class  cMtlTex;
+// #define     VertexSize      256
+// #define PI           3.14159265f
+// #define FOV          (PI/4.0f)							// 시야각
+// #define ASPECT_RATIO (800/(float)600)		// 화면의 종횡비
+// #define NEAR_PLANE   1									// 근접 평면
+// #define FAR_PLANE    10000								// 원거리 평면
 
 // 면 정보
 struct ST_TERRAIN_FACE_INFO {
@@ -53,15 +65,16 @@ struct ST_TER_BRUSH_INFO {
 // 텍스쳐 브러쉬 정보
 struct ST_TEX_BRUSH_INFO {
     E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
-    bool&                           m_isWalkable;                                   // 걸을 수 있는지 여부
-    float&							fTextureDensity;								// 텍스쳐 농도 값
+    float&							fDrawDensity;								// 텍스쳐 농도 값
     float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
     float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
-    //float&							fTexturBrushDensity;							// 텍스쳐 브러쉬 농도 값
-    
-    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, bool& _isW, float& _fTD, float& _fBS, float& _fBDS, float& _fBD)
-        : m_eCurrTextureType(_eCTT), m_isWalkable(_isW), fTextureDensity(_fTD)
-        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS) {}
+    E_DRAW_TYPE&                    m_eDrawType;                                    // 그리기 타입
+    float&                          m_fTex1Density;                                 // 텍스쳐1 밀도
+    float&                          m_fTex2Density;                                 // 텍스쳐2 밀도
+    float&                          m_fTex3Density;                                 // 텍스쳐3 밀도
+    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, float& _fDD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT, float& _fTD1, float& _fTD2, float& _fTD3)
+        : m_eCurrTextureType(_eCTT), fDrawDensity(_fDD)
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT), m_fTex1Density(_fTD1), m_fTex2Density(_fTD2), m_fTex3Density(_fTD3){}
 
 };
 
@@ -100,17 +113,59 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
-    
+    LPD3DXMESH						m_pWMesh;										// 물 매쉬
+
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
     cTextureShader*                 m_pTextureShader;
+
     LPEFFECT                        m_pHeightShader;
     LPTEXTURE9                      m_pHeightMapTex;
     LPTEXTURE9                      m_pNormalMapTex;
     LPTEXTURE9                      m_pDiffuseTex;
     D3DFILLMODE                     m_fillMode;
+
+    cBrush*                         m_pBrush;                                       // 브러쉬 클래스
+    cWaveShader*                    m_pWaveShader;
+
     float                           m_fPassedEditTime;                              // 편집 경과 시간
+
+
+    // 임시로 추가
+
+    // LPD3DXMESH				m_pMesh;
+    // vector<D3DXVECTOR3>		m_vecVertex;
+    // vector<DWORD>			m_vecIndex;
+    // cMtlTex*				m_pMtlTex;
+    // vector<ST_PNT_VERTEX>   m_vecPNTVertex;
+    // float					m_fSizeX;
+    // float					m_fSizeZ;
+    // int                     m_nTime;
+    // cCamera*                m_pCamera;
+    // // 모델
+    // LPD3DXMESH				m_meshWater;
+    // 
+    // // 쉐이더
+    // LPD3DXEFFECT			m_pUVAnimationShader;
+    // LPDIRECT3DTEXTURE9      m_pTexture;
+    // LPDIRECT3DCUBETEXTURE9  m_pCubeTexture;
+    // 
+    // LPD3DXEFFECT			m_pSkyBoxShader;
+    // LPDIRECT3DTEXTURE9	    m_pSkyBoxTexture;
+    // LPD3DXBUFFER            m_pMaterial;
+    // // 회전값
+    // float					gRotationY = 0.0f;
+    // 
+    // // 빛의 위치
+    // D3DXVECTOR4				gWorldLightPosition;
+    // 
+    // // 빛의 색상
+    // D3DXVECTOR4				gLightColor;
+    // 
+    // // 카메라 위치
+    // D3DXVECTOR4				gWorldCameraPosition;
+    // D3DXMATRIXA16           TestWorldMat;
 
 private:
 	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기

@@ -11,6 +11,7 @@ cMainGame::cMainGame(void)
 	, m_pMapTool(NULL)
     , m_pMainFormView(NULL)
 {
+    
 }
 
 

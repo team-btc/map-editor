@@ -85,3 +85,10 @@ enum E_TER_BRUSH_TYPE {
     E_TER_BRUSH_SMOOTH,     // 부드럽게
     E_TER_BRUSH_SHARP       // 날카롭게
 };
+
+enum E_DRAW_TYPE {
+    E_DRAW_BRUSH,
+    E_DRAW_SPRAY,
+    E_DRAW_ERASE,
+    E_DRAW_NONE
+};

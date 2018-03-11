@@ -93,16 +93,17 @@ HRESULT cMapTool::Update()
 
 HRESULT cMapTool::Render()
 {
+  
    
-	if (m_pTerrainTool)
-	{
-		m_pTerrainTool->Render();
-	}
 	if (m_pObjectTool)
 	{
 		m_pObjectTool->Render();
 	}
 
+	if (m_pTerrainTool)
+	{
+		m_pTerrainTool->Render();
+	}
     RendPtMouse();
     return S_OK;
 }
@@ -115,6 +116,7 @@ HRESULT cMapTool::CreateMap()
     if (m_pTerrainTool)
     {
         m_pTerrainTool->CreateMap(m_eMapSize, m_eDefaultGroundType, m_fDefaultHeight, m_isDefaultWalkable);
+        
     }
     
 	return S_OK;

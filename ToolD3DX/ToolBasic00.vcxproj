@@ -196,6 +196,7 @@
   <ItemGroup>
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
+    <ClInclude Include="cBrush.h" />
     <ClInclude Include="cTextureShader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -228,7 +229,7 @@
     <ClInclude Include="cTimerManager.h" />
     <ClInclude Include="cWaterTab.h" />
     <ClInclude Include="cWaveShader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="D3DApp.h" />
     <ClInclude Include="cMainGame.h" />
@@ -249,6 +250,7 @@
   <ItemGroup>
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
+    <ClCompile Include="cBrush.cpp" />
     <ClCompile Include="cTextureShader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -281,7 +283,7 @@
     <ClCompile Include="cTimerManager.cpp" />
     <ClCompile Include="cWaterTab.cpp" />
     <ClCompile Include="cWaveShader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="D3DApp.cpp" />
     <ClCompile Include="cMainGame.cpp" />

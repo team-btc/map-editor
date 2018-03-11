@@ -171,7 +171,7 @@ void cCamera::Update(Vector3* pTarget)
 	D3DXMatrixLookAtLH(&matView, &m_vEye, &m_vLookAt, &D3DXVECTOR3(0, 1, 0));
 	g_pDevice->SetTransform(D3DTS_VIEW, &matView);
 
-
+    g_vCameraPos = m_vEye;
 
     //// x축 회전은 -90 ~ 90 으로 고정
     //if (m_fRotX < -LIMITED_ROT + D3DX_16F_EPSILON)

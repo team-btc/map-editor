@@ -27,11 +27,14 @@ class cMapDataManager
 
 	// == 텍스쳐 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eCurrTexType, CurrTexType);				// 현재 선택된 텍스쳐 타입
-	SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isWalkable, Walkable);							// 걸을 수 있는지 여부
-	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexDensity, TexDensity);						// 텍스쳐맵 브러쉬 농도 값
+	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fDrawDensity, DrawDensity);						// 텍스쳐맵 브러쉬 농도 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushSize, TexBrushSize);					// 텍스쳐맵 브러쉬 사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushDenSize, TexBrushDenSize);				// 텍스쳐맵 브러쉬 농도 사이즈
     SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushDensity, TexBrushDensity);				// 텍스쳐맵 브러쉬 농도 값
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_DRAW_TYPE, m_eDrawType, DrawType);				        // 텍스쳐맵 그리기 타입
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTex1Density, Tex1Density);
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTex2Density, Tex2Density);
+    SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTex3Density, Tex3Density);
 
 	// == 물 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fWaterHeight, WaterHeight);						// 물 기본 높이
