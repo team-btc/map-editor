@@ -24,4 +24,9 @@ namespace D3DUTILITY
     D3DLIGHT9 InitDirectional(Vector3* dir, XColor* c);
     D3DLIGHT9 InitPoint(Vector3* pos, XColor* c);
     D3DLIGHT9 InitSpot(Vector3* dir, Vector3* pos, XColor* c);
+
+    float DwordToFloat(DWORD DWORD_Num);					// DWORD를 FLOAT으로 변환
+    DWORD FloatToDword(float FLOAT_Num);					// FLOAT을 DWORD로 변환
+    float GetRandomFloat(float fMin, float fMax);			// 지정된 범위의 FLOAT의 RANDOM 값 반환 
+    D3DXVECTOR3 GetRandomVector3(D3DXVECTOR3 vMin, D3DXVECTOR3 vMax);	// 지정된 범위의 D3DXVECTOR3 MIN과 MAX를 받으면 그 범위 안의 RANDOM D3DXVECTOR3 값 반환
 }

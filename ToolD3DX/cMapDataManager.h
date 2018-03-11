@@ -60,5 +60,10 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF(string, m_strFilePath, FilePath);							// x파일 파일경로
 	SYNTHESIZE_PASS_BY_REF(string, m_strFileName, FileName);							// x파일 이름 .x 로 끝남
     SYNTHESIZE_PASS_BY_REF_NO_SET(E_OBJECT_TAB_BUTTON_STATE, m_eObjectTabButtonState, ObjectTabButtonState);  // 오브젝트 탭 버튼 클릭 상태 
+    
+    // BLOCK_EDIT
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_BLOCK_BUTTON_STATE, m_eBlockButtonState, BlockButtonState);  // 오브젝트 탭 버튼 클릭 상태 
+    SYNTHESIZE_PASS_BY_REF(string, m_CurrSelectBlockGroup, CurrSelectBlockGroup);    // 최근 선택한 블록 그룹 
+  
 private:
 };

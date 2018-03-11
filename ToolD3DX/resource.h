@@ -158,6 +158,13 @@
 #define IDC_BUTTON5                     1104
 #define IDC_FILE_NAME_TEXT              1105
 #define IDC_GROUP_OBJ_CREATE            1106
+#define IDC_BUTTON6                     1107
+#define IDC_BUTTON7                     1108
+#define IDC_BUTTON8                     1109
+#define IDC_BLOCK_GROUP_LIST_LIS        1110
+#define IDC_BUTTON9                     1111
+#define IDC_BLOCK_GROUP_TEXT            1112
+#define IDC_BUTTON10                    1113
 
 // Next default values for new objects
 // 
@@ -165,7 +172,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1107
+#define _APS_NEXT_CONTROL_VALUE         1114
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif

@@ -21,8 +21,9 @@ private:
     int                m_nId;       // 벡터 내에서 식별 값 
 
     // 이름 바꾸고 
-    bool               m_isCollison;
-    bool               m_isDestruction;
+    bool               m_isCrashable;      // 충돌 할 수 있는
+    bool               m_isDestructible;   // 부실 수 있는
+    
 
 public:
     cMapObject();
@@ -49,6 +50,7 @@ public:
     Matrix4 GetWorldMatrix() { return m_matWorld; }
     void    SetWorldMatrix(Matrix4 matWorld) { m_matWorld = matWorld; }
 
+    // 세팅
     void    Setup(Vector3 vScale, Vector3 vRotationXYZ, Vector3 vPosition);
     void    Render();
 
