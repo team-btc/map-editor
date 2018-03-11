@@ -103,6 +103,13 @@ technique Shader
 {
 	pass Pass_0
 	{
+       // CULLMODE = CW;
+       // ZWRITEENABLE = TRUE;
+       // ALPHABLENDENABLE = FALSE;
+       // BLENDOP = ADD;
+       // DESTBLEND = INVSRCALPHA;
+       // SRCBLEND = BOTHINVSRCALPHA;
+
 		PixelShader = compile ps_2_0 main_0();
 	}
 };

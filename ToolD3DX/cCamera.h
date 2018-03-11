@@ -33,5 +33,8 @@ public:
     void Update(Vector3* pTarget = NULL);
 
     Matrix4 GetViewProjMatrix() { return m_matView * m_matProj; }
+    
+    // ผผลอ
+    void SetCameraPos(Vector3& vPos) { m_vPosition = vPos; }
 };
 

@@ -111,10 +111,6 @@ using namespace std;
 #include <d3d9.h>
 #include <d3dx9.h>
 
-extern HWND		g_hWnd;
-extern POINT    g_ptMouse;
-extern int      g_nWheelDelta;
-
 #include "Enum.h"
 #include "DefineMacro.h"
 #include "DataStructure.h"
@@ -122,6 +118,11 @@ extern int      g_nWheelDelta;
 #include "D3DUtility.h"
 
 using namespace D3DUTILITY;
+extern HWND		g_hWnd;
+extern POINT    g_ptMouse;
+extern int      g_nWheelDelta;
+extern Vector3  g_vCameraPos;
+
 
 #include "cKeyManager.h"
 #include "cLogManager.h"

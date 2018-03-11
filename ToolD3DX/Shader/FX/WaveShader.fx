@@ -111,6 +111,8 @@ VS_OUTPUT WaveShader_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 lightDir = Output.mPosition.xyz - gWorldLightPosition.xyz;
    lightDir = normalize(lightDir);
    
+   //float3 d = float(3)
+
    float3 viewDir = normalize(Output.mPosition.xyz - gWorldCameraPosition.xyz);
    Output.mViewDir = viewDir;
    
@@ -198,7 +200,9 @@ technique WaveShader
       BLENDOP = ADD;
       DESTBLEND = INVSRCALPHA;
       SRCBLEND = BOTHINVSRCALPHA;
-
+      // ZWRITEENABLE = TRUE;
+      // CULLMODE = CW;
+      // ZWRITEENABLE = FALSE;
       VertexShader = compile vs_2_0 WaveShader_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_2_0 WaveShader_Pass_0_Pixel_Shader_ps_main();
    }

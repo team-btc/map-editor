@@ -46,8 +46,8 @@ void CD3DApp::Render()
         return;
 
     // Clear the backbuffer to a blue color
-    m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 45, 50, 170), 1.0f, 0);
-
+    m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 45, 50, 170) | D3DCLEAR_ZBUFFER, 1.0f, 0);
+ 
     // Begin the scene
     if (SUCCEEDED(m_pd3dDevice->BeginScene()))
     {

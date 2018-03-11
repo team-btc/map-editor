@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cObject.h"
+
 class cRay;
 
 

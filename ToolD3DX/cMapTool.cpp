@@ -93,16 +93,17 @@ HRESULT cMapTool::Update()
 
 HRESULT cMapTool::Render()
 {
+  
    
-	if (m_pTerrainTool)
-	{
-		m_pTerrainTool->Render();
-	}
 	if (m_pObjectTool)
 	{
 		m_pObjectTool->Render();
 	}
 
+	if (m_pTerrainTool)
+	{
+		m_pTerrainTool->Render();
+	}
     RendPtMouse();
     return S_OK;
 }

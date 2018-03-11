@@ -423,12 +423,12 @@ void cTextureShader::SetMapSize()
 
 void cTextureShader::Update()
 {
-    m_nTimer++;
-    if (m_nTimer >= 3)
-    {
+   // m_nTimer++;
+   // if (m_nTimer >= 3)
+   // {
         DrawTexture();
-        m_nTimer = 0;
-    }
+   //     m_nTimer = 0;
+   // }
 }
 
 void cTextureShader::Render()
@@ -449,18 +449,25 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
 
    
+  // ST_PNT_VERTEX* pEditV = NULL;
+  // m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+  // ST_PNT_VERTEX* pEditI = NULL;
+  // m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pEditI);
+  //
+  // // 쉐이더를 시작한다.
+  //g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_pMesh->GetNumVertices(), m_pMesh->GetNumFaces(), &pEditI[0], D3DFMT_INDEX32, &pEditV[0], sizeof(m_pMesh->GetFVF()));// ; 
 
-    UINT numPasses = 0;
-    m_pTextureShader->Begin(&numPasses, NULL);
-    {
-        for (UINT i = 0; i < numPasses; ++i)
-        {
-            m_pTextureShader->BeginPass(i);
-            {
-                m_pMesh->DrawSubset(0);
-            }
-            m_pTextureShader->EndPass();
-        }
-    }
-    m_pTextureShader->End();
+   UINT numPasses = 0;
+   m_pTextureShader->Begin(&numPasses, NULL);
+   {
+       for (UINT i = 0; i < numPasses; ++i)
+       {
+           m_pTextureShader->BeginPass(i);
+           {
+               m_pMesh->DrawSubset(0);
+           }
+           m_pTextureShader->EndPass();
+       }
+   }
+   m_pTextureShader->End();
 }
