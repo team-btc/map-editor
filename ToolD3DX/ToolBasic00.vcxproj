@@ -246,6 +246,7 @@
     <ClInclude Include="ToolBasic.h" />
     <ClInclude Include="ToolBasicDoc.h" />
     <ClInclude Include="ToolBasicView.h" />
+    <ClInclude Include="cTotalShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAllocateHierarchy.cpp" />
@@ -299,6 +300,7 @@
     <ClCompile Include="ToolBasic.cpp" />
     <ClCompile Include="ToolBasicDoc.cpp" />
     <ClCompile Include="ToolBasicView.cpp" />
+    <ClCompile Include="cTotalShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ToolBasic00.rc" />

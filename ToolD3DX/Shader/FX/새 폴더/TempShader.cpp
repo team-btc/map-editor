@@ -433,17 +433,6 @@ void cTextureShader::Update()
 
 void cTextureShader::Render()
 {
-    D3DXMATRIXA16 matW, matView, matProjection;
-    D3DXMatrixIdentity(&matW);
-
-    g_pDevice->GetTransform(D3DTS_VIEW, &matView);
-    g_pDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-
-
-    m_pTextureShader->SetMatrix("gWorldMatrix", &matW);
-    m_pTextureShader->SetMatrix("gViewMatrix", &matView);
-    m_pTextureShader->SetMatrix("gProjectionMatrix", &matProjection);
-
     m_pTextureShader->SetTexture("texture0", m_pTexture[0]);
     m_pTextureShader->SetTexture("texture1", m_pTexture[1]);
     m_pTextureShader->SetTexture("texture2", m_pTexture[2]);

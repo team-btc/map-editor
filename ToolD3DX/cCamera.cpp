@@ -29,7 +29,7 @@ void cCamera::Setup(HWND hWnd)
 
     vp.X = 0;
     vp.Y = 0;
-    vp.Width = rect.right - rect.left;  // ¡¬«•∞≥≥‰¿Ã æ∆¥œ∂Û ≈©±‚ ∞≥≥‰ 800, 600 ∞ËªÍµ 
+    vp.Width = rect.right - rect.left - g_pMapDataManager->GetDlgWidth();;  // ¡¬«•∞≥≥‰¿Ã æ∆¥œ∂Û ≈©±‚ ∞≥≥‰ 800, 600 ∞ËªÍµ 
     vp.Height = rect.bottom - rect.top;
     vp.MinZ = 0.0f;
     vp.MaxZ = 1.0f;

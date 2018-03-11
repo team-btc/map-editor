@@ -24,10 +24,13 @@ HRESULT CD3DApp::InitD3D(HWND hWnd)
     d3dpp.Windowed = TRUE;
     d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
     d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+    d3dpp.hDeviceWindow = hWnd;
+    d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+    d3dpp.EnableAutoDepthStencil = true;
     d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // 즉시 플리핑, 기본은 D3D가 플리핑 시점을 정함
 
     if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-                                    D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+                                    D3DCREATE_HARDWARE_VERTEXPROCESSING,
                                     &d3dpp, &m_pd3dDevice)))
     {
         return E_FAIL;
@@ -42,23 +45,22 @@ HRESULT CD3DApp::InitD3D(HWND hWnd)
 
 void CD3DApp::Render()
 {
-    if (NULL == m_pd3dDevice)
+    if (NULL == g_pDevice)
         return;
 
     // Clear the backbuffer to a blue color
-    m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 45, 50, 170) | D3DCLEAR_ZBUFFER, 1.0f, 0);
+    g_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+        D3DCOLOR_XRGB(45, 50, 170), 1.0f, 0);
  
     // Begin the scene
-    if (SUCCEEDED(m_pd3dDevice->BeginScene()))
-    {
-        OnRender();
+    g_pDevice->BeginScene();
+    OnRender();
 
-        // End the scene
-        m_pd3dDevice->EndScene();
-    }
+    // End the scene
+    g_pDevice->EndScene();
 
     // Present the backbuffer contents to the display
-    m_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+    g_pDevice->Present(NULL, NULL, NULL, NULL);
 
 }
 

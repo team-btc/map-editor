@@ -37,17 +37,18 @@ void cWaveShader::SetShader(/* char * sTexFile, char * sTexFileKey, */float fHei
 
 void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
 {
-  
+
     D3DXMATRIXA16 matW, matView, matProjection;
     D3DXMatrixIdentity(&matW);
     //g_pDevice->GetTransform(D3DTS_WORLD, &matW);
     matW._42 += m_pHeight - 128;
 
-   
+    
+
     D3DXVECTOR4 gWorldCameraPosition = vCameraPosition;
     g_pDevice->GetTransform(D3DTS_VIEW, &matView);
     g_pDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-    
+
 
     m_pWaveShader->SetMatrix("gWorldMatrix", &matW);
     m_pWaveShader->SetMatrix("gViewMatrix", &matView);
@@ -68,13 +69,14 @@ void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
     ULONGLONG tick = GetTickCount64();
     m_pWaveShader->SetFloat("gTime", tick / 1000.0f);
 
-  /*  ST_PNT_VERTEX* pEditV = NULL;
-    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
-    ST_PNT_VERTEX* pEditI = NULL;
-    m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pEditI);*/
+    /*  ST_PNT_VERTEX* pEditV = NULL;
+      m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+      ST_PNT_VERTEX* pEditI = NULL;
+      m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pEditI);*/
 
-    // 쉐이더를 시작한다.
-   //g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_pMesh->GetNumVertices(), m_pMesh->GetNumFaces(), &pEditI[0], D3DFMT_INDEX32, &pEditV[0], sizeof(m_pMesh->GetFVF()));// ; 
+      // 쉐이더를 시작한다.
+     //g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_pMesh->GetNumVertices(), m_pMesh->GetNumFaces(), &pEditI[0], D3DFMT_INDEX32, &pEditV[0], sizeof(m_pMesh->GetFVF()));// ; 
+
     UINT numPasses = 0;
     m_pWaveShader->Begin(&numPasses, NULL);
     {
@@ -83,6 +85,7 @@ void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
             m_pWaveShader->BeginPass(i);
             {
                 m_pMesh->DrawSubset(0);
+               // m_pMesh->DrawSubset(0);
             }
             m_pWaveShader->EndPass();
         }

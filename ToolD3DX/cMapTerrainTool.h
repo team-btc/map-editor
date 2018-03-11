@@ -2,6 +2,7 @@
 #include "cTextureShader.h"
 #include "cBrush.h"
 #include "cWaveShader.h"
+#include "cTotalShader.h"
 #include "cObject.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
@@ -16,17 +17,6 @@
 #define DEFAULT_FOLDER		"*/Map/"												// 기본 파일 폴더
 #define DEFAULT_FILE_NAME	"MapData"												// 기본 파일명
 #define EDIT_DURATION_TIME  0.1f                                                    // 편집 지속 기준 시간
-
-// 임시로 추가
-// #define TILE_N 256
-// #define VERTEX_DIM (TILE_N + 1)
-// class  cMtlTex;
-// #define     VertexSize      256
-// #define PI           3.14159265f
-// #define FOV          (PI/4.0f)							// 시야각
-// #define ASPECT_RATIO (800/(float)600)		// 화면의 종횡비
-// #define NEAR_PLANE   1									// 근접 평면
-// #define FAR_PLANE    10000								// 원거리 평면
 
 // 면 정보
 struct ST_TERRAIN_FACE_INFO {
@@ -120,43 +110,9 @@ private:
     cTextureShader*                 m_pTextureShader;
     cBrush*                         m_pBrush;                                       // 브러쉬 클래스
     cWaveShader*                    m_pWaveShader;
+    cTotalShader*                   m_pTotalShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
-
-    // 임시로 추가
-
-    // LPD3DXMESH				m_pMesh;
-    // vector<D3DXVECTOR3>		m_vecVertex;
-    // vector<DWORD>			m_vecIndex;
-    // cMtlTex*				m_pMtlTex;
-    // vector<ST_PNT_VERTEX>   m_vecPNTVertex;
-    // float					m_fSizeX;
-    // float					m_fSizeZ;
-    // int                     m_nTime;
-    // cCamera*                m_pCamera;
-    // // 모델
-    // LPD3DXMESH				m_meshWater;
-    // 
-    // // 쉐이더
-    // LPD3DXEFFECT			m_pUVAnimationShader;
-    // LPDIRECT3DTEXTURE9      m_pTexture;
-    // LPDIRECT3DCUBETEXTURE9  m_pCubeTexture;
-    // 
-    // LPD3DXEFFECT			m_pSkyBoxShader;
-    // LPDIRECT3DTEXTURE9	    m_pSkyBoxTexture;
-    // LPD3DXBUFFER            m_pMaterial;
-    // // 회전값
-    // float					gRotationY = 0.0f;
-    // 
-    // // 빛의 위치
-    // D3DXVECTOR4				gWorldLightPosition;
-    // 
-    // // 빛의 색상
-    // D3DXVECTOR4				gLightColor;
-    // 
-    // // 카메라 위치
-    // D3DXVECTOR4				gWorldCameraPosition;
-    // D3DXMATRIXA16           TestWorldMat;
 
 private:
 	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
@@ -170,11 +126,11 @@ private:
     void SetNormal(int nIndex, ST_PNT_VERTEX** vEditV);                                      // 버텍스 노말 계산, 셋팅
     int GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVertex);                      // 픽킹 지점에서 가장 가까운 버텍스 인덱스 가져오기
     vector<int> GetVertexInBrush(Vector3 vPickPos, float fRadius);                           // 브러쉬 안에 있는 버텍스 인덱스 벡터 가져오기
-    //void CreateTempWaterMap();
 public:
     cMapTerrainTool();
     ~cMapTerrainTool();
 
+    // =================================
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
