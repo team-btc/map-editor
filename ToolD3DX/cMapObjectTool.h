@@ -4,6 +4,7 @@
 #define INVALIDE_VALUE (-1)
 #define DEBUG_RENDER (true)
 #define BLOCK_RADIUS  (2.0f)
+#define NO_NAME ("None")
 
 class cMapObject;
 class cRay;
@@ -19,8 +20,8 @@ private:
     };
 
 private:
+	// 오브젝트 관련
 	vector<cMapObject*>          m_vecObjects;          // Object Storage Vector
-
 	string                       m_strCurrentMeshName;  // Current Selected MeshName
 	LPMESH                       m_SphereMesh;					
 	bool&                        m_isObjCollison;
@@ -45,6 +46,7 @@ private:
     // 블록 관련
     vector<ST_BLOCK_GROUP*>      m_vecBlockGroups;
     E_BLOCK_BUTTON_STATE&        m_eBlockButtonState;
+	string&					     m_SelectedBlockGroupName;
     int                          m_nCurWorkingBlockGroupIndex;
    
 public:

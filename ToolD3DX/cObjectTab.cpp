@@ -39,6 +39,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
     , m_eObjectTabButtonState(g_pMapDataManager->GetObjectTabButtonState())
     , m_eBlockButtonState(g_pMapDataManager->GetBlockButtonState())
     , m_pBlockGroupListBox(NULL)
+	, m_SelectBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
     , m_nBlockGroupMakeNum(-1)
 {
 	ST_OBJ_FILE stObjHouse;
@@ -56,6 +57,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
 
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
     m_eBlockButtonState = E_BLOCK_BTN_MAX;
+	m_SelectBlockGroupName = NO_NAME;
 
 	m_vecObjectFile.push_back(stObjHouse);
 	m_vecObjectFile.push_back(stObjTree);
@@ -691,7 +693,7 @@ void cObjectTab::OnBnClickedButton1()
 			text = "파일 읽기 실패";
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONERROR);
 
-            string str = NONE_NAME;
+            string str = NO_NAME;
             
             // 파일 이름을 표시해줌
             SetDlgItemText(IDC_FILE_NAME_TEXT, str.c_str());
@@ -723,16 +725,13 @@ void cObjectTab::Update()
     m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);    // RotY 위치 설정
     m_pObjRotZSliderCtl->SetPos((int)m_fObjRotZ);    // RotZ 위치 설정
 
-    g_pMapDataManager->SetCurrSelectBlockGroup(m_CurrSelectBlockGroup);
-    SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_CurrSelectBlockGroup.c_str());
+
+	// 블록그룹 텍스트 갱신 
 
 
+    SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_SelectBlockGroupName.c_str());
 
-    /*if (m_eBlockButtonState == E_BLOCK_BTN_MAX)
-    {
-        m_CurrSelectBlockGroup = NONE_NAME;
-    }
-*/
+
 
 }
 // Remove 버튼
@@ -747,45 +746,49 @@ void cObjectTab::OnBnClickedButton5()
 void cObjectTab::OnBnClickedButton8()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	// 두가지 액션을 하지 못하게 처리 
+	if (m_eObjectTabButtonState != E_OBJ_TAB_BTN_MAX)
+	{
+		m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
+	}
 
-    // 두가지 액션을 하지 못하게 처리 
-    if (m_eObjectTabButtonState != E_OBJ_TAB_BTN_MAX)
-    {
-        m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
-    }
+	if (m_eBlockButtonState != E_BLOCK_BTN_PROGRESS)
+	{
+		m_eBlockButtonState = E_BLOCK_BTN_START;
+		m_nBlockGroupMakeNum += 1;
 
-    m_eBlockButtonState = E_BLOCK_BTN_START;
-
-    m_nBlockGroupMakeNum += 1;
-
-    m_CurrSelectBlockGroup = BLOCK_GROUP_NAME;
-    m_CurrSelectBlockGroup += to_string(m_nBlockGroupMakeNum);
+		m_SelectBlockGroupName = BLOCK_GROUP_NAME;
+		m_SelectBlockGroupName += to_string(m_nBlockGroupMakeNum);
+	}
 }
 
 //  Block Group End 버튼
 void cObjectTab::OnBnClickedButton7()
 {
-    if (m_CurrSelectBlockGroup != NONE_NAME)
-    {
-        // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-        m_eBlockButtonState = E_BLOCK_BTN_END;
+	if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
+	{
+		if (m_SelectBlockGroupName != NO_NAME)
+		{
+			// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+			m_eBlockButtonState = E_BLOCK_BTN_END;
 
-        int index = m_pBlockGroupListBox->FindString(-1, m_CurrSelectBlockGroup.c_str());
+			int index = m_pBlockGroupListBox->FindString(-1, m_SelectBlockGroupName.c_str());
 
-        if (index == LB_ERR)
-        {
-            m_pBlockGroupListBox->AddString(m_CurrSelectBlockGroup.c_str());
-        }
+			if (index == LB_ERR)
+			{
+				m_pBlockGroupListBox->AddString(m_SelectBlockGroupName.c_str());
+			}
 
-        string caption = "Block Gruop";
-        string text = m_CurrSelectBlockGroup + " 이(가) 저장되었습니다.";
+			string caption = "Block Gruop";
+			string text = m_SelectBlockGroupName + " 이(가) 저장되었습니다.";
 
-        // 메세지 표시 
-        MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+			// 메세지 표시 
+			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 
-        // 블록 그룹 이름을 표시해줌
-        m_CurrSelectBlockGroup = NONE_NAME;
-    }
+			// 블록 그룹 이름을 표시해줌
+			m_SelectBlockGroupName = NO_NAME;
+		}
+	}
 }
 
 // Block Group 리스트가 눌렸을때 
@@ -801,32 +804,38 @@ void cObjectTab::OnLbnSelchangeBlockGroupListLis()
     m_pBlockGroupListBox->GetText(nIndex, strName);
 
     // 문자열 저장
-    m_CurrSelectBlockGroup = strName;
+	m_SelectBlockGroupName = strName;
 }
 #pragma endregion
 
 // Block Group Delete 버튼이 눌렸을때 
 void cObjectTab::OnBnClickedButton9()
 {
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    int nSel = m_pBlockGroupListBox->GetCurSel();  // 선택한 문자의 인덱스 얻어옴
+	if (m_eBlockButtonState != E_BLOCK_BTN_PROGRESS)
+	{
+		if (m_SelectBlockGroupName != NO_NAME)
+		{
+			// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+			int nSel = m_pBlockGroupListBox->GetCurSel();  // 선택한 문자의 인덱스 얻어옴
 
-    if (nSel >= 0)
-    {
-        m_pBlockGroupListBox->DeleteString(nSel);  // 해당 인덱스의 문자열을 삭제
-    }
+			if (nSel >= 0)
+			{
+				m_pBlockGroupListBox->DeleteString(nSel);  // 해당 인덱스의 문자열을 삭제
+			}
 
-    // 메세지 표시 
-    string caption = "Block Gruop";
-    string text = m_CurrSelectBlockGroup + " 이(가) 삭제되었습니다.";
-    MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+			// 메세지 표시 
+			string caption = "Block Gruop";
+			string text = m_SelectBlockGroupName + " 이(가) 삭제되었습니다.";
+			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 
-    // 블록 그룹 이름을 표시
-    // m_CurrSelectBlockGroup = NONE_NAME;
-    // SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_CurrSelectBlockGroup.c_str());
+			// 블록 그룹 이름을 표시
+			// m_CurrSelectBlockGroup = NONE_NAME;
+			// SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_CurrSelectBlockGroup.c_str());
 
-    // 버튼 상태 변경 
-    m_eBlockButtonState = E_BLOCK_BTN_DELETE;
+			// 버튼 상태 변경 
+			m_eBlockButtonState = E_BLOCK_BTN_DELETE;
+		}
+	}
 }
 
 // Block Group Modify 버튼이 눌렸을때 
@@ -839,30 +848,43 @@ void cObjectTab::OnBnClickedButton10()
     {
         // 메세지 표시 
         string caption = "Block Gruop";
-        string text = m_CurrSelectBlockGroup + " 이(가) 저장되었습니다.";
+        string text = m_SelectBlockGroupName + " 이(가) 저장되었습니다.";
         MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 
         m_eBlockButtonState = E_BLOCK_BTN_END;
 
-        int index = m_pBlockGroupListBox->FindString(-1, m_CurrSelectBlockGroup.c_str());
+        int index = m_pBlockGroupListBox->FindString(-1, m_SelectBlockGroupName.c_str());
 
         if (index == LB_ERR)
         {
-            m_pBlockGroupListBox->AddString(m_CurrSelectBlockGroup.c_str());
+            m_pBlockGroupListBox->AddString(m_SelectBlockGroupName.c_str());
         }
         // 블록 그룹 이름을 표시해줌
-        m_CurrSelectBlockGroup = NONE_NAME;
+		m_SelectBlockGroupName = NO_NAME;
         
         return;
     }
     else
     {
-        // 메세지 표시
-        string caption = "Block Gruop";
-        string text = m_CurrSelectBlockGroup + " 이(가) 선택되었습니다.";
-        MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+		if (m_SelectBlockGroupName != NO_NAME)
+		{
+			// 메세지 표시
+			string caption = "Block Gruop";
+			string text = m_SelectBlockGroupName + " 이(가) 선택되었습니다.";
+			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 
-        // 버튼 상태 변경 
-        m_eBlockButtonState = E_BLOCK_BTN_MODIFY;
+			// 버튼 상태 변경 
+			m_eBlockButtonState = E_BLOCK_BTN_MODIFY;
+		}
+		else
+		{
+			// 메세지 표시 
+			string caption = "Block Gruop";
+			string text = "잘못된 접근입니다.";
+			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+
+			//m_eBlockButtonState = E_B
+		}
+      
     }
 }

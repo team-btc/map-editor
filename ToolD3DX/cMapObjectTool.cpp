@@ -19,8 +19,11 @@ cMapObjectTool::cMapObjectTool()
     , m_nSelectedIndex(INVALIDE_VALUE)
     , m_pPickPos(NULL)
 	, m_pFollowObject(NULL)
-    , m_eBlockButtonState(g_pMapDataManager->GetBlockButtonState())
-    , m_nCurWorkingBlockGroupIndex(INVALIDE_VALUE)
+	
+	// 블록 관련 
+	, m_eBlockButtonState(g_pMapDataManager->GetBlockButtonState())
+	, m_SelectedBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
+	, m_nCurWorkingBlockGroupIndex(INVALIDE_VALUE)
 {}
 
 cMapObjectTool::~cMapObjectTool()
@@ -98,7 +101,7 @@ HRESULT cMapObjectTool::Update()
 
         blockGroup->GroupColor = D3DCOLOR_XRGB(red, green, blue);
 
-        blockGroup->GroupName = g_pMapDataManager->GetCurrSelectBlockGroup();
+        blockGroup->GroupName = g_pMapDataManager->GetSelectedBlockGroupName();
         m_vecBlockGroups.push_back(blockGroup);
         m_nCurWorkingBlockGroupIndex = (int)(m_vecBlockGroups.size() - 1);
         m_eBlockButtonState = E_BLOCK_BTN_PROGRESS;
@@ -106,7 +109,7 @@ HRESULT cMapObjectTool::Update()
     break;
     case E_BLOCK_BTN_MODIFY:
     {
-        int index = GetBlockGroupByName(g_pMapDataManager->GetCurrSelectBlockGroup());
+        int index = GetBlockGroupByName(g_pMapDataManager->GetSelectedBlockGroupName());
 
         if (index != INVALIDE_VALUE)
         {
@@ -118,14 +121,15 @@ HRESULT cMapObjectTool::Update()
     break;
     case E_BLOCK_BTN_DELETE :
     {
-        int index = GetBlockGroupByName(g_pMapDataManager->GetCurrSelectBlockGroup());
+        int index = GetBlockGroupByName(g_pMapDataManager->GetSelectedBlockGroupName());
 
-        if (index != INVALIDE_VALUE)
-        {
-            SAFE_DELETE(m_vecBlockGroups[index]);
-            m_vecBlockGroups.erase(m_vecBlockGroups.begin() + index);
-        }
+		if (index != INVALIDE_VALUE)
+		{
+			SAFE_DELETE(m_vecBlockGroups[index]);
+			m_vecBlockGroups.erase(m_vecBlockGroups.begin() + index);
+		}
 
+		m_SelectedBlockGroupName = NO_NAME;
         m_eBlockButtonState = E_BLOCK_BTN_MAX;
     }
     case E_BLOCK_BTN_END:
@@ -531,7 +535,7 @@ void cMapObjectTool::DebugTestRender()
 
     rt = { 0, 250, 100, 300 };
 
-    s = g_pMapDataManager->GetCurrSelectBlockGroup();
+    s = g_pMapDataManager->GetSelectedBlockGroupName();
     
     g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
         s.c_str(),

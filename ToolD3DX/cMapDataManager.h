@@ -63,7 +63,7 @@ class cMapDataManager
     
     // BLOCK_EDIT
     SYNTHESIZE_PASS_BY_REF_NO_SET(E_BLOCK_BUTTON_STATE, m_eBlockButtonState, BlockButtonState);  // 오브젝트 탭 버튼 클릭 상태 
-    SYNTHESIZE_PASS_BY_REF(string, m_CurrSelectBlockGroup, CurrSelectBlockGroup);    // 최근 선택한 블록 그룹 
+	SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_SelectBlockGroupName, SelectedBlockGroupName);    // 최근 선택한 블록 그룹 
   
 private:
 };
