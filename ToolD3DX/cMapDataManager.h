@@ -12,10 +12,17 @@ class cMapDataManager
 
 	// == 기본 맵 생성 시 필요한 정보 ==
 	SYNTHESIZE_PASS_BY_REF_NO_SET(E_MAP_SIZE, m_eMapSize, MapSize);							// 맵사이즈
-	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eDefGroundType, DefGroundType);			// 기본 지형 타입
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fDefHeight, DefHeight);							// 맵 기본 높이 값
-	SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isDefWalkable, DefWalkable);						// 걸을 수 있는지 여부 기본 값
     SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isCreateMap, CreateMap);                          // 맵 생성 여부
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isTex1Load, IsTex1Load);                          // 기본 텍스쳐1 파일 로드 여부
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex1FilePath, Tex1FilePath);                 // 기본 텍스쳐1 파일 경로
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex1FileName, Tex1FileName);                 // 기본 텍스쳐1 파일 이름
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isTex2Load, IsTex2Load);                          // 기본 텍스쳐2 파일 로드 여부
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex2FilePath, Tex2FilePath);                 // 기본 텍스쳐2 파일 경로
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex2FileName, Tex2FileName);                 // 기본 텍스쳐2 파일 이름
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isTex3Load, IsTex3Load);                          // 기본 텍스쳐3 파일 로드 여부
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex3FilePath, Tex3FilePath);                 // 기본 텍스쳐3 파일 경로
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strTex3FileName, Tex3FileName);                 // 기본 텍스쳐3 파일 이름
 
 	// == 지형 정보 ==
     SYNTHESIZE_PASS_BY_REF_NO_SET(E_UP_DOWN, m_eUpDown, TerUpDown);                         // 지형맵 편집 업다운 여부
@@ -26,7 +33,7 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTerBrushSize, TerBrushSize);					// 지형맵 브러쉬 사이즈
 
 	// == 텍스쳐 정보 ==
-	SYNTHESIZE_PASS_BY_REF_NO_SET(E_GROUND_TYPE, m_eCurrTexType, CurrTexType);				// 현재 선택된 텍스쳐 타입
+	SYNTHESIZE_PASS_BY_REF_NO_SET(int, m_nCurrTexIndex, CurrTexIndex);				        // 현재 선택된 텍스쳐 인덱스
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fDrawDensity, DrawDensity);						// 텍스쳐맵 브러쉬 농도 값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushSize, TexBrushSize);					// 텍스쳐맵 브러쉬 사이즈
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fTexBrushDenSize, TexBrushDenSize);				// 텍스쳐맵 브러쉬 농도 사이즈
@@ -43,6 +50,15 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fWaterHeightSpeed, WaterHeightSpeed);			// 물 상하 스피드
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fWaterFrequency, WaterFrequency);				// 물 물결 간격
 	SYNTHESIZE_PASS_BY_REF_NO_SET(float, m_fWaterTransparent, WaterTransparent);			// 물 투명값
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isMakeWater, IsMakeWater);                        // 물 만들지 여부
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isSetWaterFile, IsSetWaterFile);				    // 물 파일이 셋팅 되었을 때(클릭순간)
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strWaterFilePath, WaterFilePath);				// 물 파일경로
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strWaterFileName, WaterFileName);				// 물 파일 이름
+
+    // == 하늘 정보 ==
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isSetSkyFile, IsSetSkyFile);				        // 하늘 파일이 셋팅 되었을 때(클릭순간)
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strSkyFilePath, SkyFilePath);					// 하늘 파일경로
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_strSkyFileName, SkyFileName);					// 하늘 파일이름
 
 	// == 오브젝트 정보 ==
 	// 오브젝트 파일리스트

@@ -16,17 +16,19 @@ cCreateMapDlg::cCreateMapDlg(CWnd* pParent /*=nullptr*/)
     , m_pComboController(NULL)
     , m_pSliderController(NULL)
     , m_pEditController(NULL)
-    , m_pWalkableCheck(NULL)
     , m_eMapSize(g_pMapDataManager->GetMapSize())
     , m_fDefaultHeight(g_pMapDataManager->GetDefHeight())
-    , m_eDefGroundType(g_pMapDataManager->GetDefGroundType())
-    , m_isDefWalkable(g_pMapDataManager->GetDefWalkable())
     , m_isCreateMap(g_pMapDataManager->GetCreateMap())
+    , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
+    , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
+    , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
+    , m_strTex1FileName(g_pMapDataManager->GetTex1FileName())
+    , m_strTex1FilePath(g_pMapDataManager->GetTex1FilePath())
+    , m_strTex2FileName(g_pMapDataManager->GetTex2FileName())
+    , m_strTex2FilePath(g_pMapDataManager->GetTex2FilePath())
+    , m_strTex3FileName(g_pMapDataManager->GetTex3FileName())
+    , m_strTex3FilePath(g_pMapDataManager->GetTex3FilePath())
 {
-    for (int i = 0; i < 5; ++i)
-    {
-        m_pPictureController[i] = NULL;
-    }
 }
 
 cCreateMapDlg::~cCreateMapDlg()
@@ -45,21 +47,10 @@ BOOL cCreateMapDlg::OnInitDialog()
 	m_pSliderController = (CSliderCtrl*)GetDlgItem(ID_DEFAULT_HEIGHT_SLI);
 	// == 에디터 컨트롤러 초기화 ==
 	m_pEditController = (CEdit*)GetDlgItem(ID_DEFAULT_HEIGHT_EDI);
-	// == Walkable 체크박스 초기화 ==
-	m_pWalkableCheck = (CButton*)GetDlgItem(IDC_WALKABLE_CHE);
-	m_pWalkableCheck->SetCheck(m_isDefWalkable);
-	// == 텍스쳐 이미지 컨트롤러 초기화 ==
-	m_pPictureController[0] = (CStatic*)GetDlgItem(ID_TERRAIN1_PIC);
-	m_pPictureController[1] = (CStatic*)GetDlgItem(ID_TERRAIN2_PIC);
-	m_pPictureController[2] = (CStatic*)GetDlgItem(ID_TERRAIN3_PIC);
-	m_pPictureController[3] = (CStatic*)GetDlgItem(ID_TERRAIN4_PIC);
-	m_pPictureController[4] = (CStatic*)GetDlgItem(ID_TERRAIN5_PIC);
-	// == 텍스쳐 비트맵 초기화 ==
-	m_Bitmap[0].LoadBitmapA(IDB_TERRAIN1);
-	m_Bitmap[1].LoadBitmapA(IDB_TERRAIN2);
-	m_Bitmap[2].LoadBitmapA(IDB_TERRAIN3);
-	m_Bitmap[3].LoadBitmapA(IDB_TERRAIN4);
-	m_Bitmap[4].LoadBitmapA(IDB_TERRAIN5);
+    // == 파일 이름 출력 ==
+    SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+    SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+    SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
 
 	// 콤보박스에 텍스트 추가
     for (int i = 0; i < E_MAP_SIZE_MAX; ++i)
@@ -92,44 +83,6 @@ BOOL cCreateMapDlg::OnInitDialog()
 void cCreateMapDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-
-	// == 텍스쳐 선택 라디오 버튼 초기화 및 연결 ==
-	DDX_Radio(pDX, ID_TERRAIN1_RAD, (int&)m_eDefGroundType); // 텍스쳐1번으로 라디오박스 설정
-}
-
-void cCreateMapDlg::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	
-	// 그리기 메시지에 대해서는 CDialogEx::OnPaint()을(를) 호출하지 마십시오.
-
-	// == 지형 텍스쳐 파일 그리기 ==
-	for (int i = 0; i < 5; ++i)
-	{
-		// 화면과 호환이 되는 메모리 DC를 생성
-		CDC memDC;
-		memDC.CreateCompatibleDC(m_pPictureController[i]->GetDC());
-
-		// 비트맵 리소스를 로딩
-		CBitmap* pOldBmp = NULL;
-		BITMAP bmpInfo;
-
-		// 로딩된 비트맵의 정보를 알아본다.
-		m_Bitmap[i].GetBitmap(&bmpInfo);
-
-		// 메모리 DC에 선택한다.
-		pOldBmp = memDC.SelectObject(&m_Bitmap[i]);
-
-		// 크기조절
-		//CRect rect;
-		//m_pPictureController[i]->GetClientRect(rect);
-		m_pPictureController[i]->GetDC()->StretchBlt(0, 0, 120, 30,
-			&memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, SRCCOPY);
-
-		memDC.SelectObject(pOldBmp);
-	}
 }
 
 BEGIN_MESSAGE_MAP(cCreateMapDlg, CDialogEx)
@@ -137,10 +90,10 @@ BEGIN_MESSAGE_MAP(cCreateMapDlg, CDialogEx)
 	ON_EN_CHANGE(ID_DEFAULT_HEIGHT_EDI, &cCreateMapDlg::OnDefaultHeightChange)
 	ON_NOTIFY(NM_CUSTOMDRAW, ID_DEFAULT_HEIGHT_SLI, &cCreateMapDlg::OnDefaultHeightCustomdrawDefaultHeight)
 	ON_NOTIFY(UDN_DELTAPOS, ID_DEFAULT_HEIGHT_SPI, &cCreateMapDlg::OnDeltaposDefaultHeightSpin)
-	ON_CONTROL_RANGE(BN_CLICKED, ID_TERRAIN1_RAD, ID_TERRAIN5_RAD, &cCreateMapDlg::OnSelectTextureRadio)
-	ON_WM_PAINT()
 	ON_BN_CLICKED(ID_CREATE_MAP_BNT, &cCreateMapDlg::OnClickCreateMapBnt)
-	ON_BN_CLICKED(IDC_WALKABLE_CHE, &cCreateMapDlg::OnClickWalkableCheck)
+    ON_BN_CLICKED(IDC_TEX1_LOAD_BUT, &cCreateMapDlg::OnClickedTex1LoadButton)
+    ON_BN_CLICKED(IDC_TEX2_LOAD_BUT, &cCreateMapDlg::OnClickedTex2LoadButton)
+    ON_BN_CLICKED(IDC_TEX3_LOAD_BUT, &cCreateMapDlg::OnClickedTex3LoadButton)
 END_MESSAGE_MAP()
 
 
@@ -226,21 +179,6 @@ void cCreateMapDlg::OnDefaultHeightCustomdrawDefaultHeight(NMHDR *pNMHDR, LRESUL
 	*pResult = 0;
 }
 
-// 기본 텍스쳐 값 셋팅 (라디오 버튼으로 설정)
-void cCreateMapDlg::OnSelectTextureRadio(UINT ID)
-{
-	// 변경사항이 있을 때 사용하는 함수! -> 알아서 m_unTextureIndex값이 변경됨
-	UpdateData();
-}
-
-// 걸을 수 있는지 여부 체크박스 클릭 했을 때
-void cCreateMapDlg::OnClickWalkableCheck()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
-	m_isDefWalkable = m_pWalkableCheck->GetCheck();
-}
-
 // 맵 만들기
 void cCreateMapDlg::OnClickCreateMapBnt()
 {
@@ -251,3 +189,122 @@ void cCreateMapDlg::OnClickCreateMapBnt()
 	// 메모리 관리!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	::SendMessage(this->m_hWnd, WM_CLOSE, NULL, NULL);
 }
+
+// 기본 텍스쳐 1 파일 오픈
+void cCreateMapDlg::OnClickedTex1LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex1FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex1FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex1Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+        }
+        else
+        {
+            m_strTex1FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+        }
+    }
+}
+
+// 기본 텍스쳐 2 파일 오픈
+void cCreateMapDlg::OnClickedTex2LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex2FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex2FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex2Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+        }
+        else
+        {
+            m_strTex2FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+        }
+    }
+}
+
+
+// 기본 텍스쳐 3 파일 오픈
+void cCreateMapDlg::OnClickedTex3LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex3FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex3FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex3Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
+        }
+        else
+        {
+            m_strTex3FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
+        }
+    }
+}
+

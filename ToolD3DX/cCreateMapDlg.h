@@ -15,15 +15,18 @@ private:
 	CEdit*				m_pEditController;			// 에디터 컨트롤러
 	float&				m_fDefaultHeight;			// 기본 높이 값
 
-	E_GROUND_TYPE&		m_eDefGroundType;			// 기본 텍스쳐 인덱스
-
-	CStatic*			m_pPictureController[5];	// 픽쳐 컨트롤러
-	CBitmap				m_Bitmap[5];				// 텍스쳐 비트맵
-
-	CButton*			m_pWalkableCheck;			// 걸을 수 있는지 여부 체크박스
-	bool&				m_isDefWalkable;			// 걸을 수 있는지 여부 기본값
-
     bool&               m_isCreateMap;              // 맵 생성 여부
+
+    bool&               m_isTex1Load;               // 기본 텍스쳐1 로드 여부
+    bool&               m_isTex2Load;               // 기본 텍스쳐2 로드 여부
+    bool&               m_isTex3Load;               // 기본 텍스쳐3 로드 여부
+
+    string&             m_strTex1FilePath;          // 기본 텍스쳐1 파일 패스
+    string&				m_strTex1FileName;          // 기본 텍스쳐1 파일 이름
+    string&             m_strTex2FilePath;          // 기본 텍스쳐2 파일 패스
+    string&				m_strTex2FileName;          // 기본 텍스쳐2 파일 이름
+    string&             m_strTex3FilePath;          // 기본 텍스쳐3 파일 패스
+    string&				m_strTex3FileName;          // 기본 텍스쳐3 파일 이름
 
 public:
 	cCreateMapDlg(CWnd* pParent = nullptr);			// 표준 생성자입니다.
@@ -40,12 +43,12 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
 	afx_msg void OnDefaultHeightChange();
 	afx_msg void OnMapSizeSelectchange();
 	afx_msg void OnDefaultHeightCustomdrawDefaultHeight(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnDeltaposDefaultHeightSpin(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnSelectTextureRadio(UINT ID);
 	afx_msg void OnClickCreateMapBnt();
-	afx_msg void OnClickWalkableCheck();
+    afx_msg void OnClickedTex1LoadButton();
+    afx_msg void OnClickedTex2LoadButton();
+    afx_msg void OnClickedTex3LoadButton();
 };

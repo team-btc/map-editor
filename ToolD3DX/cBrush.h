@@ -19,8 +19,8 @@ public:
     //==============      브러쉬 정보     ===================
     
     Vector4                 m_pPick;                                                // 픽킹 위치 ( 0 ~ 1)
-    float                   m_fDrawDensity;                                             // 밀도
-    E_GROUND_TYPE           m_eGroundType;                                          // 타일
+    float                   m_fDrawDensity;                                         // 밀도
+    int                     m_nGroundIndex;                                         // 타일
     E_DRAW_TYPE             m_eDrawType;                                            // 그리기 타입
     float                   m_fSprayRadius;                                         // 스프레이 반지름 ( 0 ~ 1)
     float                   m_fBrushRadius;                                         // 브러쉬 반지름 ( 0 ~ 1 )
@@ -44,7 +44,7 @@ public:
 public:
     void SetBrush(Vector4 v, float br, float sr, float drawdensity, float tex1density, float tex2density, float tex3density);
     void GetRect();
-    void SetType(E_GROUND_TYPE G_Type, E_DRAW_TYPE D_Type) { m_eGroundType = G_Type; m_eDrawType = D_Type; }
+    void SetType(int G_Type, E_DRAW_TYPE D_Type) { m_nGroundIndex = G_Type; m_eDrawType = D_Type; }
     cBrush();
     ~cBrush();
 };

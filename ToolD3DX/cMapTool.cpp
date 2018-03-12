@@ -9,10 +9,17 @@ cMapTool::cMapTool()
 	, m_pObjectTool(NULL)
     , m_eCurrTabType(g_pMapDataManager->GetTabType())
     , m_eMapSize(g_pMapDataManager->GetMapSize())
-    , m_eDefaultGroundType(g_pMapDataManager->GetDefGroundType())
     , m_fDefaultHeight(g_pMapDataManager->GetDefHeight())
-    , m_isDefaultWalkable(g_pMapDataManager->GetDefWalkable())
     , m_isCreateMap(g_pMapDataManager->GetCreateMap())
+    , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
+    , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
+    , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
+    , m_strTex1FilePath(g_pMapDataManager->GetTex1FilePath())
+    , m_strTex1FileName(g_pMapDataManager->GetTex1FileName())
+    , m_strTex2FilePath(g_pMapDataManager->GetTex2FilePath())
+    , m_strTex2FileName(g_pMapDataManager->GetTex2FileName())
+    , m_strTex3FilePath(g_pMapDataManager->GetTex3FilePath())
+    , m_strTex3FileName(g_pMapDataManager->GetTex3FileName())
     , m_pRay(NULL)
     , m_vPickPos(0, 0, 0)
 {
@@ -31,9 +38,16 @@ HRESULT cMapTool::Setup()
 
     m_eCurrTabType = E_CREATE_TAB;
     m_eMapSize = DEFAULT_MAP_SIZE;
-    m_eDefaultGroundType = E_SOIL_GROUND;
     m_fDefaultHeight = DEFAULT_HEIGHT;
-    m_isDefaultWalkable = true;
+    m_isTex1Load = false;
+    m_isTex2Load = false;
+    m_isTex3Load = false;
+    m_strTex1FilePath = "Texture";
+    m_strTex1FileName = "Soil.jpg";
+    m_strTex2FilePath = "Texture";
+    m_strTex2FileName = "Grass.jpg";
+    m_strTex3FilePath = "Texture";
+    m_strTex3FileName = "Stone.jpg";
 
     m_pTerrainTool = new cMapTerrainTool;
     m_pTerrainTool->Setup();
@@ -118,7 +132,7 @@ HRESULT cMapTool::CreateMap()
 
     if (m_pTerrainTool)
     {
-        m_pTerrainTool->CreateMap(m_eMapSize, m_eDefaultGroundType, m_fDefaultHeight, m_isDefaultWalkable);
+        m_pTerrainTool->CreateMap(m_eMapSize, m_fDefaultHeight);
         
     }
     

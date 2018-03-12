@@ -24,6 +24,7 @@ public:
     void SetShader(/* char * sTexFile, char * sTexFileKey, */float fHeight = 0.0f, float fWaveHeight = 0.6f, float fSpeed = 2.4f,
         float fUVSpeed = 7.0f, float fWaveFrequency = 0.01f, float fTransparent = 0.6f); 
     void SetMesh(LPMESH mesh);
+    void SetWaveTexture(string strFilePath, string strFileName);
 
     void Render(D3DXVECTOR4 vCameraPosition);
 };

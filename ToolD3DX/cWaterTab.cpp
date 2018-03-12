@@ -30,6 +30,13 @@ cWaterTab::cWaterTab(CWnd* pParent /*=nullptr*/)
     , m_fHeightSpeed(g_pMapDataManager->GetWaterHeightSpeed())
     , m_fFrequency(g_pMapDataManager->GetWaterFrequency())
     , m_fTransparent(g_pMapDataManager->GetWaterTransparent())
+    , m_isMakeWater(g_pMapDataManager->GetIsMakeWater())
+    , m_isSetWaterFile(g_pMapDataManager->GetIsSetWaterFile())
+    , m_strWaterFileName(g_pMapDataManager->GetWaterFileName())
+    , m_strWaterFilePath(g_pMapDataManager->GetWaterFilePath())
+    , m_isSetSkyFile(g_pMapDataManager->GetIsSetSkyFile())
+    , m_strSkyFileName(g_pMapDataManager->GetSkyFileName())
+    , m_strSkyFilePath(g_pMapDataManager->GetSkyFilePath())
 {
 }
 
@@ -145,6 +152,13 @@ BOOL cWaterTab::OnInitDialog()
     sprintf(str, "%0.1f", m_fTransparent);
     SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
+    // 체크박스 초기화 (물 안만듬)
+    ((CButton*)GetDlgItem(IDC_WATER_MAKE_CHE))->SetCheck(m_isMakeWater);
+
+    // 파일 이름 출력
+    SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
+    SetDlgItemText(IDC_SKY_FILE_NAME_STA, m_strSkyFileName.c_str());
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -174,6 +188,9 @@ BEGIN_MESSAGE_MAP(cWaterTab, CDialogEx)
     ON_EN_CHANGE(IDC_WATER_TRANSPARENT_EDI, &cWaterTab::OnChangeTransparentEditer)
     ON_NOTIFY(UDN_DELTAPOS, IDC_WATER_TRANSPARENT_SPI, &cWaterTab::OnDeltaposTransparentSpin)
     ON_NOTIFY(NM_CUSTOMDRAW, IDC_WATER_TRANSPARENT_SLI, &cWaterTab::OnCustomDrawTransparentSlider)
+    ON_BN_CLICKED(IDC_WATER_LOAD_BUT, &cWaterTab::OnClickedWaterFileLoadButton)
+    ON_BN_CLICKED(IDC_SKY_LOAD_BUT, &cWaterTab::OnClickedSkyFileLoadButton)
+    ON_BN_CLICKED(IDC_WATER_MAKE_CHE, &cWaterTab::OnClickedWaterMakeCheck)
 END_MESSAGE_MAP()
 
 
@@ -640,4 +657,93 @@ void cWaterTab::OnCustomDrawTransparentSlider(NMHDR *pNMHDR, LRESULT *pResult)
     SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     *pResult = 0;
+}
+
+// 물 파일 로드 버튼
+void cWaterTab::OnClickedWaterFileLoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strWaterFilePath = FileDialog.GetFolderPath().GetString();
+            m_strWaterFileName = FileDialog.GetFileName().GetString();
+
+            m_isSetWaterFile = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
+        }
+        else
+        {
+            m_strWaterFileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
+        }
+    }
+}
+
+// 하늘 파일 로드 버튼
+void cWaterTab::OnClickedSkyFileLoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "DDS Files (*.dds) |*.DDS|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "DDS 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "DDS" || check == "dds")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strSkyFilePath = FileDialog.GetFolderPath().GetString();
+            m_strSkyFileName = FileDialog.GetFileName().GetString();
+
+            m_isSetSkyFile = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_SKY_FILE_NAME_STA, m_strSkyFileName.c_str());
+        }
+        else
+        {
+            m_strSkyFileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_SKY_FILE_NAME_STA, m_strSkyFileName.c_str());
+        }
+    }
+}
+
+// 물 생성 여부
+void cWaterTab::OnClickedWaterMakeCheck()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    
+    // 체크박스 값 받아오기
+    m_isMakeWater = ((CButton*)GetDlgItem(IDC_WATER_MAKE_CHE))->GetCheck();
 }

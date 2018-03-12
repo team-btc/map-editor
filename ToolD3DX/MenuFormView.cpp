@@ -86,7 +86,7 @@ void CMenuFormView::OnInitialUpdate()
 	// ÅÇ ÀÌ¸§ ¼ÂÆÃ
 	m_pTabController->InsertItem(1, "Terrain");
 	m_pTabController->InsertItem(2, "Texture");
-	m_pTabController->InsertItem(3, "Water");
+	m_pTabController->InsertItem(3, "Water/Sky");
 	m_pTabController->InsertItem(4, "Object");
 
 	// ÅÇ Å©±â ¼ÂÆÃ

@@ -6,8 +6,10 @@ cWaveShader::cWaveShader()
     : gWorldLightPosition(10.0f, 1500.0f, 0.0, 1.0f)
     , gLightColor(0.7f, 0.7f, 1.0f, 1.0f)
     , m_pMesh(NULL)
+    , m_pTexture(NULL)
 {
-
+    g_pShaderManager->AddEffect("Wave", "Shader/FX/WaveShader.fx");
+    m_pWaveShader = g_pShaderManager->GetEffect("Wave");
 }
 
 cWaveShader::~cWaveShader()
@@ -23,11 +25,6 @@ void cWaveShader::SetShader(float fHeight, float fWaveHeight, float fSpeed, floa
     m_pUVSpeed = fUVSpeed;
     m_pWaveFrequency = fWaveFrequency;
     m_pTransparent = fTransparent;
-
-    g_pTextureManager->AddTexture("Water", "Shader/Texture/water.jpg");
-    g_pShaderManager->AddEffect("Wave", "Shader/FX/WaveShader.fx");
-    m_pWaveShader = g_pShaderManager->GetEffect("Wave");                                 // 툴이 시작할때 기본적으로 Add 해주므로 나중에 고치면 댐
-    m_pTexture = (LPTEXTURE9)g_pTextureManager->GetTexture("Water");                     // 툴이 시작할때 기본적으로 Add 해주므로 나중에 고치면 댐
 }
 
 // 매쉬 복사
@@ -36,8 +33,20 @@ void cWaveShader::SetMesh(LPMESH mesh)
     mesh->CloneMeshFVF(mesh->GetOptions(), mesh->GetFVF(), g_pDevice, &m_pMesh);
 }
 
+// 텍스쳐 셋팅
+void cWaveShader::SetWaveTexture(string strFilePath, string strFileName)
+{
+    g_pTextureManager->AddTexture(strFileName, strFilePath + "//" + strFileName);
+    m_pTexture = (LPTEXTURE9)g_pTextureManager->GetTexture(strFileName);
+}
+
 void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
 {
+    if (m_pTexture == NULL || m_pMesh == NULL)
+    {
+        return;
+    }
+
     D3DXMATRIXA16 matW, matView, matProjection;
     D3DXMatrixIdentity(&matW);
     matW._42 += m_pHeight - g_pMapDataManager->GetDefHeight();

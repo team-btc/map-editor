@@ -5,13 +5,18 @@
 cTextureShader::cTextureShader()
     :m_pBrush(NULL)
 {
-    g_pTextureManager->AddTexture("null", "Shader/Texture/Null.png");
     g_pShaderManager->AddEffect("rendtex", "Shader/FX/TextureShader.fx");
     m_pTextureShader = g_pShaderManager->GetEffect("rendtex");
-    ZeroMemory(m_pTexture, 4);
-    ZeroMemory(m_TexDensity, 4);
+    ZeroMemory(m_pTexture, 3);
+
+    for (int i = 1; i < 3; ++i)
+    {
+        m_TexDensity[i] = 0.0f;
+    }
+
     m_nTimer = 0;
 }
+
 cTextureShader::~cTextureShader()
 {
   
@@ -19,20 +24,28 @@ cTextureShader::~cTextureShader()
 
 void cTextureShader::SetTexture()
 {
-    g_pTextureManager->AddTexture("default", "Shader/Texture/Default.jpg");
-    g_pTextureManager->AddTexture("Soil", "Texture/Soil.jpg");
-    g_pTextureManager->AddTexture("Grass", "Texture/Grass.jpg");
-    g_pTextureManager->AddTexture("Stone", "Texture/Ston.jpg");
+    SetTexture1();
+    SetTexture2();
+    SetTexture3();
+}
 
-    m_pTexture[0] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("null");
-    m_pTexture[1] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Soil");
-    m_pTexture[2] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Grass");
-    m_pTexture[3] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Stone");
+void cTextureShader::SetTexture1()
+{
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex1FileName(), g_pMapDataManager->GetTex1FilePath() + "//" + g_pMapDataManager->GetTex1FileName());
+    m_pTexture[0] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex1FileName());
+}
 
-    for (int i = 1; i < 4; ++i)
-    {
-        m_TexDensity[i] = 0.0f;
-    }
+void cTextureShader::SetTexture2()
+{
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex2FileName(), g_pMapDataManager->GetTex2FilePath() + "//" + g_pMapDataManager->GetTex2FileName());
+    m_pTexture[1] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex2FileName());
+}
+
+void cTextureShader::SetTexture3()
+{
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex3FileName(), g_pMapDataManager->GetTex3FilePath() + "//" + g_pMapDataManager->GetTex3FileName());
+    m_pTexture[2] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex3FileName());
+
 }
 
 void cTextureShader::DrawTexture()
@@ -41,7 +54,7 @@ void cTextureShader::DrawTexture()
     switch (m_pBrush->m_eDrawType)
     {
     case E_DRAW_BRUSH:
-        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+        if (m_pBrush->m_nGroundIndex == 0)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -89,7 +102,7 @@ void cTextureShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 1)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -137,7 +150,7 @@ void cTextureShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 2)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -188,7 +201,7 @@ void cTextureShader::DrawTexture()
         break;
 
     case E_DRAW_SPRAY :
-        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+        if (m_pBrush->m_nGroundIndex == 0)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -246,7 +259,7 @@ void cTextureShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 1)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -304,7 +317,7 @@ void cTextureShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 2)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -440,9 +453,9 @@ void cTextureShader::Render()
     m_pTextureShader->SetMatrix("gProjectionMatrix", &matProjection);
 
     m_pTextureShader->SetTexture("texture0", m_pTexture[0]);
-    m_pTextureShader->SetTexture("texture1", m_pTexture[1]);
-    m_pTextureShader->SetTexture("texture2", m_pTexture[2]);
-    m_pTextureShader->SetTexture("texture3", m_pTexture[3]);
+    m_pTextureShader->SetTexture("texture1", m_pTexture[0]);
+    m_pTextureShader->SetTexture("texture2", m_pTexture[1]);
+    m_pTextureShader->SetTexture("texture3", m_pTexture[2]);
     
     m_pTextureShader->SetTexture("AlphaMap", m_pAlphaDraw);
 

@@ -57,13 +57,11 @@ void cTotalShader::SetTexture()
 
 void cTotalShader::DrawTexture()
 {
-
-
     int Density = 0;
     switch (m_pBrush->m_eDrawType)
     {
     case E_DRAW_BRUSH:
-        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+        if (m_pBrush->m_nGroundIndex == 0)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -111,7 +109,7 @@ void cTotalShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 1)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -159,7 +157,7 @@ void cTotalShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 2)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -210,7 +208,7 @@ void cTotalShader::DrawTexture()
         break;
 
     case E_DRAW_SPRAY:
-        if (m_pBrush->m_eGroundType == E_SOIL_GROUND)
+        if (m_pBrush->m_nGroundIndex == 0)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -268,7 +266,7 @@ void cTotalShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_GRASS_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 1)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 
@@ -326,7 +324,7 @@ void cTotalShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        else if (m_pBrush->m_eGroundType == E_STONE_GROUND)
+        else if (m_pBrush->m_nGroundIndex == 2)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
 

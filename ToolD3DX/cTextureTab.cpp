@@ -26,10 +26,19 @@ cTextureTab::cTextureTab(CWnd* pParent /*=nullptr*/)
     , m_pTex2DensityEditCtl(NULL)
     , m_pTex3DensitySliderCtl(NULL)
     , m_pTex3DensityEditCtl(NULL)
+    , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
+    , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
+    , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
+    , m_strTex1FileName(g_pMapDataManager->GetTex1FileName())
+    , m_strTex1FilePath(g_pMapDataManager->GetTex1FilePath())
+    , m_strTex2FileName(g_pMapDataManager->GetTex2FileName())
+    , m_strTex2FilePath(g_pMapDataManager->GetTex2FilePath())
+    , m_strTex3FileName(g_pMapDataManager->GetTex3FileName())
+    , m_strTex3FilePath(g_pMapDataManager->GetTex3FilePath())
     , m_fTex1Density(g_pMapDataManager->GetTex1Density())
     , m_fTex2Density(g_pMapDataManager->GetTex2Density())
     , m_fTex3Density(g_pMapDataManager->GetTex3Density())
-    , m_eTextureIndex(g_pMapDataManager->GetCurrTexType())
+    , m_nTextureIndex(g_pMapDataManager->GetCurrTexIndex())
     , m_eDrawType(g_pMapDataManager->GetDrawType())
     , m_fTextureDensity(g_pMapDataManager->GetDrawDensity())
     , m_fBrushSize(g_pMapDataManager->GetTexBrushSize())
@@ -49,18 +58,10 @@ BOOL cTextureTab::OnInitDialog()
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
-	// == 텍스쳐 이미지 컨트롤러 초기화 ==
-	m_pPictureController[0] = (CStatic*)GetDlgItem(ID_TERRAIN1_PIC);
-	m_pPictureController[1] = (CStatic*)GetDlgItem(ID_TERRAIN2_PIC);
-	m_pPictureController[2] = (CStatic*)GetDlgItem(ID_TERRAIN3_PIC);
-	m_pPictureController[3] = (CStatic*)GetDlgItem(ID_TERRAIN4_PIC);
-	m_pPictureController[4] = (CStatic*)GetDlgItem(ID_TERRAIN5_PIC);
-	// == 텍스쳐 비트맵 초기화 ==
-	m_Bitmap[0].LoadBitmapA(IDB_TERRAIN1);
-	m_Bitmap[1].LoadBitmapA(IDB_TERRAIN2);
-	m_Bitmap[2].LoadBitmapA(IDB_TERRAIN3);
-	m_Bitmap[3].LoadBitmapA(IDB_TERRAIN4);
-	m_Bitmap[4].LoadBitmapA(IDB_TERRAIN5);
+    // == 파일 이름 출력 ==
+    SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+    SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+    SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
 
 	// == 텍스쳐 밀도값 설정 초기화 ==
 	m_pTextureDensitySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_TEXTURE_DENSITY_SLI);
@@ -184,49 +185,14 @@ void cTextureTab::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 
 	// == 텍스쳐 선택 라디오 버튼 초기화 및 연결 ==
-	DDX_Radio(pDX, ID_TERRAIN1_RAD, (int&)m_eTextureIndex); // 텍스쳐1번으로 라디오박스 설정
+	DDX_Radio(pDX, ID_TERRAIN1_RAD, (int&)m_nTextureIndex); // 텍스쳐1번으로 라디오박스 설정
 
     // == 텍스쳐 선택 라디오 버튼 초기화 및 연결 ==
     DDX_Radio(pDX, IDC_BRUSH_RAD, (int&)m_eDrawType); // BRUSH로 그리기 설정
 }
 
-void cTextureTab::OnPaint()
-{
-	CPaintDC dc(this); // device context for painting
-					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
-					   // 그리기 메시지에 대해서는 CDialogEx::OnPaint()을(를) 호출하지 마십시오.
-
-					   // == 지형 텍스쳐 파일 그리기 ==
-	for (int i = 0; i < 5; ++i)
-	{
-		// 화면과 호환이 되는 메모리 DC를 생성
-		CDC memDC;
-		memDC.CreateCompatibleDC(m_pPictureController[i]->GetDC());
-
-		// 비트맵 리소스를 로딩
-		CBitmap* pOldBmp = NULL;
-		BITMAP bmpInfo;
-
-		// 로딩된 비트맵의 정보를 알아본다.
-		m_Bitmap[i].GetBitmap(&bmpInfo);
-
-		// 메모리 DC에 선택한다.
-		pOldBmp = memDC.SelectObject(&m_Bitmap[i]);
-
-		// 크기조절
-		//CRect rect;
-		//m_pPictureController[i]->GetClientRect(rect);
-		m_pPictureController[i]->GetDC()->StretchBlt(0, 0, 120, 30,
-			&memDC, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, SRCCOPY);
-
-		memDC.SelectObject(pOldBmp);
-	}
-}
-
-
 BEGIN_MESSAGE_MAP(cTextureTab, CDialogEx)
-	ON_WM_PAINT()
-    ON_CONTROL_RANGE(BN_CLICKED, ID_TERRAIN1_RAD, ID_TERRAIN5_RAD, &cTextureTab::OnSelectTextureRadio)
+    ON_CONTROL_RANGE(BN_CLICKED, ID_TERRAIN1_RAD, ID_TERRAIN3_RAD, &cTextureTab::OnSelectTextureRadio)
 	ON_EN_CHANGE(IDC_TEXTURE_DENSITY_EDI, &cTextureTab::OnChangeTextureDensityEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_TEXTURE_DENSITY_SPI, &cTextureTab::OnDeltaposTextureDensitySpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_TEXTURE_DENSITY_SLI, &cTextureTab::OnCustomDrawTextureDensitySlider)
@@ -249,6 +215,9 @@ BEGIN_MESSAGE_MAP(cTextureTab, CDialogEx)
     ON_NOTIFY(UDN_DELTAPOS, IDC_Tex1_DSIZE_SPI, &cTextureTab::OnDeltaposTex1DsizeSpi)
     ON_NOTIFY(UDN_DELTAPOS, IDC_TEX2_DSIZE_SPI, &cTextureTab::OnDeltaposTex2DsizeSpi)
     ON_NOTIFY(UDN_DELTAPOS, IDIDC_TEX3_DSIZE_SPI, &cTextureTab::OnDeltaposTex3DsizeSpi)
+    ON_BN_CLICKED(IDC_TEX1_LOAD_BUT, &cTextureTab::OnClickedTex1LoadButton)
+    ON_BN_CLICKED(IDC_TEX2_LOAD_BUT, &cTextureTab::OnClickedTex2LoadButton)
+    ON_BN_CLICKED(IDC_TEX3_LOAD_BUT, &cTextureTab::OnClickedTex3LoadButton)
 END_MESSAGE_MAP()
 
 
@@ -758,4 +727,121 @@ void cTextureTab::OnDeltaposTex3DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     m_pTex3DensitySliderCtl->SetPos(m_fTex3Density);		// 위치 설정
 
     *pResult = 0;
+}
+
+void cTextureTab::OnClickedTex1LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex1FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex1FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex1Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+        }
+        else
+        {
+            m_strTex1FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+        }
+    }
+}
+
+// 기본 텍스쳐 2 파일 오픈
+void cTextureTab::OnClickedTex2LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex2FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex2FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex2Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+        }
+        else
+        {
+            m_strTex2FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+        }
+    }
+}
+
+
+// 기본 텍스쳐 3 파일 오픈
+void cTextureTab::OnClickedTex3LoadButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    char current_path[MAX_PATH];
+    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 확장자 필터
+    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    string caption = "JPG 파일 불러오기";
+
+    if (FileDialog.DoModal() == IDOK)
+    {
+        //파일 확장자 가져오기 
+        CString check = FileDialog.GetFileExt();
+
+        // 확장자가 jpg인지 체크 
+        if (check == "JPG" || check == "jpg")
+        {
+            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
+            m_strTex3FilePath = FileDialog.GetFolderPath().GetString();
+            m_strTex3FileName = FileDialog.GetFileName().GetString();
+
+            m_isTex3Load = true;
+
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
+        }
+        else
+        {
+            m_strTex3FileName = "NONE";
+            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+            // 파일 이름을 표시해줌
+            SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
+        }
+    }
 }

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cMapTerrainTool.h"
 
-
 cMapTerrainTool::cMapTerrainTool()
     : m_stTerrainBrushInfo(g_pMapDataManager->GetTerUpDown()
         , g_pMapDataManager->GetTerEditType()
@@ -9,7 +8,7 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetTerEditPower()
         , g_pMapDataManager->GetTerEditHeight()
         , g_pMapDataManager->GetTerBrushSize())
-    , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexType()
+    , m_stTextureBrushInfo(g_pMapDataManager->GetCurrTexIndex()
         , g_pMapDataManager->GetDrawDensity()
         , g_pMapDataManager->GetTexBrushSize()
         , g_pMapDataManager->GetTexBrushDenSize()
@@ -23,6 +22,14 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterHeightSpeed()
         , g_pMapDataManager->GetWaterFrequency()
         , g_pMapDataManager->GetWaterTransparent())
+    , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
+    , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
+    , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
+    , m_isWaterEnable(g_pMapDataManager->GetIsMakeWater())
+    , m_isSetWaterFile(g_pMapDataManager->GetIsSetWaterFile())
+    , m_strWaterFileName(g_pMapDataManager->GetWaterFileName())
+    , m_isSetSkyFile(g_pMapDataManager->GetIsSetSkyFile())
+    , m_strSkyFileName(g_pMapDataManager->GetSkyFileName())
     , m_pMesh(NULL)
     , m_vPickPos(NULL)
     , m_pTextureShader(NULL)
@@ -56,9 +63,6 @@ HRESULT cMapTerrainTool::Setup()
     m_pTextureShader = new cTextureShader;
     m_pWaveShader = new cWaveShader;
     m_pSkyBoxShader = new cSkyBoxShader;
-    m_pSkyBoxShader->SetBox("skybox","Shader/Texture/skybox_midnight.dds");
-    m_pTextureShader->SetTexture();
-    m_pTextureShader->SetBrush(m_pBrush);
 
     m_stTerrainBrushInfo.eUpDown = E_UP;
     m_stTerrainBrushInfo.eEditType = E_TER_EDIT_BEGIN;
@@ -67,7 +71,7 @@ HRESULT cMapTerrainTool::Setup()
     m_stTerrainBrushInfo.fEditHeight = g_pMapDataManager->GetDefHeight();
     m_stTerrainBrushInfo.fBrushSize = 30.0f;
 
-    m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
+    m_stTextureBrushInfo.m_nCurrTextureIndex = 0;
     m_stTextureBrushInfo.fDrawDensity = 100.0f;
     m_stTextureBrushInfo.fTextureBrushSize = 5.0f;
     m_stTextureBrushInfo.fTextureBrushSpraySize = 10.0f;
@@ -83,6 +87,16 @@ HRESULT cMapTerrainTool::Setup()
     m_stWaterInfo.fHeightSpeed = 2.4f;
     m_stWaterInfo.fFrequency = 7.0f;
     m_stWaterInfo.fTransparent = 0.6f;
+
+    m_isWaterEnable = false;
+    m_isSetWaterFile = false;
+    m_isSetSkyFile = false;
+    m_strWaterFileName = "NONE";
+    m_strSkyFileName = "skybox_midnight.dds";
+    m_pSkyBoxShader->SetBox("skybox_midnight.dds", "Shader/Texture/skybox_midnight.dds");
+    m_pTextureShader->SetTexture();
+    m_pTextureShader->SetBrush(m_pBrush);
+    m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 
 	return S_OK;
 }
@@ -100,13 +114,45 @@ HRESULT cMapTerrainTool::Update()
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
+        // 텍스쳐 파일변경 하기
+        if (m_isTex1Load)
+        {
+            m_pTextureShader->SetTexture1();
+        }
+        if (m_isTex2Load)
+        {
+            m_pTextureShader->SetTexture2();
+        }
+        if (m_isTex2Load)
+        {
+            m_pTextureShader->SetTexture3();
+        }
+
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
+    else if (g_pMapDataManager->GetTabType() == E_WATER_TAB)
+    {
+        m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
+        
+        // 물 파일을 새로 셋팅해야 하면
+        if (m_isSetWaterFile)
+        {
+            // 다시 변경해줌
+            m_isSetWaterFile = false;
+            m_pWaveShader->SetWaveTexture(g_pMapDataManager->GetWaterFilePath(), m_strWaterFileName);
+        }
 
-    m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
+        // 하늘 파일을 새로 셋팅해야 하면
+        if (m_isSetSkyFile)
+        {
+            // 다시 변경해줌
+            m_isSetSkyFile = false;
+            m_pSkyBoxShader->SetBox(m_strSkyFileName, g_pMapDataManager->GetSkyFilePath() + "//" + m_strSkyFileName);
+        }
+    }
 	
     // 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
@@ -164,10 +210,15 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
+
     m_pSkyBoxShader->Render(vP);
+
     m_pTextureShader->Render();
 
-    m_pWaveShader->Render(vP);
+    if (m_isWaterEnable)
+    {
+        m_pWaveShader->Render(vP);
+    }
 
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
 
@@ -211,26 +262,19 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
     // 텍스쳐탭
     else if (eTabType == E_TEXTURE_TAB)
     {
-        m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType, m_stTextureBrushInfo.m_eDrawType);
+        m_pBrush->SetType(m_stTextureBrushInfo.m_nCurrTextureIndex, m_stTextureBrushInfo.m_eDrawType);
         m_pTextureShader->Update();
     }
 }
 
 // 크기 설정한 맵 생성 (x사이즈, z사이즈, 지형 타입)
-HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType,
-    IN float fHeight, IN float isWalkable)
+HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
 {
     // 가로 세로 사이즈 계산 후 맵 만들기
     m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
     m_pTextureShader->SetMapSize();
     int nSizeX = m_ptMapSize.x;
     int nSizeZ = m_ptMapSize.y;
-
-    // 예외처리
-    if (nSizeX <= 0 || nSizeZ < 0 || eGroundType < E_GROUND_TYPE_BEGIN || eGroundType >= E_GROUND_TYPE_MAX)
-    {
-        return E_INVALIDARG;
-    }
 
     // ex) 512 * 512
     //   ofstream c;

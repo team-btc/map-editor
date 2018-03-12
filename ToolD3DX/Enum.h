@@ -1,14 +1,11 @@
 #pragma once
 
-// 지형 타입
-enum E_GROUND_TYPE {
-	E_GROUND_TYPE_BEGIN,
-    E_SOIL_GROUND = E_GROUND_TYPE_BEGIN,		// 흙 지형
-    //E_WATER_GROUND,							// 물 지형
-    E_GRASS_GROUND,								// 풀 지형
-    E_STONE_GROUND,								// 돌 지형
-	E_GROUND_TYPE_MAX
-};
+//// 지형 타입
+//enum E_GROUND_TYPE {
+//    E_GROUND_1,
+//    E_GROUND_2,
+//    E_GROUND_3
+//};
 
 // 이벤트 트랩 타입
 enum E_EVENT_TRAP_TYPE {

@@ -9,11 +9,19 @@ class cTextureTab : public CDialogEx
 
 private:
 	// == 텍스쳐 선택 ==
-	E_GROUND_TYPE&		m_eTextureIndex;			// 기본 텍스쳐 인덱스
+	int&		        m_nTextureIndex;			// 기본 텍스쳐 인덱스
     E_DRAW_TYPE&        m_eDrawType;                // 그리기 타입
 
-	CStatic*			m_pPictureController[5];	// 픽쳐 컨트롤러
-	CBitmap				m_Bitmap[5];				// 텍스쳐 비트맵
+    // == 텍스쳐 파일 ==
+    bool&               m_isTex1Load;               // 기본 텍스쳐1 로드 여부
+    bool&               m_isTex2Load;               // 기본 텍스쳐2 로드 여부
+    bool&               m_isTex3Load;               // 기본 텍스쳐3 로드 여부
+    string&             m_strTex1FilePath;          // 기본 텍스쳐1 파일 패스
+    string&				m_strTex1FileName;          // 기본 텍스쳐1 파일 이름
+    string&             m_strTex2FilePath;          // 기본 텍스쳐2 파일 패스
+    string&				m_strTex2FileName;          // 기본 텍스쳐2 파일 이름
+    string&             m_strTex3FilePath;          // 기본 텍스쳐3 파일 패스
+    string&				m_strTex3FileName;          // 기본 텍스쳐3 파일 이름
 
 	// == 텍스쳐 밀도값 ==
 	CSliderCtrl*		m_pTextureDensitySliderCtl;	// 슬라이더 컨트롤러
@@ -65,7 +73,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
 	afx_msg void OnSelectTextureRadio(UINT ID);
 	afx_msg void OnChangeTextureDensityEditer();
 	afx_msg void OnDeltaposTextureDensitySpin(NMHDR *pNMHDR, LRESULT *pResult);
@@ -90,4 +97,8 @@ public:
     afx_msg void OnDeltaposTex1DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnDeltaposTex2DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnDeltaposTex3DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult);
+
+    afx_msg void OnClickedTex1LoadButton();
+    afx_msg void OnClickedTex2LoadButton();
+    afx_msg void OnClickedTex3LoadButton();
 };

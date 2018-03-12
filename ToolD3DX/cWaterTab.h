@@ -37,6 +37,17 @@ private:
     CEdit*					m_pTransparentEditCtl;		// 에디터 컨트롤러
     float&					m_fTransparent;				// 물 투명값
 
+    // == 물 파일 경로 ==
+    bool&                   m_isMakeWater;              // 물 만들지 여부
+    bool&                   m_isSetWaterFile;           // 물 파일 셋팅 여부
+    string&					m_strWaterFileName;         // 물 파일 이름
+    string&                 m_strWaterFilePath;         // 물 패스
+
+    // == 하늘 파일 경로 ==
+    bool&                   m_isSetSkyFile;             // 하늘 파일 셋팅 여부
+    string&					m_strSkyFileName;           // 하늘 파일 이름
+    string&                 m_strSkyFilePath;           // 하늘 패스
+
 public:
     cWaterTab(CWnd* pParent = nullptr);   // 표준 생성자입니다.
     virtual ~cWaterTab();
@@ -70,4 +81,7 @@ public:
     afx_msg void OnChangeTransparentEditer();
     afx_msg void OnDeltaposTransparentSpin(NMHDR *pNMHDR, LRESULT *pResult);
     afx_msg void OnCustomDrawTransparentSlider(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnClickedWaterFileLoadButton();
+    afx_msg void OnClickedSkyFileLoadButton();
+    afx_msg void OnClickedWaterMakeCheck();
 };

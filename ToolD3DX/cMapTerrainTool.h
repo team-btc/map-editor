@@ -35,16 +35,16 @@ struct ST_TER_BRUSH_INFO {
 
 // 텍스쳐 브러쉬 정보
 struct ST_TEX_BRUSH_INFO {
-    E_GROUND_TYPE&                  m_eCurrTextureType;								// 현재 선택된 텍스쳐
-    float&							fDrawDensity;								// 텍스쳐 농도 값
+    int&                            m_nCurrTextureIndex;							// 현재 선택된 텍스쳐
+    float&							fDrawDensity;								    // 텍스쳐 농도 값
     float&							fTextureBrushSize;								// 텍스쳐 안쪽 브러쉬 사이즈
     float&							fTextureBrushSpraySize;							// 텍스쳐 바깥쪽 브러쉬 사이즈
     E_DRAW_TYPE&                    m_eDrawType;                                    // 그리기 타입
     float&                          m_fTex1Density;                                 // 텍스쳐1 밀도
     float&                          m_fTex2Density;                                 // 텍스쳐2 밀도
     float&                          m_fTex3Density;                                 // 텍스쳐3 밀도
-    ST_TEX_BRUSH_INFO(E_GROUND_TYPE& _eCTT, float& _fDD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT, float& _fTD1, float& _fTD2, float& _fTD3)
-        : m_eCurrTextureType(_eCTT), fDrawDensity(_fDD)
+    ST_TEX_BRUSH_INFO(int& _iCTI, float& _fDD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT, float& _fTD1, float& _fTD2, float& _fTD3)
+        : m_nCurrTextureIndex(_iCTI), fDrawDensity(_fDD)
         , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT), m_fTex1Density(_fTD1), m_fTex2Density(_fTD2), m_fTex3Density(_fTD3){}
 
 };
@@ -90,6 +90,16 @@ private:
 
     D3DFILLMODE                     m_fillMode;
 
+    bool&                           m_isTex1Load;                                   // 기본 텍스쳐1 로드 여부
+    bool&                           m_isTex2Load;                                   // 기본 텍스쳐2 로드 여부
+    bool&                           m_isTex3Load;                                   // 기본 텍스쳐3 로드 여부
+
+    bool&                           m_isWaterEnable;                                // 물 보여주기 여부
+    bool&                           m_isSetWaterFile;                               // 물 파일 셋팅 여부
+    string&                         m_strWaterFileName;                             // 물 파일 이름
+    bool&                           m_isSetSkyFile;                                 // 하늘 파일 셋팅 여부
+    string&                         m_strSkyFileName;                               // 하늘 파일 이름
+
     cBrush*                         m_pBrush;                                       // 브러쉬 클래스
     cWaveShader*                    m_pWaveShader;
     cSkyBoxShader*                  m_pSkyBoxShader;
@@ -123,7 +133,7 @@ public:
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
 
-    HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGroundType, IN float fHeight, IN float isWalkable);		// 크기 설정한 맵 생성
+    HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight);		                                                // 크기 설정한 맵 생성
 
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
