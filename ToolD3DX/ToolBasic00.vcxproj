@@ -197,6 +197,7 @@
     <ClInclude Include="cAllocateHierarchy.h" />
     <ClInclude Include="cAutoReleasePool.h" />
     <ClInclude Include="cBrush.h" />
+    <ClInclude Include="cMapObject.h" />
     <ClInclude Include="cTextureShader.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -252,6 +253,7 @@
     <ClCompile Include="cAllocateHierarchy.cpp" />
     <ClCompile Include="cAutoReleasePool.cpp" />
     <ClCompile Include="cBrush.cpp" />
+    <ClCompile Include="cMapObject.cpp" />
     <ClCompile Include="cTextureShader.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>

@@ -192,6 +192,9 @@
     <ClInclude Include="cTotalShader.h">
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="cMapObject.h">
+      <Filter>D3DX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -310,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="cTotalShader.cpp">
       <Filter>D3DX\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cMapObject.cpp">
+      <Filter>D3DX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

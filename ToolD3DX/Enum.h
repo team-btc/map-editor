@@ -86,9 +86,31 @@ enum E_TER_BRUSH_TYPE {
     E_TER_BRUSH_SHARP       // 날카롭게
 };
 
+// 텍스쳐 바르는 타입
 enum E_DRAW_TYPE {
     E_DRAW_BRUSH,
     E_DRAW_SPRAY,
     E_DRAW_ERASE,
     E_DRAW_NONE
+};
+
+// 오브젝트 탭 오브젝트 에딧 버튼 상태 
+enum E_OBJECT_TAB_BUTTON_STATE
+{
+    E_OBJ_TAB_BTN_LOCATE, 
+    E_OBJ_TAB_BTN_RELOCATE, 
+    E_OBJ_TAB_BTN_REMOVE, 
+    E_OBJ_TAB_BTN_MAX
+};
+
+// 오브젝트 탭 블록 에딧 버튼 상태
+enum E_BLOCK_BUTTON_STATE
+{
+    E_BLOCK_BTN_START, 
+    E_BLOCK_BTN_PROGRESS, 
+    E_BLOCK_BTN_MODIFY,
+    E_BLOCK_BTN_DELETE,
+    E_BLOCK_BTN_LATEST_DELETE,
+    E_BLOCK_BTN_END, 
+    E_BLOCK_BTN_MAX
 };

@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#define BLOCK_GROUP_NAME    ("BLOCK_GROUP_")
+#define NO_NAME           ("None")
 
 // cObjectTab 대화 상자
 
@@ -8,11 +10,9 @@ struct ST_OBJ_FILE
 	CString			strRoot;
 	vector<CString> vecChild;
 };
-
 class cObjectTab : public CDialogEx
 {
 	DECLARE_DYNAMIC(cObjectTab)
-
 private:
 	// == 오브젝트 파일 ==
 	vector<ST_OBJ_FILE>		m_vecObjectFile;		// 오브젝트 파일 목록
@@ -57,6 +57,19 @@ private:
 	CEdit*					m_pObjRotZEditCtl;		// 에디터 컨트롤러
     float&					m_fObjRotZ;				// 오브젝트 Z축 회전값
 
+	// == X 파일 경로
+	string					m_strFileName;             // 현재 사용 파일 이름
+	string                  m_strFilePath;             // 현재 사용 패스
+
+	// == 오브젝트 에딧 버튼
+    E_OBJECT_TAB_BUTTON_STATE&  m_eObjectTabButtonState;
+
+    // == 블록 그룹 관련 ==
+    E_BLOCK_BUTTON_STATE&   m_eBlockButtonState;       // 블록 관련 버튼 상태 
+    CListBox*				m_pBlockGroupListBox;	   // 만들어진 블록그룹 리스트
+    string&					m_SelectBlockGroupName;    // 현재 선택한 블록 그륩
+    int                     m_nBlockGroupMakeNum;      // 블록 그룹을 만든 횟수 
+
 public:
 	cObjectTab(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~cObjectTab();
@@ -92,6 +105,22 @@ public:
 	afx_msg void OnChangeObjectRotZEditer();
 	afx_msg void OnDeltaposObjectRotZSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawObjectRotZSlider(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnClickObjectDuplcationBtn();
+
 	afx_msg void OnClickObjectDeleteBtn();
+
+    afx_msg void OnLbnSelchangeBlockGroupListLis();
+    afx_msg void OnBnClickedObjFileOpenButton();
+    afx_msg void OnBnClickedObjLocateButton();
+    afx_msg void OnBnClickedObjRelocateButton();
+    afx_msg void OnBnClickedObjRemoveButton();
+    afx_msg void OnBnClickedObjCancelButton();
+
+    afx_msg void OnBnClickedBlockGroupNewButton();
+    afx_msg void OnBnClickedBlockGroupModifyButton();
+    afx_msg void OnBnClickedBlockGroupDeleteButton();
+    afx_msg void OnBnClickedBlockGroupEndButton();
+   
+    void Update();
+    afx_msg void OnBnClickedObjSelectButton();
+    afx_msg void OnBnClickedBlockGroupLatestDelButton();
 };

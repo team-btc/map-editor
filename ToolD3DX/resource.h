@@ -180,6 +180,58 @@
 #define IDC_RESET_RAD                   1509
 #define IDC_SPRAY_RAD                   1510
 
+#define IDC_OBJECT_FILE_TRE             2001
+#define IDC_OBJECT_LIST_LIS             2002
+#define IDC_OBJECT_LIST_TEXT            2003
+#define IDC_OBJ_FILE_NAME_TEXT          2004
+#define IDC_OBJECT_ATTRIBUTE_GRO        2010
+#define IDC_COLLISION_CHE               2011
+#define IDC_DESTRUCTION_CHE             2012
+#define IDC_OBJECT_FILE_TEXT            2013
+#define IDC_OBJECT_SIZE_GRO             2020
+#define IDC_OBJECT_SIZE_SLI             2021
+#define IDC_OBJECT_SIZE_EDI             2022
+#define IDC_OBJECT_SIZE_SPI             2023
+#define IDC_OBJECT_POS_GRO              2030
+#define IDC_X_TEXT                      2031
+#define IDC_Y_TEXT                      2032
+#define IDC_Z_TEXT                      2033
+#define IDC_POS_X_TEXT                  2034
+#define IDC_POS_Y_TEXT                  2035
+#define IDC_POS_Z_TEXT                  2036
+#define IDC_OBJECT_ROT_GRO              2040
+#define IDC_X_TEXT2                     2041
+#define IDC_Y_TEXT2                     2042
+#define IDC_Z_TEXT2                     2043
+#define IDC_OBJECT_ROT_X_SLI            2044
+#define IDC_OBJECT_ROT_Y_SLI            2045
+#define IDC_OBJECT_ROT_Z_SLI            2046
+#define IDC_OBJECT_ROT_X_EDI            2047
+#define IDC_OBJECT_ROT_Y_EDI            2048
+#define IDC_OBJECT_ROT_Z_EDI            2049
+#define IDC_OBJECT_ROT_X_SPI            2050
+#define IDC_OBJECT_ROT_Y_SPI            2051
+#define IDC_OBJECT_ROT_Z_SPI            2052
+#define IDC_GROUP_OBJ_CREATE            2069
+#define IDC_OBJ_SELECT_BUTTON           2070
+#define IDC_DELETE_BTN                  2071
+#define IDC_OBJ_FILE_OPEN_BUTTON        2072
+#define IDC_OBJ_LOCATE_BUTTON           2073
+#define IDC_OBJ_CANCEL_BUTTON           2074
+#define IDC_OBJ_RELOCATE_BUTTON         2075
+#define IDC_OBJ_REMOVE_BUTTON           2076
+#define IDC_BLOCK_GROUP_EDIT_GRO        2080
+#define IDC_BLOCK_GROUP_LATEST_DEL_BUTTON 2081
+#define IDC_BLOCK_GROUP_END_BUTTON      2082
+#define IDC_BLOCK_GROUP_NEW_BUTTON      2083
+#define IDC_BLOCK_GROUP_LIST_LIS        2084
+#define IDC_BLOCK_GROUP_DELETE_BUTTON   2085
+#define IDC_BLOCK_GROUP_TEXT            2086
+#define IDC_BLOCK_GROUP_MODIFY_BUTTON   2087
+#define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
+#define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
+#define IDC_BUTTON1                     2100
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
