@@ -491,23 +491,15 @@ void cTotalShader::Render()
     m_pTotalShader->SetVector("gWorldCameraPosition", &gWorldCameraPosition);
     m_pTotalShader->SetVector("gLightColor", &gLightColor);
 
-    m_pTotalShader->SetFloat("gWaveHeight", m_pWaveHeight); // 올라가는 정도(진폭)
-    m_pTotalShader->SetFloat("gSpeed", m_pSpeed); //  오르락내리락하는 속도
-    m_pTotalShader->SetFloat("gWaveFrequency", m_pWaveFrequency); // 출렁이는 빈도
-    m_pTotalShader->SetFloat("gUVSpeed", m_pUVSpeed); // 텍스쳐가 움직이는 속도
-    m_pTotalShader->SetFloat("gTransparent", m_pTransparent); // 텍스쳐가 움직이는 속도
+    m_pTotalShader->SetFloat("gWaveHeight", m_pWaveHeight);              // 올라가는 정도(진폭)
+    m_pTotalShader->SetFloat("gSpeed", m_pSpeed);                        // 오르락내리락하는 속도
+    m_pTotalShader->SetFloat("gWaveFrequency", m_pWaveFrequency);        // 출렁이는 빈도
+    m_pTotalShader->SetFloat("gUVSpeed", m_pUVSpeed);                    // 텍스쳐가 움직이는 속도
+    m_pTotalShader->SetFloat("gTransparent", m_pTransparent);            // 텍스쳐가 움직이는 속도
 
-                                                             // 시스템 시간을 구함
-    ULONGLONG tick = GetTickCount64();
+                                                             
+    ULONGLONG tick = GetTickCount64();              // 시스템 시간을 구함
     m_pTotalShader->SetFloat("gTime", tick / 1000.0f);
-    // ST_PNT_VERTEX* pEditV = NULL;
-    // m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
-    // ST_PNT_VERTEX* pEditI = NULL;
-    // m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pEditI);
-    //
-    // // 쉐이더를 시작한다.
-    //g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_pMesh->GetNumVertices(), m_pMesh->GetNumFaces(), &pEditI[0], D3DFMT_INDEX32, &pEditV[0], sizeof(m_pMesh->GetFVF()));// ; 
-
     UINT numPasses = 0;
     m_pTotalShader->Begin(&numPasses, NULL);
     {
@@ -516,7 +508,6 @@ void cTotalShader::Render()
             m_pTotalShader->BeginPass(i);
             {
                 m_pMesh1->DrawSubset(0);
-               // m_pMesh2->DrawSubset(i);
             }
             m_pTotalShader->EndPass();
         }

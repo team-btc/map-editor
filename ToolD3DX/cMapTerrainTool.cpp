@@ -64,10 +64,6 @@ HRESULT cMapTerrainTool::Setup()
     m_pWaveShader = new cWaveShader;
     m_pSkyBoxShader = new cSkyBoxShader;
     m_pSkyBoxShader->SetBox("skybox","Shader/Texture/skybox_interstellar.dds");
-    //m_eTerraingEditType = E_TER_EDIT_BEGIN;
-    //m_pTotalShader = new cTotalShader;
-    //m_pTotalShader->SetTexture();
-    //m_pTotalShader->SetBrush(m_pBrush);
 
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
     m_stTextureBrushInfo.fDrawDensity = 100.0f;
@@ -78,9 +74,7 @@ HRESULT cMapTerrainTool::Setup()
     m_stTextureBrushInfo.m_fTex2Density = 10.0f;
     m_stTextureBrushInfo.m_fTex3Density = 10.0f;
 
-
     m_stWaterInfo.fHeight = g_pMapDataManager->GetDefHeight();
-
     m_stWaterInfo.fUVSpeed = 0.01f;
     m_stWaterInfo.fWaveHeight = 0.6f;
     m_stWaterInfo.fHeightSpeed = 2.4f;
@@ -92,27 +86,23 @@ HRESULT cMapTerrainTool::Setup()
 
 HRESULT cMapTerrainTool::Update()
 {
-
     Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
 
     if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
     {
         m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fTerrainBrushSize / m_ptMapSize.x,
             m_stTerrainBrushInfo.fTerrainFlatSize / m_ptMapSize.x,
-            0.01f, NULL, NULL, NULL);
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f,
+            m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-        // m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
-        //     m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
-        //     m_stTextureBrushInfo.fTextureDensity * 0.01f);
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
-        m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
-        //m_pTotalShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
+    m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 	// 지형 높이 증가
 	if (g_pKeyManager->isOnceKeyDown('U'))
 	{
@@ -141,7 +131,6 @@ HRESULT cMapTerrainTool::Update()
 	// 저장
 	else if (g_pKeyManager->isOnceKeyDown('S'))
 	{
-        //m_pTotalShader->SaveTexture();
         m_pTextureShader->SaveTexture();
 	}
 	// 로드
@@ -178,22 +167,11 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID); 
 	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+
     Vector4 vCameraPos = Vector4(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1);
-    // Vector4 vCameraPos = Vector4(110, 100, 100, 1);
-    //g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
-   // g_pDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-   // g_pDevice->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_GAUSSIANQUAD);
-    //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     m_pSkyBoxShader->Render(vCameraPos);
     m_pTextureShader->Render();
-    //matW._42 = 128.0f;
-    //g_pDevice->SetTransform(D3DTS_WORLD, &matW);
-    //m_pMesh->DrawSubset(0);
     m_pWaveShader->Render(Vector4(0,0,0,0));
-
-    //m_pTotalShader->Render();
-    //TempRender();
 
 	return S_OK;
 }
@@ -219,7 +197,6 @@ void cMapTerrainTool::OnceLButtonDown(E_TAB_TYPE eTabType)
 void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
 {
     
-
     // 지형탭
     if (eTabType == E_TERRAIN_TAB)
     {
@@ -233,15 +210,14 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
             // 지형 편집하기
             EditTerrain();
         }
+        m_pTextureShader->Update();
     }
 
     // 텍스쳐탭
     else if (eTabType == E_TEXTURE_TAB)
     {
-        // m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
         m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType, m_stTextureBrushInfo.m_eDrawType);
         m_pTextureShader->Update();
-       // DrawAlphaMap();
     }
 }
 
@@ -251,7 +227,6 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
     // 가로 세로 사이즈 계산 후 맵 만들기
     m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
     m_pTextureShader->SetMapSize();
-    //m_pTotalShader->SetMapSize();
     int nSizeX = m_ptMapSize.x;
     int nSizeZ = m_ptMapSize.y;
 
@@ -820,46 +795,6 @@ void cMapTerrainTool::DrawAlphaMap()
         t,
         NULL);
 }
-
-void cMapTerrainTool::RendBrush()
-{
-    Matrix4 matRotY;
-    ST_PC_VERTEX InitBrush[2];
-    InitBrush[0].c = D3DCOLOR_XRGB(255, 255, 255);
-    InitBrush[1].c = D3DCOLOR_XRGB(255, 255, 255);
-   
-   
-    Vector3 vCenter ;                                      // vCenter : 원의 중점, InitBrush 선을 그을 두 점
-    vCenter = *m_vPickPos;
-   
-    float f;
-    if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
-    {
-        f = g_pMapDataManager->GetTerBrushSize();
-    }
-    else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
-    {
-        f = g_pMapDataManager->GetTexBrushSize();
-    }
-   
-    InitBrush[0].p = *m_vPickPos;
-    InitBrush[0].p.x += f;
-   
-    float RotY = 2.0 * D3DX_PI / 60.0f;                                 // 60번 회전할 각도. 한 회당 6도
-    
-    for (int i = 0; i < 60; ++i)
-    {
-        InitBrush[1].p.x = vCenter.x + f * cosf(RotY * (i + 1));
-        InitBrush[1].p.z = vCenter.z + f * sinf(RotY * (i + 1));
-        InitBrush[1].p.y = g_pMapDataManager->GetDefHeight() + 0.0001f;
-   
-        g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, InitBrush, sizeof(ST_PC_VERTEX));
-   
-        //배열의 1번값을 0번으로 돌려준다
-        InitBrush[0] = InitBrush[1];
-    }
-}
-
 
 // 지형맵 파일 저장하기
 HRESULT cMapTerrainTool::SaveFile(IN string sFolderName, IN string sFileName)

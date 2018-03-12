@@ -19,7 +19,6 @@ void cSkyBoxShader::SetBox(string sTexFileKey, string sTexFilePath)
     m_pSkyBoxShader = g_pShaderManager->GetEffect(sTexFileKey);
    
     // 키 값으로 스카이박스 텍스쳐만 변경 
-    // D3DXCreateCubeTextureFromFile(g_pD3DDevice, sTexFilePath.c_str(), &m_pCubeTexture);
     m_pCubeTexture = (LPCUBETEXTURE9)g_pTextureManager->GetTexture(sTexFileKey);
 
     DWORD numMaterial;
@@ -31,6 +30,7 @@ void cSkyBoxShader::Render(D3DXVECTOR4 vCameraPosition)
 {
     D3DXMATRIXA16 matW, matView, matProjection, matViewProjection;
     D3DXMatrixIdentity(&matW);
+   
     D3DXVECTOR4 gWorldCameraPosition = vCameraPosition;
 
     g_pDevice->GetTransform(D3DTS_VIEW, &matView);

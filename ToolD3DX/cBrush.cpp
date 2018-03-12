@@ -26,12 +26,12 @@ void cBrush::SetBrush(Vector4 v, float br, float sr, float drawdensity, float te
     m_fTex2Density = tex2density;
     m_fTex3Density = tex3density;
 
-
     m_fPickX = v.x * nSize;
     m_fPickZ = v.z * nSize;
     m_fNR = br * nSize;
     m_fFR = sr * nSize;
     m_fdR = m_fFR - m_fNR;
+
     GetRect();
 }
 

@@ -138,7 +138,6 @@ public:
 	HRESULT Render();
 
     void DrawAlphaMap();
-	void RendBrush();                                                            										// 픽킹 위치 세팅
 
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
