@@ -63,12 +63,9 @@ HRESULT cMapTerrainTool::Setup()
     m_pTextureShader = new cTextureShader;
     m_pWaveShader = new cWaveShader;
     m_pSkyBoxShader = new cSkyBoxShader;
-<<<<<<< HEAD
-=======
     m_pSkyBoxShader->SetBox("skybox","Shader/Texture/skybox_cloudy.dds");
     m_pTextureShader->SetTexture();
     m_pTextureShader->SetBrush(m_pBrush);
->>>>>>> Nope
 
     m_stTerrainBrushInfo.eUpDown = E_UP;
     m_stTerrainBrushInfo.eEditType = E_TER_EDIT_BEGIN;

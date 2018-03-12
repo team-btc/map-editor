@@ -139,6 +139,14 @@ HRESULT cMapTool::CreateMap()
 	return S_OK;
 }
 
+void cMapTool::Save()
+{
+    json save;
+   // save
+
+
+}
+
 // 마우스 위치 가져오기
 HRESULT cMapTool::GetPtMouse()
 {

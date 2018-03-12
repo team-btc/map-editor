@@ -48,7 +48,8 @@ public:
 	HRESULT Render();
 
 	HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
-                                                                                    
+    void Save();
+
     HRESULT GetPtMouse();                                                           // 마우스 위치 가져오기
     void RendPtMouse();                                                             // 마우스 위치 출력
     bool IsPickMap();                                                               // 마우스가 클라이언트 영역 안에서 맵을 클릭 했는지 체크
