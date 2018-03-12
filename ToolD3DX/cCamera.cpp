@@ -87,10 +87,10 @@ void cCamera::Update(Vector3* pTarget)
 			m_fRotY += (ptCurrMouse.x - m_ptPrevMouse.x) / 100.0f;
 			m_fRotX += (ptCurrMouse.y - m_ptPrevMouse.y) / 100.0f;
 
-			// x축 회전은 0 ~ 90 으로 고정
-            if (m_fRotX < 0)//-D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON)
+			// x축 회전은 -85 ~ 85 으로 고정
+            if (m_fRotX < -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON)
             {
-                m_fRotX = 0;// -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON;
+                m_fRotX = -D3DX_PI * LIMITED_ROT + D3DX_16F_EPSILON;
             }
             else if (m_fRotX > D3DX_PI * LIMITED_ROT - D3DX_16F_EPSILON)
             {
@@ -132,7 +132,9 @@ void cCamera::Update(Vector3* pTarget)
         if (g_pKeyManager->isStayKeyDown('A')
             || g_pKeyManager->isStayKeyDown('D')
             || g_pKeyManager->isStayKeyDown('W')
-            || g_pKeyManager->isStayKeyDown('S'))
+            || g_pKeyManager->isStayKeyDown('S')
+            || g_pKeyManager->isStayKeyDown(VK_PRIOR)
+            || g_pKeyManager->isStayKeyDown(VK_NEXT))
         {
             D3DXVECTOR3 dirX, dirZ;
             D3DXVec3Normalize(&dirZ, &m_vEye);
@@ -160,6 +162,18 @@ void cCamera::Update(Vector3* pTarget)
             {
                 m_vPosition -= dirZ * fMovePower;
                 m_vLookAt -= dirZ * fMovePower;
+            }
+            if (g_pKeyManager->isStayKeyDown(VK_PRIOR)) //PGUP
+            {
+                Vector3 vDirY(0, 1, 0);
+                m_vPosition += vDirY * 10;// * fMovePower;
+                m_vLookAt += vDirY * 10;// * fMovePower;
+            }
+            if (g_pKeyManager->isStayKeyDown(VK_NEXT)) //PGDOWN
+            {
+                Vector3 vDirY(0, 1, 0);
+                m_vPosition -= vDirY * 10;// *fMovePower;
+                m_vLookAt -= vDirY * 10;// * fMovePower;
             }
         }
     }

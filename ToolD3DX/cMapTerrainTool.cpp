@@ -28,6 +28,7 @@ cMapTerrainTool::cMapTerrainTool()
     , m_pTextureShader(NULL)
     , m_pBrush(NULL)
     , m_pWaveShader(NULL)
+    , m_pSkyBoxShader(NULL)
     , m_fPassedEditTime(0.0f)
     , m_fillMode(D3DFILL_SOLID)
 {
@@ -40,6 +41,7 @@ cMapTerrainTool::~cMapTerrainTool()
     SAFE_DELETE(m_pBrush);
     SAFE_DELETE(m_pTextureShader);
     SAFE_DELETE(m_pWaveShader);
+    SAFE_DELETE(m_pSkyBoxShader);
 }
 
 HRESULT cMapTerrainTool::Setup()
@@ -53,7 +55,8 @@ HRESULT cMapTerrainTool::Setup()
     m_pBrush = new cBrush;
     m_pTextureShader = new cTextureShader;
     m_pWaveShader = new cWaveShader;
-
+    m_pSkyBoxShader = new cSkyBoxShader;
+    m_pSkyBoxShader->SetBox("skybox","Shader/Texture/skybox_midnight.dds");
     m_pTextureShader->SetTexture();
     m_pTextureShader->SetBrush(m_pBrush);
 
@@ -160,10 +163,10 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
- 
+    Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
+    m_pSkyBoxShader->Render(vP);
     m_pTextureShader->Render();
 
-    Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
     m_pWaveShader->Render(vP);
 
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);

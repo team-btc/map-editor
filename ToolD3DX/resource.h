@@ -167,9 +167,10 @@
 #define IDC_FLAT_SIZE_EDI               1231
 #define IDC_FLAT_SIZE_SPI               1232
 #define IDC_SMOOTH_RAD                  1398
-#define IDC_BRUSH_RAD                   1498
+#define IDC_BRUSH_RAD                  7500
+#define IDC_SPRAY_RAD                  7501
+#define IDC_ERASE_RAD                  7502
 #define IDC_BRUSH_TYPE_GRO              1500
-#define IDC_ERASE_RAD                   1501
 #define IDC_UP_RAD                      1502
 #define IDC_DOWN_RAD                    1503
 #define IDC_EDIT_RAD                    1504
@@ -178,7 +179,6 @@
 #define IDC_FLAT_RAD                    1507
 #define IDC_TRIM_RAD                    1508
 #define IDC_RESET_RAD                   1509
-#define IDC_SPRAY_RAD                   1510
 
 #define IDC_OBJECT_FILE_TRE             2001
 #define IDC_OBJECT_LIST_LIS             2002
