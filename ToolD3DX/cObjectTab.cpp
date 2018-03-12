@@ -237,18 +237,19 @@ BEGIN_MESSAGE_MAP(cObjectTab, CDialogEx)
 	ON_EN_CHANGE(IDC_OBJECT_ROT_Z_EDI, &cObjectTab::OnChangeObjectRotZEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_OBJECT_ROT_Z_SPI, &cObjectTab::OnDeltaposObjectRotZSpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_OBJECT_ROT_Z_SLI, &cObjectTab::OnCustomDrawObjectRotZSlider)
-	ON_BN_CLICKED(IDC_DUPLCATION_BTN, &cObjectTab::OnClickObjectDuplcationBtn)
 	ON_BN_CLICKED(IDC_DELETE_BTN, &cObjectTab::OnClickObjectDeleteBtn)
-	ON_BN_CLICKED(IDC_BUTTON1, &cObjectTab::OnBnClickedButton1)
-	ON_BN_CLICKED(IDC_BUTTON2, &cObjectTab::OnBnClickedButton2)
-	ON_BN_CLICKED(IDC_BUTTON3, &cObjectTab::OnBnClickedButton3)
-    ON_BN_CLICKED(IDC_BUTTON5, &cObjectTab::OnBnClickedButton5)
-    ON_BN_CLICKED(IDC_BUTTON4, &cObjectTab::OnBnClickedButton4)
-    ON_BN_CLICKED(IDC_BUTTON8, &cObjectTab::OnBnClickedButton8)
-    ON_BN_CLICKED(IDC_BUTTON7, &cObjectTab::OnBnClickedButton7)
     ON_LBN_SELCHANGE(IDC_BLOCK_GROUP_LIST_LIS, &cObjectTab::OnLbnSelchangeBlockGroupListLis)
-    ON_BN_CLICKED(IDC_BUTTON9, &cObjectTab::OnBnClickedButton9)
-    ON_BN_CLICKED(IDC_BUTTON10, &cObjectTab::OnBnClickedButton10)
+    ON_BN_CLICKED(IDC_OBJ_FILE_OPEN_BUTTON, &cObjectTab::OnBnClickedObjFileOpenButton)
+    ON_BN_CLICKED(IDC_OBJ_LOCATE_BUTTON, &cObjectTab::OnBnClickedObjLocateButton)
+    ON_BN_CLICKED(IDC_OBJ_RELOCATE_BUTTON, &cObjectTab::OnBnClickedObjRelocateButton)
+    ON_BN_CLICKED(IDC_OBJ_REMOVE_BUTTON, &cObjectTab::OnBnClickedObjRemoveButton)
+    ON_BN_CLICKED(IDC_OBJ_CANCEL_BUTTON, &cObjectTab::OnBnClickedObjCancelButton)
+    ON_BN_CLICKED(IDC_BLOCK_GROUP_NEW_BUTTON, &cObjectTab::OnBnClickedBlockGroupNewButton)
+    ON_BN_CLICKED(IDC_BLOCK_GROUP_MODIFY_BUTTON, &cObjectTab::OnBnClickedBlockGroupModifyButton)
+    ON_BN_CLICKED(IDC_BLOCK_GROUP_DELETE_BUTTON, &cObjectTab::OnBnClickedBlockGroupDeleteButton)
+    ON_BN_CLICKED(IDC_BLOCK_GROUP_END_BUTTON, &cObjectTab::OnBnClickedBlockGroupEndButton)
+    ON_BN_CLICKED(IDC_OBJ_SELECT_BUTTON, &cObjectTab::OnBnClickedObjSelectButton)
+    ON_BN_CLICKED(IDC_BLOCK_GROUP_LATEST_DEL_BUTTON, &cObjectTab::OnBnClickedBlockGroupLatestDelButton)
 END_MESSAGE_MAP()
 
 
@@ -608,7 +609,7 @@ void cObjectTab::OnCustomDrawObjectRotZSlider(NMHDR *pNMHDR, LRESULT *pResult)
 
 #pragma region "Block Group Edit 부분"
 // Object File open 
-void cObjectTab::OnClickObjectDuplcationBtn()
+void cObjectTab::OnBnClickedObjSelectButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
@@ -623,7 +624,7 @@ void cObjectTab::OnClickObjectDuplcationBtn()
         caption = "성공";
         text = m_strFileName + "파일이 선택되었습니다.";        
    
-        SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
+        SetDlgItemText(IDC_OBJ_FILE_NAME_TEXT, m_strFileName.c_str());
         g_pMapDataManager->SetFileName(m_strFileName);
     }
     else
@@ -631,7 +632,7 @@ void cObjectTab::OnClickObjectDuplcationBtn()
         caption = "실패";
         text = "현재까지 읽은 파일이 없습니다.";
 
-        SetDlgItemText(IDC_FILE_NAME_TEXT, "None");
+        SetDlgItemText(IDC_OBJ_FILE_NAME_TEXT, "None");
     }
 
     MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
@@ -647,12 +648,12 @@ void cObjectTab::OnClickObjectDeleteBtn()
 }
 
 // File Open 버튼 
-void cObjectTab::OnBnClickedButton1()
+void cObjectTab::OnBnClickedObjFileOpenButton()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
     {
-        OnBnClickedButton7();
+        OnBnClickedBlockGroupEndButton();
     }
         
     char current_path[MAX_PATH];
@@ -687,7 +688,7 @@ void cObjectTab::OnBnClickedButton1()
                 m_pObjListBox->AddString(m_strFileName.c_str());
             }
             // 파일 이름을 표시해줌
-            SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
+            SetDlgItemText(IDC_OBJ_FILE_NAME_TEXT, m_strFileName.c_str());
 		}
 		else
 		{
@@ -695,39 +696,39 @@ void cObjectTab::OnBnClickedButton1()
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONERROR);
             string str = NO_NAME;
             // 파일 이름을 표시해줌
-            SetDlgItemText(IDC_FILE_NAME_TEXT, str.c_str());
+            SetDlgItemText(IDC_OBJ_FILE_NAME_TEXT, str.c_str());
 		}
 	}
 }
 // Locate 버튼
-void cObjectTab::OnBnClickedButton2()
+void cObjectTab::OnBnClickedObjLocateButton()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
     {
-        OnBnClickedButton7();
+        OnBnClickedBlockGroupEndButton();
     }
 
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_LOCATE;
 }
 // Cancel 버튼
-void cObjectTab::OnBnClickedButton3()
+void cObjectTab::OnBnClickedObjCancelButton()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    // 블록그룹을 생성을 하고 있을 때 저장되게 
     if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
     {
-        OnBnClickedButton7();
+        OnBnClickedBlockGroupEndButton();
     }
 
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
 }
 // Relocate 버튼
-void cObjectTab::OnBnClickedButton4()
+void cObjectTab::OnBnClickedObjRelocateButton()
 {
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    // 블록그룹을 생성을 하고 있을 때 저장되게 
     if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
     {
-        OnBnClickedButton7();
+        OnBnClickedBlockGroupEndButton();
     }
 
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_RELOCATE;
@@ -743,11 +744,11 @@ void cObjectTab::Update()
     SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_SelectBlockGroupName.c_str());
 }
 // Remove 버튼
-void cObjectTab::OnBnClickedButton5()
+void cObjectTab::OnBnClickedObjRemoveButton()
 {
     if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
     {
-        OnBnClickedButton7();
+        OnBnClickedBlockGroupEndButton();
     }
 
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -757,7 +758,7 @@ void cObjectTab::OnBnClickedButton5()
 
 #pragma region "Block Group Edit 부분"
 // Block Group New 버튼
-void cObjectTab::OnBnClickedButton8()
+void cObjectTab::OnBnClickedBlockGroupNewButton()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// 두가지 액션을 하지 못하게 처리 
@@ -775,7 +776,7 @@ void cObjectTab::OnBnClickedButton8()
 }
 
 //  Block Group End 버튼
-void cObjectTab::OnBnClickedButton7()
+void cObjectTab::OnBnClickedBlockGroupEndButton()
 {
 	if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
 	{
@@ -814,7 +815,7 @@ void cObjectTab::OnLbnSelchangeBlockGroupListLis()
 #pragma endregion
 
 // Block Group Delete 버튼이 눌렸을때 
-void cObjectTab::OnBnClickedButton9()
+void cObjectTab::OnBnClickedBlockGroupDeleteButton()
 {
 	if (m_eBlockButtonState != E_BLOCK_BTN_PROGRESS)
 	{
@@ -838,7 +839,7 @@ void cObjectTab::OnBnClickedButton9()
 }
 
 // Block Group Modify 버튼이 눌렸을때 
-void cObjectTab::OnBnClickedButton10()
+void cObjectTab::OnBnClickedBlockGroupModifyButton()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     // 버튼 상태가 진행 중일땐 저장 상태로 돌아가게 
@@ -878,4 +879,11 @@ void cObjectTab::OnBnClickedButton10()
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 		}
     }
+}
+
+void cObjectTab::OnBnClickedBlockGroupLatestDelButton()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+
 }

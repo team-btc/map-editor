@@ -214,7 +214,6 @@ HRESULT cMapObjectTool::Render()
                     g_pDevice->LightEnable(0, false);
                 }
 
-
                 // 연결 선 그리기 
                 D3DXMATRIXA16 matW;
                 D3DXMatrixIdentity(&matW);

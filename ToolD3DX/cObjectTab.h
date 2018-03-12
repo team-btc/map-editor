@@ -105,19 +105,22 @@ public:
 	afx_msg void OnChangeObjectRotZEditer();
 	afx_msg void OnDeltaposObjectRotZSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawObjectRotZSlider(NMHDR *pNMHDR, LRESULT *pResult);
-	afx_msg void OnClickObjectDuplcationBtn();
+
 	afx_msg void OnClickObjectDeleteBtn();
-	afx_msg void OnBnClickedButton1();
-	afx_msg void OnBnClickedButton2();
-	afx_msg void OnBnClickedButton3();
-    afx_msg void OnBnClickedButton5();
-    afx_msg void OnBnClickedButton4();
 
-    void Update();
-    afx_msg void OnBnClickedButton8();
-    afx_msg void OnBnClickedButton7();
     afx_msg void OnLbnSelchangeBlockGroupListLis();
+    afx_msg void OnBnClickedObjFileOpenButton();
+    afx_msg void OnBnClickedObjLocateButton();
+    afx_msg void OnBnClickedObjRelocateButton();
+    afx_msg void OnBnClickedObjRemoveButton();
+    afx_msg void OnBnClickedObjCancelButton();
 
-    afx_msg void OnBnClickedButton9();
-    afx_msg void OnBnClickedButton10();
+    afx_msg void OnBnClickedBlockGroupNewButton();
+    afx_msg void OnBnClickedBlockGroupModifyButton();
+    afx_msg void OnBnClickedBlockGroupDeleteButton();
+    afx_msg void OnBnClickedBlockGroupEndButton();
+   
+    void Update();
+    afx_msg void OnBnClickedObjSelectButton();
+    afx_msg void OnBnClickedBlockGroupLatestDelButton();
 };
