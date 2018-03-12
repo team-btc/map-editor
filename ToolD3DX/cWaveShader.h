@@ -23,7 +23,7 @@ public:
     // Height : 물의 지형에서의 높이, WaveHeight : 진폭 , Speed : 진동속도, UVSpeed : 텍스쳐가 지나가는 속도, WaveFrequency : 물결의 간격, Transparent : 물의 투명도
     void SetShader(/* char * sTexFile, char * sTexFileKey, */float fHeight = 0.0f, float fWaveHeight = 0.6f, float fSpeed = 2.4f,
         float fUVSpeed = 7.0f, float fWaveFrequency = 0.01f, float fTransparent = 0.6f); 
-    void SetMesh(LPMESH mesh) { m_pMesh = mesh; }
+    void SetMesh(LPMESH mesh);
 
     void Render(D3DXVECTOR4 vCameraPosition);
 };

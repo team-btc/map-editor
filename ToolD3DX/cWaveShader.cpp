@@ -10,7 +10,6 @@ cWaveShader::cWaveShader()
 
 }
 
-
 cWaveShader::~cWaveShader()
 {
 
@@ -31,12 +30,17 @@ void cWaveShader::SetShader(float fHeight, float fWaveHeight, float fSpeed, floa
     m_pTexture = (LPTEXTURE9)g_pTextureManager->GetTexture("Water");                     // 툴이 시작할때 기본적으로 Add 해주므로 나중에 고치면 댐
 }
 
+// 매쉬 복사
+void cWaveShader::SetMesh(LPMESH mesh)
+{
+    mesh->CloneMeshFVF(mesh->GetOptions(), mesh->GetFVF(), g_pDevice, &m_pMesh);
+}
+
 void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
 {
-
     D3DXMATRIXA16 matW, matView, matProjection;
     D3DXMatrixIdentity(&matW);
-    matW._42 += m_pHeight - 128;
+    matW._42 += m_pHeight - g_pMapDataManager->GetDefHeight();
 
     D3DXVECTOR4 gWorldCameraPosition = vCameraPosition;
     g_pDevice->GetTransform(D3DTS_VIEW, &matView);

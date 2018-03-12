@@ -48,27 +48,10 @@
 #define IDC_BRUSH_SIZE_SLI              1020
 #define IDC_POWER_EDI                   1021
 #define IDC_POWER_SPI                   1023
-#define IDC_SET_BRUSH_GRO               1024
-#define IDC_BRUSH_SIZE_EDI              1025
 #define IDC_EDIT_HEIGHT_GRO             1028
-#define IDC_BRUSH_SIZE_SPI              1029
 #define IDC_EDIT_HEIGHT_SLI             1030
 #define IDC_EDIT_HEIGHT_EDI             1031
 #define IDC_EDIT_HEIGHT_SPI             1032
-#define IDC_INCREMENT_EDI               1221
-#define IDC_Tex1_Density_GRO            1221
-#define IDC_TEX1_DSIZE_SLI              1222
-#define IDC_INCREMENT_SPI               1223
-#define IDC_SET_BRUSH_GRO               1224
-#define IDC_BRUSH_SIZE_EDI              1225
-#define IDC_SET_TEX_DENSITY_GRO         1226
-#define IDC_TEX1_DSIZE_EDI              1227
-#define IDC_FLAT_SIZE_GRO               1228
-#define IDC_BRUSH_SIZE_SPI              1229
-#define IDC_FLAT_SIZE_SLI               1230
-#define IDC_Tex1_DSIZE_SPI              1230
-#define IDC_FLAT_SIZE_EDI               1231
-#define IDC_FLAT_SIZE_SPI               1232
 #define IDD_CREATEMAP_VIEW              1033
 #define ID_MAP_SIZE_COM                 1034
 #define ID_MAP_SIZE_TEXT                1035
@@ -165,12 +148,26 @@
 #define IDC_WATER_TRANSPARENT_EDI       1097
 #define IDC_POS_Z_TEXT                  1098
 #define IDC_WATER_TRANSPARENT_SPI       1098
-#define IDC_SMOOTH_RAD                  1398
-#define IDC_BRUSH_RAD                   1498
 #define IDC_DELETE_BTN2                 1099
 #define IDC_DUPLCATION_BTN              1099
 #define IDC_SHARP_RAD                   1099
 #define IDC_WALKABLE_CHE                1100
+#define IDC_INCREMENT_EDI               1221
+#define IDC_Tex1_Density_GRO            1221
+#define IDC_TEX1_DSIZE_SLI              1222
+#define IDC_INCREMENT_SPI               1223
+#define IDC_SET_BRUSH_GRO               1224
+#define IDC_BRUSH_SIZE_EDI              1225
+#define IDC_SET_TEX_DENSITY_GRO         1226
+#define IDC_TEX1_DSIZE_EDI              1227
+#define IDC_FLAT_SIZE_GRO               1228
+#define IDC_BRUSH_SIZE_SPI              1229
+#define IDC_FLAT_SIZE_SLI               1230
+#define IDC_Tex1_DSIZE_SPI              1230
+#define IDC_FLAT_SIZE_EDI               1231
+#define IDC_FLAT_SIZE_SPI               1232
+#define IDC_SMOOTH_RAD                  1398
+#define IDC_BRUSH_RAD                   1498
 #define IDC_BRUSH_TYPE_GRO              1500
 #define IDC_ERASE_RAD                   1501
 #define IDC_UP_RAD                      1502
@@ -189,11 +186,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         32771
-<<<<<<< HEAD
-#define _APS_NEXT_CONTROL_VALUE         1105
-=======
 #define _APS_NEXT_CONTROL_VALUE         1100
->>>>>>> chanhyeok
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif

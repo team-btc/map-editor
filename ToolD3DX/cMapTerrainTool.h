@@ -19,26 +19,6 @@
 #define DEFAULT_FILE_NAME	"MapData"												// 기본 파일명
 #define EDIT_DURATION_TIME  0.0f                                                    // 편집 지속 기준 시간
 
-// 면 정보
-struct ST_TERRAIN_FACE_INFO {
-	DWORD							dVertexIndedArr[3];								// 면이 가지고 있는 삼각형 버텍스 인덱스
-	E_GROUND_TYPE                   eGroundType[GT_MAX_NUM];
-    float                           fBlending[GT_MAX_NUM];
-    bool                            isWalkable;                                     // true 면 지나갈 수있음
-	E_OBJECT_PROPERTY               eObjProp;                                       // 오브젝트 성질 (파괴여부, 충돌여부)
-
-	ST_TERRAIN_FACE_INFO() {
-		for (int i = 0; i < GT_MAX_NUM; ++i)
-		{
-			eGroundType[i] = E_SOIL_GROUND;
-		}
-		for (int i = 0; i < GT_MAX_NUM; ++i)
-		{
-			fBlending[i] = 0.0f;
-		}
-	}
-};
-
 // 지형 브러쉬 정보
 struct ST_TER_BRUSH_INFO {
     E_UP_DOWN&                      eUpDown;                                        // 편집 업다운
@@ -92,8 +72,6 @@ private:
 	vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
 
-	vector<ST_TERRAIN_FACE_INFO>    m_vecFaceInfo;                                  // 면정보 (순차적)
-
 	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
 	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
@@ -104,17 +82,12 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
-    LPD3DXMESH						m_pWMesh;										// 물 매쉬
 
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스
     cTextureShader*                 m_pTextureShader;
 
-    LPEFFECT                        m_pHeightShader;
-    LPTEXTURE9                      m_pHeightMapTex;
-    LPTEXTURE9                      m_pNormalMapTex;
-    LPTEXTURE9                      m_pDiffuseTex;
     D3DFILLMODE                     m_fillMode;
 
     cBrush*                         m_pBrush;                                       // 브러쉬 클래스
@@ -135,8 +108,6 @@ private:
     void ResetHeight();                                                                      // 리셋
     void ChangeNormalValue(int nIndex, ST_PNT_VERTEX** vEditV);                              // 변경된 버텍스와 주변 버텍스 노말값 변경
     void SetNormal(int nIndex, ST_PNT_VERTEX** vEditV);                                      // 버텍스 노말 계산, 셋팅
-    void DrawHeight(int nHeight);
-    void DrawFlat();
     int GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVertex);                      // 픽킹 지점에서 가장 가까운 버텍스 인덱스 가져오기
     vector<int> GetVertexInBrush(Vector3 vPickPos, float fRadius);                           // 브러쉬 안에 있는 버텍스 인덱스 벡터 가져오기
 
@@ -148,8 +119,6 @@ public:
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
-
-    void DrawAlphaMap();
 
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
