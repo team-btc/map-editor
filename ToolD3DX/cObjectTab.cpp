@@ -367,10 +367,10 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
+	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)m_fObjSize);
 
 	// 슬라이더 위치 설정
-	m_pObjSizeSliderCtl->SetPos(m_fObjSize);		// 위치 설정
+	m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -382,10 +382,10 @@ void cObjectTab::OnCustomDrawObjectSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 오브젝트 사이즈 넣기
-	m_fObjSize = m_pObjSizeSliderCtl->GetPos();
+	m_fObjSize = (float)m_pObjSizeSliderCtl->GetPos();
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
+	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)(m_fObjSize));
 
 	*pResult = 0;
 }
@@ -402,10 +402,10 @@ void cObjectTab::OnChangeObjectRotXEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fObjRotX = GetDlgItemInt(IDC_OBJECT_ROT_X_EDI);
+	m_fObjRotX = (float)(GetDlgItemInt(IDC_OBJECT_ROT_X_EDI));
 
 	// 슬라이더 위치 설정
-	m_pObjRotXSliderCtl->SetPos(m_fObjRotX);		// 위치 설정
+	m_pObjRotXSliderCtl->SetPos((int)(m_fObjRotX));		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pObjRotXEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -439,10 +439,10 @@ void cObjectTab::OnDeltaposObjectRotXSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 오브젝트 X축 회전값 출력
-	SetDlgItemInt(IDC_OBJECT_ROT_X_EDI, m_fObjRotX);
+	SetDlgItemInt(IDC_OBJECT_ROT_X_EDI, (UINT)(m_fObjRotX));
 
 	// 슬라이더 위치 설정
-	m_pObjRotXSliderCtl->SetPos(m_fObjRotX);		// 위치 설정
+	m_pObjRotXSliderCtl->SetPos((int)(m_fObjRotX));		// 위치 설정
 
 	*pResult = 0;
 }
@@ -454,10 +454,10 @@ void cObjectTab::OnCustomDrawObjectRotXSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 오브젝트 사이즈 넣기
-	m_fObjRotX = m_pObjRotXSliderCtl->GetPos();
+	m_fObjRotX =(float)(m_pObjRotXSliderCtl->GetPos());
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_ROT_X_EDI, m_fObjRotX);
+	SetDlgItemInt(IDC_OBJECT_ROT_X_EDI, (int)(m_fObjRotX));
 
 	*pResult = 0;
 }
@@ -474,10 +474,10 @@ void cObjectTab::OnChangeObjectRotYEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fObjRotY = GetDlgItemInt(IDC_OBJECT_ROT_Y_EDI);
+	m_fObjRotY = (float)(GetDlgItemInt(IDC_OBJECT_ROT_Y_EDI));
 
 	// 슬라이더 위치 설정
-	m_pObjRotYSliderCtl->SetPos(m_fObjRotY);		// 위치 설정
+	m_pObjRotYSliderCtl->SetPos((int)(m_fObjRotY));		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pObjRotYEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -511,7 +511,7 @@ void cObjectTab::OnDeltaposObjectRotYSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 오브젝트 X축 회전값 출력
-	SetDlgItemInt(IDC_OBJECT_ROT_Y_EDI, m_fObjRotY);
+	SetDlgItemInt(IDC_OBJECT_ROT_Y_EDI, (UINT)(m_fObjRotY));
 
 	// 슬라이더 위치 설정
 	m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);		// 위치 설정
@@ -526,10 +526,10 @@ void cObjectTab::OnCustomDrawObjectRotYSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 오브젝트 사이즈 넣기
-	m_fObjRotY = (int)m_pObjRotYSliderCtl->GetPos();
+	m_fObjRotY = (float)(m_pObjRotYSliderCtl->GetPos());
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_ROT_Y_EDI, m_fObjRotY);
+	SetDlgItemInt(IDC_OBJECT_ROT_Y_EDI, (UINT)(m_fObjRotY));
 
 	*pResult = 0;
 }
@@ -546,10 +546,10 @@ void cObjectTab::OnChangeObjectRotZEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fObjRotZ = GetDlgItemInt(IDC_OBJECT_ROT_Z_EDI);
+	m_fObjRotZ = (float)(GetDlgItemInt(IDC_OBJECT_ROT_Z_EDI));
 
 	// 슬라이더 위치 설정
-	m_pObjRotZSliderCtl->SetPos(m_fObjRotZ);		// 위치 설정
+	m_pObjRotZSliderCtl->SetPos((int)(m_fObjRotZ));		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pObjRotZEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -583,10 +583,10 @@ void cObjectTab::OnDeltaposObjectRotZSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 오브젝트 X축 회전값 출력
-	SetDlgItemInt(IDC_OBJECT_ROT_Z_EDI, m_fObjRotZ);
+	SetDlgItemInt(IDC_OBJECT_ROT_Z_EDI, (int)(m_fObjRotZ));
 
 	// 슬라이더 위치 설정
-	m_pObjRotZSliderCtl->SetPos(m_fObjRotZ);		// 위치 설정
+	m_pObjRotZSliderCtl->SetPos((int)(m_fObjRotZ));		// 위치 설정
 
 	*pResult = 0;
 }
@@ -606,7 +606,8 @@ void cObjectTab::OnCustomDrawObjectRotZSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	*pResult = 0;
 }
 
-// 오브젝트 복사 버튼
+#pragma region "Block Group Edit 부분"
+// Object File open 
 void cObjectTab::OnClickObjectDuplcationBtn()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -649,12 +650,16 @@ void cObjectTab::OnClickObjectDeleteBtn()
 void cObjectTab::OnBnClickedButton1()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	char current_path[MAX_PATH];
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedButton7();
+    }
+        
+    char current_path[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, current_path);
 
 	// 확장자 필터
 	LPSTR szFilter = "X Files (*.x) |*.X|";
-
 	CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
 	string text;
 	string caption = "X파일 불러오기";
@@ -674,17 +679,13 @@ void cObjectTab::OnBnClickedButton1()
 			// 맵 데이터 매니져에 정보 세팅하기		
 			g_pMapDataManager->SetFilePath(m_strFilePath);
 			g_pMapDataManager->SetFileName(m_strFileName);
-
 			text = m_strFileName + " 파일 읽기 성공";
 			MessageBox(text.c_str(), caption.c_str());
-
             int index = m_pObjListBox->FindString(-1, m_strFileName.c_str());
-
             if (index == LB_ERR)
             {
                 m_pObjListBox->AddString(m_strFileName.c_str());
             }
-            
             // 파일 이름을 표시해줌
             SetDlgItemText(IDC_FILE_NAME_TEXT, m_strFileName.c_str());
 		}
@@ -692,9 +693,7 @@ void cObjectTab::OnBnClickedButton1()
 		{
 			text = "파일 읽기 실패";
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONERROR);
-
             string str = NO_NAME;
-            
             // 파일 이름을 표시해줌
             SetDlgItemText(IDC_FILE_NAME_TEXT, str.c_str());
 		}
@@ -703,43 +702,58 @@ void cObjectTab::OnBnClickedButton1()
 // Locate 버튼
 void cObjectTab::OnBnClickedButton2()
 {
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedButton7();
+    }
+
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_LOCATE;
 }
 // Cancel 버튼
 void cObjectTab::OnBnClickedButton3()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedButton7();
+    }
+
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
 }
 // Relocate 버튼
 void cObjectTab::OnBnClickedButton4()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedButton7();
+    }
+
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_RELOCATE;
 }
 void cObjectTab::Update()
 {
-    m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);    // Scale 위치 설정 
-    m_pObjRotXSliderCtl->SetPos((int)m_fObjRotX);	// RotX 위치 설정
-    m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);    // RotY 위치 설정
-    m_pObjRotZSliderCtl->SetPos((int)m_fObjRotZ);    // RotZ 위치 설정
-
+    m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);   // Scale 위치 설정 
+    m_pObjRotXSliderCtl->SetPos((int)m_fObjRotX);   // RotX 위치 설정
+    m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);   // RotY 위치 설정
+    m_pObjRotZSliderCtl->SetPos((int)m_fObjRotZ);   // RotZ 위치 설정
 
 	// 블록그룹 텍스트 갱신 
-
-
     SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_SelectBlockGroupName.c_str());
-
-
-
 }
 // Remove 버튼
 void cObjectTab::OnBnClickedButton5()
 {
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedButton7();
+    }
+
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
     m_eObjectTabButtonState = E_OBJ_TAB_BTN_REMOVE;
 }
+#pragma endregion
 
 #pragma region "Block Group Edit 부분"
 // Block Group New 버튼
@@ -751,12 +765,10 @@ void cObjectTab::OnBnClickedButton8()
 	{
 		m_eObjectTabButtonState = E_OBJ_TAB_BTN_MAX;
 	}
-
 	if (m_eBlockButtonState != E_BLOCK_BTN_PROGRESS)
 	{
 		m_eBlockButtonState = E_BLOCK_BTN_START;
 		m_nBlockGroupMakeNum += 1;
-
 		m_SelectBlockGroupName = BLOCK_GROUP_NAME;
 		m_SelectBlockGroupName += to_string(m_nBlockGroupMakeNum);
 	}
@@ -771,9 +783,7 @@ void cObjectTab::OnBnClickedButton7()
 		{
 			// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 			m_eBlockButtonState = E_BLOCK_BTN_END;
-
 			int index = m_pBlockGroupListBox->FindString(-1, m_SelectBlockGroupName.c_str());
-
 			if (index == LB_ERR)
 			{
 				m_pBlockGroupListBox->AddString(m_SelectBlockGroupName.c_str());
@@ -781,10 +791,8 @@ void cObjectTab::OnBnClickedButton7()
 
 			string caption = "Block Gruop";
 			string text = m_SelectBlockGroupName + " 이(가) 저장되었습니다.";
-
 			// 메세지 표시 
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
-
 			// 블록 그룹 이름을 표시해줌
 			m_SelectBlockGroupName = NO_NAME;
 		}
@@ -795,14 +803,11 @@ void cObjectTab::OnBnClickedButton7()
 void cObjectTab::OnLbnSelchangeBlockGroupListLis()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-   
     // 선택한 인덱스 가져오기
     int nIndex = m_pBlockGroupListBox->GetCurSel();
-
     // 문자열 가져오기
     CString strName;
     m_pBlockGroupListBox->GetText(nIndex, strName);
-
     // 문자열 저장
 	m_SelectBlockGroupName = strName;
 }
@@ -817,20 +822,14 @@ void cObjectTab::OnBnClickedButton9()
 		{
 			// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 			int nSel = m_pBlockGroupListBox->GetCurSel();  // 선택한 문자의 인덱스 얻어옴
-
 			if (nSel >= 0)
 			{
 				m_pBlockGroupListBox->DeleteString(nSel);  // 해당 인덱스의 문자열을 삭제
 			}
-
 			// 메세지 표시 
 			string caption = "Block Gruop";
 			string text = m_SelectBlockGroupName + " 이(가) 삭제되었습니다.";
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
-
-			// 블록 그룹 이름을 표시
-			// m_CurrSelectBlockGroup = NONE_NAME;
-			// SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_CurrSelectBlockGroup.c_str());
 
 			// 버튼 상태 변경 
 			m_eBlockButtonState = E_BLOCK_BTN_DELETE;
@@ -842,7 +841,6 @@ void cObjectTab::OnBnClickedButton9()
 void cObjectTab::OnBnClickedButton10()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
     // 버튼 상태가 진행 중일땐 저장 상태로 돌아가게 
     if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
     {
@@ -852,16 +850,13 @@ void cObjectTab::OnBnClickedButton10()
         MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
 
         m_eBlockButtonState = E_BLOCK_BTN_END;
-
         int index = m_pBlockGroupListBox->FindString(-1, m_SelectBlockGroupName.c_str());
-
         if (index == LB_ERR)
         {
             m_pBlockGroupListBox->AddString(m_SelectBlockGroupName.c_str());
         }
         // 블록 그룹 이름을 표시해줌
 		m_SelectBlockGroupName = NO_NAME;
-        
         return;
     }
     else
@@ -872,7 +867,6 @@ void cObjectTab::OnBnClickedButton10()
 			string caption = "Block Gruop";
 			string text = m_SelectBlockGroupName + " 이(가) 선택되었습니다.";
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
-
 			// 버튼 상태 변경 
 			m_eBlockButtonState = E_BLOCK_BTN_MODIFY;
 		}
@@ -882,9 +876,6 @@ void cObjectTab::OnBnClickedButton10()
 			string caption = "Block Gruop";
 			string text = "잘못된 접근입니다.";
 			MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
-
-			//m_eBlockButtonState = E_B
 		}
-      
     }
 }

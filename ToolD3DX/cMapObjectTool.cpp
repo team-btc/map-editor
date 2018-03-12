@@ -36,6 +36,16 @@ cMapObjectTool::~cMapObjectTool()
 			SAFE_DELETE(m_vecObjects[i]);
 		}
 	}
+
+    // 블록 벡터 지우기
+    if (!m_vecBlockGroups.empty())
+    {
+        for (int i = 0; i < m_vecBlockGroups.size(); i++)
+        {
+            SAFE_DELETE(m_vecBlockGroups[i]);
+        }
+    }
+
     // 테스트 메쉬 해제
 	SAFE_RELEASE(m_SphereMesh);
 }
@@ -88,7 +98,7 @@ HRESULT cMapObjectTool::Update()
         }
     }
 
-    ///////////////////////////////////
+    // 블록 배치 
     switch (g_pMapDataManager->GetBlockButtonState())
     {
     case E_BLOCK_BTN_START:
@@ -149,7 +159,8 @@ HRESULT cMapObjectTool::Update()
 
 HRESULT cMapObjectTool::Render()
 {
-    if (!m_vecObjects.empty())  // 오브젝트들 그리기
+    // 오브젝트들 그리기
+    if (!m_vecObjects.empty())  
 	{
 		for (int i = 0; i < m_vecObjects.size(); i++)
 		{			
@@ -167,22 +178,21 @@ HRESULT cMapObjectTool::Render()
 		}
 	}
 
+    // 블록 그리기 
     if (!m_vecBlockGroups.empty())
     {
         for (int i = 0; i < m_vecBlockGroups.size(); i++)
         {
             if (!m_vecBlockGroups[i]->vecPoints.empty())
             {
-                g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
-                //g_pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_NORMAL );
-
-                for(int j = 0; j< m_vecBlockGroups[i]->vecPoints.size(); j++)
+           
+                for(int j = 0; j < m_vecBlockGroups[i]->vecPoints.size(); j++)
                 {
+                    g_pDevice->LightEnable(0, true);
                     // Sphere mesh 그리는 부분 
+                    Vector3 pos = m_vecBlockGroups[i]->vecPoints[j].p;
                     Matrix4 matS, matT, matW;
                     D3DXMatrixScaling(&matS, BLOCK_RADIUS, BLOCK_RADIUS, BLOCK_RADIUS);
-
-                    Vector3 pos = m_vecBlockGroups[i]->vecPoints[j].p;
                     D3DXMatrixTranslation(&matT, pos.x, pos.y, pos.z);
 
                     matW = matS * matT;
@@ -200,19 +210,22 @@ HRESULT cMapObjectTool::Render()
                     {
                         g_pDevice->SetMaterial(&BLUE_MTRL);
                     }
-
                     m_SphereMesh->DrawSubset(0);
+                    g_pDevice->LightEnable(0, false);
                 }
 
-                // 선부분
+
+                // 연결 선 그리기 
                 D3DXMATRIXA16 matW;
                 D3DXMatrixIdentity(&matW);
                 g_pDevice->SetFVF(ST_PC_VERTEX::FVF);
                 g_pDevice->SetTransform(D3DTS_WORLD, &matW);
                 
-                int LineNum = m_vecBlockGroups[i]->vecPoints.size() - 1;
+                int LineNum = (int)(m_vecBlockGroups[i]->vecPoints.size() - 1);
                 if (LineNum < 0)
+                {
                     LineNum = 0;
+                }
 
                 g_pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, LineNum,
                     &m_vecBlockGroups[i]->vecPoints[0], sizeof(ST_PC_VERTEX));
@@ -334,14 +347,11 @@ void cMapObjectTool::OnceLButtonDown()
         {
             if (m_nSelectedIndex == INVALIDE_VALUE)
             {
-                int nId = PickObject();    // 오브젝트와 피킹 검사를 하여 오브젝트의 아이디 가져오기 
-
+                int nId = PickObject();    // 오브젝트와 피킹 검사를 하여 오브젝트의 아이디 가져오기
                 if (nId != INVALIDE_VALUE) // INVALIDE_VALUE (-1)일 경우는 피킹 된 오브젝트가 없는 것
                 {
                     m_nSelectedIndex = FindObject(nId);  // id를 통해 오브젝트 벡터에서 해당 인덱스를 가져오기 
-
-                    // 탭의 설정들이 해당되는 녀석의 정보로 바뀌게 설정은 다음에?
-                 
+                    // 탭의 설정들이 해당되는 녀석의 정보로 바뀌게
                     Vector3 RotXYZ = m_vecObjects[m_nSelectedIndex]->GetRotationXYZ();
                     m_fObjSize = m_vecObjects[m_nSelectedIndex]->GetScale().x;
                     m_fObjRotX = RotXYZ.x;
@@ -361,11 +371,9 @@ void cMapObjectTool::OnceLButtonDown()
         if (!m_vecObjects.empty())    //벡터에 오브젝트가 있을때만 작동하게 
         {
             int nId = PickObject();
-
             if (nId != INVALIDE_VALUE)
             {
                 int index = FindObject(nId);
-
                 if (index != INVALIDE_VALUE)
                 {
                     SAFE_DELETE(m_vecObjects[index]);
@@ -377,15 +385,12 @@ void cMapObjectTool::OnceLButtonDown()
     break;
     }
 
-
     // BLOCK_EDIT_BUTTON
-   
     switch (g_pMapDataManager->GetBlockButtonState())
     {
     case E_BLOCK_BTN_PROGRESS:
     {
         cRay ray = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-        
         bool collision = false;
         int index = -1;
 
@@ -397,7 +402,6 @@ void cMapObjectTool::OnceLButtonDown()
                 index = i;
             }
         }
-
         if (collision)
         {
             m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.erase(m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.begin() + index);
@@ -406,12 +410,9 @@ void cMapObjectTool::OnceLButtonDown()
         {
             m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.push_back(ST_PC_VERTEX(*m_pPickPos, m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->GroupColor));
         }
-       
     }
     break;
     }
-
-
 }
 
 // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
@@ -425,19 +426,16 @@ int cMapObjectTool::PickObject()
     if (!m_vecObjects.empty())
     {
         cRay ray = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-      
         for (int i = 0; i < m_vecObjects.size(); i++)
         {
             //Ray 구 충돌 일때 
             float radius = m_vecObjects[i]->GetScale().x; // 그냥 스케일을 반지름으로 잡고 하자 
-          
             if (CollideRayNCircle(ray, m_vecObjects[i]->GetPositon(), radius))
             {
                 return m_vecObjects[i]->GetId();
             }
         }
     }
-
     return INVALIDE_VALUE;
 }
 
@@ -543,9 +541,6 @@ void cMapObjectTool::DebugTestRender()
         &rt,
         DT_LEFT | DT_NOCLIP,
         D3DCOLOR_XRGB(128, 128, 128));
-
-
-
 }
 
 int cMapObjectTool::GetBlockGroupByName(string BlockName)
@@ -557,6 +552,5 @@ int cMapObjectTool::GetBlockGroupByName(string BlockName)
             return i;
         }
     }
-
     return INVALIDE_VALUE;
 }
