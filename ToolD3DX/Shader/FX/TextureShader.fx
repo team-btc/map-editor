@@ -13,6 +13,9 @@ texture texture2;
 texture texture3;
 texture AlphaMap;
 
+float4x4 gWorldMatrix : World;
+float4x4 gViewMatrix : View;
+float4x4 gProjectionMatrix : Projection;
 
 
 sampler2D TexSampler0 = sampler_state
@@ -22,24 +25,51 @@ sampler2D TexSampler0 = sampler_state
 sampler2D TexSampler1 = sampler_state
 {
    Texture = (texture1);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexSampler2 = sampler_state
 {
    Texture = (texture2);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexSampler3 = sampler_state
 {
    Texture = (texture3);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
 };
 sampler2D TexAlpha = sampler_state
 {
    Texture = (AlphaMap);
 };
 
+struct VS_INPUT
+{
+    float4 mPosition : POSITION;
+};
+
+struct VS_OUTPUT
+{
+    float4 mPosition : POSITION;
+};
+
 struct PS_INPUT
 {	
 	float2 uv : TEXCOORD;
 };
+
+VS_OUTPUT ColorShader_Pass_0_Vertex_Shader_vs_main(VS_INPUT Input)
+{
+    VS_OUTPUT Output;
+
+    Output.mPosition = mul(Input.mPosition, gWorldMatrix);
+    Output.mPosition = mul(Output.mPosition, gViewMatrix);
+    Output.mPosition = mul(Output.mPosition, gProjectionMatrix);
+
+    return Output;
+}
 
 float4 main_0(PS_INPUT Input) : COLOR
 {
@@ -104,12 +134,12 @@ technique Shader
 	pass Pass_0
 	{
        // CULLMODE = CW;
-       // ZWRITEENABLE = TRUE;
+       //ZWRITEENABLE = FALSE;
        // ALPHABLENDENABLE = FALSE;
        // BLENDOP = ADD;
        // DESTBLEND = INVSRCALPHA;
        // SRCBLEND = BOTHINVSRCALPHA;
-
+      
 		PixelShader = compile ps_2_0 main_0();
 	}
 };

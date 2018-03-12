@@ -66,7 +66,7 @@ HRESULT cMapTerrainTool::Setup()
     m_stTerrainBrushInfo.fBrushSize = 30.0f;
 
     m_pWaveShader = new cWaveShader;
-    //m_eTerraingEditType = E_TER_EDIT_BEGIN;
+
 
     m_stTextureBrushInfo.m_eCurrTextureType = g_pMapDataManager->GetDefGroundType();
     m_stTextureBrushInfo.fDrawDensity = 100.0f;
@@ -105,13 +105,11 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
             m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
-            0.01f, NULL, NULL, NULL);
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
+            m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-        // m_pTextureShader->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
-        //     m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
-        //     m_stTextureBrushInfo.fTextureDensity * 0.01f);
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
@@ -194,53 +192,15 @@ HRESULT cMapTerrainTool::Render()
 	g_pDevice->SetMaterial(&WHITE_MTRL);
 	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
     g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-    //g_pDevice->LightEnable(0, true);
+    g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, false);
-	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
-    //Vector4 vCameraPos = Vector4(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1);
-   // Vector4 vCameraPos = Vector4(110, 100, 100, 1);
-
-	// 메쉬로 그리기
-	//g_pDevice->SetTexture(0, (LPTEXTURE9)g_pTextureManager->GetTexture("default"));
-    g_pDevice->GetTransform(D3DTS_VIEW, &matV);
-    g_pDevice->GetTransform(D3DTS_PROJECTION, &matP);
-
-    m_pHeightShader->SetMatrix("gWorldMatrix", &matW);
-    m_pHeightShader->SetMatrix("gViewMatrix", &matV);
-    m_pHeightShader->SetMatrix("gProjectionMatrix", &matP);
-
-    m_pHeightShader->SetTexture("DiffuseMap_Tex", m_pDiffuseTex);
-    m_pHeightShader->SetTexture("Heightmap_Tex", m_pHeightMapTex);
-    
-    g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
-
-    UINT numPasses = 0;
-    m_pHeightShader->Begin(&numPasses, NULL);
-    {
-        for (UINT i = 0; i < numPasses; ++i)
-        {
-            m_pHeightShader->BeginPass(i);
-            {
-                m_pMesh->DrawSubset(0);
-            }
-            m_pHeightShader->EndPass();
-        }
-    }
-    m_pHeightShader->End();
-
-	g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
-	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, false);
+ 
+	
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
     m_pWaveShader->Render(vP);
 
+    m_pTextureShader->Render();
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
-    //RendBrush();
-    //m_pTextureShader->Render();
-
-    //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    //g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-    //m_pTextureShader->Render();
 
 	return S_OK;
 }
@@ -281,10 +241,8 @@ void cMapTerrainTool::StayLButtonDown(E_TAB_TYPE eTabType)
     // 텍스쳐탭
     else if (eTabType == E_TEXTURE_TAB)
     {
-        // m_pTextureShader->SetType(m_stTextureBrushInfo.m_eCurrTextureType);
         m_pBrush->SetType(m_stTextureBrushInfo.m_eCurrTextureType, m_stTextureBrushInfo.m_eDrawType);
         m_pTextureShader->Update();
-       // DrawAlphaMap();
     }
 }
 
@@ -304,7 +262,6 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
             g_pTextureManager->AddTexture("default", "Shader/Texture/Default.jpg");
         }
     }
-
 
     // 가로 세로 사이즈 계산 후 맵 만들기
     m_ptMapSize.x = m_ptMapSize.y = (eMapSize + 1) * 64;
@@ -874,206 +831,6 @@ void cMapTerrainTool::DrawFlat()
     m_pNormalMapTex->UnlockRect(0);
     m_pHeightMapTex->UnlockRect(0);
 }
-
-//void cMapTerrainTool::CreateTempWaterMap()
-//{
-   // vector<D3DXVECTOR3> vecTest;
-   // // resize
-   // vecTest.resize(10);
-   // vecTest.push_back(D3DXVECTOR3(1, 1, 1));
-   // // vecTest의 크기는 11이 된다.
-   // // reserve
-   // vecTest.reserve(10);
-   // vecTest.push_back(D3DXVECTOR3(1, 1, 1));
-   // // vecTest의 크기는 1이다.
-   //
-   //
-   //
-   // m_vecPNTVertex.resize(VERTEX_DIM * VERTEX_DIM);
-   // m_vecVertex.resize(VERTEX_DIM * VERTEX_DIM);
-   //
-   // FILE* fp = NULL;
-   // fopen_s(&fp, "HeightMapData/HeightMap.raw", "rb"); // rb : 한 바이트씩 읽는다. (1byte == 8bit)
-   //
-   // for (int z = 0; z < VERTEX_DIM; ++z)
-   // {
-   //     for (int x = 0; x < VERTEX_DIM; ++x)
-   //     {
-   //         int nIndex = z * VERTEX_DIM + x;
-   //         float y = (unsigned char)fgetc(fp) / 5.0f;	// 8bit == 2^8 == 0 ~  255
-   //         m_vecPNTVertex[nIndex].p = D3DXVECTOR3(x, y, z);
-   //         m_vecPNTVertex[nIndex].n = D3DXVECTOR3(0, 1, 0);
-   //         m_vecPNTVertex[nIndex].t = D3DXVECTOR2(x / (float)TILE_N, z / (float)TILE_N);
-   //
-   //         if (pMat)
-   //             D3DXVec3TransformCoord(&m_vecPNTVertex[nIndex].p, &m_vecPNTVertex[nIndex].p, pMat);
-   //
-   //         m_vecVertex[nIndex] = m_vecPNTVertex[nIndex].p;
-   //     }
-   // }
-   //
-   // if (pMat)
-   // {
-   //     m_fSizeX = pMat->_11;
-   //     m_fSizeZ = pMat->_33;
-   // }
-   //
-   // fclose(fp);
-   //
-   // // 인덱스 셋팅
-   // m_vecIndex.reserve(TILE_N * TILE_N * 3 * 2); // 가로 타일 * 세로 타일 * 삼각형 정점수 * 삼각형 개수
-   //
-   // for (int z = 0; z < TILE_N; ++z)
-   // {
-   //     for (int x = 0; x < TILE_N; ++x)
-   //     {
-   //         //1--3
-   //         //|\ |
-   //         //| \|
-   //         //0--2
-   //         int _0 = ((z + 0) * VERTEX_DIM) + (x + 0);
-   //         int _1 = ((z + 1) * VERTEX_DIM) + (x + 0);
-   //         int _2 = ((z + 0) * VERTEX_DIM) + (x + 1);
-   //         int _3 = ((z + 1) * VERTEX_DIM) + (x + 1);
-   //
-   //         m_vecIndex.push_back(_0);
-   //         m_vecIndex.push_back(_1);
-   //         m_vecIndex.push_back(_2);
-   //         m_vecIndex.push_back(_2);
-   //         m_vecIndex.push_back(_1);
-   //         m_vecIndex.push_back(_3);
-   //     }
-   // }
-   //
-   // // 노말값 계산 및 셋팅
-   // for (int z = 1; z < VERTEX_DIM - 1; ++z)
-   // {
-   //     for (int x = 1; x < VERTEX_DIM - 1; ++x)
-   //     {
-   //         // ---u---
-   //         // |\ |\ |
-   //         // | \| \|
-   //         // L--n--r
-   //         // |\ |\ |
-   //         // | \| \|
-   //         // ---d---
-   //         int nIndex = z * VERTEX_DIM + x;	// 현재 인덱스
-   //
-   //         int l = nIndex - 1;
-   //         int r = nIndex + 1;
-   //         int u = nIndex + VERTEX_DIM;
-   //         int d = nIndex - VERTEX_DIM;
-   //
-   //         D3DXVECTOR3 du = m_vecVertex[u] - m_vecVertex[d];
-   //         D3DXVECTOR3 lr = m_vecVertex[r] - m_vecVertex[l];
-   //         D3DXVECTOR3 n;
-   //         D3DXVec3Cross(&n, &du, &lr);
-   //         D3DXVec3Normalize(&n, &n);
-   //
-   //         m_vecPNTVertex[nIndex].n = n;
-   //     }
-   // }
-   //
-   // // 메쉬 생성 및 셋팅
-   // D3DXCreateMeshFVF(m_vecIndex.size() / 3, m_vecPNTVertex.size(),
-   //     D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pD3DDevice, &m_pMesh);
-   //
-   // ST_PNT_VERTEX* pV = NULL;
-   // m_pMesh->LockVertexBuffer(0, (LPVOID*)&pV);
-   // memcpy(pV, &m_vecPNTVertex[0], m_vecPNTVertex.size() * sizeof(ST_PNT_VERTEX));
-   // m_pMesh->UnlockVertexBuffer();
-   //
-   // DWORD* pI = NULL;
-   // m_pMesh->LockIndexBuffer(0, (LPVOID*)&pI);
-   // memcpy(pI, &m_vecIndex[0], m_vecIndex.size() * sizeof(DWORD));
-   // m_pMesh->UnlockIndexBuffer();
-   //
-   // DWORD* pA = NULL;
-   // m_pMesh->LockAttributeBuffer(0, &pA);
-   // ZeroMemory(pA, m_pMesh->GetNumFaces());
-   // m_pMesh->UnlockAttributeBuffer();
-   //
-   // // 메쉬 최적화
-   // vector<DWORD> vecAdjBuf(m_pMesh->GetNumFaces() * 3);
-   // m_pMesh->GenerateAdjacency(D3DX_16F_EPSILON, &vecAdjBuf[0]);
-   // m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT | D3DXMESHOPT_VERTEXCACHE,
-   //     &vecAdjBuf[0], 0, 0, 0);
-   //
-   // // 속성 설정(메터리얼, 텍스쳐)
-   // m_pMtlTex = new cMtlTex;
-   // D3DMATERIAL9 stMtl = WHITE_MTRL;
-   // m_pMtlTex->SetMtl(stMtl);
-   // g_pTextureManager->AddTexture(szTexFileKey, szTexFilePath);
-   // m_pMtlTex->SetTexture(g_pTextureManager->GetTexture(szTexFileKey));
-   //
-   // pMesh = m_pMesh;
-//}
-
-void cMapTerrainTool::DrawAlphaMap()
-{
-    auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("height-map");
-
-    D3DLOCKED_RECT      AlphaMap_Locked;
-    memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
-    t->LockRect(0, &AlphaMap_Locked, NULL, NULL);
-    LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
-
-    for (int i = 0; i < 50; i++)
-    {
-        LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-        for (int y = 0; y < 50; y++)
-        {
-            *(pDWordDST + y) = 0xffffffff;
-        }
-    }
-
-    t->UnlockRect(0);
-
-    //HRESULT hr = D3DXSaveTextureToFileA("test.png",
-    //    D3DXIFF_PNG,
-    //    t,
-    //    NULL);
-}
-
-void cMapTerrainTool::RendBrush()
-{
-    Matrix4 matRotY;
-    ST_PC_VERTEX InitBrush[2];
-    InitBrush[0].c = D3DCOLOR_XRGB(255, 255, 255);
-    InitBrush[1].c = D3DCOLOR_XRGB(255, 255, 255);
-   
-   
-    Vector3 vCenter ;                                      // vCenter : 원의 중점, InitBrush 선을 그을 두 점
-    vCenter = *m_vPickPos;
-   
-    float f;
-    if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
-    {
-        f = g_pMapDataManager->GetTerBrushSize();
-    }
-    else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
-    {
-        f = g_pMapDataManager->GetTexBrushSize();
-    }
-   
-    InitBrush[0].p = *m_vPickPos;
-    InitBrush[0].p.x += f;
-   
-    float RotY = 2.0 * D3DX_PI / 60.0f;                                 // 60번 회전할 각도. 한 회당 6도
-    
-    for (int i = 0; i < 60; ++i)
-    {
-        InitBrush[1].p.x = vCenter.x + f * cosf(RotY * (i + 1));
-        InitBrush[1].p.z = vCenter.z + f * sinf(RotY * (i + 1));
-        InitBrush[1].p.y = g_pMapDataManager->GetDefHeight() + 0.0001f;
-   
-        g_pDevice->DrawPrimitiveUP(D3DPT_LINELIST, 1, InitBrush, sizeof(ST_PC_VERTEX));
-   
-        //배열의 1번값을 0번으로 돌려준다
-        InitBrush[0] = InitBrush[1];
-    }
-}
-
 
 // 지형맵 파일 저장하기
 HRESULT cMapTerrainTool::SaveFile(IN string sFolderName, IN string sFileName)

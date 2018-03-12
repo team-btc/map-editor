@@ -97,7 +97,7 @@ HRESULT cMapTool::Render()
    
 	if (m_pObjectTool)
 	{
-		m_pObjectTool->Render();
+		//m_pObjectTool->Render();
 	}
 
 	if (m_pTerrainTool)

@@ -100,7 +100,7 @@ BOOL cTextureTab::OnInitDialog()
 
     // 브러쉬 사이즈 슬라이더 기본 설정
     m_pBrushDenSizeSliderCtl->SetRange(0, 100);		// 사용영역 값 설정
-    m_pBrushDenSizeSliderCtl->SetRangeMin(10);		// 최소 값 설정
+    m_pBrushDenSizeSliderCtl->SetRangeMin(2);		// 최소 값 설정
     m_pBrushDenSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
     m_pBrushDenSizeSliderCtl->SetPos(m_fBrushDenSize);	// 위치 설정
     m_pBrushDenSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정

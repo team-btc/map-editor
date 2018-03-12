@@ -221,7 +221,7 @@
     <ClInclude Include="cShaderManager.h" />
     <ClInclude Include="cSkinnedMesh.h" />
     <ClInclude Include="cSkyBoxShader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="cTerrainTab.h" />
     <ClInclude Include="cTextureManager.h" />
@@ -246,6 +246,7 @@
     <ClInclude Include="ToolBasic.h" />
     <ClInclude Include="ToolBasicDoc.h" />
     <ClInclude Include="ToolBasicView.h" />
+    <ClInclude Include="cTotalShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cAllocateHierarchy.cpp" />
@@ -275,7 +276,7 @@
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cSkinnedMesh.cpp" />
     <ClCompile Include="cSkyBoxShader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="cTerrainTab.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
@@ -299,6 +300,7 @@
     <ClCompile Include="ToolBasic.cpp" />
     <ClCompile Include="ToolBasicDoc.cpp" />
     <ClCompile Include="ToolBasicView.cpp" />
+    <ClCompile Include="cTotalShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ToolBasic00.rc" />

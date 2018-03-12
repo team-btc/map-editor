@@ -37,6 +37,8 @@ void cTextureShader::SetTexture()
 
 void cTextureShader::DrawTexture()
 {
+
+
     int Density = 0;
     switch (m_pBrush->m_eDrawType)
     {
@@ -408,7 +410,9 @@ void cTextureShader::DrawTexture()
 
 void cTextureShader::SaveTexture()
 {
+    //auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
     g_pTextureManager->SaveTexture(m_pAlphaDraw, "Save.png", D3DXIFF_BMP);
+
 }
 
 void cTextureShader::SetMapSize()
@@ -419,26 +423,16 @@ void cTextureShader::SetMapSize()
 
 void cTextureShader::Update()
 {
-    m_nTimer++;
-    if (m_nTimer >= 6)
-    {
+   // m_nTimer++;
+   // if (m_nTimer >= 3)
+   // {
         DrawTexture();
-        m_nTimer = 0;
-    }
+   //     m_nTimer = 0;
+   // }
 }
 
 void cTextureShader::Render()
 {
-    D3DXMATRIXA16 matW, matView, matProjection;
-    D3DXMatrixIdentity(&matW);
-
-    g_pDevice->GetTransform(D3DTS_VIEW, &matView);
-    g_pDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
-
-    m_pTextureShader->SetMatrix("gWorldMatrix", &matW);
-    m_pTextureShader->SetMatrix("gViewMatrix", &matView);
-    m_pTextureShader->SetMatrix("gProjectionMatrix", &matProjection);
-
     m_pTextureShader->SetTexture("texture0", m_pTexture[0]);
     m_pTextureShader->SetTexture("texture1", m_pTexture[1]);
     m_pTextureShader->SetTexture("texture2", m_pTexture[2]);
@@ -447,14 +441,21 @@ void cTextureShader::Render()
     m_pTextureShader->SetTexture("AlphaMap", m_pAlphaDraw);
 
     m_pTextureShader->SetVector("gUV", &m_pBrush->m_pPick);
-   
     m_pTextureShader->SetFloat("Brush_Radius", m_pBrush->m_fBrushRadius);
     m_pTextureShader->SetFloat("Spray_Radius", m_pBrush->m_fSprayRadius);
     m_pTextureShader->SetFloat("Density", m_pBrush->m_fDrawDensity);
-
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
+
+   
+  // ST_PNT_VERTEX* pEditV = NULL;
+  // m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
+  // ST_PNT_VERTEX* pEditI = NULL;
+  // m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pEditI);
+  //
+  // // 쉐이더를 시작한다.
+  //g_pDevice->DrawIndexedPrimitiveUP(D3DPT_TRIANGLELIST, 0, m_pMesh->GetNumVertices(), m_pMesh->GetNumFaces(), &pEditI[0], D3DFMT_INDEX32, &pEditV[0], sizeof(m_pMesh->GetFVF()));// ; 
 
    UINT numPasses = 0;
    m_pTextureShader->Begin(&numPasses, NULL);
