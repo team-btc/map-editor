@@ -109,7 +109,7 @@ HRESULT cMapObjectTool::Update()
         int green = rand() % 256;
         int blue = rand() % 256;
 
-        blockGroup->GroupColor = D3DCOLOR_XRGB(red, green, blue);
+        blockGroup->GroupColor = D3DCOLOR_ARGB(255 ,red, green, blue);
 
         blockGroup->GroupName = g_pMapDataManager->GetSelectedBlockGroupName();
         m_vecBlockGroups.push_back(blockGroup);
@@ -211,7 +211,7 @@ HRESULT cMapObjectTool::Render()
                         g_pDevice->SetMaterial(&BLUE_MTRL);
                     }
                     m_SphereMesh->DrawSubset(0);
-                    g_pDevice->LightEnable(0, false);
+                 
                 }
 
                 // 연결 선 그리기 
@@ -228,6 +228,7 @@ HRESULT cMapObjectTool::Render()
 
                 g_pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, LineNum,
                     &m_vecBlockGroups[i]->vecPoints[0], sizeof(ST_PC_VERTEX));
+                g_pDevice->LightEnable(0, false);
             }
         }
     }

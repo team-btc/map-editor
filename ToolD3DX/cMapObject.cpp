@@ -40,7 +40,7 @@ void cMapObject::Setup(Vector3 vScale, Vector3 vRotationXYZ, Vector3 vPosition)
 
 void cMapObject::Render()
 {
-    m_pSkinnedMesh->UpdateAndRender();
+    m_pSkinnedMesh->UpdateAndRender(&m_matWorld);
 }
 
 void cMapObject::UpdateMatrix()

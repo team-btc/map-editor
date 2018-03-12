@@ -80,76 +80,76 @@
 #define IDC_BRUSH_DENSITY_SIZE_SLI      1058
 #define IDC_BRUSH_DENSITY_SIZE_EDI      1059
 #define IDC_BRUSH_DENSITY_SIZE_SPI      1060
-#define IDC_OBJECT_FILE_TRE             1061
+
 #define IDC_BRUSH_DENSITY_GRO           1061
 #define IDC_BRUSH_DENSITY_SLI           1062
-#define IDC_OBJECT_LIST_LIS             1063
+
 #define IDC_BRUSH_DENSITY_EDI           1063
-#define IDC_OBJECT_FILE_TEXT            1064
+
 #define IDC_BRUSH_DENSITY_SPI           1064
-#define IDC_OBJECT_LIST_TEXT            1065
+
 #define IDC_Tex2_Density_GRO            1065
-#define IDC_OBJECT_SIZE_GRO             1066
+
 #define IDC_TEX2_DSIZE_SLI              1066
-#define IDC_OBJECT_SIZE_SLI             1067
+
 #define IDC_TEX2_DSIZE_EDI              1067
-#define IDC_OBJECT_SIZE_EDI             1068
+
 #define IDC_TEX2_DSIZE_SPI              1068
-#define IDC_OBJECT_SIZE_SPI             1069
+
 #define IDC_Tex3_Density_GRO            1069
-#define IDC_OBJECT_POS_GRO              1070
+
 #define IDC_TEX3_DSIZE_SLI              1070
 #define IDC_TEX3_DSIZE_EDI              1071
-#define IDC_X_TEXT                      1072
+
 #define IDIDC_TEX3_DSIZE_SPI            1072
-#define IDC_OBJECT_ATTRIBUTE_GRO        1073
-#define IDC_COLLISION_CHE               1074
+
+
 #define IDC_WATER_HEIGHT_GRO            1075
 #define IDC_WATER_HEIGHT_SLI            1076
 #define IDC_WATER_HEIGHT_EDI            1077
-#define IDC_Y_TEXT                      1078
+
 #define IDC_WATER_HEIGHT_SPI            1078
 #define IDC_WATER_UV_SPEED_GRO          1079
-#define IDC_Z_TEXT                      1080
+
 #define IDC_WATER_UV_SPEED_SLI          1080
-#define IDC_OBJECT_ROT_GRO              1081
+
 #define IDC_WATER_UV_SPEED_EDI          1081
-#define IDC_OBJECT_ROT_X_SLI            1082
+
 #define IDC_WATER_UV_SPEED_SPI          1082
-#define IDC_OBJECT_ROT_X_EDI            1083
+
 #define IDC_WATER_HEIGHT_SPEED_GRO      1083
-#define IDC_OBJECT_ROT_X_SPI            1084
+
 #define IDC_WATER_HEIGHT_SPEED_SLI      1084
-#define IDC_X_TEXT2                     1085
+
 #define IDC_WATER_HEIGHT_SPEED_EDI      1085
-#define IDC_OBJECT_ROT_Y_SLI            1086
+
 #define IDC_WATER_HEIGHT_SPEED_SPI      1086
-#define IDC_OBJECT_ROT_Y_EDI            1087
+
 #define IDC_WATER_WAVE_HEIGHT_GRO       1087
-#define IDC_OBJECT_ROT_Y_SPI            1088
+
 #define IDC_WATER_WAVE_HEIGHT_SLI       1088
-#define IDC_Y_TEXT2                     1089
+
 #define IDC_WATER_WAVE_HEIGHT_EDI       1089
-#define IDC_OBJECT_ROT_Z_SLI            1090
+
 #define IDC_WATER_WAVE_HEIGHT_SPI       1090
-#define IDC_OBJECT_ROT_Z_EDI            1091
+
 #define IDC_WATER_WAVE_FREQUENCY_GRO    1091
-#define IDC_OBJECT_ROT_Z_SPI            1092
+
 #define IDC_WATER_WAVE_FREQUENCY_SLI    1092
-#define IDC_Z_TEXT2                     1093
+
 #define IDC_WATER_WAVE_FREQUENCY_EDI    1093
-#define IDC_DESTRUCTION_CHE             1094
+
 #define IDC_WATER_WAVE_FREQUENCY_SPI    1094
-#define IDC_POS_X_TEXT                  1095
+
 #define IDC_WATER_TRANSPARENT_GRO       1095
-#define IDC_POS_Y_TEXT                  1096
+
 #define IDC_WATER_TRANSPARENT_SLI       1096
-#define IDC_DELETE_BTN                  1097
+
 #define IDC_WATER_TRANSPARENT_EDI       1097
-#define IDC_POS_Z_TEXT                  1098
+
 #define IDC_WATER_TRANSPARENT_SPI       1098
-#define IDC_DELETE_BTN2                 1099
-#define IDC_DUPLCATION_BTN              1099
+
+
 #define IDC_SHARP_RAD                   1099
 #define IDC_WALKABLE_CHE                1100
 #define IDC_INCREMENT_EDI               1221
@@ -228,7 +228,6 @@
 #define IDC_BLOCK_GROUP_DELETE_BUTTON   2085
 #define IDC_BLOCK_GROUP_TEXT            2086
 #define IDC_BLOCK_GROUP_MODIFY_BUTTON   2087
-#define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
 #define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
 #define IDC_BUTTON1                     2100
 

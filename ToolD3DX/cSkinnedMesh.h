@@ -34,7 +34,7 @@ public:
     cSkinnedMesh(string szKey, string szFolder, string szFilename);
     ~cSkinnedMesh(void);
 
-    void UpdateAndRender();
+    void UpdateAndRender(Matrix4* pmatParent = NULL);
 
     void SetRandomTrackPosition();  // 테스트용
     void SetPosition(Vector3 v)

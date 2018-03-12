@@ -79,18 +79,24 @@ void cSkinnedMesh::Load(string szDirectory, string szFilename)
         SetupBoneMatrixPtrs(m_pRootFrame);
 }
 
-void cSkinnedMesh::UpdateAndRender()
+void cSkinnedMesh::UpdateAndRender(Matrix4* pmatParent)
 {
     if (m_pAnimController)
     {
         m_pAnimController->AdvanceTime(g_pTimerManager->GetDeltaTime(), NULL);
     }
-
     if (m_pRootFrame)
     {
         Matrix4 mat;
-        D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
-
+        D3DXMatrixIdentity(&mat);
+        if (pmatParent)
+        {
+            mat *= *pmatParent;
+        }
+        else
+        {
+            D3DXMatrixTranslation(&mat, m_vPosition.x, m_vPosition.y, m_vPosition.z);
+        }
         Update(m_pRootFrame, &mat);
         Render(m_pRootFrame);
     }

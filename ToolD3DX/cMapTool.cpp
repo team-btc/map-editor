@@ -41,7 +41,8 @@ HRESULT cMapTool::Setup()
 
     m_pObjectTool = new cMapObjectTool;
     m_pObjectTool->Setup();
-   
+    m_pObjectTool->SetPickPos(&m_vPickPos);
+
 	return S_OK;
 }
 
@@ -92,18 +93,19 @@ HRESULT cMapTool::Update()
 }
 
 HRESULT cMapTool::Render()
-{
-  
-   
-	if (m_pObjectTool)
-	{
-		//m_pObjectTool->Render();
-	}
-
+{ 
+	
 	if (m_pTerrainTool)
 	{
 		m_pTerrainTool->Render();
 	}
+
+    if (m_pObjectTool)
+    {
+        m_pObjectTool->Render();
+    }
+
+
     RendPtMouse();
     return S_OK;
 }
