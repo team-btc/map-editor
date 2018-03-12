@@ -24,6 +24,7 @@ void cSkyBoxShader::SetBox(string sTexFileKey, string sTexFilePath)
     DWORD numMaterial;
     D3DXLoadMeshFromX("Shader/Model/Box.x", NULL, g_pDevice, NULL, &m_pMaterial, NULL, &numMaterial, &m_pMesh);
     D3DXCreateCubeTextureFromFile(g_pDevice, sTexFilePath.c_str(), &m_pCubeTexture);
+
 }
 
 void cSkyBoxShader::Render(D3DXVECTOR4 vCameraPosition)

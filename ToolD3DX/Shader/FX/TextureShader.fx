@@ -101,9 +101,9 @@ float4 main_0(PS_INPUT Input) : COLOR
 	float r = Brush_Radius;
 	float sr = Spray_Radius;
     float d = Alpha.r + Alpha.g + Alpha.b;
-    float Rd = Alpha.r / d;
-    float Gd = Alpha.g / d;
-    float Bd = Alpha.b / d;
+    float Rd = Alpha.r / d * 0.9f;
+    float Gd = Alpha.g / d * 0.9f;
+    float Bd = Alpha.b / d * 0.9f;
 
 
 	float l;
@@ -132,14 +132,7 @@ float4 main_0(PS_INPUT Input) : COLOR
 technique Shader
 {
 	pass Pass_0
-	{
-       // CULLMODE = CW;
-       //ZWRITEENABLE = FALSE;
-       // ALPHABLENDENABLE = FALSE;
-       // BLENDOP = ADD;
-       // DESTBLEND = INVSRCALPHA;
-       // SRCBLEND = BOTHINVSRCALPHA;
-      
+	{      
 		PixelShader = compile ps_2_0 main_0();
 	}
 };

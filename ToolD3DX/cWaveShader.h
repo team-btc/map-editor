@@ -6,6 +6,8 @@ private:
     LPMESH				    m_pMesh;
     LPD3DXEFFECT			m_pWaveShader;
     LPDIRECT3DTEXTURE9      m_pTexture;
+    LPCUBETEXTURE9          m_pSkyTexture;
+
 
     D3DXVECTOR4             gWorldLightPosition;
     D3DXVECTOR4             gLightColor;

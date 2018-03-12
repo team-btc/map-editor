@@ -25,6 +25,15 @@ void cWaveShader::SetShader(float fHeight, float fWaveHeight, float fSpeed, floa
     m_pUVSpeed = fUVSpeed;
     m_pWaveFrequency = fWaveFrequency;
     m_pTransparent = fTransparent;
+<<<<<<< HEAD
+=======
+
+    g_pTextureManager->AddTexture("Water", "Shader/Texture/water.jpg");
+    g_pShaderManager->AddEffect("Wave", "Shader/FX/WaveShader.fx");
+    m_pWaveShader = g_pShaderManager->GetEffect("Wave");                                 // 툴이 시작할때 기본적으로 Add 해주므로 나중에 고치면 댐
+    m_pTexture = (LPTEXTURE9)g_pTextureManager->GetTexture("Water");                     // 툴이 시작할때 기본적으로 Add 해주므로 나중에 고치면 댐
+
+>>>>>>> Nope
 }
 
 // 매쉬 복사
