@@ -87,7 +87,14 @@ class cMapDataManager
     // BLOCK_EDIT
     SYNTHESIZE_PASS_BY_REF(E_BLOCK_BUTTON_STATE, m_eBlockButtonState, BlockButtonState);  // 오브젝트 탭 버튼 클릭 상태 
 	SYNTHESIZE_PASS_BY_REF(string, m_SelectBlockGroupName, SelectedBlockGroupName);       // 최근 선택한 블록 그룹 
-  
+
+    SYNTHESIZE_PASS_BY_REF_NO_SET(bool, m_isObjEnemy, ObjEnemy);                 // 오브젝트 에너미
+	SYNTHESIZE_PASS_BY_REF(string, m_sFileKey,  FileKey);							// x파일 파일경로에서 읽었던 파일의 키값
+
+    // 리스트 포인터 
+    SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pObjListBox, ObjListBox);                        // 오브젝트 리스트 박스
+    SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pBlockGroupListBox, BlockGroupListBox);          // 블록그룹 리스트 박스 
+    
 private:
     cMapTool*       m_pMapTool;
 

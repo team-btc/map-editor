@@ -227,7 +227,7 @@ HRESULT cMapTerrainTool::Render()
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
 
     m_pSkyBoxShader->Render(vP);
-
+    
     m_pTextureShader->Render();
 
     if (m_isWaterEnable)
@@ -237,6 +237,7 @@ HRESULT cMapTerrainTool::Render()
 
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
 
+   
 	return S_OK;
 }
 

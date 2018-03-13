@@ -1,0 +1,116 @@
+{
+  "BLOCK_GROUP": 
+  [
+    {
+      "BLOCK_GROUP_COLOR": 4294352509,
+      "BLOCK_GROUP_NAME": "GROUP_0",
+      "BLOCK_POINT": [
+        {
+          "BLOCK_POINT_X": 99.7157363891602,
+          "BLOCK_POINT_Y": 127.999984741211,
+          "BLOCK_POINT_Z": 172.703765869141
+        },
+        {
+          "BLOCK_POINT_X": 155.784896850586,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 147.298141479492
+        },
+        {
+          "BLOCK_POINT_X": 134.06037902832,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 88.0325317382813
+        },
+        {
+          "BLOCK_POINT_X": 115.866928100586,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 65.0639877319336
+        },
+        {
+          "BLOCK_POINT_X": 162.79182434082,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 64.5865249633789
+        },
+        {
+          "BLOCK_POINT_X": 183.913116455078,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 81.6095428466797
+        },
+        {
+          "BLOCK_POINT_X": 192.018798828125,
+          "BLOCK_POINT_Y": 127.999984741211,
+          "BLOCK_POINT_Z": 124.951705932617
+        },
+        {
+          "BLOCK_POINT_X": 210.359161376953,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 143.643280029297
+        }
+      ]
+    },
+    {
+      "BLOCK_GROUP_COLOR": 4286969677,
+      "BLOCK_GROUP_NAME": "GROUP_1",
+      "BLOCK_POINT": [
+        {
+          "BLOCK_POINT_X": 50.8519744873047,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 186.989761352539
+        },
+        {
+          "BLOCK_POINT_X": 45.6620178222656,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 120.861770629883
+        },
+        {
+          "BLOCK_POINT_X": 53.9789428710938,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 91.129035949707
+        },
+        {
+          "BLOCK_POINT_X": 45.3281402587891,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 58.7463722229004
+        },
+        {
+          "BLOCK_POINT_X": 58.420654296875,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 44.5303421020508
+        },
+        {
+          "BLOCK_POINT_X": 79.9404144287109,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 30.9025230407715
+        },
+        {
+          "BLOCK_POINT_X": 113.988731384277,
+          "BLOCK_POINT_Y": 128.000015258789,
+          "BLOCK_POINT_Z": 18.7165069580078
+        },
+        {
+          "BLOCK_POINT_X": 149.531188964844,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 24.2536773681641
+        },
+        {
+          "BLOCK_POINT_X": 150.486404418945,
+          "BLOCK_POINT_Y": 128.000015258789,
+          "BLOCK_POINT_Z": 17.3311309814453
+        },
+        {
+          "BLOCK_POINT_X": 180.178527832031,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 9.07319641113281
+        },
+        {
+          "BLOCK_POINT_X": 206.035858154297,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 10.4441528320313
+        },
+        {
+          "BLOCK_POINT_X": 225.566650390625,
+          "BLOCK_POINT_Y": 128.0,
+          "BLOCK_POINT_Z": 8.94400024414063
+        }
+      ]
+    }
+  ]}

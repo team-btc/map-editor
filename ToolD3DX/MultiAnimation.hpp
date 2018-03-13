@@ -1,9 +1,9 @@
 #include "MultiAnimation.vsh"
 
 
-float4		vLightDiffuse;		// = { 1.0f, 1.0f, 1.0f, 1.0f };   // Light Diffuse
-float4		vMaterialAmbient;	// : MATERIALAMBIENT = { 1.0f, 0.1f, 0.1f, 1.0f };
-float4		vMaterialDiffuse;	// : MATERIALDIFFUSE = { 0.8f, 0.8f, 0.8f, 1.0f };
+float4		vLightDiffuse  = { 1.0f, 1.0f, 1.0f, 1.0f };   // Light Diffuse
+float4		vMaterialAmbient = { 1.0f, 0.1f, 0.1f, 1.0f };	// : MATERIALAMBIENT = { 1.0f, 0.1f, 0.1f, 1.0f };
+float4		vMaterialDiffuse = { 0.8f, 0.8f, 0.8f, 1.0f };	// : MATERIALDIFFUSE = { 0.8f, 0.8f, 0.8f, 1.0f };
 float4		vWorldLightPos		= float4( 0.00, 500.00, -500.00, 1.00 );
 float4		vWorldCameraPos		= float4( -50.00, 50.00, -50.00, 1.00 );
 

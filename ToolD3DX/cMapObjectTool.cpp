@@ -3,11 +3,13 @@
 #include "cMapObject.h"
 #include "cRay.h"
 #include "resource.h"
+#include "cMapTerrainTool.h"
 
 cMapObjectTool::cMapObjectTool()
 	: m_SphereMesh(NULL)
 	, m_isObjCollison(g_pMapDataManager->GetObjCollision())
 	, m_isObjDestruction(g_pMapDataManager->GetObjDestruction())
+    , m_isObjEnemy(g_pMapDataManager->GetObjEnemy())
 	, m_fObjPosX(g_pMapDataManager->GetObjPosX())
 	, m_fObjPosY(g_pMapDataManager->GetObjPosY())
 	, m_fObjPosZ(g_pMapDataManager->GetObjPosZ())
@@ -22,8 +24,10 @@ cMapObjectTool::cMapObjectTool()
 	
 	// 블록 관련 
 	, m_eBlockButtonState(g_pMapDataManager->GetBlockButtonState())
+    , m_eObjectButtonState(g_pMapDataManager->GetObjectButtonState())
 	, m_SelectedBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
 	, m_nCurWorkingBlockGroupIndex(INVALIDE_VALUE)
+    , m_pTerrainTool(NULL)
 {}
 
 cMapObjectTool::~cMapObjectTool()
@@ -64,8 +68,18 @@ HRESULT cMapObjectTool::Setup()
 
 HRESULT cMapObjectTool::Update()
 {
+    if (g_pKeyManager->isOnceKeyDown('M'))
+    {
+        SaveByJson();
+    }
+    if (g_pKeyManager->isOnceKeyDown('N'))
+    {
+        LoadByJson();
+    }
+
+
     // 오브젝트 탭 버튼 상태에 따른 업데이트 분기
-    switch (g_pMapDataManager->GetObjectTabButtonState())
+    switch (g_pMapDataManager->GetObjectButtonState())
     {
         case E_OBJ_TAB_BTN_LOCATE: // 오브젝트 배치
         {
@@ -90,7 +104,7 @@ HRESULT cMapObjectTool::Update()
     }
 
     // 오브젝트 탭 버튼 상태가 배치가 아닐 때 다른 버튼을 누르면 따라다니는 녀석 없애기
-    if (g_pMapDataManager->GetObjectTabButtonState() != E_OBJ_TAB_BTN_LOCATE)
+    if (g_pMapDataManager->GetObjectButtonState() != E_OBJ_TAB_BTN_LOCATE)
     {
         if (m_pFollowObject)       // 따라다니는 오브젝트가 있을 경우  
         {
@@ -98,10 +112,40 @@ HRESULT cMapObjectTool::Update()
         }
     }
 
+
+    // 수정하기 
+    if (!m_vecObjects.empty())
+    {
+        if (m_pTerrainTool != NULL)
+        {
+            if(m_pTerrainTool->GetMesh() != NULL)
+            {
+                for (int i = 0; i < m_vecObjects.size(); i++)
+                {
+                    BOOL isHit = false;
+                    float fDist;
+                    Vector3 pos = m_vecObjects[i]->GetPositon();
+                    pos.y += 300.0f;
+                    Vector3 dir(0, -1, 0);
+
+                    D3DXIntersectSubset(m_pTerrainTool->GetMesh(), 0, &pos, &dir, &isHit, NULL, NULL, NULL, &fDist, NULL, NULL);
+     
+                    if (isHit)
+                    {
+                        pos.y -= fDist;
+                  
+                        //m_vecObjects[i]->SetPosition(pos2);
+                        m_vecObjects[i]->UpdateMatrix(pos);
+                    }
+                }
+            }
+        }
+    }
+
     // 블록 배치 
     switch (g_pMapDataManager->GetBlockButtonState())
     {
-    case E_BLOCK_BTN_START:
+    case E_BLOCK_BTN_NEW:
     {
         ST_BLOCK_GROUP* blockGroup = new ST_BLOCK_GROUP;
 
@@ -126,6 +170,19 @@ HRESULT cMapObjectTool::Update()
             m_nCurWorkingBlockGroupIndex = index;
         }
 
+        m_eBlockButtonState = E_BLOCK_BTN_PROGRESS;
+    }
+    break;
+    case E_BLOCK_BTN_LATEST_DELETE:
+    {
+        if (m_nCurWorkingBlockGroupIndex != INVALIDE_VALUE)
+        {
+            if (m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.size() > 0)
+            {
+                m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.pop_back();
+            }
+        }
+      
         m_eBlockButtonState = E_BLOCK_BTN_PROGRESS;
     }
     break;
@@ -165,8 +222,8 @@ HRESULT cMapObjectTool::Render()
 		for (int i = 0; i < m_vecObjects.size(); i++)
 		{			
             // 재배치 || 삭제 모드일 때만 피킹 충돌 범위 보여주기 
-            if (g_pMapDataManager->GetObjectTabButtonState() == E_OBJ_TAB_BTN_RELOCATE
-                || g_pMapDataManager->GetObjectTabButtonState() == E_OBJ_TAB_BTN_REMOVE)
+            if (g_pMapDataManager->GetObjectButtonState() == E_OBJ_TAB_BTN_RELOCATE
+                || g_pMapDataManager->GetObjectButtonState() == E_OBJ_TAB_BTN_REMOVE)
             {
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
                 g_pDevice->SetTransform(D3DTS_WORLD, &m_vecObjects[i]->GetWorldMatrix());
@@ -185,10 +242,8 @@ HRESULT cMapObjectTool::Render()
         {
             if (!m_vecBlockGroups[i]->vecPoints.empty())
             {
-           
                 for(int j = 0; j < m_vecBlockGroups[i]->vecPoints.size(); j++)
                 {
-                    g_pDevice->LightEnable(0, true);
                     // Sphere mesh 그리는 부분 
                     Vector3 pos = m_vecBlockGroups[i]->vecPoints[j].p;
                     Matrix4 matS, matT, matW;
@@ -211,13 +266,17 @@ HRESULT cMapObjectTool::Render()
                         g_pDevice->SetMaterial(&BLUE_MTRL);
                     }
                     m_SphereMesh->DrawSubset(0);
-                 
+                    
+                    // 표시판 렌더
+                    string text = to_string(j);
+                    RenderSignPost(pos, 22, m_vecBlockGroups[i]->GroupColor, text);
+
                 }
 
                 // 연결 선 그리기 
                 D3DXMATRIXA16 matW;
                 D3DXMatrixIdentity(&matW);
-                g_pDevice->SetFVF(ST_PC_VERTEX::FVF);
+                g_pDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_SPECULAR | D3DFVF_NORMAL);
                 g_pDevice->SetTransform(D3DTS_WORLD, &matW);
                 
                 int LineNum = (int)(m_vecBlockGroups[i]->vecPoints.size() - 1);
@@ -228,7 +287,7 @@ HRESULT cMapObjectTool::Render()
 
                 g_pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, LineNum,
                     &m_vecBlockGroups[i]->vecPoints[0], sizeof(ST_PC_VERTEX));
-                g_pDevice->LightEnable(0, false);
+      
             }
         }
     }
@@ -272,6 +331,9 @@ void cMapObjectTool::UpdateFollowObject()
         if (m_nSelectedIndex != INVALIDE_VALUE)
         {
             Matrix4 world = m_matScale*m_matRotation*m_matTrans;
+            m_vecObjects[m_nSelectedIndex]->SetCollision(m_isObjCollison);
+            m_vecObjects[m_nSelectedIndex]->SetDestruction(m_isObjDestruction);
+            m_vecObjects[m_nSelectedIndex]->SetEnemy(m_isObjEnemy);
             m_vecObjects[m_nSelectedIndex]->SetScale(Vector3(m_fObjSize, m_fObjSize, m_fObjSize));
             m_vecObjects[m_nSelectedIndex]->SetRotationXYZ(Vector3(m_fObjRotX, m_fObjRotY, m_fObjRotZ));
             m_vecObjects[m_nSelectedIndex]->SetPosition(*m_pPickPos);
@@ -287,9 +349,7 @@ void cMapObjectTool::RenderFollowObject()
     if (m_pFollowObject)
     {
         g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-
         m_pFollowObject->Render();
-
         g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
     }
 }
@@ -315,6 +375,7 @@ void cMapObjectTool::UpdateMatrix()
 // 오브젝트 생성(피킹 된 지점에 생성됨)
 void cMapObjectTool::AddObject(Vector3 vPickPos)
 {
+    string fileKey = g_pMapDataManager->GetFileKey();
     string filePath = g_pMapDataManager->GetFilePath();
     string fileName = g_pMapDataManager->GetFileName();
 
@@ -324,94 +385,118 @@ void cMapObjectTool::AddObject(Vector3 vPickPos)
     pMapObject->Setup(Vector3(m_fObjSize, m_fObjSize, m_fObjSize), Vector3(m_fObjRotX, m_fObjRotY, m_fObjRotZ), (*m_pPickPos));
     // 오브젝트 아이디 세팅 
     pMapObject->SetId(m_nObjectMakeTotalNum++);
+    pMapObject->SetKey(fileKey);
+    pMapObject->SetFilePath(filePath);
+    pMapObject->SetFileName(fileName);
+    pMapObject->SetCollision(m_isObjCollison);
+    pMapObject->SetDestruction(m_isObjDestruction);
+    pMapObject->SetEnemy(m_isObjEnemy);
     m_vecObjects.push_back(pMapObject);
 }
 
 // 마우스 왼쪽 버튼을 클릭 했을 때 발동
-void cMapObjectTool::OnceLButtonDown()
+void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
 {
-    // 오브젝트 탭 버튼 상태에 따른 업데이트 분기
-    switch (g_pMapDataManager->GetObjectTabButtonState())
+    if (eTabType == E_OBJECT_TAB)
     {
-    case E_OBJ_TAB_BTN_LOCATE:       // 오브젝트 배치
-    {
-        if (m_pPickPos)              // 피킹 위치의 주소가 있을때만 
+        // 오브젝트 탭 버튼 상태에 따른 업데이트 분기
+        switch (g_pMapDataManager->GetObjectButtonState())
         {
-            AddObject(*m_pPickPos);  // 오브젝트 추가하기 
-        }
-    }
-    break;
-    case E_OBJ_TAB_BTN_RELOCATE:     // 오브젝트 재배치
-    {
-        if (!m_vecObjects.empty())   // 벡터가 비워있으면 굳이 재배치 검사를 할 필요가 없음
+        case E_OBJ_TAB_BTN_LOCATE:       // 오브젝트 배치
         {
-            if (m_nSelectedIndex == INVALIDE_VALUE)
+            if (m_pPickPos)              // 피킹 위치의 주소가 있을때만 
             {
-                int nId = PickObject();    // 오브젝트와 피킹 검사를 하여 오브젝트의 아이디 가져오기
-                if (nId != INVALIDE_VALUE) // INVALIDE_VALUE (-1)일 경우는 피킹 된 오브젝트가 없는 것
+                AddObject(*m_pPickPos);  // 오브젝트 추가하기 
+            }
+        }
+        break;
+        case E_OBJ_TAB_BTN_RELOCATE:     // 오브젝트 재배치
+        {
+            if (!m_vecObjects.empty())   // 벡터가 비워있으면 굳이 재배치 검사를 할 필요가 없음
+            {
+                if (m_nSelectedIndex == INVALIDE_VALUE)
                 {
-                    m_nSelectedIndex = FindObject(nId);  // id를 통해 오브젝트 벡터에서 해당 인덱스를 가져오기 
-                    // 탭의 설정들이 해당되는 녀석의 정보로 바뀌게
-                    Vector3 RotXYZ = m_vecObjects[m_nSelectedIndex]->GetRotationXYZ();
-                    m_fObjSize = m_vecObjects[m_nSelectedIndex]->GetScale().x;
-                    m_fObjRotX = RotXYZ.x;
-                    m_fObjRotY = RotXYZ.y;
-                    m_fObjRotZ = RotXYZ.z;
+                    int nId = PickObject();    // 오브젝트와 피킹 검사를 하여 오브젝트의 아이디 가져오기
+                    if (nId != INVALIDE_VALUE) // INVALIDE_VALUE (-1)일 경우는 피킹 된 오브젝트가 없는 것
+                    {
+                        m_nSelectedIndex = FindObject(nId);  // id를 통해 오브젝트 벡터에서 해당 인덱스를 가져오기 
+                        // 탭의 설정들이 해당되는 녀석의 정보로 바뀌게
+                        Vector3 RotXYZ = m_vecObjects[m_nSelectedIndex]->GetRotationXYZ();
+                        m_fObjSize = m_vecObjects[m_nSelectedIndex]->GetScale().x;
+                        m_fObjRotX = RotXYZ.x;
+                        m_fObjRotY = RotXYZ.y;
+                        m_fObjRotZ = RotXYZ.z;
+                        m_isObjCollison = m_vecObjects[m_nSelectedIndex]->GetCollision();
+                        m_isObjDestruction = m_vecObjects[m_nSelectedIndex]->GetDestruction();
+                        m_isObjEnemy = m_vecObjects[m_nSelectedIndex]->GetEnemy();
+                    }
                 }
+                else
+                {
+                    m_nSelectedIndex = INVALIDE_VALUE;     // 배치가 끝나면 선택한 오브젝트를 해제 
+                }
+            }
+        }
+        break;
+        case E_OBJ_TAB_BTN_REMOVE:    // 오브젝트 삭제 
+        {
+            if (!m_vecObjects.empty())    //벡터에 오브젝트가 있을때만 작동하게 
+            {
+                int nId = PickObject();
+                if (nId != INVALIDE_VALUE)
+                {
+                    int index = FindObject(nId);
+                    if (index != INVALIDE_VALUE)
+                    {
+                        SAFE_DELETE(m_vecObjects[index]);
+                        m_vecObjects.erase(m_vecObjects.begin() + index);
+                    }
+                }
+            }
+        }
+        break;
+        }
+
+        // BLOCK_EDIT_BUTTON
+        switch (g_pMapDataManager->GetBlockButtonState())
+        {
+        case E_BLOCK_BTN_PROGRESS:
+        {
+            cRay ray = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
+            bool collision = false;
+            int index = -1;
+
+            for (int i = 0; i < m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.size(); i++)
+            {
+                if (CollideRayNCircle(ray, m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints[i].p, BLOCK_RADIUS))
+                {
+                    collision = true;
+                    index = i;
+                }
+            }
+            if (collision)
+            {
+                m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.erase(m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.begin() + index);
             }
             else
             {
-                m_nSelectedIndex = INVALIDE_VALUE;     // 배치가 끝나면 선택한 오브젝트를 해제 
+                m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.push_back(ST_PC_VERTEX(*m_pPickPos, m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->GroupColor));
             }
         }
+        break;
+        }
     }
-    break;
-    case E_OBJ_TAB_BTN_REMOVE:    // 오브젝트 삭제 
+    else
     {
-        if (!m_vecObjects.empty())    //벡터에 오브젝트가 있을때만 작동하게 
+        if (g_pMapDataManager->GetObjectButtonState() != E_OBJ_TAB_BTN_MAX)
         {
-            int nId = PickObject();
-            if (nId != INVALIDE_VALUE)
-            {
-                int index = FindObject(nId);
-                if (index != INVALIDE_VALUE)
-                {
-                    SAFE_DELETE(m_vecObjects[index]);
-                    m_vecObjects.erase(m_vecObjects.begin() + index);
-                }
-            }
+           
         }
-    }
-    break;
-    }
 
-    // BLOCK_EDIT_BUTTON
-    switch (g_pMapDataManager->GetBlockButtonState())
-    {
-    case E_BLOCK_BTN_PROGRESS:
-    {
-        cRay ray = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
-        bool collision = false;
-        int index = -1;
-
-        for (int i = 0; i < m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.size(); i++)
+        if (g_pMapDataManager->GetBlockButtonState() != E_BLOCK_BTN_MAX)
         {
-            if (CollideRayNCircle(ray, m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints[i].p, BLOCK_RADIUS))
-            {
-                collision = true;
-                index = i;
-            }
+            m_eBlockButtonState = E_BLOCK_BTN_END;
         }
-        if (collision)
-        {
-            m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.erase(m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.begin() + index);
-        }
-        else
-        {
-            m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->vecPoints.push_back(ST_PC_VERTEX(*m_pPickPos, m_vecBlockGroups[m_nCurWorkingBlockGroupIndex]->GroupColor));
-        }
-    }
-    break;
     }
 }
 
@@ -508,7 +593,7 @@ void cMapObjectTool::DebugTestRender()
 
     rt = { 0, 200, 100, 250 };
     
-    switch (g_pMapDataManager->GetObjectTabButtonState())
+    switch (g_pMapDataManager->GetObjectButtonState())
     {
     case E_OBJ_TAB_BTN_LOCATE:
         s = "로케이션 버튼 눌림";
@@ -553,4 +638,171 @@ int cMapObjectTool::GetBlockGroupByName(string BlockName)
         }
     }
     return INVALIDE_VALUE;
+}
+
+void cMapObjectTool::RenderSignPost(Vector3 pos, int size, Color color, string text)
+{
+    D3DXVECTOR3 screenPos = pos;
+    D3DXMATRIXA16 matView, matProj, matVP;
+
+    g_pDevice->GetTransform(D3DTS_VIEW, &matView);
+    g_pDevice->GetTransform(D3DTS_PROJECTION, &matProj);
+
+    D3DVIEWPORT9 vp;
+    g_pDevice->GetViewport(&vp);
+    D3DXMatrixIdentity(&matVP);
+    matVP._11 = vp.Width / 2.0f;
+    matVP._22 = -(vp.Height / 2.0f);
+    matVP._33 = vp.MaxZ - vp.MinZ;
+    matVP._41 = vp.X + vp.Width / 2.0f;
+    matVP._42 = vp.Y + vp.Height / 2.0f;
+    matVP._43 = vp.MinZ;
+
+    D3DXVec3TransformCoord(&screenPos, &screenPos, &(matView * matProj * matVP));
+
+    RECT rc;
+    rc.left = (long)(screenPos.x - size / 2);
+    rc.top = (long)(screenPos.y - 20.0f);
+    rc.right = (long)(rc.left + size);
+    rc.bottom = (long)(rc.top + size);
+
+    vector<VertexRHWC> vecVertex;
+    vecVertex.reserve(6);
+    D3DXCOLOR innerColor = color;
+
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.left,  (float)rc.bottom, 0, 1), innerColor));
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.left,  (float)rc.top,    0, 1), innerColor));
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.right, (float)rc.top,    0, 1), innerColor));
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.left,  (float)rc.bottom, 0, 1), innerColor));
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.right, (float)rc.top,    0, 1), innerColor));
+    vecVertex.push_back(VertexRHWC(Vector4((float)rc.right, (float)rc.bottom, 0, 1), innerColor));
+    
+    g_pDevice->SetFVF(VertexRHWC::FVF);
+    g_pDevice->DrawPrimitiveUP(D3DPT_TRIANGLELIST, 2, &vecVertex[0], sizeof(VertexRHWC));
+
+    // 폰트위치보정
+    rc.left += 3;
+    rc.top -= 4;
+
+    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
+        text.c_str(),
+        -1,
+        &rc,
+        DT_LEFT | DT_NOCLIP,
+        D3DCOLOR_XRGB(255, 255, 255));
+}
+
+void cMapObjectTool::SaveByJson()
+{
+   json innerRoot;
+   ofstream ofstream;
+   ofstream.open("save_object.json");
+
+   for (int i = 0; i < m_vecObjects.size(); i++)
+   {
+       Vector3 rotXYZ = m_vecObjects[i]->GetRotationXYZ();
+       Vector3 pos = m_vecObjects[i]->GetPositon();
+       json object;
+       object[OBJ_KEY] = (string)m_vecObjects[i]->GetKey();
+       object[OBJ_PATH] = (string)m_vecObjects[i]->GetFilePath();
+       object[OBJ_NAME] = (string)m_vecObjects[i]->GetFileName();
+       object[OBJ_COL] = (bool)m_vecObjects[i]->GetCollision();
+       object[OBJ_DES] = (bool)m_vecObjects[i]->GetDestruction();
+       object[OBJ_ENE] = (bool)m_vecObjects[i]->GetEnemy();
+       object[OBJ_SCALE] = (float)m_vecObjects[i]->GetScale().x;
+       object[OBJ_ROTX] = (float)rotXYZ.x;
+       object[OBJ_ROTY] = (float)rotXYZ.y;
+       object[OBJ_ROTZ] = (float)rotXYZ.z;
+       object[OBJ_POSX] = (float)pos.x;
+       object[OBJ_POSY] = (float)pos.y;
+       object[OBJ_POSZ] = (float)pos.z;
+
+       innerRoot[OBJ].push_back(object);
+   }
+   // BLOCK_GROUP
+   for (int i = 0; i < m_vecBlockGroups.size(); i++)
+   {
+       json block_group;
+       block_group[BG_NAME] = m_vecBlockGroups[i]->GroupName;
+       block_group[BG_COLOR] = m_vecBlockGroups[i]->GroupColor;
+
+       for (int j = 0; j < m_vecBlockGroups[i]->vecPoints.size(); j++)
+       {
+           json block;
+           Vector3 pos = m_vecBlockGroups[i]->vecPoints[j].p;
+           block[BG_PO_X] = pos.x;
+           block[BG_PO_Y] = pos.y;
+           block[BG_PO_Z] = pos.z;
+           block_group[BG_POINT].push_back(block);
+       }
+       innerRoot[BG].push_back(block_group);
+   }
+   innerRoot >> ofstream;
+   ofstream.close();
+}
+
+void cMapObjectTool::LoadByJson()
+{
+    json json;
+    ifstream i;
+    i.open("save_object.json");
+    i >> json;
+    i.close();
+    //int n = (int)json[BG][BG_POINT].size();
+    //int num = j[OBJ].size();
+
+    ClearObjectNBlock();
+
+    Color color;
+
+    //// 블록 그룹 관련 
+    for (int i = 0; i < json[BG].size(); i++)
+    {    
+      ST_BLOCK_GROUP* bgroup = new ST_BLOCK_GROUP; 
+      bgroup->GroupName = json[BG][i][BG_NAME];
+      g_pMapDataManager->GetBlockGroupListBox()->AddString(bgroup->GroupName.c_str());
+
+      int red = rand() % 256;
+      int green = rand() % 256;
+      int blue = rand() % 256;
+
+      bgroup->GroupColor = D3DCOLOR_ARGB(255, red, green, blue);
+      
+      for (int j = 0; j < json[BG][i][BG_POINT].size(); j++)
+      {
+          Vector3 pos;
+          pos.x = (float)json[BG][i][BG_POINT][j][BG_PO_X];
+          pos.y = (float)json[BG][i][BG_POINT][j][BG_PO_Y];
+          pos.z = (float)json[BG][i][BG_POINT][j][BG_PO_Z];
+          bgroup->vecPoints.push_back(ST_PC_VERTEX(pos, bgroup->GroupColor));
+      } 
+      m_vecBlockGroups.push_back(bgroup); 
+    }
+}
+
+void cMapObjectTool::ClearObjectNBlock()
+{
+    // Object Vector 비우기 
+    if (!m_vecObjects.empty())
+    {
+        for (int i = 0; i < m_vecObjects.size(); i++)
+        {
+            SAFE_DELETE(m_vecObjects[i]);
+        }
+        m_vecObjects.clear();
+    }
+    // Object list 박스에 있는 내용을 전부 지운다.
+    g_pMapDataManager->GetObjListBox()->ResetContent();
+
+    // Block Group Vector 비우기 
+    if (!m_vecBlockGroups.empty())
+    {
+        for (int i = 0; i < m_vecBlockGroups.size(); i++)
+        {
+            SAFE_DELETE(m_vecBlockGroups[i]);
+        }
+        m_vecBlockGroups.clear();
+    }
+    // Object list 박스에 있는 내용을 전부 지운다.
+    g_pMapDataManager->GetBlockGroupListBox()->ResetContent();
 }

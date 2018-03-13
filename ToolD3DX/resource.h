@@ -147,7 +147,8 @@
 #define IDC_OBJECT_LIST_LIS             2002
 #define IDC_OBJECT_LIST_TEXT            2003
 #define IDC_OBJ_FILE_NAME_TEXT          2004
-#define IDC_OBJECT_ATTRIBUTE_GRO        2010
+#define IDC_OBJECT_ATTRIBUTE_GRO        2009
+#define IDC_ENEMY_CHE                   2010
 #define IDC_COLLISION_CHE               2011
 #define IDC_DESTRUCTION_CHE             2012
 #define IDC_OBJECT_FILE_TEXT            2013
