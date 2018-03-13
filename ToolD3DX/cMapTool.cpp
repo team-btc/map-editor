@@ -56,6 +56,7 @@ HRESULT cMapTool::Setup()
     m_pObjectTool = new cMapObjectTool;
     m_pObjectTool->Setup();
     m_pObjectTool->SetPickPos(&m_vPickPos);
+    m_pObjectTool->SetTerrainTool(m_pTerrainTool);
 
 	return S_OK;
 }
@@ -86,7 +87,7 @@ HRESULT cMapTool::Update()
         }
         else if (m_pObjectTool && m_eCurrTabType == E_OBJECT_TAB)
         {
-            m_pObjectTool->OnceLButtonDown();
+            m_pObjectTool->OnceLButtonDown(m_eCurrTabType);
         }
     }
 

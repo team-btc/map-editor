@@ -6,9 +6,34 @@
 #define BLOCK_RADIUS  (2.0f)
 #define NO_NAME ("None")
 
-class cMapObject;
-class cRay;
+// OBJECT 관련
+#define OBJ         ("OBJECT")
+#define OBJ_KEY     ("OBJECT_FILE_KEY")
+#define OBJ_PATH    ("OBJECT_FILE_PATH")
+#define OBJ_NAME    ("OBJECT_FILE_NAME")
+#define OBJ_COL     ("OBJECT_COLLISION")
+#define OBJ_DES     ("OBJECT_DESTRUCTION")
+#define OBJ_ENE     ("OBJECT_ENEMY")
+#define OBJ_SCALE   ("OBJECT_SCALE")
+#define OBJ_ROTX    ("OBJECT_ROTATION_X")
+#define OBJ_ROTY    ("OBJECT_ROTATION_Y")
+#define OBJ_ROTZ    ("OBJECT_ROTATION_Z")
+#define OBJ_POSX    ("OBJECT_POSITION_X")
+#define OBJ_POSY    ("OBJECT_POSITION_Y")
+#define OBJ_POSZ    ("OBJECT_POSITION_Z")
 
+// BLOCK 관련
+#define BG          ("BLOCK_GROUP")         // array
+#define BG_NAME     ("BLOCK_GROUP_NAME")    // string
+#define BG_COLOR    ("BLOCK_GROUP_COLOR")   // DWORD
+#define BG_POINT    ("BLOCK_GROUP_POINT")   // array
+#define BG_PO_X     ("BLOCK_POINT_X")       // float
+#define BG_PO_Y     ("BLOCK_POINT_Y")       // float 
+#define BG_PO_Z     ("BLOCK_POINT_Z")       // float
+
+class cRay;
+class cMapObject;
+class cMapTerrainTool;
 class cMapObjectTool : public cObject
 {
 private:
@@ -26,6 +51,7 @@ private:
 	LPMESH                       m_SphereMesh;					
 	bool&                        m_isObjCollison;
 	bool&                        m_isObjDestruction;
+    bool&                        m_isObjEnemy;
 	float&                       m_fObjPosX;
 	float&                       m_fObjPosY;
 	float&                       m_fObjPosZ;
@@ -45,10 +71,13 @@ private:
   
     // 블록 관련
     vector<ST_BLOCK_GROUP*>      m_vecBlockGroups;
+    E_OBJECT_BUTTON_STATE&       m_eObjectButtonState;
     E_BLOCK_BUTTON_STATE&        m_eBlockButtonState;
 	string&					     m_SelectedBlockGroupName;
     int                          m_nCurWorkingBlockGroupIndex;
-   
+    
+    // 참조용 
+    cMapTerrainTool*             m_pTerrainTool;
 public:
     cMapObjectTool();
     ~cMapObjectTool();
@@ -56,6 +85,8 @@ public:
 	HRESULT Setup();
 	HRESULT Update();
 	HRESULT Render();
+
+    void SetTerrainTool(cMapTerrainTool* terrain) { m_pTerrainTool = terrain; } // object의 높이 체크를 위한 녀석 
 
 	// 배치 할 때랑 재배치 할때 따라다니는 녀석 설정 
 	void SetFollowObject();
@@ -68,17 +99,23 @@ public:
 	void SetPickPos(Vector3* pos) { m_pPickPos = pos; } // MapTool에서 픽킹된 위치의 벡터를 연결 시킴
     void AddObject(Vector3 vPickPos);
  
-	void OnceLButtonDown();     // 마우스 왼쪽 버튼을 클릭 했을 때 발동
+	void OnceLButtonDown(E_TAB_TYPE eTabType);     // 마우스 왼쪽 버튼을 클릭 했을 때 발동
     void StayLButtonDown();     // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
 
     int PickObject();           // 오브젝트 피킹
     int FindObject(int nId);    // 아이디 값으로 오브젝트 찾기 
 
     bool CollideRayNCircle(cRay ray, Vector3 vTargetPos, float fTargetRadius);
-
     bool CollideRound(Vector3 vMyPos, float fMyRadius, Vector3 vTargetPos, float fTargetRadius);
     void DebugTestRender();
 
     int GetBlockGroupByName(string BlockName);
+
+    void RenderSignPost(Vector3 pos, int size, Color color, string text);
+       
+   
+    void ClearObjectNBlock();   // object, block_group 두개의 백터 비우기 
+    void SaveByJson();          // Json 으로 저장
+    void LoadByJson();          // Json 으로 로드 
 };
 

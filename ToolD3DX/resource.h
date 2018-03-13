@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
 // ToolBasic00.rc에서 사용되고 있습니다.
@@ -147,7 +148,8 @@
 #define IDC_OBJECT_LIST_LIS             2002
 #define IDC_OBJECT_LIST_TEXT            2003
 #define IDC_OBJ_FILE_NAME_TEXT          2004
-#define IDC_OBJECT_ATTRIBUTE_GRO        2010
+#define IDC_OBJECT_ATTRIBUTE_GRO        2009
+#define IDC_ENEMY_CHE                   2010
 #define IDC_COLLISION_CHE               2011
 #define IDC_DESTRUCTION_CHE             2012
 #define IDC_OBJECT_FILE_TEXT            2013
@@ -193,8 +195,6 @@
 #define IDC_BLOCK_GROUP_MODIFY_BUTTON   2087
 #define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
 #define IDC_BUTTON1                     2100
-#define IDC_WATER_LOAD_BUT              2100
-#define IDC_SKY_LOAD_BUT                2101
 #define IDC_BRUSH_RAD                   7500
 #define IDC_SPRAY_RAD                   7501
 #define IDC_ERASE_RAD                   7502
