@@ -97,6 +97,9 @@ class cMapDataManager
     SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pObjListBox, ObjListBox);                 // 오브젝트 리스트 박스
     SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pBlockGroupListBox, BlockGroupListBox);   // 블록그룹 리스트 박스 
     
+	// 파일 경로 (불러오는)
+	SYNTHESIZE_PASS_BY_REF(string, m_sFolderPath, FolderPath);
+
 private:
     cMapTool*       m_pMapTool;
 public:

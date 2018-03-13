@@ -730,7 +730,8 @@ void cMapObjectTool::LoadByJson(string strFileTitle)
 {
 	json json;
 	ifstream i;
-	string file = strFileTitle + ".json";
+	string str = g_pMapDataManager->GetFolderPath();
+	string file = g_pMapDataManager->GetFolderPath() +"\\"+ strFileTitle + ".json";
 	i.open(file.c_str());
 	i >> json;
 	i.close();

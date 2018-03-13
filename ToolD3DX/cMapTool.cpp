@@ -230,6 +230,8 @@ void cMapTool::LoadByJson(string strFileTitle)
 
 	// 스카이 박스 부분 수정하기 
     //m_pTerrainTool->LoadMapData(strFileTitle);
+	m_pObjectTool->LoadByJson(strFileTitle);
+
 }
 
 // 마우스 위치 가져오기
