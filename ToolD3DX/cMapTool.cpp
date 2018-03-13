@@ -23,6 +23,7 @@ cMapTool::cMapTool()
     , m_pRay(NULL)
     , m_vPickPos(0, 0, 0)
 {
+    g_pMapDataManager->SetMapTool(this);
 }
 cMapTool::~cMapTool()
 {
@@ -63,6 +64,11 @@ HRESULT cMapTool::Setup()
 HRESULT cMapTool::Update()
 {
     GetPtMouse();
+
+    if (g_pKeyManager->isOnceKeyDown('P'))
+    {
+        SaveByJson();
+    }
 
     if (m_isCreateMap)
     {
@@ -137,6 +143,38 @@ HRESULT cMapTool::CreateMap()
     }
     
 	return S_OK;
+}
+
+json cMapTool::SaveByJson()
+{
+    json save;
+    //ofstream o;
+    //o.open("save0.json");
+   
+    save["terrain"]["map"] = "terrainmap";
+    
+    save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
+    save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
+    save["texture"]["tex2"]["key"] = g_pMapDataManager->GetTex2FileName();
+    save["texture"]["tex2"]["density"] = g_pMapDataManager->GetTex2Density();
+    save["texture"]["tex3"]["key"] = g_pMapDataManager->GetTex3FileName();
+    save["texture"]["tex3"]["density"] = g_pMapDataManager->GetTex3Density();
+    save["texture"]["map"] = "맵 이름";
+
+    save["water"]["enable"] = g_pMapDataManager->GetIsMakeWater();
+    save["water"]["tex"] = g_pMapDataManager->GetWaterFileName();
+    save["water"]["height"] = g_pMapDataManager->GetWaterHeight();
+    save["water"]["uvspeed"] = g_pMapDataManager->GetWaterUVSpeed();
+    save["water"]["waveheight"] = g_pMapDataManager->GetWaterWaveHeight();
+    save["water"]["heightspeed"] = g_pMapDataManager->GetWaterHeightSpeed();
+    save["water"]["frequency"] = g_pMapDataManager->GetWaterFrequency();
+    save["water"]["transparent"] = g_pMapDataManager->GetWaterTransparent();
+
+    save["skybox"]["key"] = g_pMapDataManager->GetSkyFilePath();
+    //save >> o;
+    //o.close();
+
+    return save;
 }
 
 // 마우스 위치 가져오기

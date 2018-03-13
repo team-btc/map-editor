@@ -58,10 +58,13 @@ void CToolBasicDoc::Serialize(CArchive& ar)
     if (ar.IsStoring())
     {
         // TODO: 여기에 저장 코드를 추가합니다.
+        json jData = g_pMapDataManager->SaveMapData();
+        ar.WriteString((CString)jData.dump().c_str());
     }
     else
     {
         // TODO: 여기에 로딩 코드를 추가합니다.
+        g_pMapDataManager->LoadMapData((string)ar.GetFile()->GetFilePath(), (string)ar.GetFile()->GetFileName()); //path는 이름과 확장자명을 포함하고 있음
     }
 }
 

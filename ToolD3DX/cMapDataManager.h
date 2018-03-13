@@ -2,6 +2,8 @@
 
 #define g_pMapDataManager cMapDataManager::GetInstance()
 
+class cMapTool;
+
 class cMapDataManager
 {
 	SINGLETON(cMapDataManager);
@@ -87,6 +89,18 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_SelectBlockGroupName, SelectedBlockGroupName);       // 최근 선택한 블록 그룹 
   
 private:
+    cMapTool*       m_pMapTool;
 
+public:
+    // 추가, 가져오기
+
+    void AddMapData(string szKey, string szFilepath, bool saveImageInfo = false);
+    void GetMapData(string szKey, OUT IMAGE_INFO* pImageInfo = NULL);
+
+    void SetMapData();
+
+    void SetMapTool(cMapTool* maptool) { m_pMapTool = maptool; }
+    json SaveMapData();
+    void LoadMapData(string strFilepath, string strFileName);
 };
 

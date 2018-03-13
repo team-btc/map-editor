@@ -468,7 +468,7 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
-
+   
    UINT numPasses = 0;
    m_pTextureShader->Begin(&numPasses, NULL);
    {

@@ -71,6 +71,9 @@ private:
 
 	vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
 	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
+    
+    vector<ST_PNT_VERTEX>           m_vecWPNTVertex;                                 // 물 맵에 사용할 점 벡터
+    vector<DWORD>                   m_vecWVertexIndex;                               // 물 Height맵 좌표 인덱스 벡터
 
 	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
@@ -82,6 +85,7 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
+    LPD3DXMESH						m_pWMesh;										// 물 매쉬
 
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 

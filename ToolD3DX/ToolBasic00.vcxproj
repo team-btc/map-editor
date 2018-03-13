@@ -239,6 +239,7 @@
     <ClInclude Include="DefineMacro.h" />
     <ClInclude Include="Enum.h" />
     <ClInclude Include="iObject.h" />
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MenuFormView.h" />
     <ClInclude Include="Resource.h" />
