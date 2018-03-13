@@ -141,7 +141,7 @@ HRESULT cMapTerrainTool::Update()
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-      m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
+        m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
@@ -195,12 +195,14 @@ HRESULT cMapTerrainTool::Update()
 	// 저장
 	else if (g_pKeyManager->isOnceKeyDown('S'))
 	{
-       // m_pTextureShader->SaveTexture();
+        //D3DXSaveMeshToX("Map.x", m_pMesh, NULL, NULL, NULL, NULL, NULL);
+        //m_pTextureShader->SaveTexture();
 	}
 	// 로드
 	else if (g_pKeyManager->isOnceKeyDown('L'))
 	{
-		
+        //D3DXLoadMeshFromX("Map.x", NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
+        //m_pTextureShader->SetMesh(m_pMesh);
 	}
 
 	return S_OK;
@@ -295,16 +297,18 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     //c << (char)vec.y;
 
     // 버텍스 벡터
+    vector<ST_PNT_VERTEX> vecPNTVertex;
     for (int n = 0; n < (nSizeX + 1) * (nSizeZ + 1); ++n)
     {
         Vector3 vec = Vector3(n % (nSizeZ + 1), fHeight, n / (nSizeZ + 1));
-        m_vecPNTVertex.push_back(ST_PNT_VERTEX(vec, Vector3(0, 1, 0), Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
+        vecPNTVertex.push_back(ST_PNT_VERTEX(vec, Vector3(0, 1, 0), Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
     }
 
     // 인덱스 벡터
     //   1 3
     //   0 2
     //  0 , 1 , 2,  // 2 , 1 , 3 순서!!
+    vector<DWORD> vecVertexIndex;
     for (DWORD z = 0; z < nSizeZ; ++z)
     {
         for (DWORD x = 0; x < nSizeX; ++x)
@@ -314,37 +318,37 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
             DWORD _2 = (z * (nSizeZ + 1)) + (x + 1);
             DWORD _3 = (z + 1) * (nSizeZ + 1) + (x + 1);
 
-            m_vecVertexIndex.push_back(_0);
-            m_vecVertexIndex.push_back(_1);
-            m_vecVertexIndex.push_back(_2);
-            m_vecVertexIndex.push_back(_2);
-            m_vecVertexIndex.push_back(_1);
-            m_vecVertexIndex.push_back(_3);
+            vecVertexIndex.push_back(_0);
+            vecVertexIndex.push_back(_1);
+            vecVertexIndex.push_back(_2);
+            vecVertexIndex.push_back(_2);
+            vecVertexIndex.push_back(_1);
+            vecVertexIndex.push_back(_3);
         }
     }
 
     // 매쉬 정보 셋팅
     // == 매쉬 생성, 기록, 최적화
     // 생성
-    D3DXCreateMeshFVF(m_vecVertexIndex.size() / 3, m_vecPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
+    D3DXCreateMeshFVF(vecVertexIndex.size() / 3, vecPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
         ST_PNT_VERTEX::FVF, g_pDevice, &m_pMesh);
 
     // 버텍스 버퍼 기록
     ST_PNT_VERTEX* pV = NULL;
     m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
-    memcpy(pV, &m_vecPNTVertex[0], m_vecPNTVertex.size() * sizeof(ST_PNT_VERTEX));
+    memcpy(pV, &vecPNTVertex[0], vecPNTVertex.size() * sizeof(ST_PNT_VERTEX));
     m_pMesh->UnlockVertexBuffer();
 
     // 인덱스 버퍼 기록
     DWORD* pI = NULL;
     m_pMesh->LockIndexBuffer(NULL, (LPVOID*)&pI);
-    memcpy(pI, &m_vecVertexIndex[0], m_vecVertexIndex.size() * sizeof(DWORD));
+    memcpy(pI, &vecVertexIndex[0], vecVertexIndex.size() * sizeof(DWORD));
     m_pMesh->UnlockIndexBuffer();
 
     // 속성 버퍼 기록
     DWORD* pA = NULL;
     m_pMesh->LockAttributeBuffer(NULL, &pA);
-    for (int i = 0; i < m_vecVertexIndex.size() / 3; ++i) // 페이스별로 하나씩 기록
+    for (int i = 0; i < vecVertexIndex.size() / 3; ++i) // 페이스별로 하나씩 기록
         pA[i] = (DWORD) 0;
     m_pMesh->UnlockAttributeBuffer();
 
@@ -1057,7 +1061,7 @@ void cMapTerrainTool::TrimHeight()
 // 지형 높이 리셋
 void cMapTerrainTool::ResetHeight()
 {
-     // 편집할 버텍스 로드
+    // 편집할 버텍스 로드
     ST_PNT_VERTEX* pEditV = NULL;
     m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
 
@@ -1190,10 +1194,14 @@ int cMapTerrainTool::GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVert
 {
     int nNearIndex = 0;
     float fNearLenght = FLT_MAX;
+
+    ST_PNT_VERTEX* pV = NULL;
+    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
+
     for (int i = 0; i < vecSelVertex.size(); ++i)
     {
         // 버텍스와 픽킹 지점과의 거리(y값은 제외)
-        float fLength = GetLength(Vector2(m_vecPNTVertex[vecSelVertex[i]].p.x, m_vecPNTVertex[vecSelVertex[i]].p.z), Vector2(vPickPos.x, vPickPos.z));
+        float fLength = GetLength(Vector2(pV[vecSelVertex[i]].p.x, pV[vecSelVertex[i]].p.z), Vector2(vPickPos.x, vPickPos.z));
 
         if (fLength < fNearLenght)
         {
@@ -1201,6 +1209,9 @@ int cMapTerrainTool::GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVert
             fNearLenght = fLength;
         }
     }
+
+    m_pMesh->UnlockVertexBuffer();
+
     return nNearIndex;
 }
 
@@ -1232,6 +1243,9 @@ vector<int> cMapTerrainTool::GetVertexInBrush(Vector3 vPickPos, float fRadius)
         nMaxZ = m_ptMapSize.y;
     }
 
+    ST_PNT_VERTEX* pV = NULL;
+    m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pV);
+
     vector<int> vecSelVertex;
     // 브러쉬(원) 안에 위치하는 버텍스의 인덱스를 벡터에 담는다.
     for (int z = nMinZ; z < nMaxZ; ++z)
@@ -1239,7 +1253,7 @@ vector<int> cMapTerrainTool::GetVertexInBrush(Vector3 vPickPos, float fRadius)
         for (int x = nMinX; x < nMaxX; ++x)
         {
             int nIndex = (z * (m_ptMapSize.y + 1)) + x;
-            float fLength = GetLength(Vector2(m_vecPNTVertex[nIndex].p.x, m_vecPNTVertex[nIndex].p.z),
+            float fLength = GetLength(Vector2(pV[nIndex].p.x, pV[nIndex].p.z),
                 Vector2(vPickPos.x, vPickPos.z));
 
             // 픽킹위치와 점 위치의 거리가 반지름보다 짧으면
@@ -1249,6 +1263,8 @@ vector<int> cMapTerrainTool::GetVertexInBrush(Vector3 vPickPos, float fRadius)
             }
         }
     }
+
+    m_pMesh->UnlockVertexBuffer();
 
     return vecSelVertex;
 }

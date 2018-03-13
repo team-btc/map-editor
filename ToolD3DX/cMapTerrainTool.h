@@ -129,7 +129,6 @@ public:
     cMapTerrainTool();
     ~cMapTerrainTool();
 
-    // =================================
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
