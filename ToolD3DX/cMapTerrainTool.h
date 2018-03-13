@@ -100,7 +100,8 @@ private:
 	string                          m_sFileName;                                    // 파일 이름
 
 	LPD3DXMESH						m_pMesh;										// 매쉬
-    
+    vector<VertexPNT>               vecPNTQuad;
+
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
 
     vector<int>                     m_vecSelVertex;                                 // 브러쉬 안에 있는 버텍스 인덱스

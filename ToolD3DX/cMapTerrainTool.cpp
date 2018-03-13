@@ -192,7 +192,7 @@ HRESULT cMapTerrainTool::Render()
     m_pHeightShader->SetMatrix("gViewMatrix", &matV);
     m_pHeightShader->SetMatrix("gProjectionMatrix", &matP);
 
-    m_pHeightShader->SetTexture("DiffuseMap_Tex", m_pDiffuseTex);
+    m_pHeightShader->SetTexture("DiffuseMap_Tex", m_pHeightMapTex);
     m_pHeightShader->SetTexture("Heightmap_Tex", m_pHeightMapTex);
 
     UINT numPasses = 0;
@@ -397,9 +397,22 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN E_GROUND_TYPE eGro
 
     m_pMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT,
         &vecAdjBuf[0], 0, 0, 0);
-   
 
     m_pTextureShader->SetMesh(m_pMesh);
+
+    vecPNTQuad.push_back(VertexPNT(Vector3(0, fHeight, m_ptMapSize.y),
+        Vector3(0, 1, 0), Vector2(0, 0)));
+    vecPNTQuad.push_back(VertexPNT(Vector3(m_ptMapSize.x, fHeight, m_ptMapSize.y),
+        Vector3(0, 1, 0), Vector2(1, 0)));
+    vecPNTQuad.push_back(VertexPNT(Vector3(m_ptMapSize.x, fHeight, 0),
+        Vector3(0, 1, 0), Vector2(1, 1)));
+
+    vecPNTQuad.push_back(VertexPNT(Vector3(0, fHeight, m_ptMapSize.y),
+        Vector3(0, 1, 0), Vector2(0, 0)));
+    vecPNTQuad.push_back(VertexPNT(Vector3(m_ptMapSize.x, fHeight, 0),
+        Vector3(0, 1, 0), Vector2(1, 1)));
+    vecPNTQuad.push_back(VertexPNT(Vector3(0, fHeight, 0),
+        Vector3(0, 1, 0), Vector2(0, 1)));
 
 	return S_OK;
 
