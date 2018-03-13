@@ -42,6 +42,9 @@
 #endif
 #endif
 
+#include "json.hpp"
+using json = nlohmann::json;
+
 #define W_WIDTH 1600
 #define W_HEIGHT 900
 #define PI 3.14
@@ -115,7 +118,6 @@ using namespace std;
 #include "Enum.h"
 #include "DefineMacro.h"
 #include "DataStructure.h"
-
 #include "D3DUtility.h"
 
 using namespace D3DUTILITY;

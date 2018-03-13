@@ -164,13 +164,15 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
-    m_pSkyBoxShader->Render(vP);
+    
+    //m_pSkyBoxShader->Render(vP);
     m_pTextureShader->Render();
 
     m_pWaveShader->Render(vP);
 
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
 
+   
 	return S_OK;
 }
 

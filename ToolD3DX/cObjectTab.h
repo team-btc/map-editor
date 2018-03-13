@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define BLOCK_GROUP_NAME    ("BLOCK_GROUP_")
+#define BLOCK_GROUP_NAME  ("GROUP_")
 #define NO_NAME           ("None")
 
 // cObjectTab 대화 상자
@@ -20,7 +20,7 @@ private:
 	CString					m_SelectObjFile;		// 현재 선택된 오브젝트 파일
 
 	// == 오브젝트 리스트 ==
-	CListBox*				m_pObjListBox;			// 만들어진 오브젝트 리스트
+	CListBox*&				m_pObjListBox;			// 만들어진 오브젝트 리스트
 	CString					m_CurrSelectObj;		// 현재 선택한 오브젝트
 
 	// == 오브젝트 충돌 파괴 체크박스 ==
@@ -28,6 +28,8 @@ private:
     bool&                   m_isCollision;          // 충돌 여부
 	CButton*				m_pDestructionCheck;	// 파괴 체크박스
     bool&                   m_isDestruction;        // 파괴 여부
+    CButton*                m_pEnemyCheck;          // 에너미 체크
+    bool&                   m_isEnemy;              // 체크 여부 
 
 	// == 오브젝트 크기 ==
 	CSliderCtrl*			m_pObjSizeSliderCtl;	// 슬라이더 컨트롤러
@@ -58,15 +60,16 @@ private:
     float&					m_fObjRotZ;				// 오브젝트 Z축 회전값
 
 	// == X 파일 경로
-	string					m_strFileName;             // 현재 사용 파일 이름
-	string                  m_strFilePath;             // 현재 사용 패스
+    string                  m_sFileKey;             // 메쉬 키로 쓰일 녀석
+	string					m_strFileName;          // 현재 사용 파일 이름
+	string                  m_strFilePath;          // 현재 사용 패스
 
 	// == 오브젝트 에딧 버튼
-    E_OBJECT_TAB_BUTTON_STATE&  m_eObjectTabButtonState;
+    E_OBJECT_BUTTON_STATE&  m_eObjectButtonState;
 
     // == 블록 그룹 관련 ==
     E_BLOCK_BUTTON_STATE&   m_eBlockButtonState;       // 블록 관련 버튼 상태 
-    CListBox*				m_pBlockGroupListBox;	   // 만들어진 블록그룹 리스트
+    CListBox*&				m_pBlockGroupListBox;	   // 만들어진 블록그룹 리스트
     string&					m_SelectBlockGroupName;    // 현재 선택한 블록 그륩
     int                     m_nBlockGroupMakeNum;      // 블록 그룹을 만든 횟수 
 
@@ -105,22 +108,23 @@ public:
 	afx_msg void OnChangeObjectRotZEditer();
 	afx_msg void OnDeltaposObjectRotZSpin(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnCustomDrawObjectRotZSlider(NMHDR *pNMHDR, LRESULT *pResult);
+    afx_msg void OnClickObjectDeleteBtn();
 
-	afx_msg void OnClickObjectDeleteBtn();
-
-    afx_msg void OnLbnSelchangeBlockGroupListLis();
+    afx_msg void OnBnClickedObjSelectButton();
     afx_msg void OnBnClickedObjFileOpenButton();
     afx_msg void OnBnClickedObjLocateButton();
     afx_msg void OnBnClickedObjRelocateButton();
-    afx_msg void OnBnClickedObjRemoveButton();
     afx_msg void OnBnClickedObjCancelButton();
+    afx_msg void OnBnClickedObjRemoveButton();
 
     afx_msg void OnBnClickedBlockGroupNewButton();
+    afx_msg void OnBnClickedBlockGroupEndButton();
     afx_msg void OnBnClickedBlockGroupModifyButton();
     afx_msg void OnBnClickedBlockGroupDeleteButton();
-    afx_msg void OnBnClickedBlockGroupEndButton();
-   
-    void Update();
-    afx_msg void OnBnClickedObjSelectButton();
     afx_msg void OnBnClickedBlockGroupLatestDelButton();
+    afx_msg void OnLbnSelchangeBlockGroupListLis();
+
+    afx_msg void OnBnClickedDestructionChe();
+    afx_msg void OnBnClickedEnemyChe();
+    void Update();
 };
