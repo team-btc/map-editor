@@ -23,6 +23,7 @@ BEGIN_MESSAGE_MAP(CToolBasicApp, CWinAppEx)
     // 표준 파일을 기초로 하는 문서 명령입니다.
     ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
     ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
+//    ON_COMMAND(ID_FILE_SAVE, &CToolBasicApp::OnFileSave)
 END_MESSAGE_MAP()
 
 CToolBasicView *g_pView;
@@ -203,3 +204,22 @@ BOOL CToolBasicApp::OnIdle(LONG lCount)
 
     return TRUE;
 }
+
+
+//void CToolBasicApp::OnFileSave()
+//{
+//    // TODO: 여기에 명령 처리기 코드를 추가합니다.
+//    int i;
+//    cout << "" << endl;
+//}
+
+
+//void CToolBasicApp::Serialize(CArchive& ar)
+//{
+//    if (ar.IsStoring())
+//    {	// storing code
+//    }
+//    else
+//    {	// loading code
+//    }
+//}

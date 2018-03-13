@@ -353,3 +353,14 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
     return TRUE;
 }
 
+
+
+void CMainFrame::Serialize(CArchive& ar)
+{
+    if (ar.IsStoring())
+    {	// storing code
+    }
+    else
+    {	// loading code
+    }
+}

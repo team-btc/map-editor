@@ -22,6 +22,7 @@
 IMPLEMENT_DYNCREATE(CToolBasicDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CToolBasicDoc, CDocument)
+    ON_COMMAND(ID_FILE_SAVE, &CToolBasicDoc::OnFileSave)
 END_MESSAGE_MAP()
 
 
@@ -53,17 +54,17 @@ BOOL CToolBasicDoc::OnNewDocument()
 
 // CToolBasic00Doc serialization
 
-void CToolBasicDoc::Serialize(CArchive& ar)
-{
-    if (ar.IsStoring())
-    {
-        // TODO: 여기에 저장 코드를 추가합니다.
-    }
-    else
-    {
-        // TODO: 여기에 로딩 코드를 추가합니다.
-    }
-}
+//void CToolBasicDoc::Serialize(CArchive& ar)
+//{
+//    if (ar.IsStoring())
+//    {
+//        // TODO: 여기에 저장 코드를 추가합니다.
+//    }
+//    else
+//    {
+//        // TODO: 여기에 로딩 코드를 추가합니다.
+//    }
+//}
 
 #ifdef SHARED_HANDLERS
 
@@ -135,3 +136,10 @@ void CToolBasicDoc::Dump(CDumpContext& dc) const
 
 
 // CToolBasic00Doc 명령
+
+
+void CToolBasicDoc::OnFileSave()
+{
+    // TODO: 여기에 명령 처리기 코드를 추가합니다.
+    cout << "test" << endl;
+}
