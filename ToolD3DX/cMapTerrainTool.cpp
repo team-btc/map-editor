@@ -92,8 +92,8 @@ HRESULT cMapTerrainTool::Setup()
     m_isSetWaterFile = false;
     m_isSetSkyFile = false;
     m_strWaterFileName = "NONE";
-    m_strSkyFileName = "skybox_midnight.dds";
-    m_pSkyBoxShader->SetBox("skybox_midnight.dds", "Shader/Texture/skybox_midnight.dds");
+    m_strSkyFileName = "MidNight.dds";
+    m_pSkyBoxShader->SetBox("MidNight.dds", "Shader/Texture/MidNight.dds");
     m_pTextureShader->SetTexture();
     m_pTextureShader->SetBrush(m_pBrush);
     m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
@@ -141,12 +141,7 @@ HRESULT cMapTerrainTool::Update()
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-<<<<<<< HEAD
-
-        m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
-=======
       m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
->>>>>>> 22e64a31adffb9bd22e42808af3f4cab6c7117e9
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
@@ -448,9 +443,14 @@ void cMapTerrainTool::LoadMapData(string strFileTitle)
     // 매쉬 로드
     D3DXLoadMeshFromX((MAP_PATH + strFileTitle + "/" + strFileTitle + ".x").c_str(), NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
     // 택스처 png 로드
-    m_pTextureShader->SetMapSize();
+    m_pTextureShader->SetMapSize(&strFileTitle);
     // 텍스쳐 매쉬 세팅
     m_pTextureShader->SetMesh(m_pMesh);
+    // 물 셋팅
+    m_pWaveShader->SetWaveTexture("Shader/Texture", m_strWaterFileName);
+    m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
+    // 하늘 셋팅
+    m_pSkyBoxShader->SetBox(m_strSkyFileName, "Shader/Texture/" + m_strSkyFileName);
 }
 
 // 지형 편집

@@ -194,6 +194,7 @@
 #define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
 #define IDC_BUTTON1                     2100
 #define IDC_WATER_LOAD_BUT              2100
+#define IDC_SAVE_MAP_BUT                2100
 #define IDC_SKY_LOAD_BUT                2101
 #define IDC_BRUSH_RAD                   7500
 #define IDC_SPRAY_RAD                   7501

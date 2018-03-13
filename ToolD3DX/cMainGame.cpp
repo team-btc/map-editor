@@ -22,6 +22,7 @@ cMainGame::~cMainGame(void)
 void cMainGame::OnInit()
 {
     g_pKeyManager->Setup();
+    g_pMapDataManager->SetMapData();
 
     m_pCamera = new cCamera;
     m_pCamera->Setup(m_hWnd);

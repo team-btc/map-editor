@@ -31,19 +31,19 @@ void cTextureShader::SetTexture()
 
 void cTextureShader::SetTexture1()
 {
-    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex1FileName(), g_pMapDataManager->GetTex1FilePath() + "//" + g_pMapDataManager->GetTex1FileName());
+    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex1FileName(), g_pMapDataManager->GetTex1FilePath() + "//" + g_pMapDataManager->GetTex1FileName());
     m_pTexture[0] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex1FileName());
 }
 
 void cTextureShader::SetTexture2()
 {
-    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex2FileName(), g_pMapDataManager->GetTex2FilePath() + "//" + g_pMapDataManager->GetTex2FileName());
+    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex2FileName(), g_pMapDataManager->GetTex2FilePath() + "//" + g_pMapDataManager->GetTex2FileName());
     m_pTexture[1] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex2FileName());
 }
 
 void cTextureShader::SetTexture3()
 {
-    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex3FileName(), g_pMapDataManager->GetTex3FilePath() + "//" + g_pMapDataManager->GetTex3FileName());
+    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex3FileName(), g_pMapDataManager->GetTex3FilePath() + "//" + g_pMapDataManager->GetTex3FileName());
     m_pTexture[2] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex3FileName());
 
 }
@@ -424,16 +424,20 @@ void cTextureShader::SaveTexture(string strFileTitle)
     g_pTextureManager->SaveTexture(m_pAlphaDraw, MAP_PATH + strFileTitle + "/" + strFileTitle + ".png", D3DXIFF_BMP);
 }
 
-void cTextureShader::SetMapSize(string MapKey)
+void cTextureShader::SetMapSize(string* MapKey)
 {
-    m_sMapKey = MapKey;
-<<<<<<< HEAD
-    D3DCOLOR c =  D3DCOLOR_ARGB(0, 255, 0, 0);
-=======
-    D3DCOLOR c = D3DCOLOR_ARGB(0, 255, 0, 0);
->>>>>>> 22e64a31adffb9bd22e42808af3f4cab6c7117e9
-    g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
-    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
+    if (MapKey)
+    {
+        m_sMapKey = *MapKey;
+        g_pTextureManager->AddTexture(m_sMapKey, MAP_PATH + *MapKey + "/" + *MapKey + ".png");
+        m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
+    }
+    else
+    {
+        D3DCOLOR c = D3DCOLOR_ARGB(0, 255, 0, 0);
+        g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
+        m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
+    }
 }
 
 void cTextureShader::Update()

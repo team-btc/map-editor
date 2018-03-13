@@ -116,7 +116,6 @@ BEGIN_MESSAGE_MAP(cTerrainTab, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT_HEIGHT_EDI, &cTerrainTab::OnChangeEditHeightEditer)
 	ON_NOTIFY(UDN_DELTAPOS, IDC_EDIT_HEIGHT_SPI, &cTerrainTab::OnDeltaposEditHeightSpin)
 	ON_NOTIFY(NM_CUSTOMDRAW, IDC_EDIT_HEIGHT_SLI, &cTerrainTab::OnCustomDrawEditHeightSlider)
-	
 END_MESSAGE_MAP()
 
 
