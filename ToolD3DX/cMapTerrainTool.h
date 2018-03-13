@@ -69,8 +69,8 @@ class cMapTerrainTool : public cObject
 private:
     POINT                           m_ptMapSize;                                    // 맵 크기
 
-	vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
-	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
+	//vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
+	//vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
 
 	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 

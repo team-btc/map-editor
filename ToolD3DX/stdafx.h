@@ -118,6 +118,9 @@ using namespace std;
 
 #include "D3DUtility.h"
 
+#include "json.hpp"
+
+using json = nlohmann::json;
 using namespace D3DUTILITY;
 extern HWND		g_hWnd;
 extern POINT    g_ptMouse;

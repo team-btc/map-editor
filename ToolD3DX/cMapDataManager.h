@@ -87,6 +87,5 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_SelectBlockGroupName, SelectedBlockGroupName);       // 최근 선택한 블록 그룹 
   
 private:
-
 };
 
