@@ -70,7 +70,7 @@ HRESULT cMapObjectTool::Update()
 {
     if (g_pKeyManager->isOnceKeyDown('M'))
     {
-        SaveByJson();
+       
     }
     if (g_pKeyManager->isOnceKeyDown('N'))
     {
@@ -692,12 +692,9 @@ void cMapObjectTool::RenderSignPost(Vector3 pos, int size, Color color, string t
         D3DCOLOR_XRGB(255, 255, 255));
 }
 
-void cMapObjectTool::SaveByJson()
+void cMapObjectTool::SaveByJson(json& jSave)
 {
-   json innerRoot;
-   ofstream ofstream;
-   ofstream.open("save_object.json");
-
+   json& innerRoot = jSave;
    for (int i = 0; i < m_vecObjects.size(); i++)
    {
        Vector3 rotXYZ = m_vecObjects[i]->GetRotationXYZ();
@@ -737,8 +734,6 @@ void cMapObjectTool::SaveByJson()
        }
        innerRoot[BG].push_back(block_group);
    }
-   innerRoot >> ofstream;
-   ofstream.close();
 }
 
 void cMapObjectTool::LoadByJson()

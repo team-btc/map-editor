@@ -165,6 +165,9 @@ json cMapTool::SaveByJson(string strFileTitle)
 
     save["skybox"]["key"] = g_pMapDataManager->GetSkyFileName();
 
+    // 오브젝트 저장
+    m_pObjectTool->SaveByJson(save);
+
     // 매쉬x, 텍스쳐png 저장
     m_pTerrainTool->SaveMapData(strFileTitle);
 
