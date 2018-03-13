@@ -114,6 +114,8 @@ using LPSKININFO        = LPD3DXSKININFO;
 #pragma endregion
 
 
+#define MAP_PATH "Asset/Maps/"
+
 inline Vector3 ColorToNormal(Color c)
 {
     Vector3 result;

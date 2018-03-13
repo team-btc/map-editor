@@ -139,6 +139,9 @@ public:
 
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight);		                                                // 크기 설정한 맵 생성
 
+    void SaveMapData(string strFileTitle);                                                                              // 맵데이터 저장
+    void LoadMapData(string strFileTitle);                                                                              // 맵데이터 로드
+
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
     // == 셋터 ==

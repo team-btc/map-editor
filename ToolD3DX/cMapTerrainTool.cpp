@@ -105,6 +105,20 @@ HRESULT cMapTerrainTool::Update()
 {
     Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
 
+    // 텍스쳐 파일변경 하기
+    if (m_isTex1Load)
+    {
+        m_pTextureShader->SetTexture1();
+    }
+    if (m_isTex2Load)
+    {
+        m_pTextureShader->SetTexture2();
+    }
+    if (m_isTex2Load)
+    {
+        m_pTextureShader->SetTexture3();
+    }
+
     if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
     {
         m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
@@ -114,21 +128,7 @@ HRESULT cMapTerrainTool::Update()
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-        // 텍스쳐 파일변경 하기
-        if (m_isTex1Load)
-        {
-            m_pTextureShader->SetTexture1();
-        }
-        if (m_isTex2Load)
-        {
-            m_pTextureShader->SetTexture2();
-        }
-        if (m_isTex2Load)
-        {
-            m_pTextureShader->SetTexture3();
-        }
-
-        m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
+      m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
@@ -410,6 +410,29 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     m_pWaveShader->SetMesh(m_pMesh);
 
 	return S_OK;
+}
+
+// 맵 데이터 저장
+void cMapTerrainTool::SaveMapData(string strFileTitle)
+{
+    string str = MAP_PATH + strFileTitle + "/" + strFileTitle + ".x";
+    // 매쉬 저장
+    D3DXSaveMeshToX(str.c_str(), m_pMesh, NULL, NULL, NULL, NULL, NULL);
+    // 택스처 png 저장
+    m_pTextureShader->SaveTexture(strFileTitle);
+}
+
+// 맵 데이터 로드
+void cMapTerrainTool::LoadMapData(string strFileTitle)
+{
+    // 매쉬 지우기
+    SAFE_RELEASE(m_pMesh);
+    // 매쉬 로드
+    D3DXLoadMeshFromX((MAP_PATH + strFileTitle + "/" + strFileTitle + ".x").c_str(), NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
+    // 택스처 png 로드
+    m_pTextureShader->SetMapSize();
+    // 텍스쳐 매쉬 세팅
+    m_pTextureShader->SetMesh(m_pMesh);
 }
 
 // 지형 편집

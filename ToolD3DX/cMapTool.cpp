@@ -65,11 +65,6 @@ HRESULT cMapTool::Update()
 {
     GetPtMouse();
 
-    if (g_pKeyManager->isOnceKeyDown('P'))
-    {
-        SaveByJson();
-    }
-
     if (m_isCreateMap)
     {
         CreateMap();
@@ -145,21 +140,18 @@ HRESULT cMapTool::CreateMap()
 	return S_OK;
 }
 
-json cMapTool::SaveByJson()
+json cMapTool::SaveByJson(string strFileTitle)
 {
     json save;
     //ofstream o;
     //o.open("save0.json");
-   
-    save["terrain"]["map"] = "terrainmap";
-    
+
     save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
     save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
     save["texture"]["tex2"]["key"] = g_pMapDataManager->GetTex2FileName();
     save["texture"]["tex2"]["density"] = g_pMapDataManager->GetTex2Density();
     save["texture"]["tex3"]["key"] = g_pMapDataManager->GetTex3FileName();
     save["texture"]["tex3"]["density"] = g_pMapDataManager->GetTex3Density();
-    save["texture"]["map"] = "맵 이름";
 
     save["water"]["enable"] = g_pMapDataManager->GetIsMakeWater();
     save["water"]["tex"] = g_pMapDataManager->GetWaterFileName();
@@ -170,11 +162,63 @@ json cMapTool::SaveByJson()
     save["water"]["frequency"] = g_pMapDataManager->GetWaterFrequency();
     save["water"]["transparent"] = g_pMapDataManager->GetWaterTransparent();
 
-    save["skybox"]["key"] = g_pMapDataManager->GetSkyFilePath();
+    save["skybox"]["key"] = g_pMapDataManager->GetSkyFileName();
+
+    // 매쉬x, 텍스쳐png 저장
+    m_pTerrainTool->SaveMapData(strFileTitle);
+
     //save >> o;
     //o.close();
 
     return save;
+}
+
+void cMapTool::LoadByJson(string strFileTitle)
+{
+    // 제이슨 파일을 불러와서 변수에 저장!!!
+    json jLoad;
+    ifstream i;
+    i.open(MAP_PATH + strFileTitle + "/" + strFileTitle + ".json");
+    i >> jLoad;
+    i.close();
+    float f;
+    bool b;
+    string s;
+    s = jLoad["texture"]["tex1"]["key"].dump();
+    g_pMapDataManager->SetTex1FileName(s);
+    f = jLoad["texture"]["tex1"]["density"];
+    g_pMapDataManager->SetTex1Density(f);
+    s = jLoad["texture"]["tex2"]["key"].dump();
+    g_pMapDataManager->SetTex2FileName(s);
+    f = jLoad["texture"]["tex2"]["density"];
+    g_pMapDataManager->SetTex2Density(f);
+    s = jLoad["texture"]["tex3"]["key"].dump();
+    g_pMapDataManager->SetTex3FileName(s);
+    f = jLoad["texture"]["tex3"]["density"];
+    g_pMapDataManager->SetTex3Density(f);
+    
+    b = jLoad["water"]["enable"];
+    g_pMapDataManager->SetIsMakeWater(b);
+    s = jLoad["water"]["tex"].dump();
+    g_pMapDataManager->SetWaterFileName(s);
+    f = jLoad["water"]["height"];
+    g_pMapDataManager->SetWaterHeight(f);
+    f = jLoad["water"]["uvspeed"];
+    g_pMapDataManager->SetWaterUVSpeed(f);
+    f = jLoad["water"]["waveheight"];
+    g_pMapDataManager->SetWaterWaveHeight(f);
+    f = jLoad["water"]["heightspeed"];
+    g_pMapDataManager->SetWaterHeightSpeed(f);
+    f = jLoad["water"]["frequency"];
+    g_pMapDataManager->SetWaterFrequency(f);
+    f = jLoad["water"]["transparent"];
+    g_pMapDataManager->SetWaterTransparent(f);
+    
+    s = jLoad["skybox"]["key"].dump();
+    g_pMapDataManager->SetSkyFileName(s);
+
+    // 맴데이터, 매쉬x, 텍스쳐png 로드
+    m_pTerrainTool->LoadMapData(strFileTitle);
 }
 
 // 마우스 위치 가져오기

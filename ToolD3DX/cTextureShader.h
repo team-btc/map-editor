@@ -13,6 +13,9 @@ class cTextureShader
 
     float                   m_TexDensity[3];                                            // 타일의 밀도
     int                     m_nTimer;
+
+    string                  m_sMapKey;
+
 public:
     cTextureShader();
     ~cTextureShader();
@@ -25,8 +28,8 @@ public:
     void SetTexture3();
     void SetMesh(LPD3DXMESH mesh) { m_pMesh = mesh; }
     void DrawTexture();
-    void SaveTexture();
-    void SetMapSize();
+    void SaveTexture(string strFileTitle);
+    void SetMapSize(string MapKey = "Alpha");
 
     void Update();
     void Render();
