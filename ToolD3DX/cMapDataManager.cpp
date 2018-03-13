@@ -11,13 +11,12 @@ cMapDataManager::~cMapDataManager()
 {
 }
 
-json cMapDataManager::SaveMapData()
+json cMapDataManager::SaveMapData(string strFileTitle)
 {
-    return m_pMapTool->SaveByJson();
+    return m_pMapTool->SaveByJson(strFileTitle);
 }
 
-void cMapDataManager::LoadMapData(string strFilepath, string strFileName)
+void cMapDataManager::LoadMapData(string strFileTitle)
 {
-    // strFilepath는 이름과 확장자명을 포함하고 있음
-    //AddMapData();???
+    m_pMapTool->LoadByJson(strFileTitle);
 }

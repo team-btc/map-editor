@@ -15,6 +15,10 @@ class cTextureShader
     int                     m_nTimer;
 
     string                  m_sMapKey;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 22e64a31adffb9bd22e42808af3f4cab6c7117e9
 public:
     cTextureShader();
     ~cTextureShader();
@@ -27,7 +31,11 @@ public:
     void SetTexture3();
     void SetMesh(LPD3DXMESH mesh) { m_pMesh = mesh; }
     void DrawTexture();
+<<<<<<< HEAD
     void SaveTexture();
+=======
+    void SaveTexture(string strFileTitle);
+>>>>>>> 22e64a31adffb9bd22e42808af3f4cab6c7117e9
     void SetMapSize(string MapKey = "Alpha");
 
     void Update();

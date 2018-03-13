@@ -58,13 +58,28 @@ void CToolBasicDoc::Serialize(CArchive& ar)
     if (ar.IsStoring())
     {
         // TODO: 여기에 저장 코드를 추가합니다.
-        json jData = g_pMapDataManager->SaveMapData();
+
+        //LPSTR szFilter = "JSON Files (*.json) |*.JSON|";
+        //CFileDialog FileDialog(TRUE, _T("json"), NULL, OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST, szFilter);
+        //CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter);
+        string str = (string)ar.GetFile()->GetFileTitle();
+        ////string str1 = "";
+        //const char* c = str.c_str();
+        //char* c1 = const_cast<char*>(c);
+        //char* token = strtok_s(c1, ".", NULL);
+        string str1;
+        sscanf(str.c_str(), "%s*.%*s", str1.c_str());
+
+        json jData = g_pMapDataManager->SaveMapData((string)ar.GetFile()->GetFileTitle());
         ar.WriteString((CString)jData.dump().c_str());
     }
     else
     {
         // TODO: 여기에 로딩 코드를 추가합니다.
-        g_pMapDataManager->LoadMapData((string)ar.GetFile()->GetFilePath(), (string)ar.GetFile()->GetFileName()); //path는 이름과 확장자명을 포함하고 있음
+        string str = ar.GetFile()->GetFileTitle();
+        string str1 = "";
+        sscanf(str.c_str(), "%s.json", str1.c_str());
+        g_pMapDataManager->LoadMapData((string)ar.GetFile()->GetFileTitle());
     }
 }
 

@@ -419,15 +419,19 @@ void cTextureShader::DrawTexture()
     }
 }
 
-void cTextureShader::SaveTexture()
+void cTextureShader::SaveTexture(string strFileTitle)
 {
-    g_pTextureManager->SaveTexture(m_pAlphaDraw, "Save.png", D3DXIFF_BMP);
+    g_pTextureManager->SaveTexture(m_pAlphaDraw, MAP_PATH + strFileTitle + "/" + strFileTitle + ".png", D3DXIFF_BMP);
 }
 
 void cTextureShader::SetMapSize(string MapKey)
 {
     m_sMapKey = MapKey;
+<<<<<<< HEAD
     D3DCOLOR c =  D3DCOLOR_ARGB(0, 255, 0, 0);
+=======
+    D3DCOLOR c = D3DCOLOR_ARGB(0, 255, 0, 0);
+>>>>>>> 22e64a31adffb9bd22e42808af3f4cab6c7117e9
     g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
     m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 }
