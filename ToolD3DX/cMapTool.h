@@ -34,7 +34,6 @@ private:
     string&                     m_strTex2FileName;                                  // 기본 텍스쳐2 이름
     string&                     m_strTex3FilePath;                                  // 기본 텍스쳐3 경로
     string&                     m_strTex3FileName;                                  // 기본 텍스쳐3 이름
-
     bool&                       m_isCreateMap;                                      // 맵을 새로 생성
 
 private:
