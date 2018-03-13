@@ -56,7 +56,7 @@ void cTextureShader::DrawTexture()
     case E_DRAW_BRUSH:
         if (m_pBrush->m_nGroundIndex == 0)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -104,7 +104,7 @@ void cTextureShader::DrawTexture()
         }
         else if (m_pBrush->m_nGroundIndex == 1)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -152,7 +152,7 @@ void cTextureShader::DrawTexture()
         }
         else if (m_pBrush->m_nGroundIndex == 2)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -203,7 +203,7 @@ void cTextureShader::DrawTexture()
     case E_DRAW_SPRAY :
         if (m_pBrush->m_nGroundIndex == 0)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -261,7 +261,7 @@ void cTextureShader::DrawTexture()
         }
         else if (m_pBrush->m_nGroundIndex == 1)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -319,7 +319,7 @@ void cTextureShader::DrawTexture()
         }
         else if (m_pBrush->m_nGroundIndex == 2)
         {
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -376,7 +376,7 @@ void cTextureShader::DrawTexture()
         break; 
 
         case E_DRAW_ERASE :
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
             D3DLOCKED_RECT AlphaMap_Locked;
             memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
@@ -424,10 +424,12 @@ void cTextureShader::SaveTexture()
     g_pTextureManager->SaveTexture(m_pAlphaDraw, "Save.png", D3DXIFF_BMP);
 }
 
-void cTextureShader::SetMapSize()
+void cTextureShader::SetMapSize(string MapKey)
 {
-    g_pTextureManager->AddTexture("alpha", (g_pMapDataManager->GetMapSize() + 1) * 64);
-    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture("alpha");
+    m_sMapKey = MapKey;
+    D3DCOLOR c =  D3DCOLOR_ARGB(0, 255, 0, 0);
+    g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
+    m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 }
 
 void cTextureShader::Update()
@@ -468,7 +470,7 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
-   
+    
    UINT numPasses = 0;
    m_pTextureShader->Begin(&numPasses, NULL);
    {

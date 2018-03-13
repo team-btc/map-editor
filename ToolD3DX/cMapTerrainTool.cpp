@@ -112,21 +112,21 @@ HRESULT cMapTerrainTool::Update()
             m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
+    // 텍스쳐 파일변경 하기
+    if (m_isTex1Load)
+    {
+        m_pTextureShader->SetTexture1();
+    }
+    if (m_isTex2Load)
+    {
+        m_pTextureShader->SetTexture2();
+    }
+    if (m_isTex2Load)
+    {
+        m_pTextureShader->SetTexture3();
+    }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
-        // 텍스쳐 파일변경 하기
-        if (m_isTex1Load)
-        {
-            m_pTextureShader->SetTexture1();
-        }
-        if (m_isTex2Load)
-        {
-            m_pTextureShader->SetTexture2();
-        }
-        if (m_isTex2Load)
-        {
-            m_pTextureShader->SetTexture3();
-        }
 
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
