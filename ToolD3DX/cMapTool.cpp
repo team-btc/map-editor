@@ -141,11 +141,11 @@ HRESULT cMapTool::CreateMap()
 	return S_OK;
 }
 
-json cMapTool::SaveByJson(string strFileTitle)
+json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 {
     json save;
     ofstream o;
-    o.open(MAP_PATH + strFileTitle + "/" + strFileTitle + ".json");
+    o.open(strFilePath + "/" + strFileTitle + ".json");
 
     save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
     save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
@@ -169,7 +169,7 @@ json cMapTool::SaveByJson(string strFileTitle)
     m_pObjectTool->SaveByJson(save);
 
     // 매쉬x, 텍스쳐png 저장
-    m_pTerrainTool->SaveMapData(strFileTitle);
+    m_pTerrainTool->SaveMapData(strFilePath, strFileTitle);
 
     save >> o;
     o.close();

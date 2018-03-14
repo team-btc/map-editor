@@ -163,7 +163,8 @@ void CToolBasicDoc::OnFileSave()
         {
             //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
             string strFileTitle = FileDialog.GetFileTitle().GetString();
-            g_pMapDataManager->SaveMapData(strFileTitle);
+            string strFilePath = FileDialog.GetFolderPath();
+            g_pMapDataManager->SaveMapData(strFilePath, strFileTitle);
         }
         else
         {

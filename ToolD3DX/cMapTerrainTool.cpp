@@ -431,13 +431,13 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
 }
 
 // 맵 데이터 저장
-void cMapTerrainTool::SaveMapData(string strFileTitle)
+void cMapTerrainTool::SaveMapData(string strFilePath, string strFileTitle)
 {
-    string str = MAP_PATH + strFileTitle + "/" + strFileTitle + ".x";
+    string str = strFilePath + "/" + strFileTitle + ".x";
     // 매쉬 저장
     D3DXSaveMeshToX(str.c_str(), m_pMesh, NULL, NULL, NULL, NULL, NULL);
     // 택스처 png 저장
-    m_pTextureShader->SaveTexture(strFileTitle);
+    m_pTextureShader->SaveTexture(strFilePath, strFileTitle);
 }
 
 // 맵 데이터 로드

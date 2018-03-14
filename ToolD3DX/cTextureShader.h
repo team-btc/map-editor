@@ -27,7 +27,7 @@ public:
     void SetTexture3();
     void SetMesh(LPD3DXMESH mesh) { m_pMesh = mesh; }
     void DrawTexture();
-    void SaveTexture(string strFileTitle);
+    void SaveTexture(string strFilePath, string strFileTitle);
     void SetMapSize(string* MapKey = NULL);
 
     void Update();

@@ -29,9 +29,9 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("SkyBlue.dds", "Shader/Texture/SkyBlue.dds");
 }
 
-json cMapDataManager::SaveMapData(string strFileTitle)
+json cMapDataManager::SaveMapData(string strFilePath, string strFileTitle)
 {
-    return m_pMapTool->SaveByJson(strFileTitle);
+    return m_pMapTool->SaveByJson(strFilePath, strFileTitle);
 }
 
 void cMapDataManager::LoadMapData(string strFileTitle)

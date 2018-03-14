@@ -48,7 +48,7 @@ public:
 	HRESULT Render();
 
 	HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
-    json SaveByJson(string strFileTitle);
+    json SaveByJson(string strFilePath, string strFileTitle);
     void LoadByJson(string strFileTitle);
     HRESULT GetPtMouse();                                                           // 마우스 위치 가져오기
     void RendPtMouse();                                                             // 마우스 위치 출력

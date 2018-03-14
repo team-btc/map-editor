@@ -419,9 +419,9 @@ void cTextureShader::DrawTexture()
     }
 }
 
-void cTextureShader::SaveTexture(string strFileTitle)
+void cTextureShader::SaveTexture(string strFilePath, string strFileTitle)
 {
-    g_pTextureManager->SaveTexture(m_pAlphaDraw, MAP_PATH + strFileTitle + "/" + strFileTitle + ".png", D3DXIFF_BMP);
+    g_pTextureManager->SaveTexture(m_pAlphaDraw, strFilePath + "/" + strFileTitle + ".png", D3DXIFF_BMP);
 }
 
 void cTextureShader::SetMapSize(string* MapKey)
