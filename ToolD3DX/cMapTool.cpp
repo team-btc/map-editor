@@ -186,38 +186,41 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
     return save;
 }
 
-void cMapTool::LoadByJson(string strFileTitle)
+void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
 {
     // 제이슨 파일을 불러와서 변수에 저장!!!
     json jLoad;
     ifstream i;
-    i.open(MAP_PATH + strFileTitle + "/" + strFileTitle + ".json");
+    i.open(sFilePath + "\\" + sFileTitle + ".json");
     i >> jLoad;
     i.close();
     float f;
     bool b;
     string s;
-    s = jLoad["texture"]["tex1"]["key"].dump();
-    g_pMapDataManager->SetTex1FileName(s);
+    string tex1 = jLoad["texture"]["tex1"]["key"];
+    g_pMapDataManager->SetTex1FileName(tex1);
     f = jLoad["texture"]["tex1"]["density"];
     g_pMapDataManager->SetTex1Density(f);
-    s = jLoad["texture"]["tex2"]["key"].dump();
-    g_pMapDataManager->SetTex2FileName(s);
+    string tex2 = jLoad["texture"]["tex2"]["key"];
+    g_pMapDataManager->SetTex2FileName(tex2);
     f = jLoad["texture"]["tex2"]["density"];
     g_pMapDataManager->SetTex2Density(f);
-    s = jLoad["texture"]["tex3"]["key"].dump();
-    g_pMapDataManager->SetTex3FileName(s);
+    string tex3 = jLoad["texture"]["tex3"]["key"];
+    g_pMapDataManager->SetTex3FileName(tex3);
     f = jLoad["texture"]["tex3"]["density"];
     g_pMapDataManager->SetTex3Density(f);
-    
+    // 텍스쳐 1, 2, 3 세팅
+    m_pTerrainTool->SetTerrainTexture();
+
     b = jLoad["water"]["enable"];
     g_pMapDataManager->SetIsMakeWater(b);
 	string str = jLoad["water"]["file_name"];
     g_pMapDataManager->SetWaterFileName(str);
 	string str2 = jLoad["water"]["file_path"];
 	g_pMapDataManager->SetWaterFilePath(str2);
+    // 워터 텍스쳐 세팅
 	m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());
-
+   
 	f = jLoad["water"]["height"];
     g_pMapDataManager->SetWaterHeight(f);
     f = jLoad["water"]["uvspeed"];
@@ -231,14 +234,15 @@ void cMapTool::LoadByJson(string strFileTitle)
     f = jLoad["water"]["transparent"];
     g_pMapDataManager->SetWaterTransparent(f);
     
-    s = jLoad["skybox"]["key"].dump();
-    g_pMapDataManager->SetSkyFileName(s);
+    string skyText = jLoad["skybox"]["key"];
+    g_pMapDataManager->SetSkyFileName(skyText);
+    m_pTerrainTool->SetSkyBoxTexture();
 
     // 맴데이터, 매쉬x, 텍스쳐png 로드
 
 	// 스카이 박스 부분 수정하기 
-    //m_pTerrainTool->LoadMapData(strFileTitle);
-	m_pObjectTool->LoadByJson(strFileTitle);
+    m_pTerrainTool->LoadMapData(sFilePath, sFileTitle);
+	m_pObjectTool->LoadByJson(sFilePath, sFileTitle);
 
 }
 

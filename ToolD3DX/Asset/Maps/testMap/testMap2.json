@@ -1,0 +1,176 @@
+{
+    "BLOCK_GROUP": [
+        {
+            "BLOCK_GROUP_COLOR": 4286458713,
+            "BLOCK_GROUP_NAME": "GROUP_0",
+            "BLOCK_GROUP_POINT": [
+                {
+                    "BLOCK_POINT_X": 156.476196289063,
+                    "BLOCK_POINT_Y": 127.999984741211,
+                    "BLOCK_POINT_Z": 38.1040496826172
+                },
+                {
+                    "BLOCK_POINT_X": 35.5531616210938,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 40.0257415771484
+                },
+                {
+                    "BLOCK_POINT_X": 58.8949508666992,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 85.3992309570313
+                },
+                {
+                    "BLOCK_POINT_X": 60.4037322998047,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 91.4459686279297
+                },
+                {
+                    "BLOCK_POINT_X": 60.7991638183594,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 124.146194458008
+                },
+                {
+                    "BLOCK_POINT_X": 57.9948425292969,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 151.49983215332
+                },
+                {
+                    "BLOCK_POINT_X": 77.6647109985352,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 187.019180297852
+                },
+                {
+                    "BLOCK_POINT_X": 109.116630554199,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 194.859390258789
+                },
+                {
+                    "BLOCK_POINT_X": 144.183288574219,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 188.754379272461
+                }
+            ]
+        }
+    ],
+    "OBJECT": [
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 196.354080200195,
+            "OBJECT_POSITION_Y": 101.498291015625,
+            "OBJECT_POSITION_Z": 123.663299560547,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 153.43408203125,
+            "OBJECT_POSITION_Y": 85.3933715820313,
+            "OBJECT_POSITION_Z": 90.9099884033203,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 207.196075439453,
+            "OBJECT_POSITION_Y": 102.77978515625,
+            "OBJECT_POSITION_Z": 55.8066711425781,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 233.757781982422,
+            "OBJECT_POSITION_Y": 79.4005126953125,
+            "OBJECT_POSITION_Z": 95.2276153564453,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 110.751525878906,
+            "OBJECT_POSITION_Y": 81.5680847167969,
+            "OBJECT_POSITION_Z": 139.943466186523,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 112.974952697754,
+            "OBJECT_POSITION_Y": 77.1155090332031,
+            "OBJECT_POSITION_Z": 87.1564788818359,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 6.0
+        }
+    ],
+    "skybox": {
+        "key": "\"MidNight.dds\""
+    },
+    "texture": {
+        "tex1": {
+            "density": 10.0,
+            "key": "\"Soil.jpg\""
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "\"Grass.jpg\""
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "\"Stone.jpg\""
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "file_name": "Snow.jpg",
+        "file_path": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Texture",
+        "frequency": 7.0,
+        "height": 115.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.00999999977648258,
+        "waveheight": 0.600000023841858
+    }
+}

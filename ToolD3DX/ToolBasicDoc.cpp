@@ -194,10 +194,10 @@ void CToolBasicDoc::OnFileOpen()
         if (check == "JSON" || check == "json")
         {
             //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
-            string strFileTitle = FileDialog.GetFileTitle().GetString();
-			string folderFath = FileDialog.GetFolderPath();
-			g_pMapDataManager->SetFolderPath(folderFath);
-            g_pMapDataManager->LoadMapData(strFileTitle);
+            string sFileTitle = FileDialog.GetFileTitle().GetString();
+			string sFilePath = FileDialog.GetFolderPath();
+		
+            g_pMapDataManager->LoadMapData(sFilePath, sFileTitle);
         }
         else
         {

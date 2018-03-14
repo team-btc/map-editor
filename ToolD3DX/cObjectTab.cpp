@@ -98,16 +98,16 @@ BOOL cObjectTab::OnInitDialog()
 	m_pObjSizeEditCtl = (CEdit*)GetDlgItem(IDC_OBJECT_SIZE_EDI);
 	
 	// 오브젝트 사이즈 슬라이더 기본 설정
-	m_pObjSizeSliderCtl->SetRange(1, 20);		// 사용영역 값 설정
-	m_pObjSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
+	m_pObjSizeSliderCtl->SetRange(0, 20);		// 사용영역 값 설정
+	m_pObjSizeSliderCtl->SetRangeMin(0);		// 최소 값 설정
 	m_pObjSizeSliderCtl->SetRangeMax(20);		// 최대 값 설정
-	m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);	// 위치 설정
-	m_pObjSizeSliderCtl->SetTicFreq(1);		// 눈금 간격 설정
-	m_pObjSizeSliderCtl->SetLineSize((int)0.5);		// 증가 크기(키보드로 컨트롤 할 때)
-	m_pObjSizeSliderCtl->SetPageSize((int)0.5);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize);	// 위치 설정
+	m_pObjSizeSliderCtl->SetTicFreq(1);		    // 눈금 간격 설정
+	m_pObjSizeSliderCtl->SetLineSize(0.1f);		// 증가 크기(키보드로 컨트롤 할 때)
+	m_pObjSizeSliderCtl->SetPageSize(0.1f);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)m_fObjSize);
+	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
 
 	// == 오브젝트 위치 설정 초기화 ==
 	m_pObjPosXStatic = (CStatic*)GetDlgItem(IDC_POS_X_TEXT);
@@ -367,7 +367,7 @@ void cObjectTab::OnChangeObjectSizeEditer()
 	m_fObjSize = (float)GetDlgItemInt(IDC_OBJECT_SIZE_EDI);
 
 	// 슬라이더 위치 설정
-	m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);		// 위치 설정
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pObjSizeEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -388,7 +388,7 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			return;
 		}
-		++m_fObjSize;
+		m_fObjSize += 0.1f;
 	}
 	// Down 버튼 눌렀을 경우
 	else
@@ -397,14 +397,14 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			return;
 		}
-		--m_fObjSize;
+		m_fObjSize -= 0.1f;
 	}
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)m_fObjSize);
+	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
 
 	// 슬라이더 위치 설정
-	m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);		// 위치 설정
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -419,7 +419,7 @@ void cObjectTab::OnCustomDrawObjectSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	m_fObjSize = (float)m_pObjSizeSliderCtl->GetPos();
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)(m_fObjSize));
+	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (m_fObjSize));
 
 	*pResult = 0;
 }
@@ -888,7 +888,7 @@ void cObjectTab::OnLbnSelchangeBlockGroupListLis()
 #pragma endregion
 void cObjectTab::Update()
 {
-    m_pObjSizeSliderCtl->SetPos((int)m_fObjSize);   // Scale 위치 설정 
+    m_pObjSizeSliderCtl->SetPos(m_fObjSize);   // Scale 위치 설정 
     m_pObjRotXSliderCtl->SetPos((int)m_fObjRotX);   // RotX 위치 설정
     m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);   // RotY 위치 설정
     m_pObjRotZSliderCtl->SetPos((int)m_fObjRotZ);   // RotZ 위치 설정

@@ -429,7 +429,8 @@ void cTextureShader::SetMapSize(string* MapKey)
     if (MapKey)
     {
         m_sMapKey = *MapKey;
-        g_pTextureManager->AddTexture(m_sMapKey, MAP_PATH + *MapKey + "/" + *MapKey + ".png");
+        string sFullPath = *MapKey + ".png";
+        g_pTextureManager->AddTexture(m_sMapKey, sFullPath);
         m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
     }
     else

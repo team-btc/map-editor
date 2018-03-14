@@ -15,5 +15,9 @@ public:
 
     void SetBox(string sTexFileKey, string sTexFilePath);
     void Render(D3DXVECTOR4 vCameraPosition);
+    void SetSkyBoxTexture()
+    {
+        m_pSkyBoxTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetSkyFileName());
+    }
 };
 

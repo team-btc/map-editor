@@ -469,14 +469,18 @@ void cMapTerrainTool::SaveMapData(string strFilePath, string strFileTitle)
 }
 
 // 맵 데이터 로드
-void cMapTerrainTool::LoadMapData(string strFileTitle)
+void cMapTerrainTool::LoadMapData(string sFilePath, string sFileTitle)
 {
     // 매쉬 지우기
     SAFE_RELEASE(m_pMesh);
+    
     // 매쉬 로드
-    D3DXLoadMeshFromX((MAP_PATH + strFileTitle + "//" + strFileTitle + ".x").c_str(), NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
+    string sFullPath = sFilePath + "\\" + sFileTitle + ".x";
+    D3DXLoadMeshFromX(sFullPath.c_str(), D3DXMESH_VB_MANAGED, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
+
     // 택스처 png 로드
-    m_pTextureShader->SetMapSize(&strFileTitle);
+    string sFullPathPng = sFilePath + "\\" + sFileTitle;
+    m_pTextureShader->SetMapSize(&sFullPathPng);
     // 텍스쳐 매쉬 세팅
     m_pTextureShader->SetMesh(m_pMesh);
     // 물 셋팅
