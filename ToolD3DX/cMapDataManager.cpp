@@ -22,6 +22,8 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("Rocky.jpg", "Texture/Rocky.jpg");
     g_pTextureManager->AddTexture("Snow.jpg", "Texture/Snow.jpg");
     g_pTextureManager->AddTexture("Lava.jpg", "Texture/Lava.jpg");
+    g_pTextureManager->AddTexture("Space.jpg", "Texture/Space.jpg");
+    g_pTextureManager->AddTexture("mecha.jpg", "Texture/mecha.jpg");
 
 
     g_pTextureManager->AddTexture("Water.jpg", "Shader/Texture/Water.jpg");
@@ -34,6 +36,7 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("Islands.dds", "Shader/Texture/Islands.dds");
     g_pTextureManager->AddTexture("MidNight.dds", "Shader/Texture/MidNight.dds");
     g_pTextureManager->AddTexture("SkyBlue.dds", "Shader/Texture/SkyBlue.dds");
+    g_pTextureManager->AddTexture("Volcano.dds", "Shader/Texture/Volcano.dds");
 
 }
 

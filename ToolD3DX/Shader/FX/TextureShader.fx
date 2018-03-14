@@ -27,6 +27,9 @@ sampler2D TexSampler1 = sampler_state
    Texture = (texture1);
    MINFILTER = GAUSSIANQUAD;
    MAGFILTER = GAUSSIANQUAD;
+   AddressU = Mirror;
+   AddressV = Mirror;
+
 };
 sampler2D TexSampler2 = sampler_state
 {
@@ -123,7 +126,6 @@ float4 main_0(PS_INPUT Input) : COLOR
 
         if ( l + 0.002f > sr )
             brush = float4(2.5f, 2.5f, 2.5f, 1);
-
 	}
 
 	return (Tex1 * Alpha.r * Rd + Tex2 * Alpha.g * Gd + Tex3 * Alpha.b * Bd + brush * 0.4f);
