@@ -141,7 +141,7 @@ public:
     HRESULT CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight);		                                                // 크기 설정한 맵 생성
 
     void SaveMapData(string strFilePath, string strFileTitle);                                                                              // 맵데이터 저장
-    void LoadMapData(string strFileTitle);                                                                              // 맵데이터 로드
+    void LoadMapData(string sFilePath, string sFileTitle);                                                                              // 맵데이터 로드
 
     // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
@@ -156,5 +156,15 @@ public:
 		}
 	}
     
+    void SetTerrainTexture()
+    {
+        m_pTextureShader->SetTexture1();
+        m_pTextureShader->SetTexture2();
+        m_pTextureShader->SetTexture3();
+    }
+    void SetSkyBoxTexture()
+    {
+        m_pSkyBoxShader->SetSkyBoxTexture();
+    }
 };
 

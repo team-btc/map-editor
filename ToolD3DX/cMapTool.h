@@ -48,7 +48,7 @@ public:
 
 	HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
     json SaveByJson(string strFilePath, string strFileTitle);
-    void LoadByJson(string strFileTitle);
+    void LoadByJson(string sFilePath, string sFileTitle);
     HRESULT GetPtMouse();                                                           // 마우스 위치 가져오기
     void RendPtMouse();                                                             // 마우스 위치 출력
     bool IsPickMap();                                                               // 마우스가 클라이언트 영역 안에서 맵을 클릭 했는지 체크

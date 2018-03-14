@@ -690,9 +690,9 @@ void cMapObjectTool::SaveByJson(json& jSave)
        Vector3 rotXYZ = m_vecObjects[i]->GetRotationXYZ();
        Vector3 pos = m_vecObjects[i]->GetPositon();
        json object;
-       object[OBJ_KEY] = (string)m_vecObjects[i]->GetKey();
-       object[OBJ_PATH] = (string)m_vecObjects[i]->GetFilePath();
-       object[OBJ_NAME] = (string)m_vecObjects[i]->GetFileName();
+       object[OBJ_KEY] = m_vecObjects[i]->GetKey();
+       object[OBJ_PATH] = m_vecObjects[i]->GetFilePath();
+       object[OBJ_NAME] = m_vecObjects[i]->GetFileName();
        object[OBJ_COL] = (bool)m_vecObjects[i]->GetCollision();
        object[OBJ_DES] = (bool)m_vecObjects[i]->GetDestruction();
        object[OBJ_ENE] = (bool)m_vecObjects[i]->GetEnemy();
@@ -726,14 +726,14 @@ void cMapObjectTool::SaveByJson(json& jSave)
    }
 }
 
-void cMapObjectTool::LoadByJson(string strFileTitle)
+void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
 {
 	json json;
 	ifstream i;
-	string str = g_pMapDataManager->GetFolderPath();
-	string file = g_pMapDataManager->GetFolderPath() +"\\"+ strFileTitle + ".json";
-	i.open(file.c_str());
-	i >> json;
+    string fullPath = sFilePath + "\\" + sFileTitle + ".json";
+    i.open(fullPath.c_str());
+    
+    i >> json;
 	i.close();
 
 	// 벡터 및 리스트 초기화 
@@ -760,6 +760,7 @@ void cMapObjectTool::LoadByJson(string strFileTitle)
 		pos.z = (float)json[OBJ][i][OBJ_POSZ];
 
 		cMapObject* object = new cMapObject(key, path, name);
+
 		object->Setup(scale, rot, pos);
 		object->SetCollision((bool)json[OBJ][i][OBJ_COL]);
 		object->SetDestruction((bool)json[OBJ][i][OBJ_DES]);

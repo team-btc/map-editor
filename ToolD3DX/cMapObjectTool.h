@@ -115,6 +115,6 @@ public:
    
     void ClearObjectNBlock();			    // object, block_group 두개의 백터 비우기 
     void SaveByJson(json& jSave);           // Json 으로 저장
-    void LoadByJson(string strFileTitle);   // Json 으로 로드 
+    void LoadByJson(string sFilePath, string sFileTitle);  // Json 으로 로드 
 };
 

@@ -1,0 +1,31 @@
+{
+    "skybox": {
+        "key": "MidNight.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 10.0,
+            "key": "Lava.jpg"
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "Grass.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "file_name": "magma.jpg",
+        "file_path": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Shader\\Texture",
+        "frequency": 5.80000019073486,
+        "height": 122.0,
+        "heightspeed": 1.89999997615814,
+        "transparent": 0.100000001490116,
+        "uvspeed": 0.0799999982118607,
+        "waveheight": 4.0
+    }
+}

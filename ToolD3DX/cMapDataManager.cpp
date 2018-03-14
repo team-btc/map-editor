@@ -26,15 +26,12 @@ void cMapDataManager::SetMapData()
 
     g_pTextureManager->AddTexture("Water.jpg", "Shader/Texture/Water.jpg");
     g_pTextureManager->AddTexture("Magma.jpg", "Shader/Texture/magma.jpg");
-
-
     g_pTextureManager->AddTexture("Cloudy.dds", "Shader/Texture/Cloudy.dds");
     g_pTextureManager->AddTexture("DeepNight.dds", "Shader/Texture/DeepNight.dds");
     g_pTextureManager->AddTexture("Interstellar.dds", "Shader/Texture/Interstellar.dds");
     g_pTextureManager->AddTexture("Islands.dds", "Shader/Texture/Islands.dds");
     g_pTextureManager->AddTexture("MidNight.dds", "Shader/Texture/MidNight.dds");
     g_pTextureManager->AddTexture("SkyBlue.dds", "Shader/Texture/SkyBlue.dds");
-
 }
 
 json cMapDataManager::SaveMapData(string strFilePath, string strFileTitle)
@@ -42,7 +39,7 @@ json cMapDataManager::SaveMapData(string strFilePath, string strFileTitle)
     return m_pMapTool->SaveByJson(strFilePath, strFileTitle);
 }
 
-void cMapDataManager::LoadMapData(string strFileTitle)
+void cMapDataManager::LoadMapData(string sFilePath, string sFileTitle)
 {
-    m_pMapTool->LoadByJson(strFileTitle);
+    m_pMapTool->LoadByJson(sFilePath, sFileTitle);
 }

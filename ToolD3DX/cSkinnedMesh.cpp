@@ -55,7 +55,7 @@ void cSkinnedMesh::Load(string szDirectory, string szFilename)
     m_stBoundingSphere.fRadius = D3DXVec3Length(&(ah.GetMin() - ah.GetMax()));
 
     string sFullPath(szDirectory);
-    sFullPath += "/" + std::string(szFilename);
+    sFullPath += "\\" + std::string(szFilename);
 
     D3DXLoadMeshHierarchyFromXA(sFullPath.c_str(),
                                D3DXMESH_MANAGED,

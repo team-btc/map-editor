@@ -1,0 +1,31 @@
+{
+    "skybox": {
+        "key": "Interstellar.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 83.0,
+            "key": "Lava.jpg"
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "Grass.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "file_name": "magma.jpg",
+        "file_path": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_MapTool\\map-editor\\ToolD3DX\\Shader\\Texture",
+        "frequency": 7.0,
+        "height": 128.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.00999999977648258,
+        "waveheight": 0.600000023841858
+    }
+}

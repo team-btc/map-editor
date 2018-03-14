@@ -107,6 +107,6 @@ public:
     void SetMapData();	// 기본 파일들 로드 해놓기
     void SetMapTool(cMapTool* maptool) { m_pMapTool = maptool; }
     json SaveMapData(string strFilePath, string strFileTitle);
-    void LoadMapData(string strFileTitle);
+    void LoadMapData(string sFilePath, string sFileTitle);
 };
 
