@@ -24,6 +24,7 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("Lava.jpg", "Texture/Lava.jpg");
     g_pTextureManager->AddTexture("Space.jpg", "Texture/Space.jpg");
     g_pTextureManager->AddTexture("mecha.jpg", "Texture/mecha.jpg");
+    g_pTextureManager->AddTexture("mecha-dark.jpg", "Texture/mecha-dark.jpg");
 
 
     g_pTextureManager->AddTexture("Water.jpg", "Shader/Texture/Water.jpg");

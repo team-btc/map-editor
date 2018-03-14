@@ -462,7 +462,7 @@ void cMapTerrainTool::SaveMapData(string strFilePath, string strFileTitle)
     // 지형 매쉬 저장
     D3DXSaveMeshToX(str.c_str(), m_pMesh, NULL, NULL, NULL, NULL, NULL);
     // 물 매쉬 저장
-    str = strFilePath + "/" + "water.x";
+    str = strFilePath + "/" + strFileTitle + "Water.x";
     D3DXSaveMeshToX(str.c_str(), m_pWMesh, NULL, NULL, NULL, NULL, NULL);
     // 택스처 png 저장
     m_pTextureShader->SaveTexture(strFilePath, strFileTitle);
