@@ -446,7 +446,7 @@ void cMapTerrainTool::LoadMapData(string strFileTitle)
     // 매쉬 지우기
     SAFE_RELEASE(m_pMesh);
     // 매쉬 로드
-    D3DXLoadMeshFromX((MAP_PATH + strFileTitle + "/" + strFileTitle + ".x").c_str(), NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
+    D3DXLoadMeshFromX((MAP_PATH + strFileTitle + "//" + strFileTitle + ".x").c_str(), NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
     // 택스처 png 로드
     m_pTextureShader->SetMapSize(&strFileTitle);
     // 텍스쳐 매쉬 세팅

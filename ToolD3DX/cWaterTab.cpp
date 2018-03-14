@@ -662,41 +662,30 @@ void cWaterTab::OnCustomDrawTransparentSlider(NMHDR *pNMHDR, LRESULT *pResult)
 // 물 파일 로드 버튼
 void cWaterTab::OnClickedWaterFileLoadButton()
 {
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다
     char current_path[MAX_PATH];
     GetCurrentDirectory(MAX_PATH, current_path);
 
     // 확장자 필터
-    LPSTR szFilter = "JPG Files (*.jpg) |*.JPG|";
+    LPSTR szFilter = "Image (*.jpg, *.bmp, *png) |*.JPG; *.BMP; *.PNG |";
     CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
-    string caption = "JPG 파일 불러오기";
+    string caption = "Image 파일 불러오기";
 
     if (FileDialog.DoModal() == IDOK)
     {
         //파일 확장자 가져오기 
         CString check = FileDialog.GetFileExt();
-
-        // 확장자가 jpg인지 체크 
-        if (check == "JPG" || check == "jpg")
-        {
-            //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
-            m_strWaterFilePath = FileDialog.GetFolderPath().GetString();
-            m_strWaterFileName = FileDialog.GetFileName().GetString();
-
-            m_isSetWaterFile = true;
-
-            // 파일 이름을 표시해줌
-            SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
-        }
-        else
-        {
-            m_strWaterFileName = "NONE";
-            MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
-            // 파일 이름을 표시해줌
-            SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
-        }
+        m_strWaterFilePath = FileDialog.GetFolderPath().GetString();
+        m_strWaterFileName = FileDialog.GetFileName().GetString();
+        m_isSetWaterFile = true;
+        // 파일 이름을 표시해줌
     }
+	else
+	{
+		m_strWaterFileName = "NONE";
+		MessageBox("파일 읽기 실패", caption.c_str(), MB_ICONERROR);
+	}
+	SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
 }
 
 // 하늘 파일 로드 버튼

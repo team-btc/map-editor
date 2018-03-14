@@ -102,20 +102,19 @@ public:
 	void OnceLButtonDown(E_TAB_TYPE eTabType);     // 마우스 왼쪽 버튼을 클릭 했을 때 발동
     void StayLButtonDown();     // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
 
-    int PickObject();           // 오브젝트 피킹
-    int FindObject(int nId);    // 아이디 값으로 오브젝트 찾기 
+    int  PickObject();           // 오브젝트 피킹
+    int  FindObject(int nId);    // 아이디 값으로 오브젝트 찾기 
 
     bool CollideRayNCircle(cRay ray, Vector3 vTargetPos, float fTargetRadius);
     bool CollideRound(Vector3 vMyPos, float fMyRadius, Vector3 vTargetPos, float fTargetRadius);
     void DebugTestRender();
 
-    int GetBlockGroupByName(string BlockName);
-
+    int  GetBlockGroupByName(string BlockName);
     void RenderSignPost(Vector3 pos, int size, Color color, string text);
        
    
-    void ClearObjectNBlock();   // object, block_group 두개의 백터 비우기 
-    void SaveByJson(json& jSave);          // Json 으로 저장
-    void LoadByJson();          // Json 으로 로드 
+    void ClearObjectNBlock();			    // object, block_group 두개의 백터 비우기 
+    void SaveByJson(json& jSave);           // Json 으로 저장
+    void LoadByJson(string strFileTitle);   // Json 으로 로드 
 };
 

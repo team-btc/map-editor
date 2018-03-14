@@ -155,7 +155,8 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
     save["texture"]["tex3"]["density"] = g_pMapDataManager->GetTex3Density();
 
     save["water"]["enable"] = g_pMapDataManager->GetIsMakeWater();
-    save["water"]["tex"] = g_pMapDataManager->GetWaterFileName();
+    save["water"]["file_name"] = g_pMapDataManager->GetWaterFileName();
+	save["water"]["file_path"] = g_pMapDataManager->GetWaterFilePath();
     save["water"]["height"] = g_pMapDataManager->GetWaterHeight();
     save["water"]["uvspeed"] = g_pMapDataManager->GetWaterUVSpeed();
     save["water"]["waveheight"] = g_pMapDataManager->GetWaterWaveHeight();
@@ -203,9 +204,13 @@ void cMapTool::LoadByJson(string strFileTitle)
     
     b = jLoad["water"]["enable"];
     g_pMapDataManager->SetIsMakeWater(b);
-    s = jLoad["water"]["tex"].dump();
-    g_pMapDataManager->SetWaterFileName(s);
-    f = jLoad["water"]["height"];
+	string str = jLoad["water"]["file_name"];
+    g_pMapDataManager->SetWaterFileName(str);
+	string str2 = jLoad["water"]["file_path"];
+	g_pMapDataManager->SetWaterFilePath(str2);
+	m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());
+
+	f = jLoad["water"]["height"];
     g_pMapDataManager->SetWaterHeight(f);
     f = jLoad["water"]["uvspeed"];
     g_pMapDataManager->SetWaterUVSpeed(f);
@@ -222,7 +227,11 @@ void cMapTool::LoadByJson(string strFileTitle)
     g_pMapDataManager->SetSkyFileName(s);
 
     // 맴데이터, 매쉬x, 텍스쳐png 로드
-    m_pTerrainTool->LoadMapData(strFileTitle);
+
+	// 스카이 박스 부분 수정하기 
+    //m_pTerrainTool->LoadMapData(strFileTitle);
+	m_pObjectTool->LoadByJson(strFileTitle);
+
 }
 
 // 마우스 위치 가져오기

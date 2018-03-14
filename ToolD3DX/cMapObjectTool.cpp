@@ -68,16 +68,6 @@ HRESULT cMapObjectTool::Setup()
 
 HRESULT cMapObjectTool::Update()
 {
-    if (g_pKeyManager->isOnceKeyDown('M'))
-    {
-       
-    }
-    if (g_pKeyManager->isOnceKeyDown('N'))
-    {
-        LoadByJson();
-    }
-
-
     // 오브젝트 탭 버튼 상태에 따른 업데이트 분기
     switch (g_pMapDataManager->GetObjectButtonState())
     {
@@ -736,43 +726,73 @@ void cMapObjectTool::SaveByJson(json& jSave)
    }
 }
 
-void cMapObjectTool::LoadByJson()
+void cMapObjectTool::LoadByJson(string strFileTitle)
 {
-    json json;
-    ifstream i;
-    i.open("save_object.json");
-    i >> json;
-    i.close();
-    //int n = (int)json[BG][BG_POINT].size();
-    //int num = j[OBJ].size();
+	json json;
+	ifstream i;
+	string str = g_pMapDataManager->GetFolderPath();
+	string file = g_pMapDataManager->GetFolderPath() +"\\"+ strFileTitle + ".json";
+	i.open(file.c_str());
+	i >> json;
+	i.close();
 
-    ClearObjectNBlock();
+	// 벡터 및 리스트 초기화 
+	ClearObjectNBlock();
 
-    Color color;
+	// Object
+	for (int i = 0; i < json[OBJ].size(); i++)
+	{
+		string key = json[OBJ][i][OBJ_KEY];
+		string path = json[OBJ][i][OBJ_PATH];
+		string name = json[OBJ][i][OBJ_NAME];
 
-    //// 블록 그룹 관련 
-    for (int i = 0; i < json[BG].size(); i++)
-    {    
-      ST_BLOCK_GROUP* bgroup = new ST_BLOCK_GROUP; 
-      bgroup->GroupName = json[BG][i][BG_NAME];
-      g_pMapDataManager->GetBlockGroupListBox()->AddString(bgroup->GroupName.c_str());
+		Vector3 scale;
+		scale.z = scale.y = scale.x = (float)json[OBJ][i][OBJ_SCALE];
 
-      int red = rand() % 256;
-      int green = rand() % 256;
-      int blue = rand() % 256;
+		Vector3 rot;
+		rot.x = (float)json[OBJ][i][OBJ_ROTX];
+		rot.y = (float)json[OBJ][i][OBJ_ROTY];
+		rot.z = (float)json[OBJ][i][OBJ_ROTZ];
 
-      bgroup->GroupColor = D3DCOLOR_ARGB(255, red, green, blue);
-      
-      for (int j = 0; j < json[BG][i][BG_POINT].size(); j++)
-      {
-          Vector3 pos;
-          pos.x = (float)json[BG][i][BG_POINT][j][BG_PO_X];
-          pos.y = (float)json[BG][i][BG_POINT][j][BG_PO_Y];
-          pos.z = (float)json[BG][i][BG_POINT][j][BG_PO_Z];
-          bgroup->vecPoints.push_back(ST_PC_VERTEX(pos, bgroup->GroupColor));
-      } 
-      m_vecBlockGroups.push_back(bgroup); 
-    }
+		Vector3 pos;
+		pos.x = (float)json[OBJ][i][OBJ_POSX];
+		pos.y = (float)json[OBJ][i][OBJ_POSY];
+		pos.z = (float)json[OBJ][i][OBJ_POSZ];
+
+		cMapObject* object = new cMapObject(key, path, name);
+		object->Setup(scale, rot, pos);
+		object->SetCollision((bool)json[OBJ][i][OBJ_COL]);
+		object->SetDestruction((bool)json[OBJ][i][OBJ_DES]);
+		object->SetEnemy((bool)json[OBJ][i][OBJ_ENE]);
+		object->SetId(i);
+
+		m_vecObjects.push_back(object);
+	}
+
+	// Block
+	for (int i = 0; i < json[BG].size(); i++)
+	{
+		ST_BLOCK_GROUP* bgroup = new ST_BLOCK_GROUP;
+		string name = json[BG][i][BG_NAME];
+		bgroup->GroupName = name;
+		g_pMapDataManager->GetBlockGroupListBox()->AddString(bgroup->GroupName.c_str());
+
+		int red = rand() % 256;
+		int green = rand() % 256;
+		int blue = rand() % 256;
+
+		bgroup->GroupColor = D3DCOLOR_ARGB(255, red, green, blue);
+
+		for (int j = 0; j < json[BG][i][BG_POINT].size(); j++)
+		{
+			Vector3 pos;
+			pos.x = (float)json[BG][i][BG_POINT][j][BG_PO_X];
+			pos.y = (float)json[BG][i][BG_POINT][j][BG_PO_Y];
+			pos.z = (float)json[BG][i][BG_POINT][j][BG_PO_Z];
+			bgroup->vecPoints.push_back(ST_PC_VERTEX(pos, bgroup->GroupColor));
+		}
+		m_vecBlockGroups.push_back(bgroup);
+	}
 }
 
 void cMapObjectTool::ClearObjectNBlock()
@@ -786,8 +806,7 @@ void cMapObjectTool::ClearObjectNBlock()
         }
         m_vecObjects.clear();
     }
-    // Object list 박스에 있는 내용을 전부 지운다.
-    g_pMapDataManager->GetObjListBox()->ResetContent();
+    g_pMapDataManager->GetObjListBox()->ResetContent();			 // Object list 박스에 있는 내용을 전부 지운다.
 
     // Block Group Vector 비우기 
     if (!m_vecBlockGroups.empty())
@@ -798,6 +817,5 @@ void cMapObjectTool::ClearObjectNBlock()
         }
         m_vecBlockGroups.clear();
     }
-    // Object list 박스에 있는 내용을 전부 지운다.
-    g_pMapDataManager->GetBlockGroupListBox()->ResetContent();
+    g_pMapDataManager->GetBlockGroupListBox()->ResetContent();    // Object list 박스에 있는 내용을 전부 지운다.
 }

@@ -101,6 +101,8 @@ private:
     bool&                           m_isWaterEnable;                                // 물 보여주기 여부
     bool&                           m_isSetWaterFile;                               // 물 파일 셋팅 여부
     string&                         m_strWaterFileName;                             // 물 파일 이름
+
+
     bool&                           m_isSetSkyFile;                                 // 하늘 파일 셋팅 여부
     string&                         m_strSkyFileName;                               // 하늘 파일 이름
 
@@ -145,6 +147,14 @@ public:
     LPD3DXMESH GetMesh() { return m_pMesh; }
     // == 셋터 ==
     void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }   
+
+	void SetWave(string fileName, string filePath)
+	{
+		if (m_pWaveShader)
+		{
+			m_pWaveShader->SetWaveTexture(filePath, fileName);
+		}
+	}
     
 };
 
