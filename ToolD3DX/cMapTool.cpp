@@ -110,7 +110,11 @@ HRESULT cMapTool::Update()
 
 HRESULT cMapTool::Render()
 { 
-	
+    if (m_pTerrainTool)
+    {
+        m_pTerrainTool->RenderSkyBox();
+    }
+
     if (m_pObjectTool)
     {
         m_pObjectTool->Render();
@@ -163,6 +167,8 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
     save["water"]["heightspeed"] = g_pMapDataManager->GetWaterHeightSpeed();
     save["water"]["frequency"] = g_pMapDataManager->GetWaterFrequency();
     save["water"]["transparent"] = g_pMapDataManager->GetWaterTransparent();
+    save["water"]["density"] = g_pMapDataManager->GetWaterDensity();
+
 
     save["skybox"]["key"] = g_pMapDataManager->GetSkyFileName();
 
@@ -171,8 +177,10 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 
     // 매쉬x, 텍스쳐png 저장
     m_pTerrainTool->SaveMapData(strFilePath, strFileTitle);
-
-    save >> o;
+    
+    string c;
+    c = save.dump(4);
+    o << c;
     o.close();
 
     return save;

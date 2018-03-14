@@ -22,6 +22,7 @@
 //--------------------------------------------------------------//
 string WaveShader_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Torus.3ds";
 
+float Density;
 float4x4 gWorldMatrix : World;
 float4x4 gViewMatrix : View;
 float4x4 gProjectionMatrix : Projection;
@@ -171,7 +172,13 @@ float3 gLightColor
 
 float4 WaveShader_Pass_0_Pixel_Shader_ps_main(PS_INPUT Input) : COLOR
 {
-   float4 albedo = tex2D(DiffuseSampler, Input.mUV);
+   float dens = Density;
+   float2 NewUV = Input.mUV;
+   NewUV.x *= dens;
+   NewUV.y *= dens;
+
+
+   float4 albedo = tex2D(DiffuseSampler, NewUV);
    float3 diffuse = gLightColor * albedo.rgb * saturate(Input.mDiffuse);
    
    float3 reflection = normalize(Input.mReflection);

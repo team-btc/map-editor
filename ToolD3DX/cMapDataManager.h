@@ -52,6 +52,7 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF(float, m_fWaterHeightSpeed, WaterHeightSpeed);			// 물 상하 스피드
 	SYNTHESIZE_PASS_BY_REF(float, m_fWaterFrequency, WaterFrequency);				// 물 물결 간격
 	SYNTHESIZE_PASS_BY_REF(float, m_fWaterTransparent, WaterTransparent);			// 물 투명값
+    SYNTHESIZE_PASS_BY_REF(float, m_fWaterDensity, WaterDensity);			// 물 밀도
     SYNTHESIZE_PASS_BY_REF(bool, m_isMakeWater, IsMakeWater);                        // 물 만들지 여부
     SYNTHESIZE_PASS_BY_REF(bool, m_isSetWaterFile, IsSetWaterFile);				    // 물 파일이 셋팅 되었을 때(클릭순간)
     SYNTHESIZE_PASS_BY_REF(string, m_strWaterFilePath, WaterFilePath);				// 물 파일경로

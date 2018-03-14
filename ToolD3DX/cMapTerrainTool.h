@@ -58,10 +58,10 @@ struct ST_WATER_INFO {
     float&                          fHeightSpeed;                                   // 물의 상하 스피드
     float&                          fFrequency;                                     // 물결 간격
 	float&						    fTransparent;									// 물의 투명값
-
-    ST_WATER_INFO(float& _fH, float& _fUVS, float& _fWH, float& _fHS, float& _fF, float& _fT)
+    float&                          fDensity;                                       // 물의 밀도
+    ST_WATER_INFO(float& _fH, float& _fUVS, float& _fWH, float& _fHS, float& _fF, float& _fT, float& _fD)
         : fHeight(_fH), fUVSpeed(_fUVS), fWaveHeight(_fWH)
-        , fHeightSpeed(_fHS), fFrequency(_fF), fTransparent(_fT) {}
+        , fHeightSpeed(_fHS), fFrequency(_fF), fTransparent(_fT), fDensity(_fD) {}
 };
 
 class cMapTerrainTool : public cObject
@@ -134,7 +134,7 @@ public:
 	HRESULT Setup();
     HRESULT Update();
 	HRESULT Render();
-
+    HRESULT RenderSkyBox();
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
 

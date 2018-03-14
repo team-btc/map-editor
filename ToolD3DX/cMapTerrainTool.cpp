@@ -21,7 +21,8 @@ cMapTerrainTool::cMapTerrainTool()
         , g_pMapDataManager->GetWaterWaveHeight()
         , g_pMapDataManager->GetWaterHeightSpeed()
         , g_pMapDataManager->GetWaterFrequency()
-        , g_pMapDataManager->GetWaterTransparent())
+        , g_pMapDataManager->GetWaterTransparent()
+        , g_pMapDataManager->GetWaterDensity())
     , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
     , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
     , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
@@ -87,6 +88,8 @@ HRESULT cMapTerrainTool::Setup()
     m_stWaterInfo.fHeightSpeed = 2.4f;
     m_stWaterInfo.fFrequency = 7.0f;
     m_stWaterInfo.fTransparent = 0.6f;
+    m_stWaterInfo.fDensity = 1.0f;
+
 
     m_isWaterEnable = false;
     m_isSetWaterFile = false;
@@ -118,14 +121,6 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pTextureShader->SetTexture3();
     }
-
-    if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
-    {
-        m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
-            m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
-            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
-            m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
-    }
     // 텍스쳐 파일변경 하기
     if (m_isTex1Load)
     {
@@ -139,6 +134,14 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pTextureShader->SetTexture3();
     }
+
+    if (g_pMapDataManager->GetTabType() == E_TERRAIN_TAB)
+    {
+        m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
+            m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
+            m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
+    }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
@@ -148,7 +151,7 @@ HRESULT cMapTerrainTool::Update()
     }
     else if (g_pMapDataManager->GetTabType() == E_WATER_TAB)
     {
-        m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
+        m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent, m_stWaterInfo.fDensity);
         
         // 물 파일을 새로 셋팅해야 하면
         if (m_isSetWaterFile)
@@ -204,7 +207,22 @@ HRESULT cMapTerrainTool::Update()
         //D3DXLoadMeshFromX("Map.x", NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
         //m_pTextureShader->SetMesh(m_pMesh);
 	}
-
+    else if (g_pKeyManager->isStayKeyDown('Z'))
+    {
+        m_stWaterInfo.fDensity += 0.2f;
+        if (m_stWaterInfo.fDensity >= 120)
+        {
+            m_stWaterInfo.fDensity = 120.0f;
+        }
+    }
+    else if (g_pKeyManager->isStayKeyDown('X'))
+    {
+        m_stWaterInfo.fDensity -= 0.2f;
+        if (m_stWaterInfo.fDensity <= 0.2f)
+        {
+            m_stWaterInfo.fDensity = 0.2f;
+        }
+    }
 	return S_OK;
 }
 
@@ -224,10 +242,9 @@ HRESULT cMapTerrainTool::Render()
     g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
+   
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
 
-    m_pSkyBoxShader->Render(vP);
-    
     m_pTextureShader->Render();
 
     if (m_isWaterEnable)
@@ -239,6 +256,14 @@ HRESULT cMapTerrainTool::Render()
 
    
 	return S_OK;
+}
+
+HRESULT cMapTerrainTool::RenderSkyBox()
+{
+    Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
+
+    m_pSkyBoxShader->Render(vP);
+    return S_OK;
 }
 
 // 마우스 왼쪽 버튼 클릭 했을 때 발동
