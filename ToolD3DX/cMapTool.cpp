@@ -197,10 +197,12 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     float f;
     bool b;
     string s;
+    
     string tex1 = jLoad["texture"]["tex1"]["key"];
     g_pMapDataManager->SetTex1FileName(tex1);
-    f = jLoad["texture"]["tex1"]["density"];
-    g_pMapDataManager->SetTex1Density(f);
+    float den1 = jLoad["texture"]["tex1"]["density"];
+    g_pMapDataManager->SetTex1Density(den1);
+
     string tex2 = jLoad["texture"]["tex2"]["key"];
     g_pMapDataManager->SetTex2FileName(tex2);
     f = jLoad["texture"]["tex2"]["density"];

@@ -845,3 +845,8 @@ void cTextureTab::OnClickedTex3LoadButton()
         }
     }
 }
+
+void cTextureTab::Update()
+{
+    m_fTex1Density = g_pMapDataManager->GetTex1Density();
+}

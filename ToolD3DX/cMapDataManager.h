@@ -80,26 +80,19 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF(float, m_fObjRotX, ObjRotX);								// 오브젝트 X축 회전
 	SYNTHESIZE_PASS_BY_REF(float, m_fObjRotY, ObjRotY);								// 오브젝트 Y축 회전
 	SYNTHESIZE_PASS_BY_REF(float, m_fObjRotZ, ObjRotZ);								// 오브젝트 Z축 회전
-
-	
-    SYNTHESIZE_PASS_BY_REF(E_OBJECT_BUTTON_STATE, m_eObjectButtonState, ObjectButtonState);  // 오브젝트 탭 버튼 클릭 상태 
-    
-    // BLOCK_EDIT
-    SYNTHESIZE_PASS_BY_REF(E_BLOCK_BUTTON_STATE, m_eBlockButtonState, BlockButtonState);  // 오브젝트 탭 버튼 클릭 상태 
-	SYNTHESIZE_PASS_BY_REF(string, m_SelectBlockGroupName, SelectedBlockGroupName);       // 최근 선택한 블록 그룹 
-
-
-	
+    SYNTHESIZE_PASS_BY_REF(E_OBJECT_BUTTON_STATE, m_eObjectButtonState, ObjectButtonState);  // 오브젝트 만들기 버튼 클릭 상태 
+    SYNTHESIZE_PASS_BY_REF(E_BLOCK_BUTTON_STATE, m_eBlockButtonState, BlockButtonState);     // 블록 그룹 만들기 버튼 클릭 상태 
+	SYNTHESIZE_PASS_BY_REF(string, m_SelectBlockGroupName, SelectedBlockGroupName);          // 최근 선택한 블록 그룹 
 	SYNTHESIZE_PASS_BY_REF(string, m_strFilePath, FilePath);							// x파일 파일경로
 	SYNTHESIZE_PASS_BY_REF(string, m_strFileName, FileName);							// x파일 이름 .x 로 끝남
 	SYNTHESIZE_PASS_BY_REF(string, m_sFileKey,  FileKey);								// x파일 파일경로에서 읽었던 파일의 키값
-
     // 리스트 포인터 
     SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pObjListBox, ObjListBox);                 // 오브젝트 리스트 박스
     SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pBlockGroupListBox, BlockGroupListBox);   // 블록그룹 리스트 박스 
-    
 	// 파일 경로 (불러오는)
 	SYNTHESIZE_PASS_BY_REF(string, m_sFolderPath, FolderPath);
+    // 블록그룹 만든 숫자
+    SYNTHESIZE_PASS_BY_REF(int, m_nBlockMakeNum, BlockMakeNum);
 
 private:
     cMapTool*       m_pMapTool;
@@ -109,4 +102,3 @@ public:
     json SaveMapData(string strFilePath, string strFileTitle);
     void LoadMapData(string sFilePath, string sFileTitle);
 };
-

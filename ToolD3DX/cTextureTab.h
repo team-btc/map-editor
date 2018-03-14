@@ -101,4 +101,6 @@ public:
     afx_msg void OnClickedTex1LoadButton();
     afx_msg void OnClickedTex2LoadButton();
     afx_msg void OnClickedTex3LoadButton();
+
+    void Update();
 };

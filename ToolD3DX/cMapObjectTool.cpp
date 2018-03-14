@@ -724,76 +724,97 @@ void cMapObjectTool::SaveByJson(json& jSave)
        }
        innerRoot[BG].push_back(block_group);
    }
+
+   innerRoot[OBJ_SET][OBJ_OBJ_NUM] = (int)m_nObjectMakeTotalNum;
+   innerRoot[OBJ_SET][OBJ_BLOCK_NUM] = (int)g_pMapDataManager->GetBlockMakeNum();
+
 }
 
 void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
 {
-	json json;
-	ifstream i;
+    json json;
+    ifstream i;
     string fullPath = sFilePath + "\\" + sFileTitle + ".json";
     i.open(fullPath.c_str());
-    
+
     i >> json;
-	i.close();
+    i.close();
 
-	// 벡터 및 리스트 초기화 
-	ClearObjectNBlock();
+    // 벡터 및 리스트 초기화 
+    ClearObjectNBlock();
 
-	// Object
-	for (int i = 0; i < json[OBJ].size(); i++)
-	{
-		string key = json[OBJ][i][OBJ_KEY];
-		string path = json[OBJ][i][OBJ_PATH];
-		string name = json[OBJ][i][OBJ_NAME];
+    // Object
+    for (int i = 0; i < json[OBJ].size(); i++)
+    {
+        string key = json[OBJ][i][OBJ_KEY];
+        string path = json[OBJ][i][OBJ_PATH];
+        string name = json[OBJ][i][OBJ_NAME];
 
-		Vector3 scale;
-		scale.z = scale.y = scale.x = (float)json[OBJ][i][OBJ_SCALE];
+        Vector3 scale;
+        scale.z = scale.y = scale.x = (float)json[OBJ][i][OBJ_SCALE];
 
-		Vector3 rot;
-		rot.x = (float)json[OBJ][i][OBJ_ROTX];
-		rot.y = (float)json[OBJ][i][OBJ_ROTY];
-		rot.z = (float)json[OBJ][i][OBJ_ROTZ];
+        Vector3 rot;
+        rot.x = (float)json[OBJ][i][OBJ_ROTX];
+        rot.y = (float)json[OBJ][i][OBJ_ROTY];
+        rot.z = (float)json[OBJ][i][OBJ_ROTZ];
 
-		Vector3 pos;
-		pos.x = (float)json[OBJ][i][OBJ_POSX];
-		pos.y = (float)json[OBJ][i][OBJ_POSY];
-		pos.z = (float)json[OBJ][i][OBJ_POSZ];
+        Vector3 pos;
+        pos.x = (float)json[OBJ][i][OBJ_POSX];
+        pos.y = (float)json[OBJ][i][OBJ_POSY];
+        pos.z = (float)json[OBJ][i][OBJ_POSZ];
 
-		cMapObject* object = new cMapObject(key, path, name);
+        cMapObject* object = new cMapObject(key, path, name);
 
-		object->Setup(scale, rot, pos);
-		object->SetCollision((bool)json[OBJ][i][OBJ_COL]);
-		object->SetDestruction((bool)json[OBJ][i][OBJ_DES]);
-		object->SetEnemy((bool)json[OBJ][i][OBJ_ENE]);
-		object->SetId(i);
+        object->Setup(scale, rot, pos);
+        object->SetCollision((bool)json[OBJ][i][OBJ_COL]);
+        object->SetDestruction((bool)json[OBJ][i][OBJ_DES]);
+        object->SetEnemy((bool)json[OBJ][i][OBJ_ENE]);
+        object->SetId(i);
 
-		m_vecObjects.push_back(object);
-	}
+        m_vecObjects.push_back(object);
+    }
 
-	// Block
-	for (int i = 0; i < json[BG].size(); i++)
-	{
-		ST_BLOCK_GROUP* bgroup = new ST_BLOCK_GROUP;
-		string name = json[BG][i][BG_NAME];
-		bgroup->GroupName = name;
-		g_pMapDataManager->GetBlockGroupListBox()->AddString(bgroup->GroupName.c_str());
+    // Block
+    for (int i = 0; i < json[BG].size(); i++)
+    {
+        ST_BLOCK_GROUP* bgroup = new ST_BLOCK_GROUP;
+        string name = json[BG][i][BG_NAME];
+        bgroup->GroupName = name;
+        g_pMapDataManager->GetBlockGroupListBox()->AddString(bgroup->GroupName.c_str());
 
-		int red = rand() % 256;
-		int green = rand() % 256;
-		int blue = rand() % 256;
+        int red = rand() % 256;
+        int green = rand() % 256;
+        int blue = rand() % 256;
 
-		bgroup->GroupColor = D3DCOLOR_ARGB(255, red, green, blue);
+        bgroup->GroupColor = D3DCOLOR_ARGB(255, red, green, blue);
 
-		for (int j = 0; j < json[BG][i][BG_POINT].size(); j++)
-		{
-			Vector3 pos;
-			pos.x = (float)json[BG][i][BG_POINT][j][BG_PO_X];
-			pos.y = (float)json[BG][i][BG_POINT][j][BG_PO_Y];
-			pos.z = (float)json[BG][i][BG_POINT][j][BG_PO_Z];
-			bgroup->vecPoints.push_back(ST_PC_VERTEX(pos, bgroup->GroupColor));
-		}
-		m_vecBlockGroups.push_back(bgroup);
-	}
+        for (int j = 0; j < json[BG][i][BG_POINT].size(); j++)
+        {
+            Vector3 pos;
+            pos.x = (float)json[BG][i][BG_POINT][j][BG_PO_X];
+            pos.y = (float)json[BG][i][BG_POINT][j][BG_PO_Y];
+            pos.z = (float)json[BG][i][BG_POINT][j][BG_PO_Z];
+            bgroup->vecPoints.push_back(ST_PC_VERTEX(pos, bgroup->GroupColor));
+        }
+        m_vecBlockGroups.push_back(bgroup);
+    }
+
+    int num = (int)json[OBJ_SET].size();
+
+    if (num > 0)
+    {
+        // 누적 생성 숫자 세팅하기 
+        int objectNum = (int)json[OBJ_SET][OBJ_OBJ_NUM];
+        m_nObjectMakeTotalNum = objectNum;
+        int blockNum = (int)json[OBJ_SET][OBJ_BLOCK_NUM];
+        g_pMapDataManager->SetBlockMakeNum(blockNum);
+    }
+    else
+    {
+        int interval = 100;
+        m_nObjectMakeTotalNum = interval;
+        g_pMapDataManager->SetBlockMakeNum(interval);
+    }
 }
 
 void cMapObjectTool::ClearObjectNBlock()

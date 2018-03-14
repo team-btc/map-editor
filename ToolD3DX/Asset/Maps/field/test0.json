@@ -1,0 +1,97 @@
+{
+    "OBJECT": [
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": true,
+            "OBJECT_FILE_KEY": "zealot",
+            "OBJECT_FILE_NAME": "zealot.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Unit\\Zealot",
+            "OBJECT_POSITION_X": 151.226226806641,
+            "OBJECT_POSITION_Y": 143.788696289063,
+            "OBJECT_POSITION_Z": 135.734283447266,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 4.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": true,
+            "OBJECT_FILE_KEY": "zealot",
+            "OBJECT_FILE_NAME": "zealot.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Unit\\Zealot",
+            "OBJECT_POSITION_X": 121.515319824219,
+            "OBJECT_POSITION_Y": 155.526763916016,
+            "OBJECT_POSITION_Z": 105.235260009766,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 4.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": true,
+            "OBJECT_FILE_KEY": "zealot",
+            "OBJECT_FILE_NAME": "zealot.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Unit\\Zealot",
+            "OBJECT_POSITION_X": 143.307464599609,
+            "OBJECT_POSITION_Y": 142.230072021484,
+            "OBJECT_POSITION_Z": 81.0189590454102,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 4.0
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": true,
+            "OBJECT_FILE_KEY": "zealot",
+            "OBJECT_FILE_NAME": "zealot.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Unit\\Zealot",
+            "OBJECT_POSITION_X": 108.610008239746,
+            "OBJECT_POSITION_Y": 163.826049804688,
+            "OBJECT_POSITION_Z": 76.7369689941406,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 4.0
+        }
+    ],
+    "OBJECT_TAB_SETTING": {
+        "OBJECT_TAB_BLOCK_MAKE_NUM": -1,
+        "OBJECT_TAB_OBJECT_MAKE_NUM": 4
+    },
+    "skybox": {
+        "key": "DeepNight.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 39.0,
+            "key": "Lava.jpg"
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "Grass.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "file_name": "magma.jpg",
+        "file_path": "C:\\Users\\choi\\Desktop\\work\\latest fix\\map-editor\\ToolD3DX\\Texture",
+        "frequency": 11.1000003814697,
+        "height": 131.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.400000005960464,
+        "uvspeed": 0.00999999977648258,
+        "waveheight": 0.300000011920929
+    }
+}

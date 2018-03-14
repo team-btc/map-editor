@@ -6,6 +6,11 @@
 #define BLOCK_RADIUS  (2.0f)
 #define NO_NAME ("None")
 
+// OBJECT_TAB 관련
+#define OBJ_SET       ("OBJECT_TAB_SETTING")
+#define OBJ_OBJ_NUM   ("OBJECT_TAB_OBJECT_MAKE_NUM")
+#define OBJ_BLOCK_NUM ("OBJECT_TAB_BLOCK_MAKE_NUM")
+
 // OBJECT 관련
 #define OBJ         ("OBJECT")
 #define OBJ_KEY     ("OBJECT_FILE_KEY")
@@ -75,7 +80,6 @@ private:
     E_BLOCK_BUTTON_STATE&        m_eBlockButtonState;
 	string&					     m_SelectedBlockGroupName;
     int                          m_nCurWorkingBlockGroupIndex;
-    
     // 참조용 
     cMapTerrainTool*             m_pTerrainTool;
 public:

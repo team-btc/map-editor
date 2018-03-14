@@ -38,7 +38,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
     , m_eBlockButtonState(g_pMapDataManager->GetBlockButtonState())
     , m_pBlockGroupListBox(g_pMapDataManager->GetBlockGroupListBox())
 	, m_SelectBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
-    , m_nBlockGroupMakeNum(-1)
+    , m_nBlockGroupMakeNum(g_pMapDataManager->GetBlockMakeNum())
 {
 	ST_OBJ_FILE stObjHouse;
 	stObjHouse.strRoot = "HOUSE";
@@ -57,6 +57,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
     m_eBlockButtonState = E_BLOCK_BTN_MAX;
 	m_SelectBlockGroupName = NO_NAME;
     
+    m_nBlockGroupMakeNum = -1;
     m_isCollision = false;
     m_isDestruction = false;
     m_isEnemy = false;
@@ -97,14 +98,15 @@ BOOL cObjectTab::OnInitDialog()
 	m_pObjSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_OBJECT_SIZE_SLI);
 	m_pObjSizeEditCtl = (CEdit*)GetDlgItem(IDC_OBJECT_SIZE_EDI);
 	
+   
 	// 오브젝트 사이즈 슬라이더 기본 설정
-	m_pObjSizeSliderCtl->SetRange(0, 20);		// 사용영역 값 설정
+	m_pObjSizeSliderCtl->SetRange(0, 200);		// 사용영역 값 설정
 	m_pObjSizeSliderCtl->SetRangeMin(0);		// 최소 값 설정
-	m_pObjSizeSliderCtl->SetRangeMax(20);		// 최대 값 설정
-	m_pObjSizeSliderCtl->SetPos(m_fObjSize);	// 위치 설정
-	m_pObjSizeSliderCtl->SetTicFreq(1);		    // 눈금 간격 설정
-	m_pObjSizeSliderCtl->SetLineSize(0.1f);		// 증가 크기(키보드로 컨트롤 할 때)
-	m_pObjSizeSliderCtl->SetPageSize(0.1f);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+	m_pObjSizeSliderCtl->SetRangeMax(200);		// 최대 값 설정
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize * 100.0f);	// 위치 설정
+	m_pObjSizeSliderCtl->SetTicFreq(5);		    // 눈금 간격 설정
+	m_pObjSizeSliderCtl->SetLineSize(1);		// 증가 크기(키보드로 컨트롤 할 때)
+	m_pObjSizeSliderCtl->SetPageSize(5);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 오브젝트 사이즈 출력
 	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
@@ -364,10 +366,13 @@ void cObjectTab::OnChangeObjectSizeEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fObjSize = (float)GetDlgItemInt(IDC_OBJECT_SIZE_EDI);
+    CString size; 
+    GetDlgItemText(IDC_OBJECT_SIZE_EDI, size);
+
+    m_fObjSize = atof(size.GetString());
 
 	// 슬라이더 위치 설정
-	m_pObjSizeSliderCtl->SetPos(m_fObjSize);		// 위치 설정
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize * 10.0f);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pObjSizeEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -393,7 +398,7 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	// Down 버튼 눌렀을 경우
 	else
 	{
-		if (m_fObjSize <= 1)
+		if (m_fObjSize <= 0)
 		{
 			return;
 		}
@@ -401,10 +406,12 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, m_fObjSize);
+    char buffer[10];
+    sprintf(buffer, "%.1f", m_fObjSize);
+    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
 	// 슬라이더 위치 설정
-	m_pObjSizeSliderCtl->SetPos(m_fObjSize);		// 위치 설정
+	m_pObjSizeSliderCtl->SetPos(m_fObjSize * 10.0f);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -416,10 +423,12 @@ void cObjectTab::OnCustomDrawObjectSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 오브젝트 사이즈 넣기
-	m_fObjSize = (float)m_pObjSizeSliderCtl->GetPos();
+	m_fObjSize = m_pObjSizeSliderCtl->GetPos() * 0.1f;
 
 	// 오브젝트 사이즈 출력
-	SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (m_fObjSize));
+    char buffer[10];
+    sprintf(buffer, "%.1f", m_fObjSize);
+    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
 	*pResult = 0;
 }
@@ -888,7 +897,7 @@ void cObjectTab::OnLbnSelchangeBlockGroupListLis()
 #pragma endregion
 void cObjectTab::Update()
 {
-    m_pObjSizeSliderCtl->SetPos(m_fObjSize);   // Scale 위치 설정 
+    //m_pObjSizeSliderCtl->SetPos(m_fObjSize);   // Scale 위치 설정 
     m_pObjRotXSliderCtl->SetPos((int)m_fObjRotX);   // RotX 위치 설정
     m_pObjRotYSliderCtl->SetPos((int)m_fObjRotY);   // RotY 위치 설정
     m_pObjRotZSliderCtl->SetPos((int)m_fObjRotZ);   // RotZ 위치 설정

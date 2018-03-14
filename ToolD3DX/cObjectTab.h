@@ -71,7 +71,7 @@ private:
     E_BLOCK_BUTTON_STATE&   m_eBlockButtonState;       // 블록 관련 버튼 상태 
     CListBox*&				m_pBlockGroupListBox;	   // 만들어진 블록그룹 리스트
     string&					m_SelectBlockGroupName;    // 현재 선택한 블록 그륩
-    int                     m_nBlockGroupMakeNum;      // 블록 그룹을 만든 횟수 
+    int&                    m_nBlockGroupMakeNum;      // 블록 그룹을 만든 횟수 
 
 public:
 	cObjectTab(CWnd* pParent = nullptr);   // 표준 생성자입니다.
