@@ -154,6 +154,9 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
     ofstream o;
     o.open(strFilePath + "/" + strFileTitle + ".json");
 
+    // 맵사이즈 저장
+    save["map"]["size"] = (int)g_pMapDataManager->GetMapSize();
+
     save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
     save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
     save["texture"]["tex2"]["key"] = g_pMapDataManager->GetTex2FileName();
@@ -197,6 +200,11 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     i.open(sFilePath + "\\" + sFileTitle + ".json");
     i >> jLoad;
     i.close();
+
+    //======= 맵사이즈
+    E_MAP_SIZE size = (E_MAP_SIZE)jLoad["map"]["size"];
+    g_pMapDataManager->GetMapSize() = size;
+    CreateMap();
 
     //======== 텍스쳐 1, 2, 3 세팅 ===========//
     // 텍스쳐1

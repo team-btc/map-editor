@@ -780,6 +780,9 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         cMapObject* object = new cMapObject(key, path, name);
 
         object->Setup(scale, rot, pos);
+        object->SetKey(key);
+        object->SetFileName(name);
+        object->SetFilePath(path);
         object->SetCollision((bool)json[OBJ][i][OBJ_COL]);
         object->SetDestruction((bool)json[OBJ][i][OBJ_DES]);
         object->SetEnemy((bool)json[OBJ][i][OBJ_ENE]);

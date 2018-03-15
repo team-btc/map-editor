@@ -1,4 +1,7 @@
 {
+	"map": {
+        "size": 7
+    },
     "skybox": {
         "key": "MidNight.dds"
     },
@@ -28,4 +31,5 @@
         "uvspeed": 0.0,
         "waveheight": 0.0
     }
+
 }
