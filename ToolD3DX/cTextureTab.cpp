@@ -20,12 +20,12 @@ cTextureTab::cTextureTab(CWnd* pParent /*=nullptr*/)
     , m_pBrushDenSizeEditCtl(NULL)
 	, m_pBrushDensitySliderCtl(NULL)
 	, m_pBrushDensityEditCtl(NULL)
-    , m_pTex1DensitySliderCtl(NULL)
-    , m_pTex1DensityEditCtl(NULL)
-    , m_pTex2DensitySliderCtl(NULL)
-    , m_pTex2DensityEditCtl(NULL)
-    , m_pTex3DensitySliderCtl(NULL)
-    , m_pTex3DensityEditCtl(NULL)
+    , m_pTex1DensitySliderCtl(g_pMapDataManager->GetTex1DensitySliderCtl())
+    , m_pTex1DensityEditCtl(g_pMapDataManager->GetTex1DensityEditCtl())
+    , m_pTex2DensitySliderCtl(g_pMapDataManager->GetTex2DensitySliderCtl())
+    , m_pTex2DensityEditCtl(g_pMapDataManager->GetTex2DensityEditCtl())
+    , m_pTex3DensitySliderCtl(g_pMapDataManager->GetTex3DensitySliderCtl())
+    , m_pTex3DensityEditCtl(g_pMapDataManager->GetTex3DensityEditCtl())
     , m_isTex1Load(g_pMapDataManager->GetIsTex1Load())
     , m_isTex2Load(g_pMapDataManager->GetIsTex2Load())
     , m_isTex3Load(g_pMapDataManager->GetIsTex3Load())
@@ -848,5 +848,25 @@ void cTextureTab::OnClickedTex3LoadButton()
 
 void cTextureTab::Update()
 {
-    m_fTex1Density = g_pMapDataManager->GetTex1Density();
+	// 언젠간 바꾸기 
+	CString tex1; 
+	GetDlgItemText(IDC_TEX1_FILE_NAME_STA, tex1);
+	if (tex1.GetString() != m_strTex1FileName)
+	{
+		SetDlgItemText(IDC_TEX1_FILE_NAME_STA, m_strTex1FileName.c_str());
+	}
+
+	CString tex2;
+	GetDlgItemText(IDC_TEX2_FILE_NAME_STA, tex2);
+	if (tex2.GetString() != m_strTex2FileName)
+	{
+		SetDlgItemText(IDC_TEX2_FILE_NAME_STA, m_strTex2FileName.c_str());
+	}
+
+	CString tex3;
+	GetDlgItemText(IDC_TEX3_FILE_NAME_STA, tex3);
+	if (tex3.GetString() != m_strTex3FileName)
+	{
+		SetDlgItemText(IDC_TEX3_FILE_NAME_STA, m_strTex3FileName.c_str());
+	}
 }

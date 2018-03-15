@@ -2,6 +2,7 @@
 
 #define BLOCK_GROUP_NAME  ("GROUP_")
 #define NO_NAME           ("None")
+#define INIT_FOLDER		  ("\\Unit");
 
 // cObjectTab 대화 상자
 

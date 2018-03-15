@@ -374,7 +374,7 @@ void cObjectTab::OnChangeObjectSizeEditer()
     // 슬라이더 위치 설정
     m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 10.0f));		// 위치 설정
 
-                                                            // 커서를 맨 뒤로 셋팅
+                                                                // 커서를 맨 뒤로 셋팅
     m_pObjSizeEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
     m_pObjSizeEditCtl->SetFocus();		// 포커스를 맞춤
     m_pObjSizeEditCtl->SetSel(-1, -1);	// 커서를 맨 뒤로 보냄
@@ -698,11 +698,24 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
     {
         OnBnClickedBlockGroupEndButton();
     }
-    char current_path[MAX_PATH];
-    GetCurrentDirectory(MAX_PATH, current_path);
+
+    // 현재 폴더 경로 
+    char currentDirectory[_MAX_PATH];
+    GetCurrentDirectory(_MAX_PATH, currentDirectory);
+
+    //GetModuleFileName(NULL, currentDirectory, _MAX_PATH);
+    //Getcurrentrun
+    CString folderName = INIT_FOLDER;
+    string guidedPath = currentDirectory + folderName;
+
     // 확장자 필터
-    LPSTR szFilter = "X Files (*.x) |*.X|";
-    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+    LPSTR szFilter = "X Files (*.x) |*.X||";
+    CFileDialog FileDialog(TRUE, NULL, NULL, OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, szFilter, this);
+
+    //string str = currentDirectory;
+    //str += +"\\Unit";
+    //FileDialog.m_ofn.lpstrInitialDir = guidedPath.c_str();
+
     string text;
     string caption = "X파일 불러오기";
 
@@ -715,8 +728,10 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
         if (check == "X" || check == "x")
         {
             m_sFileKey = FileDialog.GetFileTitle();
-            m_strFilePath = FileDialog.GetFolderPath().GetString();
-            m_strFileName = FileDialog.GetFileName().GetString();
+            m_strFilePath = FileDialog.GetFolderPath();
+
+            m_strFileName = FileDialog.GetFileName();
+
 
             // 맵 데이터 매니져에 정보 세팅하기	
             g_pMapDataManager->SetFileKey(m_sFileKey);
@@ -744,6 +759,7 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
         }
     }
 }
+
 // Locate 버튼
 void cObjectTab::OnBnClickedObjLocateButton()
 {
@@ -912,5 +928,3 @@ void cObjectTab::Update()
     // 작업중인 블록 그룹 갱신 
     SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_SelectBlockGroupName.c_str());
 }
-
-

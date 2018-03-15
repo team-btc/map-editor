@@ -216,7 +216,17 @@ HRESULT cMapObjectTool::Render()
                 g_pMapDataManager->GetObjectButtonState() == E_OBJ_TAB_BTN_REMOVE)
             {
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-                g_pDevice->SetTransform(D3DTS_WORLD, &m_vecObjects[i]->GetWorldMatrix());
+                if (m_vecObjects[i]->GetScale().x <= SCALE_FIX)
+                {
+                    Matrix4 matS, matWorld;
+                    D3DXMatrixScaling(&matS, SCALE_FIX, SCALE_FIX, SCALE_FIX);
+                    matWorld = matS * m_vecObjects[i]->GetRotMatrix() * m_vecObjects[i]->GetTransMatrix();
+                    g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+                }
+                else
+                {
+                    g_pDevice->SetTransform(D3DTS_WORLD, &m_vecObjects[i]->GetWorldMatrix());
+                }
                 m_SphereMesh->DrawSubset(0);
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
             }
@@ -479,7 +489,7 @@ void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
     {
         if (g_pMapDataManager->GetObjectButtonState() != E_OBJ_TAB_BTN_MAX)
         {
-
+            m_eObjectButtonState = E_OBJ_TAB_BTN_MAX;
         }
 
         if (g_pMapDataManager->GetBlockButtonState() != E_BLOCK_BTN_MAX)
@@ -492,7 +502,6 @@ void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
 // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
 void cMapObjectTool::StayLButtonDown()
 {
-    ;
 }
 
 int cMapObjectTool::PickObject()
@@ -504,6 +513,12 @@ int cMapObjectTool::PickObject()
         {
             //Ray 구 충돌 일때 
             float radius = m_vecObjects[i]->GetScale().x; // 그냥 스케일을 반지름으로 잡고 하자 
+
+            if (radius <= SCALE_FIX)
+            {
+                radius = SCALE_FIX;
+            }
+
             if (CollideRayNCircle(ray, m_vecObjects[i]->GetPositon(), radius))
             {
                 return m_vecObjects[i]->GetId();
