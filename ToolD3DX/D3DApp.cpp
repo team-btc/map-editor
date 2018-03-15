@@ -30,14 +30,14 @@ HRESULT CD3DApp::InitD3D(HWND hWnd)
     d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE; // 즉시 플리핑, 기본은 D3D가 플리핑 시점을 정함
 
     if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-                                    D3DCREATE_HARDWARE_VERTEXPROCESSING,
-                                    &d3dpp, &m_pd3dDevice)))
+        D3DCREATE_HARDWARE_VERTEXPROCESSING,
+        &d3dpp, &m_pd3dDevice)))
     {
         return E_FAIL;
     }
 
     g_pDeviceManager->SetDevice(m_pd3dDevice);
-    
+
     OnInit();
 
     return S_OK;
@@ -51,7 +51,7 @@ void CD3DApp::Render()
     // Clear the backbuffer to a blue color
     g_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
         D3DCOLOR_XRGB(45, 50, 170), 1.0f, 0);
- 
+
     // Begin the scene
     g_pDevice->BeginScene();
     OnRender();

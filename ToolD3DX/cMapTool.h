@@ -15,16 +15,16 @@ class cMapObjectTool;
 class cMapTool : public cObject
 {
 private:
-    E_TAB_TYPE&                 m_eCurrTabType;                                     // 탭 상태                
+    E_TAB_TYPE & m_eCurrTabType;                                     // 탭 상태                
 
     cRay*                       m_pRay;
     Vector3                     m_vPickPos;                                                  // 마우스 픽킹 좌표
 
-	cMapTerrainTool*			m_pTerrainTool;
-	cMapObjectTool*				m_pObjectTool;
+    cMapTerrainTool*			m_pTerrainTool;
+    cMapObjectTool*				m_pObjectTool;
 
-	E_MAP_SIZE&					m_eMapSize;											// 맵 사이즈
-	float&						m_fDefaultHeight;									// 맵 기본 높이 값
+    E_MAP_SIZE&					m_eMapSize;											// 맵 사이즈
+    float&						m_fDefaultHeight;									// 맵 기본 높이 값
     bool&                       m_isTex1Load;                                       // 기본 텍스쳐1 로드 여부
     bool&                       m_isTex2Load;                                       // 기본 텍스쳐2 로드 여부
     bool&                       m_isTex3Load;                                       // 기본 텍스쳐3 로드 여부
@@ -42,11 +42,11 @@ public:
     cMapTool();
     ~cMapTool();
 
-	HRESULT Setup();
-	HRESULT Update();
-	HRESULT Render();
+    HRESULT Setup();
+    HRESULT Update();
+    HRESULT Render();
 
-	HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
+    HRESULT CreateMap();						                                    // Create버튼을 눌렀을 때 발동
     json SaveByJson(string strFilePath, string strFileTitle);
     void LoadByJson(string sFilePath, string sFileTitle);
     HRESULT GetPtMouse();                                                           // 마우스 위치 가져오기

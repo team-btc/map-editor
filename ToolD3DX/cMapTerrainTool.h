@@ -45,19 +45,19 @@ struct ST_TEX_BRUSH_INFO {
     float&                          m_fTex3Density;                                 // 텍스쳐3 밀도
     ST_TEX_BRUSH_INFO(int& _iCTI, float& _fDD, float& _fBS, float& _fBDS, E_DRAW_TYPE& _eDT, float& _fTD1, float& _fTD2, float& _fTD3)
         : m_nCurrTextureIndex(_iCTI), fDrawDensity(_fDD)
-        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT), m_fTex1Density(_fTD1), m_fTex2Density(_fTD2), m_fTex3Density(_fTD3){}
+        , fTextureBrushSize(_fBS), fTextureBrushSpraySize(_fBDS), m_eDrawType(_eDT), m_fTex1Density(_fTD1), m_fTex2Density(_fTD2), m_fTex3Density(_fTD3) {}
 
 };
 
 // 물 정보
 struct ST_WATER_INFO {
-	//Vector2							vPosition;									// 물의 중앙 위치
-	float&						    fHeight;										// 물의 높이
-	float&						    fUVSpeed;										// UV 스피드
+    //Vector2							vPosition;									// 물의 중앙 위치
+    float&						    fHeight;										// 물의 높이
+    float&						    fUVSpeed;										// UV 스피드
     float&                          fWaveHeight;                                    // 물의 진폭
     float&                          fHeightSpeed;                                   // 물의 상하 스피드
     float&                          fFrequency;                                     // 물결 간격
-	float&						    fTransparent;									// 물의 투명값
+    float&						    fTransparent;									// 물의 투명값
     float&                          fDensity;                                       // 물의 밀도
     ST_WATER_INFO(float& _fH, float& _fUVS, float& _fWH, float& _fHS, float& _fF, float& _fT, float& _fD)
         : fHeight(_fH), fUVSpeed(_fUVS), fWaveHeight(_fWH)
@@ -69,22 +69,22 @@ class cMapTerrainTool : public cObject
 private:
     POINT                           m_ptMapSize;                                    // 맵 크기
 
-	vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
-	vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
-    
+    vector<ST_PNT_VERTEX>           m_vecPNTVertex;                                 // 맵에 사용할 점 벡터
+    vector<DWORD>                   m_vecVertexIndex;                               // Height맵 좌표 인덱스 벡터
+
     vector<ST_PNT_VERTEX>           m_vecWPNTVertex;                                 // 물 맵에 사용할 점 벡터
     vector<DWORD>                   m_vecWVertexIndex;                               // 물 Height맵 좌표 인덱스 벡터
 
-	ST_WATER_INFO			        m_stWaterInfo;									// 물정보
+    ST_WATER_INFO			        m_stWaterInfo;									// 물정보
 
-	ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
+    ST_TER_BRUSH_INFO				m_stTerrainBrushInfo;							// 지형 브러쉬 정보
     ST_TEX_BRUSH_INFO				m_stTextureBrushInfo;							// 텍스쳐 브러쉬 정보
 
     vector<string>                  m_vecTextureKey;                                // 텍스쳐 키값 벡터
 
-	string                          m_sFileName;                                    // 파일 이름
+    string                          m_sFileName;                                    // 파일 이름
 
-	LPD3DXMESH						m_pMesh;										// 매쉬
+    LPD3DXMESH						m_pMesh;										// 매쉬
     LPD3DXMESH						m_pWMesh;										// 물 매쉬
 
     Vector3*                        m_vPickPos;                                     // 픽킹 위치
@@ -112,8 +112,8 @@ private:
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:
-	HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
-	HRESULT LoadFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 로드하기
+    HRESULT SaveFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 저장하기
+    HRESULT LoadFile(IN string sFolderName, IN string sFileName);							 // 지형맵 파일 로드하기
 
     void EditTerrain();                                                                      // 지형 편집 메인 함수
     void EditHeight();                                                                       // 지형 높이 편집
@@ -131,9 +131,9 @@ public:
     cMapTerrainTool();
     ~cMapTerrainTool();
 
-	HRESULT Setup();
+    HRESULT Setup();
     HRESULT Update();
-	HRESULT Render();
+    HRESULT Render();
     HRESULT RenderSkyBox();
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
@@ -143,19 +143,19 @@ public:
     void SaveMapData(string strFilePath, string strFileTitle);                                                                              // 맵데이터 저장
     void LoadMapData(string sFilePath, string sFileTitle);                                                                              // 맵데이터 로드
 
-    // == 겟터 ==
+                                                                                                                                        // == 겟터 ==
     LPD3DXMESH GetMesh() { return m_pMesh; }
     // == 셋터 ==
-    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }   
+    void SetPickPos(Vector3* vPos) { m_vPickPos = vPos; }
 
-	void SetWave(string fileName, string filePath)
-	{
-		if (m_pWaveShader)
-		{
-			m_pWaveShader->SetWaveTexture(filePath, fileName);
-		}
-	}
-    
+    void SetWave(string fileName, string filePath)
+    {
+        if (m_pWaveShader)
+        {
+            m_pWaveShader->SetWaveTexture(filePath, fileName);
+        }
+    }
+
     void SetTerrainTexture()
     {
         m_pTextureShader->SetTexture1();

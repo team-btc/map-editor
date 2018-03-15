@@ -5,13 +5,13 @@ class cMapObject
 {
 private:
     // 내부에서 활용할 값 //
-    cSkinnedMesh*           m_pSkinnedMesh;     // 스킨드 메쉬
+    cSkinnedMesh * m_pSkinnedMesh;     // 스킨드 메쉬
     Matrix4                 m_matScale;         // 스케일, 같은 값 반복 
     Matrix4                 m_matRot;           // X,Y,Z 가 모두 적용된 매트릭스 
-    Matrix4                 m_matTrans;         
+    Matrix4                 m_matTrans;
     Matrix4                 m_matWorld;
     int                     m_nId;              // Object 벡터 내에서 식별 값 
-    // 저장할 자료 //        
+                                                // 저장할 자료 //        
     Vector3                 m_vScale;           // 스케일
     Vector3                 m_vRotXYZ;          // 회전 X, Y, Z
     Vector3                 m_vPosition;        // 위치
@@ -28,7 +28,7 @@ public:
     virtual ~cMapObject();
     /*----------- 내부 활용용 -------------*/
     // 아이디
-    int     GetId() { return m_nId; }         
+    int     GetId() { return m_nId; }
     void    SetId(int n) { m_nId = n; }
     // 월드
     Matrix4 GetWorldMatrix() { return m_matWorld; }

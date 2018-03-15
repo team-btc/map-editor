@@ -128,9 +128,9 @@ inline Vector3 ColorToNormal(Color c)
     g -= 128;
     b -= 128;
 
-    result.x = r;
-    result.y = g;
-    result.z = b;
+    result.x = (float)r;
+    result.y = (float)g;
+    result.z = (float)b;
 
     D3DXVec3Normalize(&result, &result);
 

@@ -19,7 +19,7 @@ cTextureShader::cTextureShader()
 
 cTextureShader::~cTextureShader()
 {
-  
+
 }
 
 void cTextureShader::SetTexture()
@@ -77,13 +77,13 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
-                    
+                    DWORD x = (DWORD)((1.0f - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255.0f);
+
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     x = max(lSour, x);
-                  
-                    *(pDWordDST + y) =  0x00010000 * x;
+
+                    *(pDWordDST + y) = 0x00010000 * x;
                 }
             }
             for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
@@ -96,7 +96,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    *(pDWordDST + y) =  0x00ff0000;
+                    *(pDWordDST + y) = 0x00ff0000;
                 }
             }
 
@@ -125,7 +125,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD x = (DWORD)((1.0f - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255.0f);
 
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
@@ -173,7 +173,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255);
 
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
@@ -200,7 +200,7 @@ void cTextureShader::DrawTexture()
         }
         break;
 
-    case E_DRAW_SPRAY :
+    case E_DRAW_SPRAY:
         if (m_pBrush->m_nGroundIndex == 0)
         {
             auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
@@ -224,7 +224,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)((1.0f - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255.0f * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -245,7 +245,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)(255.0f * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -282,7 +282,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -303,7 +303,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)(255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -340,7 +340,7 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -361,7 +361,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    DWORD x = (DWORD)(255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -373,49 +373,49 @@ void cTextureShader::DrawTexture()
 
             m_pAlphaDraw->UnlockRect(0);
         }
-        break; 
+        break;
 
-        case E_DRAW_ERASE :
-            auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
+    case E_DRAW_ERASE:
+        auto t = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
 
-            D3DLOCKED_RECT AlphaMap_Locked;
-            memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
-            m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
-            LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
+        D3DLOCKED_RECT AlphaMap_Locked;
+        memset(&AlphaMap_Locked, 0, sizeof(D3DLOCKED_RECT));
+        m_pAlphaDraw->LockRect(0, &AlphaMap_Locked, NULL, NULL);
+        LPBYTE pDataDST = (LPBYTE)AlphaMap_Locked.pBits;
 
 
-            for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+        for (int i = m_pBrush->m_nFarMinZ; i < m_pBrush->m_nFarMaxZ; i++)
+        {
+            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+            for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
             {
-                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-                for (int y = m_pBrush->m_nFarMinX; y < m_pBrush->m_nFarMaxX; y++)
-                {
-                    float lx = m_pBrush->m_fPickX - (float)y;
-                    float ly = m_pBrush->m_fPickZ - (float)i;
-                    float length = sqrt(lx * lx + ly * ly);
+                float lx = m_pBrush->m_fPickX - (float)y;
+                float ly = m_pBrush->m_fPickZ - (float)i;
+                float length = sqrt(lx * lx + ly * ly);
 
-                    if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
-                    {
-                        continue;
-                    }
-                    *(pDWordDST + y) = 0x00000000;
+                if (length >= m_pBrush->m_fFR)    // 원 바깥은 무시
+                {
+                    continue;
                 }
+                *(pDWordDST + y) = 0x00000000;
             }
-            for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+        }
+        for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
+        {
+            LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
+            for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
             {
-                LPDWORD pDWordDST = (LPDWORD)(pDataDST + i * AlphaMap_Locked.Pitch);
-                for (int y = m_pBrush->m_nNearMinX; y < m_pBrush->m_nNearMaxX; y++)
-                {
-                    float lx = m_pBrush->m_fPickX - (float)y;
-                    float ly = m_pBrush->m_fPickZ - (float)i;
-                    float length = sqrt(lx * lx + ly * ly);
-                    if (length > m_pBrush->m_fNR)
-                        continue;
-                    *(pDWordDST + y) = 0x00000000;
-                }
+                float lx = m_pBrush->m_fPickX - (float)y;
+                float ly = m_pBrush->m_fPickZ - (float)i;
+                float length = sqrt(lx * lx + ly * ly);
+                if (length > m_pBrush->m_fNR)
+                    continue;
+                *(pDWordDST + y) = 0x00000000;
             }
+        }
 
-            m_pAlphaDraw->UnlockRect(0);
-            break;
+        m_pAlphaDraw->UnlockRect(0);
+        break;
     }
 }
 
@@ -467,11 +467,11 @@ void cTextureShader::Render()
     m_pTextureShader->SetTexture("texture1", m_pTexture[0]);
     m_pTextureShader->SetTexture("texture2", m_pTexture[1]);
     m_pTextureShader->SetTexture("texture3", m_pTexture[2]);
-    
+
     m_pTextureShader->SetTexture("AlphaMap", m_pAlphaDraw);
 
     m_pTextureShader->SetVector("gUV", &m_pBrush->m_pPick);
-   
+
     m_pTextureShader->SetFloat("Brush_Radius", m_pBrush->m_fBrushRadius);
     m_pTextureShader->SetFloat("Spray_Radius", m_pBrush->m_fSprayRadius);
     m_pTextureShader->SetFloat("Density", m_pBrush->m_fDrawDensity);
@@ -479,18 +479,18 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
-    
-   UINT numPasses = 0;
-   m_pTextureShader->Begin(&numPasses, NULL);
-   {
-       for (UINT i = 0; i < numPasses; ++i)
-       {
-           m_pTextureShader->BeginPass(i);
-           {
-               m_pMesh->DrawSubset(0);
-           }
-           m_pTextureShader->EndPass();
-       }
-   }
-   m_pTextureShader->End();
+
+    UINT numPasses = 0;
+    m_pTextureShader->Begin(&numPasses, NULL);
+    {
+        for (UINT i = 0; i < numPasses; ++i)
+        {
+            m_pTextureShader->BeginPass(i);
+            {
+                m_pMesh->DrawSubset(0);
+            }
+            m_pTextureShader->EndPass();
+        }
+    }
+    m_pTextureShader->End();
 }

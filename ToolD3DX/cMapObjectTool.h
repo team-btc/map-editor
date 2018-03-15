@@ -50,35 +50,35 @@ private:
     };
 
 private:
-	// 오브젝트 관련
-	vector<cMapObject*>          m_vecObjects;          // Object Storage Vector
-	string                       m_strCurrentMeshName;  // Current Selected MeshName
-	LPMESH                       m_SphereMesh;					
-	bool&                        m_isObjCollison;
-	bool&                        m_isObjDestruction;
+    // 오브젝트 관련
+    vector<cMapObject*>          m_vecObjects;          // Object Storage Vector
+    string                       m_strCurrentMeshName;  // Current Selected MeshName
+    LPMESH                       m_SphereMesh;
+    bool&                        m_isObjCollison;
+    bool&                        m_isObjDestruction;
     bool&                        m_isObjEnemy;
-	float&                       m_fObjPosX;
-	float&                       m_fObjPosY;
-	float&                       m_fObjPosZ;
-	float&                       m_fObjSize;
-	float&                       m_fObjRotX;
-	float&                       m_fObjRotY;
-	float&                       m_fObjRotZ;
+    float&                       m_fObjPosX;
+    float&                       m_fObjPosY;
+    float&                       m_fObjPosZ;
+    float&                       m_fObjSize;
+    float&                       m_fObjRotX;
+    float&                       m_fObjRotY;
+    float&                       m_fObjRotZ;
 
     // 이름 바꾸기 
     int                          m_nObjectMakeTotalNum; // 지금까지 오브젝트를 만든 총 갯수(지우고 다시 만들어도 얘는 변함이 없음, 누적값이고 얘를 각 오브젝트들의 아이디로 쓸꺼임)
     int                          m_nSelectedIndex;      // 재배치, 삭제 할때 쓸 용도
-    Matrix4                      m_matScale;    
+    Matrix4                      m_matScale;
     Matrix4                      m_matRotation;
     Matrix4                      m_matTrans;
-	Vector3*				     m_pPickPos;            // MainTool 피킹 포지션과 연결된 포인터 
-	cMapObject*			         m_pFollowObject;       // 따라 다니는 녀석의 주소 
-  
-    // 블록 관련
+    Vector3*				     m_pPickPos;            // MainTool 피킹 포지션과 연결된 포인터 
+    cMapObject*			         m_pFollowObject;       // 따라 다니는 녀석의 주소 
+
+                                                        // 블록 관련
     vector<ST_BLOCK_GROUP*>      m_vecBlockGroups;
     E_OBJECT_BUTTON_STATE&       m_eObjectButtonState;
     E_BLOCK_BUTTON_STATE&        m_eBlockButtonState;
-	string&					     m_SelectedBlockGroupName;
+    string&					     m_SelectedBlockGroupName;
     int                          m_nCurWorkingBlockGroupIndex;
     // 참조용 
     cMapTerrainTool*             m_pTerrainTool;
@@ -86,24 +86,24 @@ public:
     cMapObjectTool();
     ~cMapObjectTool();
 
-	HRESULT Setup();
-	HRESULT Update();
-	HRESULT Render();
+    HRESULT Setup();
+    HRESULT Update();
+    HRESULT Render();
 
     void SetTerrainTool(cMapTerrainTool* terrain) { m_pTerrainTool = terrain; } // object의 높이 체크를 위한 녀석 
 
-	// 배치 할 때랑 재배치 할때 따라다니는 녀석 설정 
-	void SetFollowObject();
-	void UpdateFollowObject();
-	void RenderFollowObject();
-	void DeleteFollowObject();
+                                                                                // 배치 할 때랑 재배치 할때 따라다니는 녀석 설정 
+    void SetFollowObject();
+    void UpdateFollowObject();
+    void RenderFollowObject();
+    void DeleteFollowObject();
 
     void UpdateMatrix();        // Tool의 매트릭스 갱신 
 
-	void SetPickPos(Vector3* pos) { m_pPickPos = pos; } // MapTool에서 픽킹된 위치의 벡터를 연결 시킴
+    void SetPickPos(Vector3* pos) { m_pPickPos = pos; } // MapTool에서 픽킹된 위치의 벡터를 연결 시킴
     void AddObject(Vector3 vPickPos);
- 
-	void OnceLButtonDown(E_TAB_TYPE eTabType);     // 마우스 왼쪽 버튼을 클릭 했을 때 발동
+
+    void OnceLButtonDown(E_TAB_TYPE eTabType);     // 마우스 왼쪽 버튼을 클릭 했을 때 발동
     void StayLButtonDown();     // 마우스 왼쪽 버튼을 계속 누르고 있을 때 발동
 
     int  PickObject();           // 오브젝트 피킹
@@ -115,8 +115,8 @@ public:
 
     int  GetBlockGroupByName(string BlockName);
     void RenderSignPost(Vector3 pos, int size, Color color, string text);
-       
-   
+
+
     void ClearObjectNBlock();			    // object, block_group 두개의 백터 비우기 
     void SaveByJson(json& jSave);           // Json 으로 저장
     void LoadByJson(string sFilePath, string sFileTitle);  // Json 으로 로드 

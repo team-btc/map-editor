@@ -174,9 +174,6 @@
     <ClInclude Include="cRay.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="cFogShader.h">
-      <Filter>D3DX\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="cWaveShader.h">
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
@@ -303,9 +300,6 @@
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
     <ClCompile Include="cSkyBoxShader.cpp">
-      <Filter>D3DX\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="cFogShader.cpp">
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
     <ClCompile Include="cTextureShader.cpp">

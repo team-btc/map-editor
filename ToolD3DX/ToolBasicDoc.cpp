@@ -195,8 +195,8 @@ void CToolBasicDoc::OnFileOpen()
         {
             //m_strFileKey = FileDialog.GetFileTitle(); -> 확장자를 제외한 파일 이름을 불러옴
             string sFileTitle = FileDialog.GetFileTitle().GetString();
-			string sFilePath = FileDialog.GetFolderPath();
-		
+            string sFilePath = FileDialog.GetFolderPath();
+
             g_pMapDataManager->LoadMapData(sFilePath, sFileTitle);
         }
         else

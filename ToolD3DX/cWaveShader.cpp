@@ -71,7 +71,7 @@ void cWaveShader::Render(D3DXVECTOR4 vCameraPosition)
     m_pWaveShader->SetFloat("gUVSpeed", m_pUVSpeed);                                // 텍스쳐가 움직이는 속도
     m_pWaveShader->SetFloat("gTransparent", m_pTransparent);                        // 텍스쳐가 움직이는 속도
     m_pWaveShader->SetFloat("Density", m_pDensity);
-                                                      
+
     ULONGLONG tick = GetTickCount64();                                               // 시스템 시간을 구함
     m_pWaveShader->SetFloat("gTime", tick / 1000.0f);
 

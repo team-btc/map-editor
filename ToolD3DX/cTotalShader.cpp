@@ -84,7 +84,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255);
 
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
@@ -132,7 +132,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255);
 
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
@@ -180,7 +180,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255;
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255);
 
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
@@ -231,7 +231,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -252,7 +252,7 @@ void cTotalShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)(255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 16;
                     lSour = lSour & 0x00ff;
                     lSour += x;
@@ -289,7 +289,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -310,7 +310,7 @@ void cTotalShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)(255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y) >> 8;
                     lSour = lSour & 0x0000ff;
                     lSour += x;
@@ -347,7 +347,7 @@ void cTotalShader::DrawTexture()
                     {
                         continue;
                     }
-                    int x = (1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255 * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -368,7 +368,7 @@ void cTotalShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    int x = 255 * m_pBrush->m_fDrawDensity * 0.05f;
+                    int x = (int)(255.0f * m_pBrush->m_fDrawDensity * 0.05f);
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     lSour += x;
@@ -461,7 +461,7 @@ void cTotalShader::Render()
     m_pTotalShader->SetTexture("texture1", m_pTexture[1]);
     m_pTotalShader->SetTexture("texture2", m_pTexture[2]);
     m_pTotalShader->SetTexture("texture3", m_pTexture[3]);
-    
+
     m_pTotalShader->SetTexture("AlphaMap", m_pAlphaDraw);
 
     m_pTotalShader->SetVector("gUV", &m_pBrush->m_pPick);
@@ -495,7 +495,7 @@ void cTotalShader::Render()
     m_pTotalShader->SetFloat("gUVSpeed", m_pUVSpeed);                    // 텍스쳐가 움직이는 속도
     m_pTotalShader->SetFloat("gTransparent", m_pTransparent);            // 텍스쳐가 움직이는 속도
 
-                                                             
+
     ULONGLONG tick = GetTickCount64();              // 시스템 시간을 구함
     m_pTotalShader->SetFloat("gTime", tick / 1000.0f);
     UINT numPasses = 0;

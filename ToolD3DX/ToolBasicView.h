@@ -50,9 +50,9 @@ public:
 };
 
 #ifndef _DEBUG  // ToolBasic00View.cpp의 디버그 버전
-inline CToolBasic00Doc* CToolBasic00View::GetDocument() const
+inline CToolBasicDoc* CToolBasicView::GetDocument() const
 {
-    return reinterpret_cast<CToolBasic00Doc*>(m_pDocument);
+    return reinterpret_cast<CToolBasicDoc*>(m_pDocument);
 }
 #endif
 

@@ -40,7 +40,7 @@ cRay cRay::RayAtViewSpace(int x, int y)
 	/* 뷰 포트와 프로젝션 매트릭스를 사용하여 스크린 좌표(x, y)로 부터
 	뷰 스페이스에서의 레이를 생성 한다. */
 
-	D3DXVECTOR3 v(x, y, 0.0f);
+	D3DXVECTOR3 v((float)x, (float)y, 0.0f);
 	D3DXVec3TransformCoord(&v, &v, &(matInvVP * matInvProj));
 	D3DXVec3Normalize(&v, &v);
 

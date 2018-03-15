@@ -47,7 +47,7 @@ void cMapObject::UpdateMatrix()
     Matrix4 rotX, rotY, rotZ;
 
     D3DXMatrixScaling(&m_matScale, m_vScale.x, m_vScale.y, m_vScale.z);
-    
+
     D3DXMatrixRotationX(&rotX, m_vRotXYZ.x);
     D3DXMatrixRotationY(&rotY, m_vRotXYZ.y);
     D3DXMatrixRotationZ(&rotZ, m_vRotXYZ.z);

@@ -23,7 +23,7 @@ class cTotalShader
 
     D3DXVECTOR4             gWorldLightPosition;
     D3DXVECTOR4             gLightColor;
-  
+
     float m_pHeight;                  // 물의 지형에서의 높이
     float m_pWaveHeight;              // 진폭
     float m_pSpeed;                   // 진동속도

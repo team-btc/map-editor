@@ -5,8 +5,8 @@
 #include "cRay.h"
 
 cMapTool::cMapTool()
-	: m_pTerrainTool(NULL)
-	, m_pObjectTool(NULL)
+    : m_pTerrainTool(NULL)
+    , m_pObjectTool(NULL)
     , m_eCurrTabType(g_pMapDataManager->GetTabType())
     , m_eMapSize(g_pMapDataManager->GetMapSize())
     , m_fDefaultHeight(g_pMapDataManager->GetDefHeight())
@@ -27,10 +27,10 @@ cMapTool::cMapTool()
 }
 cMapTool::~cMapTool()
 {
-	// 메모리 관리 설정하면 이부분은 삭제 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	SAFE_RELEASE(m_pTerrainTool);
-	SAFE_RELEASE(m_pObjectTool);
+    // 메모리 관리 설정하면 이부분은 삭제 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    SAFE_RELEASE(m_pTerrainTool);
+    SAFE_RELEASE(m_pObjectTool);
 }
 
 HRESULT cMapTool::Setup()
@@ -59,7 +59,7 @@ HRESULT cMapTool::Setup()
     m_pObjectTool->SetPickPos(&m_vPickPos);
     m_pObjectTool->SetTerrainTool(m_pTerrainTool);
 
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT cMapTool::Update()
@@ -70,14 +70,14 @@ HRESULT cMapTool::Update()
     {
         CreateMap();
     }
-	if (m_pTerrainTool)
-	{
-		m_pTerrainTool->Update();
-	}
-	if (m_pObjectTool)
-	{
-		m_pObjectTool->Update();
-	}
+    if (m_pTerrainTool)
+    {
+        m_pTerrainTool->Update();
+    }
+    if (m_pObjectTool)
+    {
+        m_pObjectTool->Update();
+    }
 
     // 왼쪽 마우스를 클릭 했고, 클라이언트 영역 안에 있는 맵을 클릭했으면
     if (g_pKeyManager->isOnceKeyDown(VK_LBUTTON) && IsPickMap())
@@ -104,12 +104,12 @@ HRESULT cMapTool::Update()
             m_pObjectTool->StayLButtonDown();
         }
     }
-  
-	return S_OK;
+
+    return S_OK;
 }
 
 HRESULT cMapTool::Render()
-{ 
+{
     if (m_pTerrainTool)
     {
         m_pTerrainTool->RenderSkyBox();
@@ -120,10 +120,10 @@ HRESULT cMapTool::Render()
         m_pObjectTool->Render();
     }
 
-	if (m_pTerrainTool)
-	{
-		m_pTerrainTool->Render();
-	}
+    if (m_pTerrainTool)
+    {
+        m_pTerrainTool->Render();
+    }
 
 
 
@@ -139,10 +139,10 @@ HRESULT cMapTool::CreateMap()
     if (m_pTerrainTool)
     {
         m_pTerrainTool->CreateMap(m_eMapSize, m_fDefaultHeight);
-        
+
     }
-    
-	return S_OK;
+
+    return S_OK;
 }
 
 json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
@@ -160,7 +160,7 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 
     save["water"]["enable"] = g_pMapDataManager->GetIsMakeWater();
     save["water"]["file_name"] = g_pMapDataManager->GetWaterFileName();
-	save["water"]["file_path"] = g_pMapDataManager->GetWaterFilePath();
+    save["water"]["file_path"] = g_pMapDataManager->GetWaterFilePath();
     save["water"]["height"] = g_pMapDataManager->GetWaterHeight();
     save["water"]["uvspeed"] = g_pMapDataManager->GetWaterUVSpeed();
     save["water"]["waveheight"] = g_pMapDataManager->GetWaterWaveHeight();
@@ -177,7 +177,7 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 
     // 매쉬x, 텍스쳐png 저장
     m_pTerrainTool->SaveMapData(strFilePath, strFileTitle);
-    
+
     string c;
     c = save.dump(4);
     o << c;
@@ -197,7 +197,7 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     float f;
     bool b;
     string s;
-    
+
     string tex1 = jLoad["texture"]["tex1"]["key"];
     g_pMapDataManager->SetTex1FileName(tex1);
     float den1 = jLoad["texture"]["tex1"]["density"];
@@ -216,14 +216,14 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
 
     b = jLoad["water"]["enable"];
     g_pMapDataManager->SetIsMakeWater(b);
-	string str = jLoad["water"]["file_name"];
+    string str = jLoad["water"]["file_name"];
     g_pMapDataManager->SetWaterFileName(str);
-	string str2 = jLoad["water"]["file_path"];
-	g_pMapDataManager->SetWaterFilePath(str2);
+    string str2 = jLoad["water"]["file_path"];
+    g_pMapDataManager->SetWaterFilePath(str2);
     // 워터 텍스쳐 세팅
-	m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());
-   
-	f = jLoad["water"]["height"];
+    m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());
+
+    f = jLoad["water"]["height"];
     g_pMapDataManager->SetWaterHeight(f);
     f = jLoad["water"]["uvspeed"];
     g_pMapDataManager->SetWaterUVSpeed(f);
@@ -235,16 +235,16 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     g_pMapDataManager->SetWaterFrequency(f);
     f = jLoad["water"]["transparent"];
     g_pMapDataManager->SetWaterTransparent(f);
-    
+
     string skyText = jLoad["skybox"]["key"];
     g_pMapDataManager->SetSkyFileName(skyText);
     m_pTerrainTool->SetSkyBoxTexture();
 
     // 맴데이터, 매쉬x, 텍스쳐png 로드
 
-	// 스카이 박스 부분 수정하기 
+    // 스카이 박스 부분 수정하기 
     m_pTerrainTool->LoadMapData(sFilePath, sFileTitle);
-	m_pObjectTool->LoadByJson(sFilePath, sFileTitle);
+    m_pObjectTool->LoadByJson(sFilePath, sFileTitle);
 
 }
 
@@ -298,13 +298,13 @@ bool cMapTool::IsPickMap()
 {
     RECT rtClient;
     GetClientRect(g_hWnd, &rtClient);
-    
+
     POINT ptCurrMouse;
     GetCursorPos(&ptCurrMouse); // 윈도우 상의 마우스 좌표를 넘겨줌
 
     ScreenToClient(g_hWnd, &ptCurrMouse); // 윈도우 상의 마우스 좌표를 클라이언트 상의 좌표로 바꿔줌!
 
-    // MFC에서 작업표시줄 크기 구하는 방법! (작업표시줄 윈도우 핸들, 크기 구함)
+                                          // MFC에서 작업표시줄 크기 구하는 방법! (작업표시줄 윈도우 핸들, 크기 구함)
     HWND hWndTrayWnd = ::FindWindow("Shell_TrayWnd", "");
     RECT rt;
     int nTrayHeight = 0;

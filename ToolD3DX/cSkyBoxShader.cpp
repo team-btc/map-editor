@@ -17,7 +17,7 @@ void cSkyBoxShader::SetBox(string sTexFileKey, string sTexFilePath)
     // 시작할때 모든 텍스쳐 파일과 이펙트 자동 추가 할듯 나중에
     g_pShaderManager->AddEffect(sTexFileKey, "Shader/FX/SkyBox.fx");
     m_pSkyBoxShader = g_pShaderManager->GetEffect(sTexFileKey);
-   
+
     // 키 값으로 스카이박스 텍스쳐만 변경 
     m_pCubeTexture = (LPCUBETEXTURE9)g_pTextureManager->GetTexture(sTexFileKey);
 
@@ -30,7 +30,7 @@ void cSkyBoxShader::Render(D3DXVECTOR4 vCameraPosition)
 {
     D3DXMATRIXA16 matW, matView, matProjection, matViewProjection;
     D3DXMatrixIdentity(&matW);
-   
+
     D3DXVECTOR4 gWorldCameraPosition = vCameraPosition;
 
     g_pDevice->GetTransform(D3DTS_VIEW, &matView);

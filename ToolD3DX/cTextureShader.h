@@ -8,7 +8,7 @@ class cTextureShader
     LPDIRECT3DTEXTURE9      m_pTexture[3];
     LPDIRECT3DTEXTURE9      m_pAlphaDraw;
     LPDIRECT3DTEXTURE9      m_pAlpha;
-    
+
     cBrush*                 m_pBrush;
 
     float                   m_TexDensity[3];                                            // 타일의 밀도
@@ -19,7 +19,7 @@ public:
     cTextureShader();
     ~cTextureShader();
 
-    
+
     void SetBrush(cBrush* brush) { m_pBrush = brush; }
     void SetTexture();
     void SetTexture1();

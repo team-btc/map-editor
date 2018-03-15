@@ -71,13 +71,13 @@ BOOL cTextureTab::OnInitDialog()
 	m_pTextureDensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
 	m_pTextureDensitySliderCtl->SetRangeMin(10);		// 최소 값 설정
 	m_pTextureDensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
-	m_pTextureDensitySliderCtl->SetPos(m_fTextureDensity);	// 위치 설정
+	m_pTextureDensitySliderCtl->SetPos((int)m_fTextureDensity);	// 위치 설정
 	m_pTextureDensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
 	m_pTextureDensitySliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)
 	m_pTextureDensitySliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 텍스쳐 밀도값 출력
-	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, m_fTextureDensity);
+	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, (UINT)m_fTextureDensity);
 
 	// == 브러쉬 사이즈 설정 초기화 ==
 	m_pBrushSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_BRUSH_SIZE_SLI);
@@ -87,13 +87,13 @@ BOOL cTextureTab::OnInitDialog()
 	m_pBrushSizeSliderCtl->SetRange(1, 100);		// 사용영역 값 설정
 	m_pBrushSizeSliderCtl->SetRangeMin(1);		// 최소 값 설정
 	m_pBrushSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
-	m_pBrushSizeSliderCtl->SetPos(m_fBrushSize);	// 위치 설정
+	m_pBrushSizeSliderCtl->SetPos((int)m_fBrushSize);	// 위치 설정
 	m_pBrushSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정
 	m_pBrushSizeSliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
 	m_pBrushSizeSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 브러쉬 사이즈 출력
-	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, m_fBrushSize);
+	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, (UINT)m_fBrushSize);
 	
     // == 브러쉬 밀도 사이즈 설정 초기화 ==
     m_pBrushDenSizeSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_BRUSH_DENSITY_SIZE_SLI);
@@ -103,13 +103,13 @@ BOOL cTextureTab::OnInitDialog()
     m_pBrushDenSizeSliderCtl->SetRange(0, 100);		// 사용영역 값 설정
     m_pBrushDenSizeSliderCtl->SetRangeMin(2);		// 최소 값 설정
     m_pBrushDenSizeSliderCtl->SetRangeMax(100);		// 최대 값 설정
-    m_pBrushDenSizeSliderCtl->SetPos(m_fBrushDenSize);	// 위치 설정
+    m_pBrushDenSizeSliderCtl->SetPos((int)m_fBrushDenSize);	// 위치 설정
     m_pBrushDenSizeSliderCtl->SetTicFreq(10);			// 눈금 간격 설정
     m_pBrushDenSizeSliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pBrushDenSizeSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 브러쉬 사이즈 출력
-    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, m_fBrushDenSize);
+    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, (UINT)m_fBrushDenSize);
 
 	// == 브러쉬 밀도값 설정 초기화 ==
 	m_pBrushDensitySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_BRUSH_DENSITY_SLI);
@@ -119,13 +119,13 @@ BOOL cTextureTab::OnInitDialog()
 	m_pBrushDensitySliderCtl->SetRange(0, 100);		// 사용영역 값 설정
 	m_pBrushDensitySliderCtl->SetRangeMin(10);		// 최소 값 설정
 	m_pBrushDensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
-	m_pBrushDensitySliderCtl->SetPos(m_fBrushDensity);	// 위치 설정
+	m_pBrushDensitySliderCtl->SetPos((int)m_fBrushDensity);	// 위치 설정
 	m_pBrushDensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
 	m_pBrushDensitySliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)
 	m_pBrushDensitySliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
 	// 브러쉬 밀도값 출력
-	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, m_fBrushDensity);
+	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, (UINT)m_fBrushDensity);
 
     // == 텍스쳐 1 밀도 설정 초기화 ==
     m_pTex1DensitySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_TEX1_DSIZE_SLI);
@@ -135,13 +135,13 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex1DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
     m_pTex1DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
     m_pTex1DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
-    m_pTex1DensitySliderCtl->SetPos(m_fTex1Density);	// 위치 설정
+    m_pTex1DensitySliderCtl->SetPos((int)m_fTex1Density);	// 위치 설정
     m_pTex1DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
     m_pTex1DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex1DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 텍스쳐 1 사이즈 출력
-    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, m_fTex1Density);
+    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, (UINT)m_fTex1Density);
 
     // == 텍스쳐 2 밀도 설정 초기화 ==
     m_pTex2DensitySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_TEX2_DSIZE_SLI);
@@ -151,13 +151,13 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex2DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
     m_pTex2DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
     m_pTex2DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
-    m_pTex2DensitySliderCtl->SetPos(m_fTex2Density);	// 위치 설정
+    m_pTex2DensitySliderCtl->SetPos((int)m_fTex2Density);	// 위치 설정
     m_pTex2DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
     m_pTex2DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex2DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 텍스쳐 2 사이즈 출력
-    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, m_fTex2Density);
+    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, (UINT)m_fTex2Density);
 
     // == 텍스쳐 3 밀도 설정 초기화 ==
     m_pTex3DensitySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_TEX3_DSIZE_SLI);
@@ -167,13 +167,13 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex3DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
     m_pTex3DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
     m_pTex3DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
-    m_pTex3DensitySliderCtl->SetPos(m_fTex3Density);	// 위치 설정
+    m_pTex3DensitySliderCtl->SetPos((int)m_fTex3Density);	// 위치 설정
     m_pTex3DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
     m_pTex3DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex3DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
     // 텍스쳐 3 사이즈 출력
-    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, m_fTex3Density);
+    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, (UINT)m_fTex3Density);
 
 	// == 걸을 수 있는지형 체크박스 초기화 ==
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -244,10 +244,10 @@ void cTextureTab::OnChangeTextureDensityEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fTextureDensity = GetDlgItemInt(IDC_TEXTURE_DENSITY_EDI);
+	m_fTextureDensity = (float)GetDlgItemInt(IDC_TEXTURE_DENSITY_EDI);
 
 	// 슬라이더 위치 설정
-	m_pTextureDensitySliderCtl->SetPos(m_fTextureDensity);		// 위치 설정
+	m_pTextureDensitySliderCtl->SetPos((int)m_fTextureDensity);		// 위치 설정
 
 															// 커서를 맨 뒤로 셋팅
 	m_pTextureDensityEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
@@ -281,10 +281,10 @@ void cTextureTab::OnDeltaposTextureDensitySpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 텍스쳐 밀도값 출력
-	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, m_fTextureDensity);
+	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, (UINT)m_fTextureDensity);
 
 	// 슬라이더 위치 설정
-	m_pTextureDensitySliderCtl->SetPos(m_fTextureDensity);		// 위치 설정
+	m_pTextureDensitySliderCtl->SetPos((int)m_fTextureDensity);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -296,10 +296,10 @@ void cTextureTab::OnCustomDrawTextureDensitySlider(NMHDR *pNMHDR, LRESULT *pResu
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 텍스쳐 밀도값 넣기
-	m_fTextureDensity = m_pTextureDensitySliderCtl->GetPos();
+	m_fTextureDensity = (float)m_pTextureDensitySliderCtl->GetPos();
 
 	// 텍스쳐 밀도값 출력
-	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, m_fTextureDensity);
+	SetDlgItemInt(IDC_TEXTURE_DENSITY_EDI, (UINT)m_fTextureDensity);
 
 	*pResult = 0;
 }
@@ -316,10 +316,10 @@ void cTextureTab::OnChangeBrushSizeEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fBrushSize = GetDlgItemInt(IDC_BRUSH_SIZE_EDI);
+	m_fBrushSize = (float)GetDlgItemInt(IDC_BRUSH_SIZE_EDI);
 
 	// 슬라이더 위치 설정
-	m_pBrushSizeSliderCtl->SetPos(m_fBrushSize);		// 위치 설정
+	m_pBrushSizeSliderCtl->SetPos((int)m_fBrushSize);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pBrushSizeEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
@@ -353,10 +353,10 @@ void cTextureTab::OnDeltaposBrushSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 브러쉬 사이즈 출력
-	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, m_fBrushSize);
+	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, (UINT)m_fBrushSize);
 
 	// 슬라이더 위치 설정
-	m_pBrushSizeSliderCtl->SetPos(m_fBrushSize);		// 위치 설정
+	m_pBrushSizeSliderCtl->SetPos((int)m_fBrushSize);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -368,10 +368,10 @@ void cTextureTab::OnCustomDrawBrushSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 브러쉬 사이즈 넣기
-	m_fBrushSize = m_pBrushSizeSliderCtl->GetPos();
+	m_fBrushSize = (float)m_pBrushSizeSliderCtl->GetPos();
 
 	// 브러쉬 사이즈 출력
-	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, m_fBrushSize);
+	SetDlgItemInt(IDC_BRUSH_SIZE_EDI, (UINT)m_fBrushSize);
 
 	*pResult = 0;
 }
@@ -388,10 +388,10 @@ void cTextureTab::OnChangeBrushDenSizeEditer()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fBrushDenSize = GetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI);
+    m_fBrushDenSize = (float)GetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI);
 
     // 슬라이더 위치 설정
-    m_pBrushDenSizeSliderCtl->SetPos(m_fBrushDenSize);		// 위치 설정
+    m_pBrushDenSizeSliderCtl->SetPos((int)m_fBrushDenSize);		// 위치 설정
 
     // 커서를 맨 뒤로 셋팅
     m_pBrushDenSizeEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
@@ -425,10 +425,10 @@ void cTextureTab::OnDeltaposBrushDenSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 텍스쳐 밀도값 출력
-    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, m_fBrushDenSize);
+    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, (UINT)m_fBrushDenSize);
 
     // 슬라이더 위치 설정
-    m_pBrushDenSizeSliderCtl->SetPos(m_fBrushDenSize);		// 위치 설정
+    m_pBrushDenSizeSliderCtl->SetPos((int)m_fBrushDenSize);		// 위치 설정
 
     *pResult = 0;
 }
@@ -440,10 +440,10 @@ void cTextureTab::OnCustomDrawBrushDenSizeSlider(NMHDR *pNMHDR, LRESULT *pResult
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 브러쉬 밀도 사이즈 넣기
-    m_fBrushDenSize = m_pBrushDenSizeSliderCtl->GetPos();
+    m_fBrushDenSize = (float)m_pBrushDenSizeSliderCtl->GetPos();
 
     // 브러쉬 밀도 사이즈 출력
-    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, m_fBrushDenSize);
+    SetDlgItemInt(IDC_BRUSH_DENSITY_SIZE_EDI, (UINT)m_fBrushDenSize);
 
     *pResult = 0;
 }
@@ -460,10 +460,10 @@ void cTextureTab::OnChangeBrushDensityEditer()
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 에디터에 입력 된 값  가져오기
-	m_fBrushDensity = GetDlgItemInt(IDC_BRUSH_DENSITY_EDI);
+	m_fBrushDensity = (float)GetDlgItemInt(IDC_BRUSH_DENSITY_EDI);
 
 	// 슬라이더 위치 설정
-	m_pBrushDensitySliderCtl->SetPos(m_fBrushDensity);		// 위치 설정
+	m_pBrushDensitySliderCtl->SetPos((int)m_fBrushDensity);		// 위치 설정
 
 	// 커서를 맨 뒤로 셋팅
 	m_pBrushDensityEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
@@ -497,10 +497,10 @@ void cTextureTab::OnDeltaposBrushDensitySpin(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	// 텍스쳐 밀도값 출력
-	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, m_fBrushDensity);
+	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, (UINT)m_fBrushDensity);
 
 	// 슬라이더 위치 설정
-	m_pBrushDensitySliderCtl->SetPos(m_fBrushDensity);		// 위치 설정
+	m_pBrushDensitySliderCtl->SetPos((int)m_fBrushDensity);		// 위치 설정
 
 	*pResult = 0;
 }
@@ -512,10 +512,10 @@ void cTextureTab::OnCustomDrawBrushDensitySlider(NMHDR *pNMHDR, LRESULT *pResult
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
 	// 브러쉬 텍스쳐 넣기
-	m_fBrushDensity = m_pBrushDensitySliderCtl->GetPos();
+	m_fBrushDensity = (float)m_pBrushDensitySliderCtl->GetPos();
 
 	// 브러쉬 텍스쳐 출력
-	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, m_fBrushDensity);
+	SetDlgItemInt(IDC_BRUSH_DENSITY_EDI, (UINT)m_fBrushDensity);
 
 	*pResult = 0;
 }
@@ -531,9 +531,9 @@ void cTextureTab::OnNMCustomdrawTex1DsizeSli(NMHDR *pNMHDR, LRESULT *pResult)
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
-    m_fTex1Density = m_pTex1DensitySliderCtl->GetPos();
+    m_fTex1Density = (float)m_pTex1DensitySliderCtl->GetPos();
 
-    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, m_fTex1Density);
+    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, (UINT)m_fTex1Density);
 
     *pResult = 0;
 }
@@ -544,9 +544,9 @@ void cTextureTab::OnNMCustomdrawTex2DsizeSli(NMHDR *pNMHDR, LRESULT *pResult)
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
-    m_fTex2Density = m_pTex2DensitySliderCtl->GetPos();
+    m_fTex2Density = (float)m_pTex2DensitySliderCtl->GetPos();
 
-    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, m_fTex2Density);
+    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, (UINT)m_fTex2Density);
 
     *pResult = 0;
 }
@@ -557,9 +557,9 @@ void cTextureTab::OnNMCustomdrawTex3DsizeSli(NMHDR *pNMHDR, LRESULT *pResult)
     LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
-    m_fTex3Density = m_pTex3DensitySliderCtl->GetPos();
+    m_fTex3Density = (float)m_pTex3DensitySliderCtl->GetPos();
 
-    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, m_fTex3Density);
+    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, (UINT)m_fTex3Density);
 
     *pResult = 0;
 }
@@ -575,10 +575,10 @@ void cTextureTab::OnEnChangeTex1DsizeEdi()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fTex1Density = GetDlgItemInt(IDC_TEX1_DSIZE_EDI);
+    m_fTex1Density = (float)GetDlgItemInt(IDC_TEX1_DSIZE_EDI);
 
     // 슬라이더 위치 설정
-    m_pTex1DensitySliderCtl->SetPos(m_fTex1Density);		// 위치 설정
+    m_pTex1DensitySliderCtl->SetPos((int)m_fTex1Density);		// 위치 설정
        
     m_pTex1DensityEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
     m_pTex1DensityEditCtl->SetFocus();			// 포커스를 맞춤
@@ -596,10 +596,10 @@ void cTextureTab::OnEnChangeTex2DsizeEdi()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fTex2Density = GetDlgItemInt(IDC_TEX2_DSIZE_EDI);
+    m_fTex2Density = (float)GetDlgItemInt(IDC_TEX2_DSIZE_EDI);
 
     // 슬라이더 위치 설정
-    m_pTex2DensitySliderCtl->SetPos(m_fTex2Density);		// 위치 설정
+    m_pTex2DensitySliderCtl->SetPos((int)m_fTex2Density);		// 위치 설정
 
     m_pTex2DensityEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
     m_pTex2DensityEditCtl->SetFocus();			// 포커스를 맞춤
@@ -615,10 +615,10 @@ void cTextureTab::OnEnChangeTex3DsizeEdi()
     // 이 알림 메시지를 보내지 않습니다.
 
     // 에디터에 입력 된 값  가져오기
-    m_fTex3Density = GetDlgItemInt(IDC_TEX3_DSIZE_EDI);
+    m_fTex3Density = (float)GetDlgItemInt(IDC_TEX3_DSIZE_EDI);
 
     // 슬라이더 위치 설정
-    m_pTex3DensitySliderCtl->SetPos(m_fTex3Density);		// 위치 설정
+    m_pTex3DensitySliderCtl->SetPos((int)m_fTex3Density);		// 위치 설정
 
     m_pTex3DensityEditCtl->SetSel(0, -1);		// 모든 영역을 드레그
     m_pTex3DensityEditCtl->SetFocus();			// 포커스를 맞춤
@@ -653,10 +653,10 @@ void cTextureTab::OnDeltaposTex1DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 텍스쳐 밀도값 출력
-    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, m_fTex1Density);
+    SetDlgItemInt(IDC_TEX1_DSIZE_EDI, (UINT)m_fTex1Density);
 
     // 슬라이더 위치 설정
-    m_pTex1DensitySliderCtl->SetPos(m_fTex1Density);		// 위치 설정
+    m_pTex1DensitySliderCtl->SetPos((int)m_fTex1Density);		// 위치 설정
 
     *pResult = 0;
 }
@@ -687,10 +687,10 @@ void cTextureTab::OnDeltaposTex2DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 텍스쳐 밀도값 출력
-    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, m_fTex2Density);
+    SetDlgItemInt(IDC_TEX2_DSIZE_EDI, (UINT)m_fTex2Density);
 
     // 슬라이더 위치 설정
-    m_pTex2DensitySliderCtl->SetPos(m_fTex2Density);		// 위치 설정
+    m_pTex2DensitySliderCtl->SetPos((int)m_fTex2Density);		// 위치 설정
 
     *pResult = 0;
 }
@@ -721,10 +721,10 @@ void cTextureTab::OnDeltaposTex3DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 텍스쳐 밀도값 출력
-    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, m_fTex3Density);
+    SetDlgItemInt(IDC_TEX3_DSIZE_EDI, (UINT)m_fTex3Density);
 
     // 슬라이더 위치 설정
-    m_pTex3DensitySliderCtl->SetPos(m_fTex3Density);		// 위치 설정
+    m_pTex3DensitySliderCtl->SetPos((int)m_fTex3Density);		// 위치 설정
 
     *pResult = 0;
 }

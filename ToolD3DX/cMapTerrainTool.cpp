@@ -45,7 +45,7 @@ cMapTerrainTool::cMapTerrainTool()
 
 cMapTerrainTool::~cMapTerrainTool()
 {
-	SAFE_RELEASE(m_pMesh);
+    SAFE_RELEASE(m_pMesh);
     SAFE_DELETE(m_pBrush);
     SAFE_DELETE(m_pTextureShader);
     SAFE_DELETE(m_pWaveShader);
@@ -101,12 +101,12 @@ HRESULT cMapTerrainTool::Setup()
     m_pTextureShader->SetBrush(m_pBrush);
     m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent);
 
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT cMapTerrainTool::Update()
 {
-    Vector4 v(m_vPickPos->x / m_ptMapSize.x , 0, m_vPickPos->z / m_ptMapSize.y, 1);
+    Vector4 v(m_vPickPos->x / m_ptMapSize.x, 0, m_vPickPos->z / m_ptMapSize.y, 1);
 
     // 텍스쳐 파일변경 하기
     if (m_isTex1Load)
@@ -139,20 +139,20 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pBrush->SetBrush(v, m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
             m_stTerrainBrushInfo.fBrushSize / m_ptMapSize.x,
-            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f,
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
     else if (g_pMapDataManager->GetTabType() == E_TEXTURE_TAB)
     {
         m_pBrush->SetBrush(v, m_stTextureBrushInfo.fTextureBrushSize / m_ptMapSize.x,
             m_stTextureBrushInfo.fTextureBrushSpraySize / m_ptMapSize.x,
-            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f, 
+            m_stTextureBrushInfo.fDrawDensity * 0.1f, m_stTextureBrushInfo.m_fTex1Density * 0.1f,
             m_stTextureBrushInfo.m_fTex2Density * 0.1f, m_stTextureBrushInfo.m_fTex3Density * 0.1f);
     }
     else if (g_pMapDataManager->GetTabType() == E_WATER_TAB)
     {
         m_pWaveShader->SetShader(m_stWaterInfo.fHeight, m_stWaterInfo.fWaveHeight, m_stWaterInfo.fHeightSpeed, m_stWaterInfo.fUVSpeed, m_stWaterInfo.fFrequency, m_stWaterInfo.fTransparent, m_stWaterInfo.fDensity);
-        
+
         // 물 파일을 새로 셋팅해야 하면
         if (m_isSetWaterFile)
         {
@@ -169,44 +169,44 @@ HRESULT cMapTerrainTool::Update()
             m_pSkyBoxShader->SetBox(m_strSkyFileName, g_pMapDataManager->GetSkyFilePath() + "//" + m_strSkyFileName);
         }
     }
-	
+
     // 지형 높이 증가
-	if (g_pKeyManager->isOnceKeyDown('U'))
-	{
+    if (g_pKeyManager->isOnceKeyDown('U'))
+    {
 
-	}
-	// 지형 높이 감소
-	else if (g_pKeyManager->isOnceKeyDown('D'))
-	{
+    }
+    // 지형 높이 감소
+    else if (g_pKeyManager->isOnceKeyDown('D'))
+    {
 
-	}
-	// 텍스쳐 입히기
-	else if (g_pKeyManager->isOnceKeyDown('T'))
-	{
+    }
+    // 텍스쳐 입히기
+    else if (g_pKeyManager->isOnceKeyDown('T'))
+    {
 
-	}
-	// 기본 텍스쳐로 변경 
-	else if (g_pKeyManager->isOnceKeyDown('E'))
-	{
+    }
+    // 기본 텍스쳐로 변경 
+    else if (g_pKeyManager->isOnceKeyDown('E'))
+    {
 
-	}
-	// 와이어 프레임 출력
-	else if (g_pKeyManager->isOnceKeyDown('W'))
-	{
+    }
+    // 와이어 프레임 출력
+    else if (g_pKeyManager->isOnceKeyDown('W'))
+    {
 
-	}
-	// 저장
-	else if (g_pKeyManager->isOnceKeyDown('S'))
-	{
+    }
+    // 저장
+    else if (g_pKeyManager->isOnceKeyDown('S'))
+    {
         //D3DXSaveMeshToX("Map.x", m_pMesh, NULL, NULL, NULL, NULL, NULL);
         //m_pTextureShader->SaveTexture();
-	}
-	// 로드
-	else if (g_pKeyManager->isOnceKeyDown('L'))
-	{
+    }
+    // 로드
+    else if (g_pKeyManager->isOnceKeyDown('L'))
+    {
         //D3DXLoadMeshFromX("Map.x", NULL, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
         //m_pTextureShader->SetMesh(m_pMesh);
-	}
+    }
     else if (g_pKeyManager->isStayKeyDown('Z'))
     {
         m_stWaterInfo.fDensity += 0.2f;
@@ -223,7 +223,7 @@ HRESULT cMapTerrainTool::Update()
             m_stWaterInfo.fDensity = 0.2f;
         }
     }
-	return S_OK;
+    return S_OK;
 }
 
 HRESULT cMapTerrainTool::Render()
@@ -233,16 +233,16 @@ HRESULT cMapTerrainTool::Render()
         return E_FAIL;
     }
 
-	Matrix4 matW, matV, matP;
-	D3DXMatrixIdentity(&matW);
+    Matrix4 matW, matV, matP;
+    D3DXMatrixIdentity(&matW);
 
-	g_pDevice->SetTransform(D3DTS_WORLD, &matW);
-	g_pDevice->SetMaterial(&WHITE_MTRL);
-	g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+    g_pDevice->SetTransform(D3DTS_WORLD, &matW);
+    g_pDevice->SetMaterial(&WHITE_MTRL);
+    g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
     g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
     g_pDevice->LightEnable(0, true);
     g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
-   
+
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
 
     m_pTextureShader->Render();
@@ -254,8 +254,8 @@ HRESULT cMapTerrainTool::Render()
 
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
 
-   
-	return S_OK;
+
+    return S_OK;
 }
 
 HRESULT cMapTerrainTool::RenderSkyBox()
@@ -326,8 +326,12 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     vector<ST_PNT_VERTEX> vecPNTVertex;
     for (int n = 0; n < (nSizeX + 1) * (nSizeZ + 1); ++n)
     {
-        Vector3 vec = Vector3(n % (nSizeZ + 1), fHeight, n / (nSizeZ + 1));
-        vecPNTVertex.push_back(ST_PNT_VERTEX(vec, Vector3(0, 1, 0), Vector2((n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
+        Vector3 vec = Vector3((float)(n % (nSizeZ + 1)), fHeight, (float)(n / (nSizeZ + 1)));
+        vecPNTVertex.push_back(
+            ST_PNT_VERTEX(
+                vec,
+                Vector3(0, 1, 0),
+                Vector2((float)(n % (nSizeZ + 1)) / (float)nSizeX, (n / (nSizeZ + 1) / (float)nSizeZ))));
     }
 
     // 인덱스 벡터
@@ -335,9 +339,9 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     //   0 2
     //  0 , 1 , 2,  // 2 , 1 , 3 순서!!
     vector<DWORD> vecVertexIndex;
-    for (DWORD z = 0; z < nSizeZ; ++z)
+    for (DWORD z = 0; z < (DWORD)nSizeZ; ++z)
     {
-        for (DWORD x = 0; x < nSizeX; ++x)
+        for (DWORD x = 0; x < (DWORD)nSizeX; ++x)
         {
             DWORD _0 = (z * (nSizeZ + 1)) + x;
             DWORD _1 = ((z + 1) * (nSizeZ + 1)) + x;
@@ -356,7 +360,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     // 매쉬 정보 셋팅
     // == 매쉬 생성, 기록, 최적화
     // 생성
-    D3DXCreateMeshFVF(vecVertexIndex.size() / 3, vecPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
+    D3DXCreateMeshFVF((DWORD)vecVertexIndex.size() / 3, (DWORD)vecPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
         ST_PNT_VERTEX::FVF, g_pDevice, &m_pMesh);
 
     // 버텍스 버퍼 기록
@@ -375,7 +379,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     DWORD* pA = NULL;
     m_pMesh->LockAttributeBuffer(NULL, &pA);
     for (int i = 0; i < vecVertexIndex.size() / 3; ++i) // 페이스별로 하나씩 기록
-        pA[i] = (DWORD) 0;
+        pA[i] = (DWORD)0;
     m_pMesh->UnlockAttributeBuffer();
 
     // 메쉬 최적화 : 버텍스 개수 만큼 인접정보를 담을 공간을 확보
@@ -392,8 +396,12 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     // 버텍스 벡터
     for (int n = 0; n < (1 + 1) * (1 + 1); ++n)
     {
-        Vector3 vec = Vector3(n % (1 + 1) * nSizeX, fHeight, n / (1 + 1) * nSizeZ);
-        m_vecWPNTVertex.push_back(ST_PNT_VERTEX(vec, Vector3(0, 1, 0), Vector2((n % (1 + 1)) / (float)1, (n / (1 + 1) / (float)1))));
+        Vector3 vec = Vector3((float)(n % (1 + 1) * nSizeX), fHeight, (float)(n / (1 + 1) * nSizeZ));
+        m_vecWPNTVertex.push_back(
+            ST_PNT_VERTEX(
+                vec,
+                Vector3(0, 1, 0),
+                Vector2((float)(n % (1 + 1)) / (float)1, (n / (1 + 1) / (float)1))));
     }
 
     // 인덱스 벡터
@@ -420,8 +428,8 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
     // 매쉬 정보 셋팅
     // == 매쉬 생성, 기록, 최적화
     // 생성
-    D3DXCreateMeshFVF(m_vecWVertexIndex.size() / 3, m_vecWPNTVertex.size(), D3DXMESH_MANAGED | D3DXMESH_32BIT,
-        ST_PNT_VERTEX::FVF, g_pDevice, &m_pWMesh);
+    D3DXCreateMeshFVF((DWORD)m_vecWVertexIndex.size() / 3, (DWORD)m_vecWPNTVertex.size(),
+        D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pDevice, &m_pWMesh);
 
     // 버텍스 버퍼 기록
     ST_PNT_VERTEX* pWV = NULL;
@@ -452,7 +460,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
 
     m_pWaveShader->SetMesh(m_pMesh);
 
-	return S_OK;
+    return S_OK;
 }
 
 // 맵 데이터 저장
@@ -473,7 +481,7 @@ void cMapTerrainTool::LoadMapData(string sFilePath, string sFileTitle)
 {
     // 매쉬 지우기
     SAFE_RELEASE(m_pMesh);
-    
+
     // 매쉬 로드
     string sFullPath = sFilePath + "\\" + sFileTitle + ".x";
     D3DXLoadMeshFromX(sFullPath.c_str(), D3DXMESH_VB_MANAGED, g_pDevice, NULL, NULL, NULL, NULL, &m_pMesh);
@@ -506,7 +514,7 @@ void cMapTerrainTool::EditTerrain()
             EditHeight();
         }
     }
-        break;
+    break;
     case E_TER_EDIT_RETURN:
     {
         m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
@@ -518,7 +526,7 @@ void cMapTerrainTool::EditTerrain()
             ReturnHeight();
         }
     }
-        break;
+    break;
     case E_TER_EDIT_FIXED_HEIGHT:
     {
         m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
@@ -530,12 +538,12 @@ void cMapTerrainTool::EditTerrain()
             FixedHeight();
         }
     }
-        break;
+    break;
     case E_TER_EDIT_FLAT:
     {
         SetFlat();
     }
-        break;
+    break;
     case E_TER_EDIT_TRIM:
     {
         m_fPassedEditTime += g_pTimerManager->GetDeltaTime();
@@ -602,11 +610,11 @@ void cMapTerrainTool::EditHeight()
             float fRatio;           // 비율
             float fHeightResult;    // 설정되어야 할 높이값
 
-            // == 부드러운 타입의 브러쉬면 ==
+                                    // == 부드러운 타입의 브러쉬면 ==
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
-                fHeightResult = fBaseHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fBaseHeight + (fHeightDiff * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
             // == 날카로운 타입의 브러쉬면 ==
             else
@@ -674,11 +682,11 @@ void cMapTerrainTool::EditHeight()
             float fRatio;           // 비율
             float fHeightResult;    // 설정되어야 할 높이값
 
-            // == 부드러운 타입의 브러쉬면 ==
+                                    // == 부드러운 타입의 브러쉬면 ==
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
-                fHeightResult = fCenterHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fCenterHeight + (fHeightDiff * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
             // == 날카로운 타입의 브러쉬면 ==
             else
@@ -710,7 +718,7 @@ void cMapTerrainTool::EditHeight()
 // 지형 높이 되돌리기
 void cMapTerrainTool::ReturnHeight()
 {
-switch (m_stTerrainBrushInfo.eUpDown)
+    switch (m_stTerrainBrushInfo.eUpDown)
     {
     case E_UP:
     {
@@ -744,11 +752,11 @@ switch (m_stTerrainBrushInfo.eUpDown)
             float fRatio;               // 비율
             float fHeightResult;        // 조정되어야 할 높이값
 
-            // == 부드러운 타입의 브러쉬면 ==
+                                        // == 부드러운 타입의 브러쉬면 ==
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
-                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
             // == 날카로운 타입 브러쉬면 == 
             else
@@ -762,7 +770,7 @@ switch (m_stTerrainBrushInfo.eUpDown)
 
             // 노말(법선)값 바꾸기
             ChangeNormalValue(m_vecSelVertex[i], &pEditV);
-                
+
             // 설정된 높이가 기준 높이보다 낮으면 고정
             if (pEditV[m_vecSelVertex[i]].p.y < fBaseHeight)
             {
@@ -806,11 +814,11 @@ switch (m_stTerrainBrushInfo.eUpDown)
             float fRatio;           // 비율
             float fHeightResult;    // 조정되어야 할 높이값
 
-            // == 부드러운 타입 브러쉬면 == 
+                                    // == 부드러운 타입 브러쉬면 == 
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
-                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fDefaultPlusHeight * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
 
             // == 날카로운 타입 브러쉬면 ==
@@ -852,7 +860,7 @@ void cMapTerrainTool::FixedHeight()
 
         // 센터높이 셋팅
         float fCenterHeight = m_stTerrainBrushInfo.fEditHeight;
-        
+
         // 기준 높이
         float fBaseHeight;
         // 센터 높이가 기본 높이보다 높으면
@@ -876,11 +884,11 @@ void cMapTerrainTool::FixedHeight()
             float fRatio;           // 비율
             float fHeightResult;    // 설정되어야 할 높이값
 
-            // == 부드러운 타입의 브러쉬면 ==
+                                    // == 부드러운 타입의 브러쉬면 ==
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = fLength / m_stTerrainBrushInfo.fBrushSize;
-                fHeightResult = fBaseHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fBaseHeight + (fHeightDiff * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
             // == 날카로운 타입의 브러쉬면 ==
             else
@@ -939,11 +947,11 @@ void cMapTerrainTool::FixedHeight()
             float fRatio;           // 비율
             float fHeightResult;    // 설정되어야 할 높이값
 
-            // == 부드러운 타입의 브러쉬면 ==
+                                    // == 부드러운 타입의 브러쉬면 ==
             if (m_stTerrainBrushInfo.eBrushType == E_TER_BRUSH_SMOOTH)
             {
                 fRatio = 1.0f - (fLength / m_stTerrainBrushInfo.fBrushSize);
-                fHeightResult = fCenterHeight + (fHeightDiff * ((cosf(fRatio * PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
+                fHeightResult = fCenterHeight + (fHeightDiff * ((cosf(fRatio * D3DX_PI) + 1.0f) * 0.5f)); //cosf()값이  -1 ~ 1 사이의 숫자가 나옴 0 ~ 1 사이값으로 변경 후 계산!
             }
             // == 날카로운 타입의 브러쉬면 ==
             else
@@ -975,7 +983,7 @@ void cMapTerrainTool::FixedHeight()
 // 평지 셋팅하기
 void cMapTerrainTool::SetFlat()
 {
-   // 편집할 버텍스 로드
+    // 편집할 버텍스 로드
     ST_PNT_VERTEX* pEditV = NULL;
     m_pMesh->LockVertexBuffer(NULL, (LPVOID*)&pEditV);
 
@@ -1252,25 +1260,25 @@ int cMapTerrainTool::GetNearVertexIndex(Vector3 vPickPos, vector<int> vecSelVert
 vector<int> cMapTerrainTool::GetVertexInBrush(Vector3 vPickPos, float fRadius)
 {
     // 브러쉬 영역을 임의로 구분 한다. (정사각형 모양으로)
-    int nMinX = vPickPos.x - fRadius;
+    int nMinX = (int)(vPickPos.x - fRadius);
     if (nMinX < 0)
     {
         nMinX = 0;
     }
 
-    int nMaxX = vPickPos.x + fRadius + 1;
+    int nMaxX = (int)(vPickPos.x + fRadius) + 1;
     if (nMaxX > m_ptMapSize.x)
     {
         nMaxX = m_ptMapSize.x;
     }
 
-    int nMinZ = vPickPos.z - fRadius;
+    int nMinZ = (int)(vPickPos.z - fRadius);
     if (nMinZ < 0)
     {
         nMinZ = 0;
     }
 
-    int nMaxZ = vPickPos.z + fRadius + 1;
+    int nMaxZ = (int)(vPickPos.z + fRadius + 1);
     if (nMaxZ > m_ptMapSize.y)
     {
         nMaxZ = m_ptMapSize.y;
@@ -1305,11 +1313,11 @@ vector<int> cMapTerrainTool::GetVertexInBrush(Vector3 vPickPos, float fRadius)
 // 지형맵 파일 저장하기
 HRESULT cMapTerrainTool::SaveFile(IN string sFolderName, IN string sFileName)
 {
-	return S_OK;
+    return S_OK;
 }
 
 // 지형맵 파일 로드하기
 HRESULT cMapTerrainTool::LoadFile(IN string sFolderName, IN string sFileName)
 {
-	return S_OK;
+    return S_OK;
 }
