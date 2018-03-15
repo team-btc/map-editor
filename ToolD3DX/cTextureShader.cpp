@@ -27,8 +27,8 @@ void cTextureShader::SetTexture()
     SetTexture1();
     SetTexture2();
     SetTexture3();
-    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Snow2.jpg");
-    m_fBackGroundDensity = 100.0f;
+    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Ice4.jpg");
+    m_fBackGroundDensity = 20.0f;
 }
 
 void cTextureShader::SetTexture1()
