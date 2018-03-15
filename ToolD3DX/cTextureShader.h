@@ -6,12 +6,14 @@ class cTextureShader
     LPD3DXEFFECT            m_pTextureShader;
     Vector4                 m_vPickPos;
     LPDIRECT3DTEXTURE9      m_pTexture[3];
+    LPDIRECT3DTEXTURE9      m_pBackGroundTexture;
+
     LPDIRECT3DTEXTURE9      m_pAlphaDraw;
-    LPDIRECT3DTEXTURE9      m_pAlpha;
     
     cBrush*                 m_pBrush;
 
     float                   m_TexDensity[3];                                            // 타일의 밀도
+    float                   m_fBackGroundDensity;
     int                     m_nTimer;
 
     string                  m_sMapKey;

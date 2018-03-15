@@ -27,6 +27,8 @@ void cTextureShader::SetTexture()
     SetTexture1();
     SetTexture2();
     SetTexture3();
+    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Snow2.jpg");
+    m_fBackGroundDensity = 100.0f;
 }
 
 void cTextureShader::SetTexture1()
@@ -435,7 +437,7 @@ void cTextureShader::SetMapSize(string* MapKey)
     }
     else
     {
-        D3DCOLOR c = D3DCOLOR_ARGB(0, 255, 0, 0);
+        D3DCOLOR c = D3DCOLOR_ARGB(0, 0, 0, 0);
         g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
         m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
     }
@@ -463,7 +465,7 @@ void cTextureShader::Render()
     m_pTextureShader->SetMatrix("gViewMatrix", &matView);
     m_pTextureShader->SetMatrix("gProjectionMatrix", &matProjection);
 
-    m_pTextureShader->SetTexture("texture0", m_pTexture[0]);
+    m_pTextureShader->SetTexture("BackGroundTexture", m_pBackGroundTexture);
     m_pTextureShader->SetTexture("texture1", m_pTexture[0]);
     m_pTextureShader->SetTexture("texture2", m_pTexture[1]);
     m_pTextureShader->SetTexture("texture3", m_pTexture[2]);
@@ -476,6 +478,7 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Spray_Radius", m_pBrush->m_fSprayRadius);
     m_pTextureShader->SetFloat("Density", m_pBrush->m_fDrawDensity);
 
+    m_pTextureShader->SetFloat("BackGroundDensity", m_fBackGroundDensity);
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
