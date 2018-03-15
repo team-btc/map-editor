@@ -52,10 +52,9 @@ BOOL cTerrainTab::OnInitDialog()
     m_pPowerSliderCtl->SetPageSize(5);				// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                     // 높이 증가율 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fPower);
-    string str = to_string(m_fPower);
-    SetDlgItemTextA(IDC_POWER_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fPower);
+    SetDlgItemTextA(IDC_POWER_EDI, str);
 
     // == 편집 높이 설정 초기화 ==
     m_pEditHeightSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_EDIT_HEIGHT_SLI);
@@ -200,10 +199,9 @@ void cTerrainTab::OnDeltaposPowerSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 높이 값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fPower);
-    string str = to_string(m_fPower);
-    SetDlgItemTextA(IDC_POWER_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fPower);
+    SetDlgItemTextA(IDC_POWER_EDI, str);
 
     // 슬라이더 위치 설정
     m_pPowerSliderCtl->SetPos((int)(m_fPower * 10.0f));		// 위치 설정
@@ -221,10 +219,9 @@ void cTerrainTab::OnCustomDrawPowerSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fPower = m_pPowerSliderCtl->GetPos() * 0.1f;
 
     // 높이 값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fPower);
-    string str = to_string(m_fPower);
-    SetDlgItemTextA(IDC_POWER_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fPower);
+    SetDlgItemTextA(IDC_POWER_EDI, str);
 
     *pResult = 0;
 }

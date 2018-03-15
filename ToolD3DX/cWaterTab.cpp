@@ -91,9 +91,9 @@ BOOL cWaterTab::OnInitDialog()
     m_pUVSpeedSliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                     // 물 UV 스피드 출력
-                                                    //char str[10];
-                                                    //sprintf(str, "%0.2f", m_fUVSpeed);
-    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, to_string(m_fUVSpeed).c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.2f", m_fUVSpeed);
+    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
     // == 물 진폭 설정 초기화 ==
     m_pWaveHeightSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_WAVE_HEIGHT_SLI);
@@ -109,8 +109,8 @@ BOOL cWaterTab::OnInitDialog()
     m_pWaveHeightSliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                         // 물 진폭값 출력
-                                                        //sprintf(str, "%0.1f", m_fWaveHeight);
-    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, to_string(m_fWaveHeight).c_str());
+    sprintf_s(str, -1, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
     // == 물 상하 스피드 설정 초기화 ==
     m_pHeightSpeedSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_HEIGHT_SPEED_SLI);
@@ -126,9 +126,8 @@ BOOL cWaterTab::OnInitDialog()
     m_pHeightSpeedSliderCtl->SetPageSize(10);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                             // 물 상하 스피드 출력
-                                                            //sprintf(str, "%0.1f", m_fHeightSpeed);
-    string szHeightSpeed = to_string(m_fHeightSpeed);
-    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, szHeightSpeed.c_str());
+    sprintf_s(str, -1, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     // == 물결 간격 설정 초기화 ==
     m_pFrequencySliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_WAVE_FREQUENCY_SLI);
@@ -144,9 +143,8 @@ BOOL cWaterTab::OnInitDialog()
     m_pFrequencySliderCtl->SetPageSize(10);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                         // 물결 간격 스피드 출력
-                                                        //sprintf(str, "%0.1f", m_fFrequency);
-    string szFrequency = to_string(m_fFrequency);
-    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, szFrequency.c_str());
+    sprintf_s(str, -1, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     // == 물 투명값 설정 초기화 ==
     m_pTransparentSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_TRANSPARENT_SLI);
@@ -162,9 +160,8 @@ BOOL cWaterTab::OnInitDialog()
     m_pTransparentSliderCtl->SetPageSize(1);			    // 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                             // 물 투명값 스피드 출력
-                                                            //sprintf(str, "%0.1f", m_fTransparent);
-    string szTransparent = to_string(m_fTransparent);
-    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, szTransparent.c_str());
+    sprintf_s(str, -1, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     // 체크박스 초기화 (물 안만듬)
     ((CButton*)GetDlgItem(IDC_WATER_MAKE_CHE))->SetCheck(m_isMakeWater);
@@ -333,10 +330,9 @@ void cWaterTab::OnDeltaposWaterUVSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 물 유속값 출력
-    //char str[10];
-    //sprintf(str, "%0.2f", m_fUVSpeed);
-    string str = to_string(m_fUVSpeed);
-    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.2f", m_fUVSpeed);
+    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
     // 슬라이더 위치 설정
     m_pUVSpeedSliderCtl->SetPos((int)(m_fUVSpeed * 100.0f));        // 위치 설정
@@ -354,10 +350,9 @@ void cWaterTab::OnCustomDrawWaterUVSpeedSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fUVSpeed = m_pUVSpeedSliderCtl->GetPos() * 0.01f;
 
     // 물 유속값 출력
-    //char str[10];
-    //sprintf(str, "%0.2f", m_fUVSpeed);
-    string str = to_string(m_fUVSpeed);
-    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.2f", m_fUVSpeed);
+    SetDlgItemTextA(IDC_WATER_UV_SPEED_EDI, str);
 
     *pResult = 0;
 }
@@ -413,10 +408,9 @@ void cWaterTab::OnDeltaposWaveHeightSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 물 진폭값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fWaveHeight);
-    string str = to_string(m_fWaveHeight);
-    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
     // 슬라이더 위치 설정
     m_pWaveHeightSliderCtl->SetPos((int)(m_fWaveHeight * 10.0f));       // 위치 설정
@@ -434,10 +428,9 @@ void cWaterTab::OnCustomDrawWaveHeightSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fWaveHeight = m_pWaveHeightSliderCtl->GetPos() * 0.1f;
 
     // 물 진폭값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fWaveHeight);
-    string str = to_string(m_fWaveHeight);
-    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fWaveHeight);
+    SetDlgItemTextA(IDC_WATER_WAVE_HEIGHT_EDI, str);
 
     *pResult = 0;
 }
@@ -493,10 +486,9 @@ void cWaterTab::OnDeltaposHeightSpeedSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 물 상하 스피드값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fHeightSpeed);
-    string str = to_string(m_fHeightSpeed);
-    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     // 슬라이더 위치 설정
     m_pHeightSpeedSliderCtl->SetPos((int)(m_fHeightSpeed * 10.0f));		// 위치 설정
@@ -514,10 +506,9 @@ void cWaterTab::OnCustomDrawHeightSpeedSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fHeightSpeed = m_pHeightSpeedSliderCtl->GetPos() * 0.1f;
 
     // 물 상하 스피드 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fHeightSpeed);
-    string str = to_string(m_fHeightSpeed);
-    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fHeightSpeed);
+    SetDlgItemTextA(IDC_WATER_HEIGHT_SPEED_EDI, str);
 
     *pResult = 0;
 }
@@ -574,10 +565,9 @@ void cWaterTab::OnDeltaposFrequencySpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 물결 간격 값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fFrequency);
-    string str = to_string(m_fFrequency);
-    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     // 슬라이더 위치 설정
     m_pFrequencySliderCtl->SetPos((int)(m_fFrequency * 10.0f));		// 위치 설정
@@ -595,10 +585,9 @@ void cWaterTab::OnCustomDrawFrequencySlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fFrequency = m_pFrequencySliderCtl->GetPos() * 0.1f;
 
     // 물결 간격 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fFrequency);
-    string str = to_string(m_fFrequency);
-    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fFrequency);
+    SetDlgItemTextA(IDC_WATER_WAVE_FREQUENCY_EDI, str);
 
     *pResult = 0;
 }
@@ -654,10 +643,9 @@ void cWaterTab::OnDeltaposTransparentSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 물 투명값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fTransparent);
-    string str = to_string(m_fTransparent);
-    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     // 슬라이더 위치 설정
     m_pTransparentSliderCtl->SetPos((int)(m_fTransparent * 10.0f));		// 위치 설정
@@ -675,10 +663,9 @@ void cWaterTab::OnCustomDrawTransparentSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fTransparent = m_pTransparentSliderCtl->GetPos() * 0.1f;
 
     // 물 투명값 출력
-    //char str[10];
-    //sprintf(str, "%0.1f", m_fTransparent);
-    string str = to_string(m_fTransparent);
-    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str.c_str());
+    char str[10];
+    sprintf_s(str, -1, "%0.1f", m_fTransparent);
+    SetDlgItemTextA(IDC_WATER_TRANSPARENT_EDI, str);
 
     *pResult = 0;
 }

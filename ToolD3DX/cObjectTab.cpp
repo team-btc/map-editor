@@ -406,10 +406,9 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
     }
 
     // 오브젝트 사이즈 출력
-    //char buffer[10];
-    //sprintf(buffer, "%.1f", m_fObjSize);
-    string buffer = to_string(m_fObjSize);
-    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer.c_str());
+    char buffer[10];
+    sprintf_s(buffer, -1, "%.1f", m_fObjSize);
+    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
     // 슬라이더 위치 설정
     m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 10.0f));		// 위치 설정
@@ -427,10 +426,9 @@ void cObjectTab::OnCustomDrawObjectSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
     m_fObjSize = m_pObjSizeSliderCtl->GetPos() * 0.1f;
 
     // 오브젝트 사이즈 출력
-    //char buffer[10];
-    //sprintf(buffer, "%.1f", m_fObjSize);
-    string str = to_string(m_fObjSize);
-    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, str.c_str());
+    char buffer[10];
+    sprintf_s(buffer, -1, "%.1f", m_fObjSize);
+    SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
     *pResult = 0;
 }
