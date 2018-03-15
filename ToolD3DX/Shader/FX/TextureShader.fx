@@ -2,12 +2,14 @@ float4 gUV;
 float Brush_Radius;
 float Spray_Radius;
 float Density;
+
+float BackGroundDensity;
 float Tex1Density;
 float Tex2Density;
 float Tex3Density;
 
 
-texture texture0;
+texture BackGroundTexture;
 texture texture1;
 texture texture2;
 texture texture3;
@@ -18,19 +20,21 @@ float4x4 gViewMatrix : View;
 float4x4 gProjectionMatrix : Projection;
 
 
-sampler2D TexSampler0 = sampler_state
+sampler2D BackGroundTex = sampler_state
 {
-   Texture = (texture0);
+   Texture = (BackGroundTexture);
+   MINFILTER = GAUSSIANQUAD;
+   MAGFILTER = GAUSSIANQUAD;
+   AddressU = Mirror;
+   AddressV = Mirror;
 };
 sampler2D TexSampler1 = sampler_state
 {
    Texture = (texture1);
    MINFILTER = GAUSSIANQUAD;
    MAGFILTER = GAUSSIANQUAD;
-   AddressU = Mirror;
-   AddressV = Mirror;
-
 };
+
 sampler2D TexSampler2 = sampler_state
 {
    Texture = (texture2);
@@ -76,15 +80,20 @@ VS_OUTPUT ColorShader_Pass_0_Vertex_Shader_vs_main(VS_INPUT Input)
 
 float4 main_0(PS_INPUT Input) : COLOR
 {
+    float BACK_DEN = BackGroundDensity;
     float TEX1_DEN = Tex1Density;
     float TEX2_DEN = Tex2Density;
     float TEX3_DEN = Tex3Density;
 
-
-    //float UVDensity = Density;
-	//float4 Tex0 = tex2D(TexSampler0, UV);
+    float BackDensity = BackGroundDensity;
 
     float2 UV = Input.uv;
+    UV.x *= BackDensity;
+    UV.y *= BackDensity;
+
+	float4 Tex0 = tex2D(BackGroundTex, UV);
+
+    UV = Input.uv;
     UV.x *= TEX1_DEN;
     UV.y *= TEX1_DEN;
 	float4 Tex1 = tex2D(TexSampler1, UV);
@@ -108,6 +117,7 @@ float4 main_0(PS_INPUT Input) : COLOR
     float Gd = Alpha.g / d;
     float Bd = Alpha.b / d;
 
+    float Backd = 1 - Rd - Gd - Bd;
 
 	float l;
 	float3 vPick = (float3)gUV;
@@ -128,7 +138,7 @@ float4 main_0(PS_INPUT Input) : COLOR
             brush = float4(2.5f, 2.5f, 2.5f, 1);
 	}
 
-	return (Tex1 * Alpha.r * Rd + Tex2 * Alpha.g * Gd + Tex3 * Alpha.b * Bd + brush * 0.4f);
+	return (Tex0 * Backd + Tex1 * Alpha.r * Rd + Tex2 * Alpha.g * Gd + Tex3 * Alpha.b * Bd + brush * 0.4f);
 };
 
 technique Shader

@@ -117,20 +117,7 @@ HRESULT cMapTerrainTool::Update()
     {
         m_pTextureShader->SetTexture2();
     }
-    if (m_isTex2Load)
-    {
-        m_pTextureShader->SetTexture3();
-    }
-    // 텍스쳐 파일변경 하기
-    if (m_isTex1Load)
-    {
-        m_pTextureShader->SetTexture1();
-    }
-    if (m_isTex2Load)
-    {
-        m_pTextureShader->SetTexture2();
-    }
-    if (m_isTex2Load)
+    if (m_isTex3Load)
     {
         m_pTextureShader->SetTexture3();
     }
