@@ -25,10 +25,12 @@ private:
 
 	E_MAP_SIZE&					m_eMapSize;											// 맵 사이즈
 	float&						m_fDefaultHeight;									// 맵 기본 높이 값
-    bool&                       m_isTex1Load;                                       // 기본 텍스쳐1 로드 여부
+    
+	bool&                       m_isTex1Load;                                       // 기본 텍스쳐1 로드 여부
     bool&                       m_isTex2Load;                                       // 기본 텍스쳐2 로드 여부
     bool&                       m_isTex3Load;                                       // 기본 텍스쳐3 로드 여부
-    string&                     m_strTex1FilePath;                                  // 기본 텍스쳐1 경로
+    
+	string&                     m_strTex1FilePath;                                  // 기본 텍스쳐1 경로
     string&                     m_strTex1FileName;                                  // 기본 텍스쳐1 이름
     string&                     m_strTex2FilePath;                                  // 기본 텍스쳐2 경로
     string&                     m_strTex2FileName;                                  // 기본 텍스쳐2 이름

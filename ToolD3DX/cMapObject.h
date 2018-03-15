@@ -30,6 +30,9 @@ public:
     // 아이디
     int     GetId() { return m_nId; }         
     void    SetId(int n) { m_nId = n; }
+
+	Matrix4 GetRotMatrix() { return m_matRot; }
+	Matrix4 GetTransMatrix() { return m_matTrans; }
     // 월드
     Matrix4 GetWorldMatrix() { return m_matWorld; }
     void    SetWorldMatrix(Matrix4 matWorld) { m_matWorld = matWorld; }

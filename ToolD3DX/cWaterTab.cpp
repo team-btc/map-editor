@@ -12,25 +12,34 @@ IMPLEMENT_DYNAMIC(cWaterTab, CDialogEx)
 
 cWaterTab::cWaterTab(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_WATER_TAB, pParent)
-	, m_pWaterHeightSliderCtl(NULL)
-	, m_pWaterHeightEditCtl(NULL)
-	, m_pUVSpeedSliderCtl(NULL)
-	, m_pUVSpeedEditCtl(NULL)
-	, m_pWaveHeightSliderCtl(NULL)
-	, m_pWaveHeightEditCtl(NULL)
-    , m_pHeightSpeedSliderCtl(NULL)
-    , m_pHeightSpeedEditCtl(NULL)
-    , m_pFrequencySliderCtl(NULL)
-    , m_pFrequencyEditCtl(NULL)
-    , m_pTransparentSliderCtl(NULL)
-    , m_pTransparentEditCtl(NULL)
-    , m_fWaterHeight(g_pMapDataManager->GetWaterHeight())
-    , m_fUVSpeed(g_pMapDataManager->GetWaterUVSpeed())
-    , m_fWaveHeight(g_pMapDataManager->GetWaterWaveHeight())
-    , m_fHeightSpeed(g_pMapDataManager->GetWaterHeightSpeed())
-    , m_fFrequency(g_pMapDataManager->GetWaterFrequency())
+	// 물체크
+	, m_pWaterMakeCheck(g_pMapDataManager->GetWaterMakeCheck())
+	// 물높이
+	, m_pWaterHeightSliderCtl(g_pMapDataManager->GetWaterHeightSliderCtl())
+	, m_pWaterHeightEditCtl(g_pMapDataManager->GetWaterHeightEditCtl())
+	, m_fWaterHeight(g_pMapDataManager->GetWaterHeight())
+	// 물UV
+	, m_pUVSpeedSliderCtl(g_pMapDataManager->GetWaterUVSpeedSliderCtl())
+	, m_pUVSpeedEditCtl(g_pMapDataManager->GetWaterUVSpeedEditCtl())
+	, m_fUVSpeed(g_pMapDataManager->GetWaterUVSpeed())
+	// 물 파도 높이
+	, m_pWaveHeightSliderCtl(g_pMapDataManager->GetWaveHeightSliderCtl())
+	, m_pWaveHeightEditCtl(g_pMapDataManager->GetWaveHeightEditCtl())
+	, m_fWaveHeight(g_pMapDataManager->GetWaterWaveHeight())
+	// 물 파도 스피드
+    , m_pHeightSpeedSliderCtl(g_pMapDataManager->GetHeightSpeedSliderCtl())
+    , m_pHeightSpeedEditCtl(g_pMapDataManager->GetHeightSpeedEditCtl())
+	, m_fHeightSpeed(g_pMapDataManager->GetWaterHeightSpeed())
+	// 물 물결 간격
+    , m_pFrequencySliderCtl(g_pMapDataManager->GetFrequencySliderCtl())
+    , m_pFrequencyEditCtl(g_pMapDataManager->GetFrequencyEditCtl())
+	, m_fFrequency(g_pMapDataManager->GetWaterFrequency())
+	// 물 투명
+    , m_pTransparentSliderCtl(g_pMapDataManager->GetTransparentSliderCtl())
+    , m_pTransparentEditCtl(g_pMapDataManager->GetTransparentEditCtl())
     , m_fTransparent(g_pMapDataManager->GetWaterTransparent())
-    , m_isMakeWater(g_pMapDataManager->GetIsMakeWater())
+    
+	, m_isMakeWater(g_pMapDataManager->GetIsMakeWater())
     , m_isSetWaterFile(g_pMapDataManager->GetIsSetWaterFile())
     , m_strWaterFileName(g_pMapDataManager->GetWaterFileName())
     , m_strWaterFilePath(g_pMapDataManager->GetWaterFilePath())
@@ -38,6 +47,7 @@ cWaterTab::cWaterTab(CWnd* pParent /*=nullptr*/)
     , m_strSkyFileName(g_pMapDataManager->GetSkyFileName())
     , m_strSkyFilePath(g_pMapDataManager->GetSkyFilePath())
 {
+	
 }
 
 cWaterTab::~cWaterTab()
@@ -49,6 +59,8 @@ BOOL cWaterTab::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
+	m_pWaterMakeCheck = (CButton*)GetDlgItem(IDC_WATER_MAKE_CHE);
+	m_pWaterMakeCheck->SetCheck(m_isMakeWater);
 
 	// == 물 Y축 위치 설정 초기화 ==
 	m_pWaterHeightSliderCtl = (CSliderCtrl*)GetDlgItem(IDC_WATER_HEIGHT_SLI);
@@ -514,9 +526,9 @@ void cWaterTab::OnChangeFrequencyEditer()
     // TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 에디터에 입력 된 값  가져오기
-    CString str = "";
+  /*  CString str = "";
     GetDlgItemText(IDC_WATER_WAVE_FREQUENCY_EDI, str);
-    m_fFrequency = atof(str);
+    m_fFrequency = atof(str);*/
 
     // 슬라이더 위치 설정
     m_pFrequencySliderCtl->SetPos(m_fFrequency * 10.0f);		// 위치 설정
@@ -735,4 +747,21 @@ void cWaterTab::OnClickedWaterMakeCheck()
     
     // 체크박스 값 받아오기
     m_isMakeWater = ((CButton*)GetDlgItem(IDC_WATER_MAKE_CHE))->GetCheck();
+}
+
+void cWaterTab::Update()
+{
+	CString tex1;
+	GetDlgItemText(IDC_WATER_FILE_NAME_STA, tex1);
+	if (tex1.GetString() != m_strWaterFileName)
+	{
+		SetDlgItemText(IDC_WATER_FILE_NAME_STA, m_strWaterFileName.c_str());
+	}
+
+	CString tex2;
+	GetDlgItemText(IDC_SKY_FILE_NAME_STA, tex2);
+	if (tex2.GetString() != m_strSkyFileName)
+	{
+		SetDlgItemText(IDC_SKY_FILE_NAME_STA, m_strSkyFileName.c_str());
+	}
 }

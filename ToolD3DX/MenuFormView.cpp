@@ -166,6 +166,7 @@ void CMenuFormView::Update()
     // 다른것도 업데이트 돌리기!
 
     rand();
+	m_pWaterTab->Update();
     m_pTextureTab->Update();
     m_pObjectTab->Update();
 }

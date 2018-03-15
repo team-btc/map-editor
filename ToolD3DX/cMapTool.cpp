@@ -3,6 +3,9 @@
 #include "cMapTerrainTool.h"
 #include "cMapObjectTool.h"
 #include "cRay.h"
+#include "MenuFormView.h"
+#include "MainFrm.h"
+#include "cWaterTab.h"
 
 cMapTool::cMapTool()
 	: m_pTerrainTool(NULL)
@@ -195,47 +198,118 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     i >> jLoad;
     i.close();
     float f;
-    bool b;
+   
     string s;
     
+	//======== 텍스쳐 1, 2, 3 세팅 ===========//
+	// 텍스쳐1
     string tex1 = jLoad["texture"]["tex1"]["key"];
-    g_pMapDataManager->SetTex1FileName(tex1);
     float den1 = jLoad["texture"]["tex1"]["density"];
-    g_pMapDataManager->SetTex1Density(den1);
-
+	g_pMapDataManager->SetTex1FileName(tex1);
+	g_pMapDataManager->SetTex1Density(den1);
+	g_pMapDataManager->GetTex1DensitySliderCtl()->SetPos(den1);
+	g_pMapDataManager->GetTex1DensityEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetTex1DensityEditCtl()->SetFocus();
+	g_pMapDataManager->GetTex1DensityEditCtl()->SetSel(-1, -1);
+	
+	// 텍스쳐2
     string tex2 = jLoad["texture"]["tex2"]["key"];
-    g_pMapDataManager->SetTex2FileName(tex2);
-    f = jLoad["texture"]["tex2"]["density"];
-    g_pMapDataManager->SetTex2Density(f);
-    string tex3 = jLoad["texture"]["tex3"]["key"];
-    g_pMapDataManager->SetTex3FileName(tex3);
-    f = jLoad["texture"]["tex3"]["density"];
-    g_pMapDataManager->SetTex3Density(f);
-    // 텍스쳐 1, 2, 3 세팅
+    float den2 = jLoad["texture"]["tex2"]["density"];
+	g_pMapDataManager->SetTex2FileName(tex2);
+    g_pMapDataManager->SetTex2Density(den2);
+	g_pMapDataManager->GetTex2DensitySliderCtl()->SetPos(den2);
+	g_pMapDataManager->GetTex2DensityEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetTex2DensityEditCtl()->SetFocus();
+	g_pMapDataManager->GetTex2DensityEditCtl()->SetSel(-1, -1);
+
+	// 텍스쳐3
+	string tex3 = jLoad["texture"]["tex3"]["key"];
+	float den3 = jLoad["texture"]["tex3"]["density"];
+	g_pMapDataManager->SetTex3FileName(tex3);
+    g_pMapDataManager->SetTex3Density(den3);
+	g_pMapDataManager->GetTex3DensitySliderCtl()->SetPos(den3);
+	g_pMapDataManager->GetTex3DensityEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetTex3DensityEditCtl()->SetFocus();
+	g_pMapDataManager->GetTex3DensityEditCtl()->SetSel(-1, -1);
     m_pTerrainTool->SetTerrainTexture();
 
-    b = jLoad["water"]["enable"];
-    g_pMapDataManager->SetIsMakeWater(b);
+	//============ 물 세팅 =============//
+    bool bMakeWater = jLoad["water"]["enable"];
+    g_pMapDataManager->SetIsMakeWater(bMakeWater);
+	g_pMapDataManager->GetWaterMakeCheck()->SetCheck(bMakeWater);
+
 	string str = jLoad["water"]["file_name"];
     g_pMapDataManager->SetWaterFileName(str);
 	string str2 = jLoad["water"]["file_path"];
 	g_pMapDataManager->SetWaterFilePath(str2);
     // 워터 텍스쳐 세팅
 	m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());
-   
-	f = jLoad["water"]["height"];
-    g_pMapDataManager->SetWaterHeight(f);
-    f = jLoad["water"]["uvspeed"];
-    g_pMapDataManager->SetWaterUVSpeed(f);
-    f = jLoad["water"]["waveheight"];
-    g_pMapDataManager->SetWaterWaveHeight(f);
-    f = jLoad["water"]["heightspeed"];
-    g_pMapDataManager->SetWaterHeightSpeed(f);
-    f = jLoad["water"]["frequency"];
-    g_pMapDataManager->SetWaterFrequency(f);
-    f = jLoad["water"]["transparent"];
-    g_pMapDataManager->SetWaterTransparent(f);
+
+	// 물높이
+	float wHeight = jLoad["water"]["height"];
+    g_pMapDataManager->SetWaterHeight(wHeight);
+	g_pMapDataManager->GetWaterHeightSliderCtl()->SetPos(wHeight);
+	g_pMapDataManager->GetWaterHeightEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetWaterHeightEditCtl()->SetFocus();
+	g_pMapDataManager->GetWaterHeightEditCtl()->SetSel(-1, -1);
+	
+	// 물 UV
+	float fUV = jLoad["water"]["uvspeed"];
+    g_pMapDataManager->SetWaterUVSpeed(fUV);
+	g_pMapDataManager->GetWaterUVSpeedSliderCtl()->SetPos(fUV);
+	char uv[10];
+	sprintf(uv, "%.2f", fUV);
+	g_pMapDataManager->GetWaterUVSpeedEditCtl()->SetWindowTextA(uv);
+	g_pMapDataManager->GetWaterUVSpeedEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetWaterUVSpeedEditCtl()->SetFocus();
+	g_pMapDataManager->GetWaterUVSpeedEditCtl()->SetSel(-1, -1);
+	
+	// 물 파도 높이
+	float fWave = jLoad["water"]["waveheight"];
+    g_pMapDataManager->SetWaterWaveHeight(fWave);
+	g_pMapDataManager->GetWaveHeightSliderCtl()->SetPos(fWave * 10.0f);
+	char wave[10];
+	sprintf(wave, "%.1f", fWave);
+	g_pMapDataManager->GetWaveHeightEditCtl()->SetWindowTextA(wave);
+	g_pMapDataManager->GetWaveHeightEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetWaveHeightEditCtl()->SetFocus();
+	g_pMapDataManager->GetWaveHeightEditCtl()->SetSel(-1, -1);
+
+	// 물 파도 스피드 
+    float fWaveSpeed = jLoad["water"]["heightspeed"];
+    g_pMapDataManager->SetWaterHeightSpeed(fWaveSpeed);
+	g_pMapDataManager->GetHeightSpeedSliderCtl()->SetPos(fWaveSpeed * 10.0f);
+	char waveHeight[10];
+	sprintf(waveHeight, "%.1f", fWaveSpeed);
+	g_pMapDataManager->GetHeightSpeedEditCtl()->SetWindowTextA(waveHeight);
+	g_pMapDataManager->GetHeightSpeedEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetHeightSpeedEditCtl()->SetFocus();
+	g_pMapDataManager->GetHeightSpeedEditCtl()->SetSel(-1, -1);
+
+	// 물 물결 간격 
+	float fFreq = jLoad["water"]["frequency"];
+    g_pMapDataManager->SetWaterFrequency(fFreq);
+	g_pMapDataManager->GetFrequencySliderCtl()->SetPos(fFreq * 10.0f);
+	char freq[10];
+	sprintf(freq, "%.1f", fFreq);
+	g_pMapDataManager->GetFrequencyEditCtl()->SetWindowTextA(freq);
+	g_pMapDataManager->GetFrequencyEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetFrequencyEditCtl()->SetFocus();
+	g_pMapDataManager->GetFrequencyEditCtl()->SetSel(-1, -1);
     
+	// 물 투명값
+	float fTrans = jLoad["water"]["transparent"];
+    g_pMapDataManager->SetWaterTransparent(fTrans);
+	g_pMapDataManager->GetTransparentSliderCtl()->SetPos(fTrans * 10.0f);
+	char trans[10];
+	sprintf(trans, "%.1f", fTrans);
+	g_pMapDataManager->GetTransparentEditCtl()->SetWindowTextA(trans);
+	g_pMapDataManager->GetTransparentEditCtl()->SetSel(0, -1);
+	g_pMapDataManager->GetTransparentEditCtl()->SetFocus();
+	g_pMapDataManager->GetTransparentEditCtl()->SetSel(-1, -1);
+
+
+	//=======================================================
     string skyText = jLoad["skybox"]["key"];
     g_pMapDataManager->SetSkyFileName(skyText);
     m_pTerrainTool->SetSkyBoxTexture();

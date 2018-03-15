@@ -696,11 +696,24 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
     {
         OnBnClickedBlockGroupEndButton();
     }
-    char current_path[MAX_PATH];
-	GetCurrentDirectory(MAX_PATH, current_path);
+
+	// 현재 폴더 경로 
+	char currentDirectory[_MAX_PATH];
+	GetCurrentDirectory(_MAX_PATH, currentDirectory);
+	
+	//GetModuleFileName(NULL, currentDirectory, _MAX_PATH);
+	//Getcurrentrun
+	CString folderName = INIT_FOLDER;
+	string guidedPath = currentDirectory + folderName;
+
 	// 확장자 필터
-	LPSTR szFilter = "X Files (*.x) |*.X|";
-	CFileDialog FileDialog(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
+	LPSTR szFilter = "X Files (*.x) |*.X||";
+	CFileDialog FileDialog(TRUE, NULL, NULL, OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, szFilter, this);
+
+	//string str = currentDirectory;
+	//str += +"\\Unit";
+	//FileDialog.m_ofn.lpstrInitialDir = guidedPath.c_str();
+
 	string text;
 	string caption = "X파일 불러오기";
 
@@ -713,9 +726,11 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
 		if (check == "X" || check == "x")
 		{
 			m_sFileKey = FileDialog.GetFileTitle();
-			m_strFilePath = FileDialog.GetFolderPath().GetString();
-			m_strFileName = FileDialog.GetFileName().GetString();
+			m_strFilePath = FileDialog.GetFolderPath();
 
+			m_strFileName = FileDialog.GetFileName();
+
+		
 			// 맵 데이터 매니져에 정보 세팅하기	
             g_pMapDataManager->SetFileKey(m_sFileKey);
 			g_pMapDataManager->SetFilePath(m_strFilePath);
@@ -741,6 +756,8 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
             SetDlgItemText(IDC_OBJ_FILE_NAME_TEXT, str.c_str());
 		}
 	}
+	
+	
 }
 // Locate 버튼
 void cObjectTab::OnBnClickedObjLocateButton()

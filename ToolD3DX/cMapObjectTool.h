@@ -5,6 +5,7 @@
 #define DEBUG_RENDER (true)
 #define BLOCK_RADIUS  (2.0f)
 #define NO_NAME ("None")
+#define SCALE_FIX	 (5.0f)
 
 // OBJECT_TAB ฐüทร
 #define OBJ_SET       ("OBJECT_TAB_SETTING")

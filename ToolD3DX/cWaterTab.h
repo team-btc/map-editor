@@ -7,34 +7,36 @@ class cWaterTab : public CDialogEx
     DECLARE_DYNAMIC(cWaterTab)
 
 private:
+	// == 물 선택 체크 박스
+	CButton*&				m_pWaterMakeCheck;
     // == 물 높이 ==
-    CSliderCtrl*            m_pWaterHeightSliderCtl;	// 슬라이더 컨트롤러
-    CEdit*					m_pWaterHeightEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&           m_pWaterHeightSliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&					m_pWaterHeightEditCtl;		// 에디터 컨트롤러
     float&					m_fWaterHeight;				// 물 높이
 
     // == 물 UV 스피드 ==
-    CSliderCtrl*			m_pUVSpeedSliderCtl;		// 슬라이더 컨트롤러
-    CEdit*					m_pUVSpeedEditCtl;			// 에디터 컨트롤러
+    CSliderCtrl*&			m_pUVSpeedSliderCtl;		// 슬라이더 컨트롤러
+    CEdit*&					m_pUVSpeedEditCtl;			// 에디터 컨트롤러
     float&					m_fUVSpeed;					// 물 UV 스피드 값
 
     // == 물 진폭 ==
-    CSliderCtrl*			m_pWaveHeightSliderCtl;		// 슬라이더 컨트롤러
-    CEdit*					m_pWaveHeightEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&			m_pWaveHeightSliderCtl;		// 슬라이더 컨트롤러
+    CEdit*&					m_pWaveHeightEditCtl;		// 에디터 컨트롤러
     float&					m_fWaveHeight;				// 물 진폭 값
 
     // == 물 상하 스피드 ==
-    CSliderCtrl*			m_pHeightSpeedSliderCtl;	// 슬라이더 컨트롤러
-    CEdit*					m_pHeightSpeedEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&			m_pHeightSpeedSliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&					m_pHeightSpeedEditCtl;		// 에디터 컨트롤러
     float&					m_fHeightSpeed;				// 물 상하 스피드 값
 
     // == 물 물결 간격 ==
-    CSliderCtrl*			m_pFrequencySliderCtl;		// 슬라이더 컨트롤러
-    CEdit*					m_pFrequencyEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&			m_pFrequencySliderCtl;		// 슬라이더 컨트롤러
+    CEdit*&					m_pFrequencyEditCtl;		// 에디터 컨트롤러
     float&					m_fFrequency;				// 물결 간격
 
     // == 물 투명값 ==
-    CSliderCtrl*			m_pTransparentSliderCtl;	// 슬라이더 컨트롤러
-    CEdit*					m_pTransparentEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&			m_pTransparentSliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&					m_pTransparentEditCtl;		// 에디터 컨트롤러
     float&					m_fTransparent;				// 물 투명값
 
     // == 물 파일 경로 ==
@@ -84,4 +86,5 @@ public:
     afx_msg void OnClickedWaterFileLoadButton();
     afx_msg void OnClickedSkyFileLoadButton();
     afx_msg void OnClickedWaterMakeCheck();
+	void Update();
 };

@@ -3,7 +3,7 @@
 #define g_pMapDataManager cMapDataManager::GetInstance()
 
 class cMapTool;
-
+class cWaterTap;
 class cMapDataManager
 {
 	SINGLETON(cMapDataManager);
@@ -93,6 +93,39 @@ class cMapDataManager
 	SYNTHESIZE_PASS_BY_REF(string, m_sFolderPath, FolderPath);
     // 블록그룹 만든 숫자
     SYNTHESIZE_PASS_BY_REF(int, m_nBlockMakeNum, BlockMakeNum);
+
+	//==================텍스쳐 탭============================================================//
+	// 텍스쳐1 
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pTex1DensitySliderCtl, Tex1DensitySliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pTex1DensityEditCtl, Tex1DensityEditCtl);
+	// 텍스쳐2
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pTex2DensitySliderCtl, Tex2DensitySliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pTex2DensityEditCtl, Tex2DensityEditCtl);
+	// 텍스쳐3
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pTex3DensitySliderCtl, Tex3DensitySliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pTex3DensityEditCtl, Tex3DensityEditCtl);
+	//==================워터 탭==============================================================//
+	// 물 선택 체크
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CButton*, m_pWaterMakeCheck, WaterMakeCheck);
+	// 물높이
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pWaterHeightSliderCtl, WaterHeightSliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pWaterHeightEditCtl, WaterHeightEditCtl);
+	// 물UV 스피드
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pUVSpeedSliderCtl, WaterUVSpeedSliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pUVSpeedEditCtl, WaterUVSpeedEditCtl);
+	// 물 파도 높이
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pWaveHeightSliderCtl, WaveHeightSliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pWaveHeightEditCtl, WaveHeightEditCtl);
+	// 물 파도 스피드
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pHeightSpeedSliderCtl, HeightSpeedSliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pHeightSpeedEditCtl, HeightSpeedEditCtl);
+	// 물 물결 간격
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pFrequencySliderCtl, FrequencySliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pFrequencyEditCtl, FrequencyEditCtl);
+	// 물 투명값
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pTransparentSliderCtl, TransparentSliderCtl);
+	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pTransparentEditCtl, TransparentEditCtl);
+
 
 private:
     cMapTool*       m_pMapTool;

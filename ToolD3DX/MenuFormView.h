@@ -54,6 +54,7 @@ public:
 
 public:
     void Update();
+	cWaterTab** GetcWaterTab() { return &m_pWaterTab; }
 };
 
 

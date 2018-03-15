@@ -44,18 +44,18 @@ private:
     float&				m_fBrushDensity;			// 브러쉬 밀도값
 
     // == 텍스쳐 1 밀도값 ==
-    CSliderCtrl*		m_pTex1DensitySliderCtl;	// 슬라이더 컨트롤러
-    CEdit*				m_pTex1DensityEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&		m_pTex1DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&				m_pTex1DensityEditCtl;		// 에디터 컨트롤러
     float&				m_fTex1Density;			    // 텍스쳐 2 밀도값
 
     // == 텍스쳐 2 밀도값 ==
-    CSliderCtrl*		m_pTex2DensitySliderCtl;	// 슬라이더 컨트롤러
-    CEdit*				m_pTex2DensityEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&		m_pTex2DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&				m_pTex2DensityEditCtl;		// 에디터 컨트롤러
     float&				m_fTex2Density;			    // 텍스쳐 2 밀도값
 
     // == 텍스쳐 3 밀도값 ==
-    CSliderCtrl*		m_pTex3DensitySliderCtl;	// 슬라이더 컨트롤러
-    CEdit*				m_pTex3DensityEditCtl;		// 에디터 컨트롤러
+    CSliderCtrl*&		m_pTex3DensitySliderCtl;	// 슬라이더 컨트롤러
+    CEdit*&				m_pTex3DensityEditCtl;		// 에디터 컨트롤러
     float&				m_fTex3Density;			    // 텍스쳐 3 밀도값
 
 public:
