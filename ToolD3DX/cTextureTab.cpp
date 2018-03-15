@@ -68,11 +68,11 @@ BOOL cTextureTab::OnInitDialog()
 	m_pTextureDensityEditCtl = (CEdit*)GetDlgItem(IDC_TEXTURE_DENSITY_EDI);
 
 	// 텍스쳐 밀도값 슬라이더 기본 설정
-	m_pTextureDensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+	m_pTextureDensitySliderCtl->SetRange(1, 1000);		// 사용영역 값 설정
 	m_pTextureDensitySliderCtl->SetRangeMin(10);		// 최소 값 설정
-	m_pTextureDensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
+	m_pTextureDensitySliderCtl->SetRangeMax(1000);		// 최대 값 설정
 	m_pTextureDensitySliderCtl->SetPos(m_fTextureDensity);	// 위치 설정
-	m_pTextureDensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+	m_pTextureDensitySliderCtl->SetTicFreq(100);			// 눈금 간격 설정
 	m_pTextureDensitySliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)
 	m_pTextureDensitySliderCtl->SetPageSize(10);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
@@ -132,11 +132,11 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex1DensityEditCtl = (CEdit*)GetDlgItem(IDC_TEX1_DSIZE_EDI);
 
     // 텍스쳐 1 밀도 슬라이더 기본 설정
-    m_pTex1DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+    m_pTex1DensitySliderCtl->SetRange(1, 1000);		// 사용영역 값 설정
     m_pTex1DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
-    m_pTex1DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
+    m_pTex1DensitySliderCtl->SetRangeMax(1000);		// 최대 값 설정
     m_pTex1DensitySliderCtl->SetPos(m_fTex1Density);	// 위치 설정
-    m_pTex1DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+    m_pTex1DensitySliderCtl->SetTicFreq(100);			// 눈금 간격 설정
     m_pTex1DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex1DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
@@ -148,11 +148,11 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex2DensityEditCtl = (CEdit*)GetDlgItem(IDC_TEX2_DSIZE_EDI);
 
     // 텍스쳐 2 밀도 슬라이더 기본 설정
-    m_pTex2DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+    m_pTex2DensitySliderCtl->SetRange(1, 1000);		// 사용영역 값 설정
     m_pTex2DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
-    m_pTex2DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
+    m_pTex2DensitySliderCtl->SetRangeMax(1000);		// 최대 값 설정
     m_pTex2DensitySliderCtl->SetPos(m_fTex2Density);	// 위치 설정
-    m_pTex2DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+    m_pTex2DensitySliderCtl->SetTicFreq(100);			// 눈금 간격 설정
     m_pTex2DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex2DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
@@ -164,11 +164,11 @@ BOOL cTextureTab::OnInitDialog()
     m_pTex3DensityEditCtl = (CEdit*)GetDlgItem(IDC_TEX3_DSIZE_EDI);
 
     // 텍스쳐 3 밀도 슬라이더 기본 설정
-    m_pTex3DensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
+    m_pTex3DensitySliderCtl->SetRange(1, 1000);		// 사용영역 값 설정
     m_pTex3DensitySliderCtl->SetRangeMin(1);		// 최소 값 설정
-    m_pTex3DensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
+    m_pTex3DensitySliderCtl->SetRangeMax(1000);		// 최대 값 설정
     m_pTex3DensitySliderCtl->SetPos(m_fTex3Density);	// 위치 설정
-    m_pTex3DensitySliderCtl->SetTicFreq(10);			// 눈금 간격 설정
+    m_pTex3DensitySliderCtl->SetTicFreq(100);			// 눈금 간격 설정
     m_pTex3DensitySliderCtl->SetLineSize(1);			// 증가 크기(키보드로 컨트롤 할 때)
     m_pTex3DensitySliderCtl->SetPageSize(5);			// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
@@ -636,7 +636,7 @@ void cTextureTab::OnDeltaposTex1DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fTex1Density >= 100)
+        if (m_fTex1Density >= 1000)
         {
             return;
         }
@@ -670,7 +670,7 @@ void cTextureTab::OnDeltaposTex2DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fTex2Density >= 100)
+        if (m_fTex2Density >= 1000)
         {
             return;
         }
@@ -704,7 +704,7 @@ void cTextureTab::OnDeltaposTex3DsizeSpi(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fTex3Density >= 100)
+        if (m_fTex3Density >= 1000)
         {
             return;
         }

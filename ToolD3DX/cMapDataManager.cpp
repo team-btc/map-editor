@@ -21,6 +21,14 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("DarkSky.jpg", "Texture/DarkSky.jpg");
     g_pTextureManager->AddTexture("Rocky.jpg", "Texture/Rocky.jpg");
     g_pTextureManager->AddTexture("Snow.jpg", "Texture/Snow.jpg");
+    g_pTextureManager->AddTexture("Snow2.jpg", "Texture/Snow2.jpg");
+    g_pTextureManager->AddTexture("Ice.jpg", "Texture/Ice.jpg");
+    g_pTextureManager->AddTexture("Ice2.jpg", "Texture/Ice2.jpg");
+    g_pTextureManager->AddTexture("Ice2.png", "Texture/Ice2.png");
+    g_pTextureManager->AddTexture("Ice3.jpg", "Texture/Ice3.jpg");
+    g_pTextureManager->AddTexture("Ice4.jpg", "Texture/Ice4.jpg");
+
+
     g_pTextureManager->AddTexture("Lava.jpg", "Texture/Lava.jpg");
     g_pTextureManager->AddTexture("Space.jpg", "Texture/Space.jpg");
     g_pTextureManager->AddTexture("mecha.jpg", "Texture/mecha.jpg");
