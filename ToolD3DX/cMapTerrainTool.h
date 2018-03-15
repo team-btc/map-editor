@@ -5,6 +5,7 @@
 #include "cTotalShader.h"
 #include "cSkyBoxShader.h"
 #include "cObject.h"
+#include "cFogShader.h"
 
 #define GT_MAX_NUM			4														// 지형 타입 개수
 #define DEFAULT_BLD			1.0f													// 블렌딩 기본 값
@@ -109,6 +110,7 @@ private:
     cBrush*                         m_pBrush;                                       // 브러쉬 클래스
     cWaveShader*                    m_pWaveShader;
     cSkyBoxShader*                  m_pSkyBoxShader;
+    cFogShader*                     m_pFogShader;
     float                           m_fPassedEditTime;                              // 편집 경과 시간
 
 private:

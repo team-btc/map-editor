@@ -23,7 +23,7 @@
     <RootNamespace>ToolBasic00</RootNamespace>
     <Keyword>MFCProj</Keyword>
     <ProjectName>ToolD3DX</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -204,9 +204,6 @@
     <ClInclude Include="cCamera.h" />
     <ClInclude Include="cCreateMapDlg.h" />
     <ClInclude Include="cDeviceManager.h" />
-    <ClInclude Include="cFogShader.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="cFontManager.h" />
     <ClInclude Include="cKeyManager.h" />
     <ClInclude Include="cLogManager.h" />
@@ -238,6 +235,7 @@
     <ClInclude Include="DataStructure.h" />
     <ClInclude Include="DefineMacro.h" />
     <ClInclude Include="Enum.h" />
+    <ClInclude Include="cFogShader.h" />
     <ClInclude Include="iObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MainFrm.h" />
@@ -261,9 +259,6 @@
     <ClCompile Include="cCamera.cpp" />
     <ClCompile Include="cCreateMapDlg.cpp" />
     <ClCompile Include="cDeviceManager.cpp" />
-    <ClCompile Include="cFogShader.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="cFontManager.cpp" />
     <ClCompile Include="cKeyManager.cpp" />
     <ClCompile Include="cLogManager.cpp" />
@@ -292,6 +287,7 @@
     <ClCompile Include="D3DApp.cpp" />
     <ClCompile Include="cMainGame.cpp" />
     <ClCompile Include="D3DUtility.cpp" />
+    <ClCompile Include="cFogShader.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MenuFormView.cpp" />
     <ClCompile Include="stdafx.cpp">

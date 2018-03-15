@@ -37,6 +37,7 @@ cMapTerrainTool::cMapTerrainTool()
     , m_pBrush(NULL)
     , m_pWaveShader(NULL)
     , m_pSkyBoxShader(NULL)
+    , m_pFogShader(NULL)
     , m_fPassedEditTime(0.0f)
     , m_fillMode(D3DFILL_SOLID)
 {
@@ -50,6 +51,7 @@ cMapTerrainTool::~cMapTerrainTool()
     SAFE_DELETE(m_pTextureShader);
     SAFE_DELETE(m_pWaveShader);
     SAFE_DELETE(m_pSkyBoxShader);
+    SAFE_DELETE(m_pFogShader);
 }
 
 HRESULT cMapTerrainTool::Setup()
@@ -64,6 +66,7 @@ HRESULT cMapTerrainTool::Setup()
     m_pTextureShader = new cTextureShader;
     m_pWaveShader = new cWaveShader;
     m_pSkyBoxShader = new cSkyBoxShader;
+    m_pFogShader = new cFogShader;
 
     m_stTerrainBrushInfo.eUpDown = E_UP;
     m_stTerrainBrushInfo.eEditType = E_TER_EDIT_BEGIN;
@@ -251,7 +254,8 @@ HRESULT cMapTerrainTool::Render()
     {
         m_pWaveShader->Render(vP);
     }
-
+    
+    m_pFogShader->Render();
     g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
 
    
@@ -451,6 +455,7 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
         &vecAdjBuf2[0], 0, 0, 0);
 
     m_pWaveShader->SetMesh(m_pMesh);
+    m_pFogShader->SetMesh(m_pMesh);
 
 	return S_OK;
 }

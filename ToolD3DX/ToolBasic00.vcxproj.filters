@@ -174,9 +174,6 @@
     <ClInclude Include="cRay.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="cFogShader.h">
-      <Filter>D3DX\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="cWaveShader.h">
       <Filter>D3DX\Shader</Filter>
     </ClInclude>
@@ -197,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="cFogShader.h">
+      <Filter>D3DX\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -305,9 +305,6 @@
     <ClCompile Include="cSkyBoxShader.cpp">
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="cFogShader.cpp">
-      <Filter>D3DX\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="cTextureShader.cpp">
       <Filter>D3DX\Shader</Filter>
     </ClCompile>
@@ -319,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="cMapObject.cpp">
       <Filter>D3DX</Filter>
+    </ClCompile>
+    <ClCompile Include="cFogShader.cpp">
+      <Filter>D3DX\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,20 @@ cTextureShader::cTextureShader()
     }
 
     m_nTimer = 0;
+
+    m_isSelectPlayer = true;
+    m_isSelectEnemy = true;
+    m_isSelectNPC = false;
+
+    m_vPlayerPos = Vector4(100, 0, 100, 1);
+    m_vTargetPos = Vector4(30, 0, 200, 1);
+ 
+    m_fPlayerScale = 30.0f;
+    m_fTargetScale = 30.0f;
+   
+    m_vPlayerColor = Vector4(20, 200, 50, 120);
+    m_vEnemyColor = Vector4(200, 50, 20, 120);
+    m_vNPCColor = Vector4(200, 200, 35, 120);
 }
 
 cTextureShader::~cTextureShader()
@@ -455,6 +469,7 @@ void cTextureShader::Render()
 {
     D3DXMATRIXA16 matW, matView, matProjection;
     D3DXMatrixIdentity(&matW);
+    int nSize = (g_pMapDataManager->GetMapSize() + 1) * 64;
 
     g_pDevice->GetTransform(D3DTS_VIEW, &matView);
     g_pDevice->GetTransform(D3DTS_PROJECTION, &matProjection);
@@ -475,11 +490,38 @@ void cTextureShader::Render()
     m_pTextureShader->SetFloat("Brush_Radius", m_pBrush->m_fBrushRadius);
     m_pTextureShader->SetFloat("Spray_Radius", m_pBrush->m_fSprayRadius);
     m_pTextureShader->SetFloat("Density", m_pBrush->m_fDrawDensity);
-
+    
     m_pTextureShader->SetFloat("Tex1Density", m_pBrush->m_fTex1Density);
     m_pTextureShader->SetFloat("Tex2Density", m_pBrush->m_fTex2Density);
     m_pTextureShader->SetFloat("Tex3Density", m_pBrush->m_fTex3Density);
     
+    Vector4 v = Vector4(m_vPlayerPos.x / nSize, m_vPlayerPos.y, m_vPlayerPos.z / nSize, 1);
+    m_pTextureShader->SetVector("PlayerPos", &v);
+    v = Vector4(m_vTargetPos.x / nSize, m_vTargetPos.y , m_vTargetPos.z / nSize, 1);
+    m_pTextureShader->SetVector("TargetPos", &v);
+   
+    
+    m_pTextureShader->SetFloat("PlayerScale", m_fPlayerScale / nSize);
+    m_pTextureShader->SetFloat("TargetScale", m_fTargetScale / nSize);
+  
+    m_pTextureShader->SetVector("PlayerColor", &m_vPlayerColor);
+    if (!m_isSelectPlayer)
+    {
+        m_pTextureShader->SetVector("PlayerColor", &Vector4(0,0,0,0));
+    }
+
+    m_pTextureShader->SetVector("TargetColor", &Vector4(0, 0, 0, 0));
+    if (m_isSelectEnemy)
+    {
+        m_pTextureShader->SetVector("TargetColor", &m_vEnemyColor);
+    }
+
+    m_pTextureShader->SetVector("TargetColor", &Vector4(0, 0, 0, 0));
+    if (m_isSelectNPC)
+    {
+        m_pTextureShader->SetVector("TargetColor", &m_vNPCColor);
+    }
+
    UINT numPasses = 0;
    m_pTextureShader->Begin(&numPasses, NULL);
    {
