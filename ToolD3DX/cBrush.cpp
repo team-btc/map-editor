@@ -39,25 +39,25 @@ void cBrush::GetRect()
 {
     int nSize = (g_pMapDataManager->GetMapSize() + 1) * 64;
 
-    int nMinX = (int)(m_pPick.x - m_fBrushRadius);
+    int nMinX = (m_pPick.x - m_fBrushRadius);
     if (nMinX < 0)
     {
         nMinX = 0;
     }
 
-    int nMaxX = (int)(m_pPick.x + m_fBrushRadius) * nSize + 1;
+    int nMaxX = (m_pPick.x + m_fBrushRadius) * nSize + 1;
     if (nMaxX > nSize)
     {
         nMaxX = nSize;
     }
 
-    int nMinZ = (int)(m_pPick.z - m_fBrushRadius) * nSize;
+    int nMinZ = (m_pPick.z - m_fBrushRadius) * nSize;
     if (nMinZ < 0)
     {
         nMinZ = 0;
     }
 
-    int nMaxZ = (int)(m_pPick.z + m_fBrushRadius) * nSize + 1;
+    int nMaxZ = (m_pPick.z + m_fBrushRadius) * nSize + 1;
     if (nMaxZ > nSize)
     {
         nMaxZ = nSize;
@@ -68,25 +68,25 @@ void cBrush::GetRect()
     m_nNearMinX = nMinX;
     m_nNearMinZ = nMinZ;
 
-    nMinX = (int)((m_pPick.x - m_fSprayRadius) * nSize);
+    nMinX = ((m_pPick.x - m_fSprayRadius) * nSize);
     if (nMinX < 0)
     {
         nMinX = 0;
     }
 
-    nMaxX = (int)((m_pPick.x + m_fSprayRadius) * nSize + 1);
+    nMaxX = ((m_pPick.x + m_fSprayRadius) * nSize + 1);
     if (nMaxX > nSize)
     {
         nMaxX = nSize;
     }
 
-    nMinZ = (int)((m_pPick.z - m_fSprayRadius) * nSize);
+    nMinZ = ((m_pPick.z - m_fSprayRadius) * nSize);
     if (nMinZ < 0)
     {
         nMinZ = 0;
     }
 
-    nMaxZ = (int)((m_pPick.z + m_fSprayRadius) * nSize + 1);
+    nMaxZ = ((m_pPick.z + m_fSprayRadius) * nSize + 1);
     if (nMaxZ > nSize)
     {
         nMaxZ = nSize;
@@ -96,4 +96,5 @@ void cBrush::GetRect()
     m_nFarMaxZ = nMaxZ;
     m_nFarMinX = nMinX;
     m_nFarMinZ = nMinZ;
+    
 }
