@@ -195,8 +195,13 @@
 #define IDC_BLOCK_GROUP_CLEAR_BUTTON    2088
 #define IDC_BUTTON1                     2100
 #define IDC_WATER_LOAD_BUT              2100
-#define IDC_SAVE_MAP_BUT                2100
 #define IDC_SKY_LOAD_BUT                2101
+#define IDC_SAVE_MAP_BUT                2100
+#define IDC_EVENT_APPLY                 2202
+#define IDC_EVENT_DEL                   2203
+#define IDC_EVENT_EDI                   2204
+#define IDC_EVENT_LIS                   2205
+#define IDC_EVENT_MAKE                  2206
 #define IDC_BRUSH_RAD                   7500
 #define IDC_SPRAY_RAD                   7501
 #define IDC_ERASE_RAD                   7502
@@ -210,7 +215,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1106
+#define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           311
 #endif
 #endif

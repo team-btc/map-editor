@@ -1,0 +1,142 @@
+{
+    "BLOCK_GROUP": [
+        {
+            "BLOCK_GROUP_COLOR": 4279064555,
+            "BLOCK_GROUP_NAME": "GROUP_0",
+            "BLOCK_GROUP_POINT": [
+                {
+                    "BLOCK_POINT_X": 167.81526184082,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 111.872909545898
+                },
+                {
+                    "BLOCK_POINT_X": 156.292984008789,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 103.532249450684
+                },
+                {
+                    "BLOCK_POINT_X": 119.333709716797,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 113.844596862793
+                },
+                {
+                    "BLOCK_POINT_X": 111.79174041748,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 130.29557800293
+                },
+                {
+                    "BLOCK_POINT_X": 124.189544677734,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 155.137130737305
+                },
+                {
+                    "BLOCK_POINT_X": 134.708679199219,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 161.946762084961
+                },
+                {
+                    "BLOCK_POINT_X": 155.927658081055,
+                    "BLOCK_POINT_Y": 128.0,
+                    "BLOCK_POINT_Z": 174.961120605469
+                }
+            ]
+        }
+    ],
+    "EVENT": [
+        {
+            "EVENT_NAME": "kk",
+            "EVENT_POSITION_X": 100.261283874512,
+            "EVENT_POSITION_Y": 127.999992370605,
+            "EVENT_POSITION_Z": 96.5828094482422
+        },
+        {
+            "EVENT_NAME": "sdsda",
+            "EVENT_POSITION_X": 152.737274169922,
+            "EVENT_POSITION_Y": 128.0,
+            "EVENT_POSITION_Z": 40.6241798400879
+        }
+    ],
+    "OBJECT": [
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "Ghost",
+            "OBJECT_FILE_NAME": "Ghost.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\test3\\map-editor\\ToolD3DX\\Unit\\Ghost",
+            "OBJECT_POSITION_X": 201.4853515625,
+            "OBJECT_POSITION_Y": 128.0,
+            "OBJECT_POSITION_Z": 118.118965148926,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 1.79999995231628
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "Ghost",
+            "OBJECT_FILE_NAME": "Ghost.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\test3\\map-editor\\ToolD3DX\\Unit\\Ghost",
+            "OBJECT_POSITION_X": 188.718444824219,
+            "OBJECT_POSITION_Y": 128.0,
+            "OBJECT_POSITION_Z": 87.2974624633789,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 1.79999995231628
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "Ghost",
+            "OBJECT_FILE_NAME": "Ghost.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\choi\\Desktop\\work\\test3\\map-editor\\ToolD3DX\\Unit\\Ghost",
+            "OBJECT_POSITION_X": 150.609313964844,
+            "OBJECT_POSITION_Y": 128.0,
+            "OBJECT_POSITION_Z": 75.3648300170898,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 1.79999995231628
+        }
+    ],
+    "OBJECT_TAB_SETTING": {
+        "OBJECT_TAB_BLOCK_MAKE_NUM": 0,
+        "OBJECT_TAB_OBJECT_MAKE_NUM": 3
+    },
+    "map": {
+        "size": 3
+    },
+    "skybox": {
+        "key": "MidNight.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 10.0,
+            "key": "Soil.jpg"
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "Grass.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": false,
+        "file_name": "NONE",
+        "file_path": "",
+        "frequency": 7.0,
+        "height": 128.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.00999999977648258,
+        "waveheight": 0.600000023841858
+    }
+}
