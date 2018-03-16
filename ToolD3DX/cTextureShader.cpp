@@ -27,25 +27,25 @@ void cTextureShader::SetTexture()
     SetTexture1();
     SetTexture2();
     SetTexture3();
-    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Ice4.jpg");
+    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Grass.jpg");
     m_fBackGroundDensity = 20.0f;
 }
 
 void cTextureShader::SetTexture1()
 {
-    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex1FileName(), g_pMapDataManager->GetTex1FilePath() + "//" + g_pMapDataManager->GetTex1FileName());
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex1FileName(), g_pMapDataManager->GetTex1FilePath() + "//" + g_pMapDataManager->GetTex1FileName());
     m_pTexture[0] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex1FileName());
 }
 
 void cTextureShader::SetTexture2()
 {
-    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex2FileName(), g_pMapDataManager->GetTex2FilePath() + "//" + g_pMapDataManager->GetTex2FileName());
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex2FileName(), g_pMapDataManager->GetTex2FilePath() + "//" + g_pMapDataManager->GetTex2FileName());
     m_pTexture[1] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex2FileName());
 }
 
 void cTextureShader::SetTexture3()
 {
-    //g_pTextureManager->AddTexture(g_pMapDataManager->GetTex3FileName(), g_pMapDataManager->GetTex3FilePath() + "//" + g_pMapDataManager->GetTex3FileName());
+    g_pTextureManager->AddTexture(g_pMapDataManager->GetTex3FileName(), g_pMapDataManager->GetTex3FilePath() + "//" + g_pMapDataManager->GetTex3FileName());
     m_pTexture[2] = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetTex3FileName());
 }
 

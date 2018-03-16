@@ -117,17 +117,23 @@ HRESULT cMapTool::Render()
     {
         m_pTerrainTool->RenderSkyBox();
     }
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
     if (m_pObjectTool)
     {
         m_pObjectTool->Render();
     }
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
     if (m_pTerrainTool)
     {
         m_pTerrainTool->Render();
     }
-
+    if (m_pObjectTool)
+    {
+        m_pObjectTool->Render();
+    }
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
 
 
     RendPtMouse();

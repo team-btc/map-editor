@@ -1,0 +1,55 @@
+{
+    "OBJECT": [
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "tree-02",
+            "OBJECT_FILE_NAME": "tree-01.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\tree",
+            "OBJECT_POSITION_X": 184.391540527344,
+            "OBJECT_POSITION_Y": 185.0,
+            "OBJECT_POSITION_Z": 246.479080200195,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 1.0
+        }
+    ],
+    "OBJECT_TAB_SETTING": {
+        "OBJECT_TAB_BLOCK_MAKE_NUM": -1,
+        "OBJECT_TAB_OBJECT_MAKE_NUM": 3
+    },
+    "map": {
+        "size": 3
+    },
+    "skybox": {
+        "key": "SkyBlue.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 58.0,
+            "key": "ground1_512.jpg"
+        },
+        "tex2": {
+            "density": 220.0,
+            "key": "yeuck_sewer.jpg"
+        },
+        "tex3": {
+            "density": 134.0,
+            "key": "bottom2.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "file_name": "water.jpg",
+        "file_path": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_MapTool\\map-editor\\ToolD3DX\\Texture",
+        "frequency": 9.5,
+        "height": 119.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.0199999995529652,
+        "waveheight": 0.600000023841858
+    }
+}
