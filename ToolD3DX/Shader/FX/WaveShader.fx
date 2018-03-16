@@ -205,8 +205,8 @@ technique WaveShader
 {
    pass Pass_0
    {
-      ALPHABLENDENABLE = TRUE;
       BLENDOP = ADD;
+      ALPHABLENDENABLE = TRUE;
       DESTBLEND = INVSRCALPHA;
       SRCBLEND = BOTHINVSRCALPHA;
       ZWRITEENABLE = TRUE;

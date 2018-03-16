@@ -132,7 +132,7 @@ void cTextureShader::DrawTexture()
                     lSour = lSour & 0x0000ff;
                     x = max(lSour, x);
 
-                    *(pDWordDST + y) = 0x00000100 * x;
+                    *(pDWordDST + y) = 0x01000100 * x;
                 }
             }
             for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
@@ -145,7 +145,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    *(pDWordDST + y) = 0x0000ff00;
+                    *(pDWordDST + y) = 0xff00ff00;
                 }
             }
 
@@ -180,7 +180,7 @@ void cTextureShader::DrawTexture()
                     lSour = lSour & 0x000000ff;
                     x = max(lSour, x);
 
-                    *(pDWordDST + y) = 0x00000001 * x;
+                    *(pDWordDST + y) = 0x01000001 * x;
                 }
             }
             for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
@@ -193,7 +193,7 @@ void cTextureShader::DrawTexture()
                     float length = sqrt(lx * lx + ly * ly);
                     if (length > m_pBrush->m_fNR)
                         continue;
-                    *(pDWordDST + y) = 0x000000ff;
+                    *(pDWordDST + y) = 0xff0000ff;
                 }
             }
 

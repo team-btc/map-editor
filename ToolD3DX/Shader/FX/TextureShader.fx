@@ -297,7 +297,7 @@ technique Shader
 
         // CULLMODE = CW;
 
-        //ZWRITEENABLE = FALSE;
+        // ZWRITEENABLE = FALSE;
 
         // ALPHABLENDENABLE = FALSE;
 
@@ -306,8 +306,6 @@ technique Shader
         // DESTBLEND = INVSRCALPHA;
 
         // SRCBLEND = BOTHINVSRCALPHA;
-
-
 
         PixelShader = compile ps_2_0 main_0();
 
