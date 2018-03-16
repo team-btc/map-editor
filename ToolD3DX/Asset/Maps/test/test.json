@@ -1,0 +1,55 @@
+{
+    "OBJECT": [
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "lumbermill",
+            "OBJECT_FILE_NAME": "lumbermill.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\building\\lumbermill",
+            "OBJECT_POSITION_X": 120.090057373047,
+            "OBJECT_POSITION_Y": 181.080444335938,
+            "OBJECT_POSITION_Z": 134.455673217773,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 0.100000001490116
+        }
+    ],
+    "OBJECT_TAB_SETTING": {
+        "OBJECT_TAB_BLOCK_MAKE_NUM": -1,
+        "OBJECT_TAB_OBJECT_MAKE_NUM": 1
+    },
+    "map": {
+        "size": 3
+    },
+    "skybox": {
+        "key": "MidNight.dds"
+    },
+    "texture": {
+        "tex1": {
+            "density": 10.0,
+            "key": "Soil.jpg"
+        },
+        "tex2": {
+            "density": 10.0,
+            "key": "Grass.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": false,
+        "file_name": "NONE",
+        "file_path": "",
+        "frequency": 7.0,
+        "height": 128.0,
+        "heightspeed": 2.40000009536743,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.00999999977648258,
+        "waveheight": 0.600000023841858
+    }
+}

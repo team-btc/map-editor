@@ -118,26 +118,26 @@ HRESULT cMapTool::Render()
     {
         m_pTerrainTool->RenderSkyBox();
     }
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DRS_DESTBLENDALPHA);
-    g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DRS_SRCBLENDALPHA);
     if (m_pObjectTool)
     {
         m_pObjectTool->Render();
     }
   
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    // g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    // g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DRS_DESTBLENDALPHA);
+    // g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DRS_SRCBLENDALPHA);
+    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
     if (m_pTerrainTool)
     {
         m_pTerrainTool->Render();
     }
-    if (m_pObjectTool)
-    {
-        m_pObjectTool->Render();
-    }
-    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    // if (m_pObjectTool)
+    // {
+    //     m_pObjectTool->Render();
+    // }
+    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+    // g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 
     RendPtMouse();

@@ -12,11 +12,11 @@
     "texture": {
         "tex1": {
             "density": 77.0,
-            "key": "bottom2.jpg"
+            "key": "Cliff.jpg"
         },
         "tex2": {
             "density": 248.0,
-            "key": "ground1_512.jpg"
+            "key": "Grass2.jpg"
         },
         "tex3": {
             "density": 10.0,
