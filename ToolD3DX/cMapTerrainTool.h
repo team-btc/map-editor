@@ -135,6 +135,8 @@ public:
     HRESULT Update();
     HRESULT Render();
     HRESULT RenderSkyBox();
+    HRESULT RenderTextureShader();
+
     void OnceLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 클릭 했을 때 발동
     void StayLButtonDown(E_TAB_TYPE eTabType);                                                                          // 마우스 왼쪽 버튼 계속 누를 때 발동
 

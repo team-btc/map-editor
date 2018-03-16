@@ -232,25 +232,44 @@ HRESULT cMapTerrainTool::Render()
 
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
 
-    m_pTextureShader->Render();
+    
 
     if (m_isWaterEnable)
     {
         m_pWaveShader->Render(vP);
     }
 
-    g_pDevice->SetRenderState(D3DRS_ZENABLE, true);
-
-
     return S_OK;
 }
 
 HRESULT cMapTerrainTool::RenderSkyBox()
 {
+    if (!m_pMesh)
+    {
+        return E_FAIL;
+    }
     Vector4 vP(g_vCameraPos.x, g_vCameraPos.y, g_vCameraPos.z, 1.0f);
 
     m_pSkyBoxShader->Render(vP);
     return S_OK;
+}
+
+HRESULT cMapTerrainTool::RenderTextureShader()
+{
+    Matrix4 matW, matV, matP;
+    D3DXMatrixIdentity(&matW);
+    g_pDevice->SetTransform(D3DTS_WORLD, &matW);
+    g_pDevice->SetMaterial(&WHITE_MTRL);
+    g_pDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);
+    g_pDevice->SetRenderState(D3DRS_LIGHTING, true);
+    g_pDevice->LightEnable(0, true);
+    g_pDevice->SetRenderState(D3DRS_FILLMODE, m_fillMode);
+    if (!m_pMesh)
+    {
+        return E_FAIL;
+    }
+    m_pTextureShader->Render();
+    return E_NOTIMPL;
 }
 
 // 마우스 왼쪽 버튼 클릭 했을 때 발동

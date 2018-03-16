@@ -295,18 +295,6 @@ technique Shader
 
     {
 
-        // CULLMODE = CW;
-
-        // ZWRITEENABLE = FALSE;
-
-        // ALPHABLENDENABLE = FALSE;
-
-        // BLENDOP = ADD;
-
-        // DESTBLEND = INVSRCALPHA;
-
-        // SRCBLEND = BOTHINVSRCALPHA;
-
         PixelShader = compile ps_2_0 main_0();
 
     }

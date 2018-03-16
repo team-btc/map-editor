@@ -118,32 +118,27 @@ HRESULT cMapTool::Render()
     {
         m_pTerrainTool->RenderSkyBox();
     }
+    
+    if (m_pTerrainTool)
+    {
+        m_pTerrainTool->RenderTextureShader();
+    }
+
+    g_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+    g_pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
+    g_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
     if (m_pObjectTool)
     {
         m_pObjectTool->Render();
     }
-  
-    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    // g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-    // g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DRS_DESTBLENDALPHA);
-    // g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DRS_SRCBLENDALPHA);
-    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+    g_pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    g_pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
+
     if (m_pTerrainTool)
     {
         m_pTerrainTool->Render();
     }
-    // if (m_pObjectTool)
-    // {
-    //     m_pObjectTool->Render();
-    // }
-    // g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-    // g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-
-    if (m_pObjectTool)
-    {
-        m_pObjectTool->Render();
-    }
     RendPtMouse();
     return S_OK;
 }

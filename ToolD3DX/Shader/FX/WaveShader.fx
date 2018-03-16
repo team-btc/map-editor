@@ -209,11 +209,12 @@ technique WaveShader
       ALPHABLENDENABLE = TRUE;
       DESTBLEND = INVSRCALPHA;
       SRCBLEND = BOTHINVSRCALPHA;
-      ZWRITEENABLE = TRUE;
       // CULLMODE = CW;
       // ZWRITEENABLE = FALSE;
       VertexShader = compile vs_2_0 WaveShader_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_2_0 WaveShader_Pass_0_Pixel_Shader_ps_main();
+      //ALPHABLENDENABLE = FALSE;
+
    }
 
 }

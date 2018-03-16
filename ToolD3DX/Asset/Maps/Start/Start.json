@@ -1,7 +1,7 @@
 {
     "BLOCK_GROUP": [
         {
-            "BLOCK_GROUP_COLOR": 4281045751,
+            "BLOCK_GROUP_COLOR": 4291612627,
             "BLOCK_GROUP_NAME": "group-0",
             "BLOCK_GROUP_POINT": [
                 {
@@ -240,21 +240,6 @@
         },
         {
             "OBJECT_COLLISION": true,
-            "OBJECT_DESTRUCTION": false,
-            "OBJECT_ENEMY": false,
-            "OBJECT_FILE_KEY": "horde-chest",
-            "OBJECT_FILE_NAME": "blacksmith.X",
-            "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\doodad",
-            "OBJECT_POSITION_X": 58.4569931030273,
-            "OBJECT_POSITION_Y": 128.0,
-            "OBJECT_POSITION_Z": 78.7353134155273,
-            "OBJECT_ROTATION_X": 0.0,
-            "OBJECT_ROTATION_Y": 0.0,
-            "OBJECT_ROTATION_Z": 0.0,
-            "OBJECT_SCALE": 0.100000001490116
-        },
-        {
-            "OBJECT_COLLISION": true,
             "OBJECT_DESTRUCTION": true,
             "OBJECT_ENEMY": false,
             "OBJECT_FILE_KEY": "forsaken-barricade",
@@ -306,7 +291,7 @@
             "OBJECT_FILE_NAME": "flower-03.X",
             "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\flower",
             "OBJECT_POSITION_X": 104.735260009766,
-            "OBJECT_POSITION_Y": 70.0,
+            "OBJECT_POSITION_Y": 69.9999694824219,
             "OBJECT_POSITION_Z": 224.210830688477,
             "OBJECT_ROTATION_X": 0.0,
             "OBJECT_ROTATION_Y": 8.0,
@@ -396,7 +381,7 @@
             "OBJECT_FILE_NAME": "flower-03.X",
             "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\flower",
             "OBJECT_POSITION_X": 136.869812011719,
-            "OBJECT_POSITION_Y": 57.6692504882813,
+            "OBJECT_POSITION_Y": 57.6692810058594,
             "OBJECT_POSITION_Z": 183.039749145508,
             "OBJECT_ROTATION_X": 0.0,
             "OBJECT_ROTATION_Y": 8.0,
@@ -411,7 +396,7 @@
             "OBJECT_FILE_NAME": "flower-03.X",
             "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\flower",
             "OBJECT_POSITION_X": 106.351768493652,
-            "OBJECT_POSITION_Y": 57.2714538574219,
+            "OBJECT_POSITION_Y": 57.2713928222656,
             "OBJECT_POSITION_Z": 171.372329711914,
             "OBJECT_ROTATION_X": 0.0,
             "OBJECT_ROTATION_Y": 8.0,
@@ -462,12 +447,86 @@
             "OBJECT_ROTATION_Y": 8.0,
             "OBJECT_ROTATION_Z": 0.0,
             "OBJECT_SCALE": 0.100000001490116
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "flower-03.X",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 131.574676513672,
+            "OBJECT_POSITION_Y": 70.0,
+            "OBJECT_POSITION_Z": 199.503860473633,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 0.00999999977648258
+        },
+        {
+            "OBJECT_COLLISION": false,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "",
+            "OBJECT_FILE_NAME": "flower-03.X",
+            "OBJECT_FILE_PATH": "",
+            "OBJECT_POSITION_X": 97.5103759765625,
+            "OBJECT_POSITION_Y": 131.609466552734,
+            "OBJECT_POSITION_Z": 34.8515281677246,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 0.00999999977648258
+        },
+        {
+            "OBJECT_COLLISION": true,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "house",
+            "OBJECT_FILE_NAME": "house.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\building\\house",
+            "OBJECT_POSITION_X": 49.7752227783203,
+            "OBJECT_POSITION_Y": 128.055358886719,
+            "OBJECT_POSITION_Z": 60.9481887817383,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 0.0700000002980232
+        },
+        {
+            "OBJECT_COLLISION": true,
+            "OBJECT_DESTRUCTION": false,
+            "OBJECT_ENEMY": false,
+            "OBJECT_FILE_KEY": "house",
+            "OBJECT_FILE_NAME": "house.X",
+            "OBJECT_FILE_PATH": "C:\\Users\\ChanHyeok Park\\Desktop\\BTC_Assets\\Assets\\World\\Object\\x\\building\\house",
+            "OBJECT_POSITION_X": 50.5707855224609,
+            "OBJECT_POSITION_Y": 128.0,
+            "OBJECT_POSITION_Z": 88.144172668457,
+            "OBJECT_ROTATION_X": 0.0,
+            "OBJECT_ROTATION_Y": 0.0,
+            "OBJECT_ROTATION_Z": 0.0,
+            "OBJECT_SCALE": 0.0700000002980232
         }
     ],
     "OBJECT_TAB_SETTING": {
         "OBJECT_TAB_BLOCK_MAKE_NUM": 0,
-        "OBJECT_TAB_OBJECT_MAKE_NUM": 36
+        "OBJECT_TAB_OBJECT_MAKE_NUM": 41
     },
+    "event": [
+        {
+            "event-name": "from_IceCrown",
+            "event-position-x": 228.453155517578,
+            "event-position-y": 127.999984741211,
+            "event-position-z": 55.0948028564453
+        },
+        {
+            "event-name": "to_IceCrown",
+            "event-position-x": 246.023513793945,
+            "event-position-y": 127.999984741211,
+            "event-position-z": 42.8184661865234
+        }
+    ],
     "map": {
         "size": 3
     },
