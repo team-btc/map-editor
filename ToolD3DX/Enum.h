@@ -111,3 +111,20 @@ enum E_BLOCK_BUTTON_STATE
     E_BLOCK_BTN_END, 
     E_BLOCK_BTN_MAX
 };
+
+// 오브젝트 탭 이벤트 버튼 상태
+enum E_EVENT_BUTTON_STATE
+{
+    E_EVENT_BTN_PROGRESS,
+    E_EVENT_BTN_DELETE,
+    E_EVENT_BTN_MAX
+};
+
+// 오브젝트 탭 상태
+enum E_OBJECT_TAP_STATE
+{
+    E_OBJECT_TAB_OBJECT,
+    E_OBJECT_TAB_BLOCK,
+    E_OBJECT_TAB_EVENT,
+    E_OBJECT_TAB_MAX
+};

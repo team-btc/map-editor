@@ -6,6 +6,7 @@
 #define BLOCK_RADIUS  (2.0f)
 #define NO_NAME ("None")
 #define SCALE_FIX	 (20.0f)
+#define EVENT_RADIUS  (10.0f)
 
 // OBJECT_TAB 관련
 #define OBJ_SET       ("OBJECT_TAB_SETTING")
@@ -37,6 +38,13 @@
 #define BG_PO_Y     ("BLOCK_POINT_Y")       // float 
 #define BG_PO_Z     ("BLOCK_POINT_Z")       // float
 
+// EVENT 관련
+#define EVE         ("EVENT")
+#define EVE_NAME    ("EVENT_NAME")  
+#define EVE_POSX    ("EVENT_POSITION_X")
+#define EVE_POSY    ("EVENT_POSITION_Y")
+#define EVE_POSZ    ("EVENT_POSITION_Z")
+
 class cRay;
 class cMapObject;
 class cMapTerrainTool;
@@ -50,6 +58,12 @@ private:
         Color                   GroupColor;
     };
 
+    struct ST_EVENT_TRIGGER
+    {
+        string                  EventName;
+        Vector3                 EventPosition;
+        Color                   EventColor;
+    };
 private:
     // 오브젝트 관련
     vector<cMapObject*>          m_vecObjects;          // Object Storage Vector
@@ -67,15 +81,15 @@ private:
     float&                       m_fObjRotZ;
 
     // 이름 바꾸기 
-    int                          m_nObjectMakeTotalNum; // 지금까지 오브젝트를 만든 총 갯수(지우고 다시 만들어도 얘는 변함이 없음, 누적값이고 얘를 각 오브젝트들의 아이디로 쓸꺼임)
-    int                          m_nSelectedIndex;      // 재배치, 삭제 할때 쓸 용도
+    int                          m_nObjectMakeTotalNum;     // 지금까지 오브젝트를 만든 총 갯수(지우고 다시 만들어도 얘는 변함이 없음, 누적값이고 얘를 각 오브젝트들의 아이디로 쓸꺼임)
+    int                          m_nSelectedIndex;          // 재배치, 삭제 할때 쓸 용도
     Matrix4                      m_matScale;
     Matrix4                      m_matRotation;
     Matrix4                      m_matTrans;
-    Vector3*				     m_pPickPos;            // MainTool 피킹 포지션과 연결된 포인터 
-    cMapObject*			         m_pFollowObject;       // 따라 다니는 녀석의 주소 
+    Vector3*				     m_pPickPos;                // MainTool 피킹 포지션과 연결된 포인터 
+    cMapObject*			         m_pFollowObject;           // 따라 다니는 녀석의 주소 
 
-                                                        // 블록 관련
+                                                            // 블록 관련
     vector<ST_BLOCK_GROUP*>      m_vecBlockGroups;
     E_OBJECT_BUTTON_STATE&       m_eObjectButtonState;
     E_BLOCK_BUTTON_STATE&        m_eBlockButtonState;
@@ -83,6 +97,10 @@ private:
     int                          m_nCurWorkingBlockGroupIndex;
     // 참조용 
     cMapTerrainTool*             m_pTerrainTool;
+
+    // 이벤트 
+    vector<ST_EVENT_TRIGGER*>    m_vecEventTrrigers;        // 이벤트 트리거 
+    E_EVENT_BUTTON_STATE&        m_eEventButtonState;       // 이벤트 버튼 상태 
 public:
     cMapObjectTool();
     ~cMapObjectTool();
@@ -121,5 +139,8 @@ public:
     void ClearObjectNBlock();			    // object, block_group 두개의 백터 비우기 
     void SaveByJson(json& jSave);           // Json 으로 저장
     void LoadByJson(string sFilePath, string sFileTitle);  // Json 으로 로드 
+
+    //  이벤트 관련
+    int  GetEventByName(string sName);
 };
 

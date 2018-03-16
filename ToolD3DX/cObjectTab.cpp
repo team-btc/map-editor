@@ -39,6 +39,12 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
     , m_pBlockGroupListBox(g_pMapDataManager->GetBlockGroupListBox())
     , m_SelectBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
     , m_nBlockGroupMakeNum(g_pMapDataManager->GetBlockMakeNum())
+    // 이벤트 버튼
+    , m_eEventButtonState(g_pMapDataManager->GetEventButtonState())
+    , m_pEventEditCtl(NULL)
+    , m_pEventListBox(g_pMapDataManager->GetEventListBox())
+    , m_sEventName(g_pMapDataManager->GetEventName())
+    , m_sEventSelectName(g_pMapDataManager->GetEventSelectName())
 {
     ST_OBJ_FILE stObjHouse;
     stObjHouse.strRoot = "HOUSE";
@@ -55,6 +61,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
 
     m_eObjectButtonState = E_OBJ_TAB_BTN_MAX;
     m_eBlockButtonState = E_BLOCK_BTN_MAX;
+    m_eEventButtonState = E_EVENT_BTN_MAX;
     m_SelectBlockGroupName = NO_NAME;
 
     m_nBlockGroupMakeNum = -1;
@@ -179,6 +186,11 @@ BOOL cObjectTab::OnInitDialog()
     // 현재 작업중인 블록 그룹
     SetDlgItemText(IDC_BLOCK_GROUP_TEXT, "None");
 
+    // 이벤트 에딧
+    m_pEventEditCtl = (CEdit*)GetDlgItem(IDC_EVENT_EDI);
+    m_pEventListBox = (CListBox*)GetDlgItem(IDC_EVENT_LIS);
+
+
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -256,6 +268,11 @@ BEGIN_MESSAGE_MAP(cObjectTab, CDialogEx)
     ON_BN_CLICKED(IDC_BLOCK_GROUP_LATEST_DEL_BUTTON, &cObjectTab::OnBnClickedBlockGroupLatestDelButton)
     ON_BN_CLICKED(IDC_DESTRUCTION_CHE, &cObjectTab::OnBnClickedDestructionChe)
     ON_BN_CLICKED(IDC_ENEMY_CHE, &cObjectTab::OnBnClickedEnemyChe)
+    ON_BN_CLICKED(IDC_EVENT_APPLY, &cObjectTab::OnBnClickedEventApply)
+    ON_BN_CLICKED(IDC_EVENT_MAKE, &cObjectTab::OnBnClickedEventMake)
+    ON_LBN_SELCHANGE(IDC_EVENT_LIS, &cObjectTab::OnLbnSelchangeEventLis)
+    ON_BN_CLICKED(IDC_EVENT_DEL, &cObjectTab::OnBnClickedEventDel)
+    //ON_BN_CLICKED(IDC_EVENT_FIX, &cObjectTab::OnBnClickedEventFix)
 END_MESSAGE_MAP()
 
 
@@ -692,11 +709,10 @@ void cObjectTab::OnClickObjectDeleteBtn()
 // File Open 버튼 
 void cObjectTab::OnBnClickedObjFileOpenButton()
 {
-    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
-    {
-        OnBnClickedBlockGroupEndButton();
-    }
-
+    // 블록그룹과 중복X
+    SetBlockMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
     // 현재 폴더 경로 
     char currentDirectory[_MAX_PATH];
     GetCurrentDirectory(_MAX_PATH, currentDirectory);
@@ -761,31 +777,28 @@ void cObjectTab::OnBnClickedObjFileOpenButton()
 // Locate 버튼
 void cObjectTab::OnBnClickedObjLocateButton()
 {
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
-    {
-        OnBnClickedBlockGroupEndButton();
-    }
+    // 블록그룹과 중복X
+    SetBlockMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
     m_eObjectButtonState = E_OBJ_TAB_BTN_LOCATE;
 }
 // Relocate 버튼
 void cObjectTab::OnBnClickedObjRelocateButton()
 {
-    // 블록그룹을 생성을 하고 있을 때 저장되게 
-    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
-    {
-        OnBnClickedBlockGroupEndButton();
-    }
+    // 블록그룹과 중복X
+    SetBlockMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
     m_eObjectButtonState = E_OBJ_TAB_BTN_RELOCATE;
 }
 // Cancel 버튼
 void cObjectTab::OnBnClickedObjCancelButton()
 {
-    // 블록그룹을 생성을 하고 있을 때 저장되게 
-    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
-    {
-        OnBnClickedBlockGroupEndButton();
-    }
+    // 블록그룹과 중복X
+    SetBlockMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
     m_eObjectButtonState = E_OBJ_TAB_BTN_MAX;
 }
 // Remove 버튼
@@ -803,11 +816,10 @@ void cObjectTab::OnBnClickedObjRemoveButton()
 // Block Group New 버튼
 void cObjectTab::OnBnClickedBlockGroupNewButton()
 {
-    // 두가지 액션을 하지 못하게 처리 
-    if (m_eObjectButtonState != E_OBJ_TAB_BTN_MAX)
-    {
-        m_eObjectButtonState = E_OBJ_TAB_BTN_MAX;
-    }
+    // 오브젝트 중복 X 
+    SetObjectMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
     if (m_eBlockButtonState != E_BLOCK_BTN_PROGRESS)
     {
         m_eBlockButtonState = E_BLOCK_BTN_NEW;
@@ -819,6 +831,11 @@ void cObjectTab::OnBnClickedBlockGroupNewButton()
 //  Block Group End 버튼
 void cObjectTab::OnBnClickedBlockGroupEndButton()
 {
+    // 오브젝트 중복 X 
+    SetObjectMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
+
     if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
     {
         if (m_SelectBlockGroupName != NO_NAME)
@@ -841,6 +858,11 @@ void cObjectTab::OnBnClickedBlockGroupEndButton()
 // Block Group Modify 버튼 
 void cObjectTab::OnBnClickedBlockGroupModifyButton()
 {
+    // 오브젝트 중복 X 
+    SetObjectMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
+
     // 버튼 상태가 진행 중일땐 저장 상태로 돌아가게 
     if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
     {
@@ -897,6 +919,11 @@ void cObjectTab::OnBnClickedBlockGroupDeleteButton()
 // Block Group Latest Del 버튼 
 void cObjectTab::OnBnClickedBlockGroupLatestDelButton()
 {
+    // 오브젝트 중복 X 
+    SetObjectMaxState();
+    // 이벤트 중복X
+    SetEventMaxState();
+
     if (m_eBlockButtonState == E_BLOCK_BTN_PROGRESS)
     {
         m_eBlockButtonState = E_BLOCK_BTN_LATEST_DELETE;
@@ -925,4 +952,116 @@ void cObjectTab::Update()
 
     // 작업중인 블록 그룹 갱신 
     SetDlgItemText(IDC_BLOCK_GROUP_TEXT, m_SelectBlockGroupName.c_str());
+}
+
+
+#pragma region "이벤트 트리거"
+void cObjectTab::OnBnClickedEventApply()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    m_pEventListBox->SetCurSel(LB_ERR);
+
+    if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    {
+        CString name;
+        m_pEventEditCtl->GetWindowTextA(name);
+        m_sEventName = name;
+    }
+}
+
+void cObjectTab::OnBnClickedEventMake()
+{
+    SetBlockMaxState();
+    SetObjectMaxState();
+
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    { 
+        CString str;
+        m_pEventEditCtl->GetWindowTextA(str);
+
+        if (str.IsEmpty())
+        {
+            return;
+        }
+        else
+        {
+            OnBnClickedEventApply();
+        }
+
+        if (m_sEventName.empty())
+        {
+            return;
+        }
+
+        int index = m_pEventListBox->FindString(-1, m_sEventName.c_str());
+
+        if (index == LB_ERR)
+        {
+            m_eEventButtonState = E_EVENT_BTN_PROGRESS;
+        }
+        else
+        {
+            string caption = "Event Trigger";
+            string text = m_sEventName + " 이(가) 이미 존재합니다. \n이벤트 이름을 바꿔주세요.";
+            MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+            m_eEventButtonState = E_EVENT_BTN_MAX;
+        }
+    }
+}
+
+void cObjectTab::OnLbnSelchangeEventLis()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    {
+        // 선택한 인덱스 가져오기
+        int nIndex = m_pEventListBox->GetCurSel();
+
+        // 문자열 가져오기
+        CString strName;
+        m_pEventListBox->GetText(nIndex, strName);
+
+        // 문자열 저장
+        m_sEventSelectName = strName;
+    }
+}
+
+void cObjectTab::OnBnClickedEventDel()
+{
+    if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    {
+        // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+        int nIndex = m_pEventListBox->GetCurSel();
+
+        m_pEventListBox->DeleteString(nIndex);
+
+        m_eEventButtonState = E_EVENT_BTN_DELETE;
+    }
+}
+
+#pragma endregion
+
+void cObjectTab::SetBlockMaxState()
+{
+    if (m_eBlockButtonState != E_BLOCK_BTN_MAX)
+    {
+        OnBnClickedBlockGroupEndButton();
+    }
+}
+
+void cObjectTab::SetObjectMaxState()
+{
+    if (m_eObjectButtonState != E_OBJ_TAB_BTN_MAX)
+    {
+        m_eObjectButtonState = E_OBJ_TAB_BTN_MAX;
+    }
+}
+
+void cObjectTab::SetEventMaxState()
+{
+    if (m_eEventButtonState != E_EVENT_BTN_MAX)
+    {
+        m_eEventButtonState = E_EVENT_BTN_MAX;
+    }
 }

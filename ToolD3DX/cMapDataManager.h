@@ -125,8 +125,11 @@ class cMapDataManager
 	// 물 투명값
 	SYNTHESIZE_PASS_BY_REF_NO_SET(CSliderCtrl*, m_pTransparentSliderCtl, TransparentSliderCtl);
 	SYNTHESIZE_PASS_BY_REF_NO_SET(CEdit*, m_pTransparentEditCtl, TransparentEditCtl);
-
-
+    //======================이벤트=============================================================//
+    SYNTHESIZE_PASS_BY_REF_NO_SET(E_EVENT_BUTTON_STATE, m_eEventButtonState, EventButtonState)
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_sEventName, EventName);
+    SYNTHESIZE_PASS_BY_REF_NO_SET(CListBox*, m_pEventListBox, EventListBox);
+    SYNTHESIZE_PASS_BY_REF_NO_SET(string, m_sEventSelectName, EventSelectName);
 private:
     cMapTool*       m_pMapTool;
 public:

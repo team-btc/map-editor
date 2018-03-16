@@ -28,6 +28,9 @@ cMapObjectTool::cMapObjectTool()
     , m_SelectedBlockGroupName(g_pMapDataManager->GetSelectedBlockGroupName())
     , m_nCurWorkingBlockGroupIndex(INVALIDE_VALUE)
     , m_pTerrainTool(NULL)
+
+    // 이벤트 관련
+    , m_eEventButtonState(g_pMapDataManager->GetEventButtonState())
 {}
 
 cMapObjectTool::~cMapObjectTool()
@@ -39,6 +42,7 @@ cMapObjectTool::~cMapObjectTool()
         {
             SAFE_DELETE(m_vecObjects[i]);
         }
+        m_vecObjects.clear();
     }
 
     // 블록 벡터 지우기
@@ -48,6 +52,16 @@ cMapObjectTool::~cMapObjectTool()
         {
             SAFE_DELETE(m_vecBlockGroups[i]);
         }
+        m_vecBlockGroups.clear();
+    }
+
+    if (!m_vecEventTrrigers.empty())
+    {
+        for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+        {
+            SAFE_DELETE(m_vecEventTrrigers[i]);
+        }
+        m_vecEventTrrigers.clear();
     }
 
     // 테스트 메쉬 해제
@@ -103,7 +117,7 @@ HRESULT cMapObjectTool::Update()
     }
 
 
-    // 수정하기 
+    // 오브젝트들 높이 업데이트 
     if (!m_vecObjects.empty())
     {
         if (m_pTerrainTool != NULL)
@@ -123,8 +137,6 @@ HRESULT cMapObjectTool::Update()
                     if (isHit)
                     {
                         pos.y -= fDist;
-
-                        //m_vecObjects[i]->SetPosition(pos2);
                         m_vecObjects[i]->UpdateMatrix(pos);
                     }
                 }
@@ -200,6 +212,24 @@ HRESULT cMapObjectTool::Update()
     }
     break;
     }
+
+    // 이벤트 트리거 
+    switch (g_pMapDataManager->GetEventButtonState())
+    {
+    case E_EVENT_BTN_DELETE:
+    {
+        int index = GetEventByName(g_pMapDataManager->GetEventSelectName());
+
+        if (index != INVALIDE_VALUE)
+        {
+            SAFE_DELETE(m_vecEventTrrigers[index]);
+            m_vecEventTrrigers.erase(m_vecEventTrrigers.begin() + index);
+        }
+        m_eEventButtonState = E_EVENT_BTN_MAX;
+    }
+    break;
+    }
+
 
     return S_OK;
 }
@@ -284,12 +314,28 @@ HRESULT cMapObjectTool::Render()
                 {
                     g_pDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, LineNum,
                         &m_vecBlockGroups[i]->vecPoints[0], sizeof(ST_PC_VERTEX));
-                    //LineNum = 0;
                 }
 
             }
         }
     }
+
+    // 이벤트 그리기 
+    if (!m_vecEventTrrigers.empty())
+    {
+        for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+        {
+            Matrix4 matS, matT, matW;
+            D3DXMatrixScaling(&matS, EVENT_RADIUS, EVENT_RADIUS, EVENT_RADIUS);
+            D3DXMatrixTranslation(&matT, m_vecEventTrrigers[i]->EventPosition.x, m_vecEventTrrigers[i]->EventPosition.y, m_vecEventTrrigers[i]->EventPosition.z);
+            matW = matS* matT;
+            g_pDevice->SetMaterial(&YELLOW_MTRL);
+            g_pDevice->SetTransform(D3DTS_WORLD, &matW);
+            m_SphereMesh->DrawSubset(0);
+            RenderSignPost(m_vecEventTrrigers[i]->EventPosition, 20, m_vecEventTrrigers[i]->EventColor, m_vecEventTrrigers[i]->EventName);
+        }
+    }
+
 
     if (m_pFollowObject) // 마우스 따라다니는 오브젝트 그리기
     {
@@ -484,6 +530,31 @@ void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
         }
         break;
         }
+
+        // 이벤트
+        switch (g_pMapDataManager->GetEventButtonState())
+        {
+        case E_EVENT_BTN_PROGRESS :
+            {
+                ST_EVENT_TRIGGER* pEvent = new ST_EVENT_TRIGGER;
+                pEvent->EventName = g_pMapDataManager->GetEventName();
+                pEvent->EventPosition = *m_pPickPos;
+
+                int red = rand() % 256;
+                int green = rand() % 256;
+                int blue = rand() % 256;
+
+                pEvent->EventColor = D3DCOLOR_ARGB(255, red, green, blue);
+                m_vecEventTrrigers.push_back(pEvent);
+
+                g_pMapDataManager->GetEventListBox()->AddString(pEvent->EventName.c_str());
+                m_eEventButtonState = E_EVENT_BTN_MAX;
+            }
+        break;
+        }
+
+
+
     }
     else
     {
@@ -630,6 +701,31 @@ void cMapObjectTool::DebugTestRender()
         &rt,
         DT_LEFT | DT_NOCLIP,
         D3DCOLOR_XRGB(128, 128, 128));
+
+    rt = { 0, 300, 100, 350 };
+
+    switch (g_pMapDataManager->GetEventButtonState())
+    {
+    case E_EVENT_BTN_PROGRESS:
+        s = " PROGRESS";
+        break;
+    case E_EVENT_BTN_MAX:
+        s = "MAX";
+        break;
+    case E_EVENT_BTN_DELETE:
+        s = "DELETE";
+        break;
+    }
+
+    g_pFontManager->GetFont(cFontManager::E_DEBUG)->DrawTextA(NULL,
+        s.c_str(),
+        -1,
+        &rt,
+        DT_LEFT | DT_NOCLIP,
+        D3DCOLOR_XRGB(128, 128, 128));
+
+
+
 }
 
 int cMapObjectTool::GetBlockGroupByName(string BlockName)
@@ -739,6 +835,19 @@ void cMapObjectTool::SaveByJson(json& jSave)
         innerRoot[BG].push_back(block_group);
     }
 
+    // EVENT_TRIGGER
+    for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+    {
+        json event_kind;
+        Vector3 pos = m_vecEventTrrigers[i]->EventPosition;
+        event_kind[EVE_NAME] = m_vecEventTrrigers[i]->EventName;
+        event_kind[EVE_POSX] = pos.x;
+        event_kind[EVE_POSY] = pos.y;
+        event_kind[EVE_POSZ] = pos.z;
+
+        innerRoot[EVE].push_back(event_kind);
+    }
+
     innerRoot[OBJ_SET][OBJ_OBJ_NUM] = (int)m_nObjectMakeTotalNum;
     innerRoot[OBJ_SET][OBJ_BLOCK_NUM] = (int)g_pMapDataManager->GetBlockMakeNum();
 
@@ -789,6 +898,13 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         object->SetId(i);
 
         m_vecObjects.push_back(object);
+
+        int index = g_pMapDataManager->GetObjListBox()->FindString(-1, name.c_str());
+
+        if (index == LB_ERR)
+        {
+            g_pMapDataManager->GetObjListBox()->AddString(name.c_str());
+        }
     }
 
     // Block
@@ -832,6 +948,43 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         m_nObjectMakeTotalNum = interval;
         g_pMapDataManager->SetBlockMakeNum(interval);
     }
+
+    int eventNum = (int)json[EVE].size();
+
+    if (eventNum > 0)
+    {
+        for (int i = 0; i < eventNum; i++)
+        {
+            ST_EVENT_TRIGGER* eventT = new ST_EVENT_TRIGGER;
+            string name = json[EVE][i][EVE_NAME];
+            eventT->EventName = name;
+            Vector3 pos;
+            pos.x = (float)json[EVE][i][EVE_POSX];
+            pos.y = (float)json[EVE][i][EVE_POSY];
+            pos.z = (float)json[EVE][i][EVE_POSZ];
+            eventT->EventPosition = pos;
+
+            int red = rand() % 256;
+            int green = rand() % 256;
+            int blue = rand() % 256;
+            eventT->EventColor = D3DCOLOR_ARGB(255, red, green, blue);
+            
+            g_pMapDataManager->GetEventListBox()->AddString(name.c_str());
+            m_vecEventTrrigers.push_back(eventT);
+        }
+    }
+}
+
+int cMapObjectTool::GetEventByName(string sName)
+{
+    for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+    {
+        if (m_vecEventTrrigers[i]->EventName == sName)
+        {
+            return i;
+        }
+    }
+    return INVALIDE_VALUE;
 }
 
 void cMapObjectTool::ClearObjectNBlock()
@@ -857,4 +1010,15 @@ void cMapObjectTool::ClearObjectNBlock()
         m_vecBlockGroups.clear();
     }
     g_pMapDataManager->GetBlockGroupListBox()->ResetContent();    // Object list 박스에 있는 내용을 전부 지운다.
+
+    if (!m_vecEventTrrigers.empty())
+    {
+        for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+        {
+            SAFE_DELETE(m_vecEventTrrigers[i]);
+        }
+        m_vecEventTrrigers.clear();
+    }
+
+    g_pMapDataManager->GetEventListBox()->ResetContent();
 }
