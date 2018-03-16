@@ -140,6 +140,10 @@ HRESULT cMapTool::Render()
     // g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 
+    if (m_pObjectTool)
+    {
+        m_pObjectTool->Render();
+    }
     RendPtMouse();
     return S_OK;
 }
