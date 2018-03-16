@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define BLOCK_GROUP_NAME  ("GROUP_")
+#define BLOCK_GROUP_NAME  ("group-")
 #define NO_NAME           ("None")
 #define INIT_FOLDER		  ("\\Unit");
 

@@ -68,9 +68,9 @@ BOOL cTextureTab::OnInitDialog()
     m_pTextureDensityEditCtl = (CEdit*)GetDlgItem(IDC_TEXTURE_DENSITY_EDI);
 
     // 텍스쳐 밀도값 슬라이더 기본 설정
-    m_pTextureDensitySliderCtl->SetRange(1, 1000);		// 사용영역 값 설정
+    m_pTextureDensitySliderCtl->SetRange(1, 100);		// 사용영역 값 설정
     m_pTextureDensitySliderCtl->SetRangeMin(10);		// 최소 값 설정
-    m_pTextureDensitySliderCtl->SetRangeMax(1000);		// 최대 값 설정
+    m_pTextureDensitySliderCtl->SetRangeMax(100);		// 최대 값 설정
     m_pTextureDensitySliderCtl->SetPos((int)m_fTextureDensity);	// 위치 설정
     m_pTextureDensitySliderCtl->SetTicFreq(100);			// 눈금 간격 설정
     m_pTextureDensitySliderCtl->SetLineSize(5);			// 증가 크기(키보드로 컨트롤 할 때)

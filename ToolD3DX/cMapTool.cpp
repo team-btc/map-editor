@@ -136,9 +136,9 @@ HRESULT cMapTool::Render()
     {
         m_pObjectTool->Render();
     }
+    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
     RendPtMouse();
     return S_OK;

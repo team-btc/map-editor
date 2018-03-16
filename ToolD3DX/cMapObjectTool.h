@@ -39,11 +39,11 @@
 #define BG_PO_Z     ("BLOCK_POINT_Z")       // float
 
 // EVENT ฐüทร
-#define EVE         ("EVENT")
-#define EVE_NAME    ("EVENT_NAME")  
-#define EVE_POSX    ("EVENT_POSITION_X")
-#define EVE_POSY    ("EVENT_POSITION_Y")
-#define EVE_POSZ    ("EVENT_POSITION_Z")
+#define EVE         ("event")
+#define EVE_NAME    ("event-name")  
+#define EVE_POSX    ("event-position-x")
+#define EVE_POSY    ("event-position-y")
+#define EVE_POSZ    ("event-position-z")
 
 class cRay;
 class cMapObject;
