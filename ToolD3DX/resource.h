@@ -200,7 +200,6 @@
 #define IDC_EVENT_APPLY                 2202
 #define IDC_EVENT_DEL                   2203
 #define IDC_EVENT_EDI                   2204
-#define IDC_EVENT_LIS                   2205
 #define IDC_EVENT_MAKE                  2206
 #define IDC_EVENT_GRO                   2207
 #define IDC_BRUSH_RAD                   7500

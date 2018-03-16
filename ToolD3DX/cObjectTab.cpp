@@ -42,9 +42,7 @@ cObjectTab::cObjectTab(CWnd* pParent /*=nullptr*/)
     // 이벤트 버튼
     , m_eEventButtonState(g_pMapDataManager->GetEventButtonState())
     , m_pEventEditCtl(NULL)
-    , m_pEventListBox(g_pMapDataManager->GetEventListBox())
     , m_sEventName(g_pMapDataManager->GetEventName())
-    , m_sEventSelectName(g_pMapDataManager->GetEventSelectName())
 {
     ST_OBJ_FILE stObjHouse;
     stObjHouse.strRoot = "HOUSE";
@@ -107,13 +105,13 @@ BOOL cObjectTab::OnInitDialog()
 
 
     // 오브젝트 사이즈 슬라이더 기본 설정
-    m_pObjSizeSliderCtl->SetRange(0, 200);		// 사용영역 값 설정
+    m_pObjSizeSliderCtl->SetRange(0, 2000);		// 사용영역 값 설정
     m_pObjSizeSliderCtl->SetRangeMin(0);		// 최소 값 설정
-    m_pObjSizeSliderCtl->SetRangeMax(200);		// 최대 값 설정
+    m_pObjSizeSliderCtl->SetRangeMax(2000);		// 최대 값 설정
     m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 100.0f));	// 위치 설정
-    m_pObjSizeSliderCtl->SetTicFreq(5);		    // 눈금 간격 설정
-    m_pObjSizeSliderCtl->SetLineSize(1);		// 증가 크기(키보드로 컨트롤 할 때)
-    m_pObjSizeSliderCtl->SetPageSize(5);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
+    m_pObjSizeSliderCtl->SetTicFreq(100);		    // 눈금 간격 설정
+    m_pObjSizeSliderCtl->SetLineSize(100);		// 증가 크기(키보드로 컨트롤 할 때)
+    m_pObjSizeSliderCtl->SetPageSize(500);		// 증가 크기(PgUP,Dn 키나 슬라이더 몸동을 클릭하여 움직일 때)
 
                                                 // 오브젝트 사이즈 출력
     SetDlgItemInt(IDC_OBJECT_SIZE_EDI, (UINT)m_fObjSize);
@@ -188,9 +186,7 @@ BOOL cObjectTab::OnInitDialog()
 
     // 이벤트 에딧
     m_pEventEditCtl = (CEdit*)GetDlgItem(IDC_EVENT_EDI);
-    m_pEventListBox = (CListBox*)GetDlgItem(IDC_EVENT_LIS);
-
-
+ 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }
@@ -270,9 +266,7 @@ BEGIN_MESSAGE_MAP(cObjectTab, CDialogEx)
     ON_BN_CLICKED(IDC_ENEMY_CHE, &cObjectTab::OnBnClickedEnemyChe)
     ON_BN_CLICKED(IDC_EVENT_APPLY, &cObjectTab::OnBnClickedEventApply)
     ON_BN_CLICKED(IDC_EVENT_MAKE, &cObjectTab::OnBnClickedEventMake)
-    ON_LBN_SELCHANGE(IDC_EVENT_LIS, &cObjectTab::OnLbnSelchangeEventLis)
     ON_BN_CLICKED(IDC_EVENT_DEL, &cObjectTab::OnBnClickedEventDel)
-    //ON_BN_CLICKED(IDC_EVENT_FIX, &cObjectTab::OnBnClickedEventFix)
 END_MESSAGE_MAP()
 
 
@@ -389,7 +383,7 @@ void cObjectTab::OnChangeObjectSizeEditer()
     m_fObjSize = (float)atof(size.GetString());
 
     // 슬라이더 위치 설정
-    m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 10.0f));		// 위치 설정
+    m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 100.0f));		// 위치 설정
 
                                                                 // 커서를 맨 뒤로 셋팅
     m_pObjSizeEditCtl->SetSel(0, -1);	// 모든 영역을 드레그
@@ -406,11 +400,11 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
     // Up 버튼 눌렀을 경우
     if (pNMUpDown->iDelta < 0)
     {
-        if (m_fObjSize >= 100)
+        if (m_fObjSize >= 20)
         {
             return;
         }
-        m_fObjSize += 0.1f;
+        m_fObjSize += 0.01f;
     }
     // Down 버튼 눌렀을 경우
     else
@@ -419,16 +413,16 @@ void cObjectTab::OnDeltaposObjectSizeSpin(NMHDR *pNMHDR, LRESULT *pResult)
         {
             return;
         }
-        m_fObjSize -= 0.1f;
+        m_fObjSize -= 0.01f;
     }
 
     // 오브젝트 사이즈 출력
     char buffer[10];
-    sprintf_s(buffer, -1, "%.1f", m_fObjSize);
+    sprintf_s(buffer, -1, "%.2f", m_fObjSize);
     SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
     // 슬라이더 위치 설정
-    m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 10.0f));		// 위치 설정
+    m_pObjSizeSliderCtl->SetPos((int)(m_fObjSize * 100.0f));		// 위치 설정
 
     *pResult = 0;
 }
@@ -440,11 +434,11 @@ void cObjectTab::OnCustomDrawObjectSizeSlider(NMHDR *pNMHDR, LRESULT *pResult)
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
     // 오브젝트 사이즈 넣기
-    m_fObjSize = m_pObjSizeSliderCtl->GetPos() * 0.1f;
+    m_fObjSize = m_pObjSizeSliderCtl->GetPos() * 0.01f;
 
     // 오브젝트 사이즈 출력
     char buffer[10];
-    sprintf_s(buffer, -1, "%.1f", m_fObjSize);
+    sprintf_s(buffer, -1, "%.2f", m_fObjSize);
     SetDlgItemTextA(IDC_OBJECT_SIZE_EDI, buffer);
 
     *pResult = 0;
@@ -959,14 +953,18 @@ void cObjectTab::Update()
 void cObjectTab::OnBnClickedEventApply()
 {
     // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    m_pEventListBox->SetCurSel(LB_ERR);
+   /* m_pEventListBox->SetCurSel(LB_ERR);
 
     if (m_eEventButtonState == E_EVENT_BTN_MAX)
     {
         CString name;
         m_pEventEditCtl->GetWindowTextA(name);
         m_sEventName = name;
-    }
+    }*/
+
+
+
+
 }
 
 void cObjectTab::OnBnClickedEventMake()
@@ -974,68 +972,63 @@ void cObjectTab::OnBnClickedEventMake()
     SetBlockMaxState();
     SetObjectMaxState();
 
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    if (m_eEventButtonState == E_EVENT_BTN_MAX)
-    { 
-        CString str;
-        m_pEventEditCtl->GetWindowTextA(str);
+    CString str;
+    m_pEventEditCtl->GetWindowTextA(str);
+    m_sEventName = str.GetString();
 
-        if (str.IsEmpty())
-        {
-            return;
-        }
-        else
-        {
-            OnBnClickedEventApply();
-        }
-
-        if (m_sEventName.empty())
-        {
-            return;
-        }
-
-        int index = m_pEventListBox->FindString(-1, m_sEventName.c_str());
-
-        if (index == LB_ERR)
-        {
-            m_eEventButtonState = E_EVENT_BTN_PROGRESS;
-        }
-        else
-        {
-            string caption = "Event Trigger";
-            string text = m_sEventName + " 이(가) 이미 존재합니다. \n이벤트 이름을 바꿔주세요.";
-            MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
-            m_eEventButtonState = E_EVENT_BTN_MAX;
-        }
-    }
-}
-
-void cObjectTab::OnLbnSelchangeEventLis()
-{
-    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-    if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    if (m_sEventName.empty())
     {
-        // 선택한 인덱스 가져오기
-        int nIndex = m_pEventListBox->GetCurSel();
-
-        // 문자열 가져오기
-        CString strName;
-        m_pEventListBox->GetText(nIndex, strName);
-
-        // 문자열 저장
-        m_sEventSelectName = strName;
+        string caption = "Event Trigger";
+        string text = "이벤트 이름을 입력해주세요.";
+        MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
     }
+    else
+    {
+        m_eEventButtonState = E_EVENT_BTN_PROGRESS;
+    }
+
+    //// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+    //if (m_eEventButtonState == E_EVENT_BTN_MAX)
+    //{ 
+    //    CString str;
+    //    m_pEventEditCtl->GetWindowTextA(str);
+
+    //    if (str.IsEmpty())
+    //    {
+    //        return;
+    //    }
+    //    else
+    //    {
+    //        OnBnClickedEventApply();
+    //    }
+
+    //    if (m_sEventName.empty())
+    //    {
+    //        return;
+    //    }
+
+    //    m_sEventName = str;
+
+    //    int index = m_pEventListBox->FindString(-1, m_sEventName.c_str());
+
+    //    if (index == LB_ERR)
+    //    {
+    //        m_eEventButtonState = E_EVENT_BTN_PROGRESS;
+    //    }
+    //    else
+    //    {
+    //        string caption = "Event Trigger";
+    //        string text = m_sEventName + " 이(가) 이미 존재합니다. \n이벤트 이름을 바꿔주세요.";
+    //        MessageBox(text.c_str(), caption.c_str(), MB_ICONMASK);
+    //        m_eEventButtonState = E_EVENT_BTN_MAX;
+    //    }
+    //}
 }
 
 void cObjectTab::OnBnClickedEventDel()
 {
     if (m_eEventButtonState == E_EVENT_BTN_MAX)
     {
-        // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-        int nIndex = m_pEventListBox->GetCurSel();
-
-        m_pEventListBox->DeleteString(nIndex);
-
         m_eEventButtonState = E_EVENT_BTN_DELETE;
     }
 }

@@ -214,11 +214,12 @@ HRESULT cMapObjectTool::Update()
     }
 
     // 이벤트 트리거 
-    switch (g_pMapDataManager->GetEventButtonState())
-    {
-    case E_EVENT_BTN_DELETE:
-    {
-        int index = GetEventByName(g_pMapDataManager->GetEventSelectName());
+    //switch (g_pMapDataManager->GetEventButtonState())
+    //{
+    
+
+
+       /* int index = GetEventByName(g_pMapDataManager->GetEventSelectName());
 
         if (index != INVALIDE_VALUE)
         {
@@ -226,9 +227,10 @@ HRESULT cMapObjectTool::Update()
             m_vecEventTrrigers.erase(m_vecEventTrrigers.begin() + index);
         }
         m_eEventButtonState = E_EVENT_BTN_MAX;
-    }
-    break;
-    }
+       */   
+    //}
+    //break;
+    //}
 
 
     return S_OK;
@@ -535,26 +537,48 @@ void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
         switch (g_pMapDataManager->GetEventButtonState())
         {
         case E_EVENT_BTN_PROGRESS :
+        {
+            ST_EVENT_TRIGGER* pEvent = new ST_EVENT_TRIGGER;
+            pEvent->EventName = g_pMapDataManager->GetEventName();
+            pEvent->EventPosition = *m_pPickPos;
+
+            int red = rand() % 256;
+            int green = rand() % 256;
+            int blue = rand() % 256;
+
+            pEvent->EventColor = D3DCOLOR_ARGB(255, red, green, blue);
+            m_vecEventTrrigers.push_back(pEvent);
+
+            m_eEventButtonState = E_EVENT_BTN_MAX;
+        }
+        break;
+        case E_EVENT_BTN_DELETE:
+        {
+            if (!m_vecEventTrrigers.empty())
             {
-                ST_EVENT_TRIGGER* pEvent = new ST_EVENT_TRIGGER;
-                pEvent->EventName = g_pMapDataManager->GetEventName();
-                pEvent->EventPosition = *m_pPickPos;
+                cRay ray = cRay::RayAtWorldSpace(g_ptMouse.x, g_ptMouse.y);
 
-                int red = rand() % 256;
-                int green = rand() % 256;
-                int blue = rand() % 256;
+                bool collision = false;
+                int index = -1;
 
-                pEvent->EventColor = D3DCOLOR_ARGB(255, red, green, blue);
-                m_vecEventTrrigers.push_back(pEvent);
-
-                g_pMapDataManager->GetEventListBox()->AddString(pEvent->EventName.c_str());
-                m_eEventButtonState = E_EVENT_BTN_MAX;
+                for (int i = 0; i < m_vecEventTrrigers.size(); i++)
+                {
+                    if (CollideRayNCircle(ray, m_vecEventTrrigers[i]->EventPosition, EVENT_RADIUS))
+                    {
+                        collision = true;
+                        index = i;
+                    }
+                }
+                if (collision)
+                {
+                    SAFE_DELETE(m_vecEventTrrigers[index]);
+                    m_vecEventTrrigers.erase(m_vecEventTrrigers.begin() + index);
+                }
             }
+            m_eEventButtonState = E_EVENT_BTN_MAX;
+        }
         break;
         }
-
-
-
     }
     else
     {
@@ -566,6 +590,11 @@ void cMapObjectTool::OnceLButtonDown(E_TAB_TYPE eTabType)
         if (g_pMapDataManager->GetBlockButtonState() != E_BLOCK_BTN_MAX)
         {
             m_eBlockButtonState = E_BLOCK_BTN_END;
+        }
+
+        if (g_pMapDataManager->GetEventButtonState() != E_EVENT_BTN_MAX)
+        {
+            m_eEventButtonState = E_EVENT_BTN_MAX;
         }
     }
 }
@@ -968,8 +997,7 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
             int green = rand() % 256;
             int blue = rand() % 256;
             eventT->EventColor = D3DCOLOR_ARGB(255, red, green, blue);
-            
-            g_pMapDataManager->GetEventListBox()->AddString(name.c_str());
+           
             m_vecEventTrrigers.push_back(eventT);
         }
     }
@@ -1019,6 +1047,4 @@ void cMapObjectTool::ClearObjectNBlock()
         }
         m_vecEventTrrigers.clear();
     }
-
-    g_pMapDataManager->GetEventListBox()->ResetContent();
 }

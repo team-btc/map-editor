@@ -77,9 +77,8 @@ private:
     // == 이벤트 관련
     E_EVENT_BUTTON_STATE&   m_eEventButtonState;
     CEdit*                  m_pEventEditCtl;
-    CListBox*&              m_pEventListBox;
     string&                 m_sEventName;
-    string&                 m_sEventSelectName;
+
 public:
 	cObjectTab(CWnd* pParent = nullptr);   // 표준 생성자입니다.
 	virtual ~cObjectTab();
@@ -137,7 +136,6 @@ public:
 
     afx_msg void OnBnClickedEventApply();
     afx_msg void OnBnClickedEventMake();
-    afx_msg void OnLbnSelchangeEventLis();
     afx_msg void OnBnClickedEventDel();
   
     void SetBlockMaxState();

@@ -132,13 +132,15 @@ HRESULT cMapTool::Render()
     {
         m_pTerrainTool->Render();
     }
+    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
+
     if (m_pObjectTool)
     {
         m_pObjectTool->Render();
     }
-    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
+    
 
     RendPtMouse();
     return S_OK;
