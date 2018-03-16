@@ -231,15 +231,7 @@ HRESULT cMapObjectTool::Render()
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
             }
             // 오브젝트 그리기 
-            //g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-            //g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-            //g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-            g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-            g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-            g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
             m_vecObjects[i]->Render();
-            //->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-            g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
         }
     }
 

@@ -113,18 +113,15 @@ HRESULT cMapTool::Update()
 
 HRESULT cMapTool::Render()
 {
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
     if (m_pTerrainTool)
     {
         m_pTerrainTool->RenderSkyBox();
     }
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-    if (m_pObjectTool)
-    {
-        m_pObjectTool->Render();
-    }
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
-
+    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    g_pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    g_pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+   
     if (m_pTerrainTool)
     {
         m_pTerrainTool->Render();
@@ -133,9 +130,12 @@ HRESULT cMapTool::Render()
     {
         m_pObjectTool->Render();
     }
-    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-
+    g_pDevice->SetRenderState(D3DRS_ZWRITEENABLE, true);
+    if (m_pObjectTool)
+    {
+        m_pObjectTool->Render();
+    }
+    g_pDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
     RendPtMouse();
     return S_OK;
 }
