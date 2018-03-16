@@ -898,6 +898,13 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         object->SetId(i);
 
         m_vecObjects.push_back(object);
+
+        int index = g_pMapDataManager->GetObjListBox()->FindString(-1, name.c_str());
+
+        if (index == LB_ERR)
+        {
+            g_pMapDataManager->GetObjListBox()->AddString(name.c_str());
+        }
     }
 
     // Block
