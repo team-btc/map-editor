@@ -31,7 +31,7 @@ void cBrush::SetBrush(Vector4 v, float br, float sr, float drawdensity, float te
     m_fNR = br * nSize;
     m_fFR = sr * nSize;
     m_fdR = m_fFR - m_fNR;
-
+    m_fdR = fabs(m_fdR);
     GetRect();
 }
 

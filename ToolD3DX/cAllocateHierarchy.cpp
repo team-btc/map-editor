@@ -11,7 +11,7 @@ cAllocateHierarchy::cAllocateHierarchy(void)
 {
 }
 
-
+    
 cAllocateHierarchy::~cAllocateHierarchy(void)
 {
 }

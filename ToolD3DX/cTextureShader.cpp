@@ -27,8 +27,8 @@ void cTextureShader::SetTexture()
     SetTexture1();
     SetTexture2();
     SetTexture3();
-    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Grass.jpg");
-    m_fBackGroundDensity = 20.0f;
+    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture("Ice4.jpg");
+    m_fBackGroundDensity = 30.0f;
 }
 
 void cTextureShader::SetTexture1()
@@ -132,7 +132,7 @@ void cTextureShader::DrawTexture()
                     lSour = lSour & 0x0000ff;
                     x = max(lSour, x);
 
-                    *(pDWordDST + y) = 0x01000100 * x;
+                    *(pDWordDST + y) = 0x00000100 * x;
                 }
             }
             for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
@@ -174,13 +174,13 @@ void cTextureShader::DrawTexture()
                     {
                         continue;
                     }
-                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255);
+                    DWORD x = (DWORD)((1 - (length - m_pBrush->m_fNR) / m_pBrush->m_fdR) * 255.0f);
 
                     DWORD lSour = *(pDWordDST + y);
                     lSour = lSour & 0x000000ff;
                     x = max(lSour, x);
 
-                    *(pDWordDST + y) = 0x01000001 * x;
+                    *(pDWordDST + y) = 0x00000001 * x;
                 }
             }
             for (int i = m_pBrush->m_nNearMinZ; i < m_pBrush->m_nNearMaxZ; i++)
@@ -436,7 +436,7 @@ void cTextureShader::SetMapSize(string* MapKey)
     }
     else
     {
-        D3DCOLOR c = D3DCOLOR_ARGB(0, 0, 0, 0);
+        D3DCOLOR c = D3DCOLOR_ARGB(255, 0, 0, 0);
         g_pTextureManager->AddTexture(m_sMapKey, (g_pMapDataManager->GetMapSize() + 1) * 64, c);
         m_pAlphaDraw = (LPTEXTURE9)g_pTextureManager->GetTexture(m_sMapKey);
     }

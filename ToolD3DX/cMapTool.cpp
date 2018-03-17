@@ -118,7 +118,7 @@ HRESULT cMapTool::Render()
     {
         m_pTerrainTool->RenderSkyBox();
     }
-    
+ 
     if (m_pTerrainTool)
     {
         m_pTerrainTool->RenderTextureShader();
