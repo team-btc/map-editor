@@ -38,7 +38,10 @@ void cMapDataManager::SetMapData()
 
     g_pTextureManager->AddTexture("Snow2.jpg", "Texture/Snow2.jpg");
 
- 
+    g_pTextureManager->AddTexture("Mud1.jpg", "Texture/mud1.jpg");
+    g_pTextureManager->AddTexture("Mud2.jpg", "Texture/mud2.jpg");
+    g_pTextureManager->AddTexture("Mud3.jpg", "Texture/mud3.jpg");
+    g_pTextureManager->AddTexture("Mud4.jpg", "Texture/mud4.jpg");
 
     g_pTextureManager->AddTexture("Water.jpg", "Shader/Texture/Water.jpg");
     g_pTextureManager->AddTexture("Magma.jpg", "Shader/Texture/magma.jpg");
@@ -49,6 +52,9 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("MidNight.dds", "Shader/Texture/MidNight.dds");
     g_pTextureManager->AddTexture("SkyBlue.dds", "Shader/Texture/SkyBlue.dds");
     g_pTextureManager->AddTexture("Volcano.dds", "Shader/Texture/Volcano.dds");
+    g_pTextureManager->AddTexture("Mars1.dds", "Shader/Texture/Mars1.dds");
+    g_pTextureManager->AddTexture("Mars2.dds", "Shader/Texture/Mars2.dds");
+    g_pTextureManager->AddTexture("Mars3.dds", "Shader/Texture/Mars3.dds");
 }
 
 json cMapDataManager::SaveMapData(string strFilePath, string strFileTitle)
