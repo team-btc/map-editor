@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include "MenuFormView.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cMainGame::cMainGame(void)
     : m_szText("")
     , m_pCamera(NULL)

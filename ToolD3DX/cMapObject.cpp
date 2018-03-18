@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "cMapObject.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cMapObject::cMapObject()
 {
     m_pSkinnedMesh = NULL;

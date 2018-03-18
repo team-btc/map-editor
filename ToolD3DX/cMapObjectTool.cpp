@@ -5,6 +5,12 @@
 #include "resource.h"
 #include "cMapTerrainTool.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cMapObjectTool::cMapObjectTool()
     : m_SphereMesh(NULL)
     , m_isObjCollison(g_pMapDataManager->GetObjCollision())

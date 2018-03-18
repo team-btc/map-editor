@@ -6,6 +6,12 @@
 #include "afxdialogex.h"
 #include "Resource.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 // cTerrainTab 대화 상자
 
 IMPLEMENT_DYNAMIC(cTerrainTab, CDialogEx)

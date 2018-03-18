@@ -12,9 +12,13 @@
 #include "ToolBasicDoc.h"
 #include "ToolBasicView.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
+
 
 // CToolBasic00View
 
@@ -41,6 +45,7 @@ CToolBasicView::CToolBasicView()
 CToolBasicView::~CToolBasicView()
 {
     m_pMainGame->Cleanup();
+    SAFE_DELETE(m_pMainGame);
 }
 
 BOOL CToolBasicView::PreCreateWindow(CREATESTRUCT& cs)

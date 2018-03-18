@@ -7,6 +7,12 @@
 
 #include "ToolBasicView.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 // CMenuFormView
 
 extern CToolBasicView *g_pView;
@@ -30,6 +36,11 @@ CMenuFormView::CMenuFormView()
 
 CMenuFormView::~CMenuFormView()
 {
+    SAFE_DELETE(m_pTerrainTab);
+    SAFE_DELETE(m_pTextureTab);
+    SAFE_DELETE(m_pWaterTab);
+    SAFE_DELETE(m_pObjectTab);
+
 }
 
 void CMenuFormView::DoDataExchange(CDataExchange* pDX)
@@ -72,7 +83,7 @@ void CMenuFormView::OnInitialUpdate()
 	// 맵 크기 설정 창 띄우기
 	m_pCreateMapDlg = new cCreateMapDlg;
 	m_pCreateMapDlg->DoModal();
-
+    SAFE_DELETE(m_pCreateMapDlg);
 	//  컨트롤들에 대한 추가 설정값을 입력하는 부분.
 
 	// == 탭 컨트롤러 초기화 ==

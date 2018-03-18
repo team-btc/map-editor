@@ -9,9 +9,13 @@
 #include "ToolBasicView.h"
 #include "MenuFormView.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
 #endif
+
 
 extern CToolBasicView *g_pView;
 HWND g_hWnd;

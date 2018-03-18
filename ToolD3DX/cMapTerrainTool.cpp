@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "cMapTerrainTool.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cMapTerrainTool::cMapTerrainTool()
     : m_stTerrainBrushInfo(g_pMapDataManager->GetTerUpDown()
         , g_pMapDataManager->GetTerEditType()

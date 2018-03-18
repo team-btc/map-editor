@@ -7,6 +7,12 @@
 #include "MainFrm.h"
 #include "cWaterTab.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cMapTool::cMapTool()
     : m_pTerrainTool(NULL)
     , m_pObjectTool(NULL)
@@ -34,6 +40,7 @@ cMapTool::~cMapTool()
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
     SAFE_RELEASE(m_pTerrainTool);
     SAFE_RELEASE(m_pObjectTool);
+    SAFE_DELETE(m_pRay);
 }
 
 HRESULT cMapTool::Setup()
