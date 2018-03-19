@@ -404,73 +404,9 @@ HRESULT cMapTerrainTool::CreateMap(IN E_MAP_SIZE eMapSize, IN float fHeight)
 
     m_pTextureShader->SetMesh(m_pMesh);
 
+    m_pMesh->CloneMeshFVF(m_pMesh->GetOptions(), m_pMesh->GetFVF(), g_pDevice, &m_pWMesh);
 
-    // 버텍스 벡터
-    for (int n = 0; n < (1 + 1) * (1 + 1); ++n)
-    {
-        Vector3 vec = Vector3((float)(n % (1 + 1) * nSizeX), fHeight, (float)(n / (1 + 1) * nSizeZ));
-        m_vecWPNTVertex.push_back(
-            ST_PNT_VERTEX(
-                vec,
-                Vector3(0, 1, 0),
-                Vector2((float)(n % (1 + 1)) / (float)1, (n / (1 + 1) / (float)1))));
-    }
-
-    // 인덱스 벡터
-    //   1 3
-    //   0 2
-    //  0 , 1 , 2,  // 2 , 1 , 3 순서!!
-    for (DWORD z = 0; z < 1; ++z)
-    {
-        for (DWORD x = 0; x < 1; ++x)
-        {
-            DWORD _0 = (z * (1 + 1)) + x;
-            DWORD _1 = ((z + 1) * (1 + 1)) + x;
-            DWORD _2 = (z * (1 + 1)) + (x + 1);
-            DWORD _3 = (z + 1) * (1 + 1) + (x + 1);
-
-            m_vecWVertexIndex.push_back(_0);
-            m_vecWVertexIndex.push_back(_1);
-            m_vecWVertexIndex.push_back(_2);
-            m_vecWVertexIndex.push_back(_2);
-            m_vecWVertexIndex.push_back(_1);
-            m_vecWVertexIndex.push_back(_3);
-        }
-    }
-    // 매쉬 정보 셋팅
-    // == 매쉬 생성, 기록, 최적화
-    // 생성
-    D3DXCreateMeshFVF((DWORD)m_vecWVertexIndex.size() / 3, (DWORD)m_vecWPNTVertex.size(),
-        D3DXMESH_MANAGED | D3DXMESH_32BIT, ST_PNT_VERTEX::FVF, g_pDevice, &m_pWMesh);
-
-    // 버텍스 버퍼 기록
-    ST_PNT_VERTEX* pWV = NULL;
-    m_pWMesh->LockVertexBuffer(NULL, (LPVOID*)&pWV);
-    memcpy(pWV, &m_vecWPNTVertex[0], m_vecWPNTVertex.size() * sizeof(ST_PNT_VERTEX));
-    m_pWMesh->UnlockVertexBuffer();
-
-    // 인덱스 버퍼 기록
-    DWORD* pWI = NULL;
-    m_pWMesh->LockIndexBuffer(NULL, (LPVOID*)&pWI);
-    memcpy(pWI, &m_vecWVertexIndex[0], m_vecWVertexIndex.size() * sizeof(DWORD));
-    m_pWMesh->UnlockIndexBuffer();
-
-    // 속성 버퍼 기록
-    DWORD* pWA = NULL;
-    m_pWMesh->LockAttributeBuffer(NULL, &pWA);
-    for (int i = 0; i < m_vecWVertexIndex.size() / 3; ++i) // 페이스별로 하나씩 기록
-        pWA[i] = (DWORD)0;
-    m_pWMesh->UnlockAttributeBuffer();
-
-    // 메쉬 최적화 : 버텍스 개수 만큼 인접정보를 담을 공간을 확보
-    vector<DWORD> vecAdjBuf2(m_pWMesh->GetNumFaces() * 3);
-
-    m_pWMesh->GenerateAdjacency(D3DX_16F_EPSILON, &vecAdjBuf2[0]);
-
-    m_pWMesh->OptimizeInplace(D3DXMESHOPT_COMPACT | D3DXMESHOPT_ATTRSORT,
-        &vecAdjBuf2[0], 0, 0, 0);
-
-    m_pWaveShader->SetMesh(m_pMesh);
+    m_pWaveShader->SetMesh(m_pWMesh);
 
     return S_OK;
 }
@@ -480,10 +416,10 @@ void cMapTerrainTool::SaveMapData(string strFilePath, string strFileTitle)
 {
     string str = strFilePath + "/" + strFileTitle + ".x";
     // 지형 매쉬 저장
-    D3DXSaveMeshToX(str.c_str(), m_pMesh, NULL, NULL, NULL, NULL, NULL);
+    D3DXSaveMeshToX(str.c_str(), m_pMesh, NULL, NULL, NULL, NULL, D3DXF_FILEFORMAT_COMPRESSED);
     // 물 매쉬 저장
     str = strFilePath + "/" + strFileTitle + "-water.x";
-    D3DXSaveMeshToX(str.c_str(), m_pWMesh, NULL, NULL, NULL, NULL, NULL);
+    D3DXSaveMeshToX(str.c_str(), m_pWMesh, NULL, NULL, NULL, NULL, D3DXF_FILEFORMAT_COMPRESSED);
     // 택스처 png 저장
     m_pTextureShader->SaveTexture(strFilePath, strFileTitle);
 }

@@ -172,8 +172,8 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 
     // 맵사이즈 저장
     save["map"]["size"] = (int)g_pMapDataManager->GetMapSize();
-    save["texture"]["bgtex"]["key"] = g_pMapDataManager->GetTex1FileName();
-    save["texture"]["bgtex"]["density"] = g_pMapDataManager->GetTex1Density();
+    save["texture"]["bgtex"]["key"] = g_pMapDataManager->GetBgTex();
+    save["texture"]["bgtex"]["density"] = g_pMapDataManager->GetBaseDen();
     save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
     save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
     save["texture"]["tex2"]["key"] = g_pMapDataManager->GetTex2FileName();
