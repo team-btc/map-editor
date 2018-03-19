@@ -534,6 +534,10 @@
         "key": "SkyBlue.dds"
     },
     "texture": {
+        "bgtex": {
+            "density": 77.0,
+            "key": "Cliff.jpg"
+        },
         "tex1": {
             "density": 77.0,
             "key": "Cliff.jpg"
