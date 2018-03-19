@@ -1,0 +1,521 @@
+{
+    "block-group": [
+        {
+            "block-group-color": 4280532612,
+            "block-group-name": "group-0",
+            "block-group-point": [
+                {
+                    "block-point-x": 235.534851074219,
+                    "block-point-y": 128.292297363281,
+                    "block-point-z": 3.61109161376953
+                },
+                {
+                    "block-point-x": 114.000213623047,
+                    "block-point-y": 128.155731201172,
+                    "block-point-z": 3.21516418457031
+                },
+                {
+                    "block-point-x": 98.0155410766602,
+                    "block-point-y": 129.236053466797,
+                    "block-point-z": 30.6742477416992
+                },
+                {
+                    "block-point-x": 81.6680755615234,
+                    "block-point-y": 128.967895507813,
+                    "block-point-z": 59.634880065918
+                },
+                {
+                    "block-point-x": 58.750114440918,
+                    "block-point-y": 130.913177490234,
+                    "block-point-z": 77.3695526123047
+                },
+                {
+                    "block-point-x": 42.2936248779297,
+                    "block-point-y": 132.330917358398,
+                    "block-point-z": 91.4411544799805
+                },
+                {
+                    "block-point-x": 30.433837890625,
+                    "block-point-y": 129.577331542969,
+                    "block-point-z": 111.774459838867
+                },
+                {
+                    "block-point-x": 21.2779083251953,
+                    "block-point-y": 132.094604492188,
+                    "block-point-z": 121.480491638184
+                },
+                {
+                    "block-point-x": 23.6133193969727,
+                    "block-point-y": 137.301651000977,
+                    "block-point-z": 170.927001953125
+                },
+                {
+                    "block-point-x": 40.2295532226563,
+                    "block-point-y": 134.865173339844,
+                    "block-point-z": 184.596908569336
+                },
+                {
+                    "block-point-x": 45.6088027954102,
+                    "block-point-y": 132.479736328125,
+                    "block-point-z": 220.471588134766
+                },
+                {
+                    "block-point-x": 134.130447387695,
+                    "block-point-y": 129.656356811523,
+                    "block-point-z": 218.375823974609
+                },
+                {
+                    "block-point-x": 150.260467529297,
+                    "block-point-y": 127.999969482422,
+                    "block-point-z": 226.382263183594
+                },
+                {
+                    "block-point-x": 158.223831176758,
+                    "block-point-y": 127.999969482422,
+                    "block-point-z": 252.000900268555
+                },
+                {
+                    "block-point-x": 211.9130859375,
+                    "block-point-y": 128.0,
+                    "block-point-z": 252.633865356445
+                },
+                {
+                    "block-point-x": 205.927688598633,
+                    "block-point-y": 128.0,
+                    "block-point-z": 228.480834960938
+                },
+                {
+                    "block-point-x": 222.464630126953,
+                    "block-point-y": 130.525009155273,
+                    "block-point-z": 201.476867675781
+                },
+                {
+                    "block-point-x": 222.233139038086,
+                    "block-point-y": 130.528747558594,
+                    "block-point-z": 160.891265869141
+                },
+                {
+                    "block-point-x": 208.899185180664,
+                    "block-point-y": 128.025817871094,
+                    "block-point-z": 140.045166015625
+                },
+                {
+                    "block-point-x": 199.678115844727,
+                    "block-point-y": 125.556396484375,
+                    "block-point-z": 137.758163452148
+                },
+                {
+                    "block-point-x": 199.942932128906,
+                    "block-point-y": 125.629257202148,
+                    "block-point-z": 154.211288452148
+                },
+                {
+                    "block-point-x": 194.147827148438,
+                    "block-point-y": 126.178131103516,
+                    "block-point-z": 171.627456665039
+                },
+                {
+                    "block-point-x": 180.212905883789,
+                    "block-point-y": 125.626052856445,
+                    "block-point-z": 185.715682983398
+                },
+                {
+                    "block-point-x": 164.385772705078,
+                    "block-point-y": 125.206512451172,
+                    "block-point-z": 191.539108276367
+                },
+                {
+                    "block-point-x": 148.172775268555,
+                    "block-point-y": 125.866241455078,
+                    "block-point-z": 193.26953125
+                },
+                {
+                    "block-point-x": 126.026725769043,
+                    "block-point-y": 124.252548217773,
+                    "block-point-z": 182.041870117188
+                },
+                {
+                    "block-point-x": 109.538139343262,
+                    "block-point-y": 124.788543701172,
+                    "block-point-z": 156.810241699219
+                },
+                {
+                    "block-point-x": 112.717407226563,
+                    "block-point-y": 124.196411132813,
+                    "block-point-z": 128.596954345703
+                },
+                {
+                    "block-point-x": 130.591857910156,
+                    "block-point-y": 125.693481445313,
+                    "block-point-z": 107.176239013672
+                },
+                {
+                    "block-point-x": 147.603118896484,
+                    "block-point-y": 127.757034301758,
+                    "block-point-z": 94.2434692382813
+                },
+                {
+                    "block-point-x": 149.676391601563,
+                    "block-point-y": 129.561920166016,
+                    "block-point-z": 72.2464599609375
+                },
+                {
+                    "block-point-x": 151.221954345703,
+                    "block-point-y": 128.000381469727,
+                    "block-point-z": 49.1016311645508
+                },
+                {
+                    "block-point-x": 222.274703979492,
+                    "block-point-y": 129.595977783203,
+                    "block-point-z": 41.2839317321777
+                },
+                {
+                    "block-point-x": 233.471694946289,
+                    "block-point-y": 128.0,
+                    "block-point-z": 1.42990112304688
+                }
+            ]
+        }
+    ],
+    "object": [
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree03",
+            "object-filename": "barrenstree03.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\barrenstree03",
+            "object-position-x": 100.151710510254,
+            "object-position-y": 128.0,
+            "object-position-z": 62.8037414550781,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 0.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 2.1800000667572
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree04",
+            "object-filename": "barrenstree04.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 166.961883544922,
+            "object-position-y": 128.0,
+            "object-position-z": 9.32036972045898,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 0.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.50999999046326
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree05",
+            "object-filename": "barrenstree05.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 202.444580078125,
+            "object-position-y": 128.0,
+            "object-position-z": 213.219268798828,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 47.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 4.36999988555908
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree04",
+            "object-filename": "barrenstree04.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 211.420349121094,
+            "object-position-y": 169.357849121094,
+            "object-position-z": 112.224975585938,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 31.9010009765625,
+            "object-position-y": 163.025939941406,
+            "object-position-z": 28.5857849121094,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 30.0630302429199,
+            "object-position-y": 156.496704101563,
+            "object-position-z": 20.153995513916,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 24.2471008300781,
+            "object-position-y": 155.958404541016,
+            "object-position-z": 53.0434036254883,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 16.2524261474609,
+            "object-position-y": 150.635040283203,
+            "object-position-z": 14.993221282959,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 20.5125885009766,
+            "object-position-y": 150.155883789063,
+            "object-position-z": 7.32124996185303,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 5.90028381347656,
+            "object-position-y": 156.408813476563,
+            "object-position-z": 226.737899780273,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 5.71786499023438,
+            "object-position-y": 158.504638671875,
+            "object-position-z": 205.956314086914,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 13.5001754760742,
+            "object-position-y": 153.768280029297,
+            "object-position-z": 207.413497924805,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 24.5515365600586,
+            "object-position-y": 151.072631835938,
+            "object-position-z": 218.816009521484,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 14.358772277832,
+            "object-position-y": 153.503814697266,
+            "object-position-z": 189.990707397461,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 27.7262115478516,
+            "object-position-y": 144.122436523438,
+            "object-position-z": 204.615295410156,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 11.6282806396484,
+            "object-position-y": 149.462585449219,
+            "object-position-z": 182.034408569336,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 12.9058609008789,
+            "object-position-y": 153.742950439453,
+            "object-position-z": 154.630279541016,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree07",
+            "object-filename": "barrenstree07.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 55.3466262817383,
+            "object-position-y": 135.025726318359,
+            "object-position-z": 229.277160644531,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 1.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 1.1599999666214
+        },
+        {
+            "object-collision": false,
+            "object-destruction": false,
+            "object-enemy": false,
+            "object-file-key": "barrenstree05",
+            "object-filename": "barrenstree05.X",
+            "object-filepath": "D:\\SGAÇÐ¿ø ¼ö¾÷\\3D_Assets\\Assets\\World\\DONE\\Environment\\cobble-stone-02",
+            "object-position-x": 110.593612670898,
+            "object-position-y": 128.120330810547,
+            "object-position-z": 219.260009765625,
+            "object-rotation-x": 0.0,
+            "object-rotation-y": 8.0,
+            "object-rotation-z": 0.0,
+            "object-scale": 2.51999998092651
+        }
+    ],
+    "object-tab-setting": {
+        "object-tab-block-make-num": 0,
+        "object-tab-object-make-num": 42
+    },
+    "event": [
+        {
+            "event-name": "startpos",
+            "event-position-x": 187.427398681641,
+            "event-position-y": 127.999984741211,
+            "event-position-z": 8.28728485107422
+        },
+        {
+            "event-name": "to-icecrown",
+            "event-position-x": 128.0,
+            "event-position-y": 128.0,
+            "event-position-z": 128.0
+        }
+    ],
+    "map": {
+        "size": 3
+    },
+    "skybox": {
+        "key": "Volcano.dds"
+    },
+    "texture": {
+        "bgtex": {
+            "density": 114.0,
+            "key": "mud1.jpg"
+        },
+        "tex1": {
+            "density": 114.0,
+            "key": "mud1.jpg"
+        },
+        "tex2": {
+            "density": 278.0,
+            "key": "DryMud.jpg"
+        },
+        "tex3": {
+            "density": 10.0,
+            "key": "Stone.jpg"
+        }
+    },
+    "water": {
+        "density": 1.0,
+        "enable": true,
+        "filename": "water.jpg",
+        "filepath": "Texture",
+        "frequency": 7.0,
+        "height": 121.0,
+        "heightspeed": 2.0,
+        "transparent": 0.600000023841858,
+        "uvspeed": 0.0,
+        "waveheight": 0.200000002980232
+    }
+}
