@@ -2,6 +2,12 @@
 #include "cCamera.h"
 
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 cCamera::cCamera()
     : m_fDistance(250)
     , m_vEye(0, LOOKAT_POS, -m_fDistance)

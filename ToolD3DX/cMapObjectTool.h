@@ -9,34 +9,34 @@
 #define EVENT_RADIUS  (10.0f)
 
 // OBJECT_TAB 包访
-#define OBJ_SET       ("OBJECT_TAB_SETTING")
-#define OBJ_OBJ_NUM   ("OBJECT_TAB_OBJECT_MAKE_NUM")
-#define OBJ_BLOCK_NUM ("OBJECT_TAB_BLOCK_MAKE_NUM")
+#define OBJ_SET       ("object-tab-setting")
+#define OBJ_OBJ_NUM   ("object-tab-object-make-num")
+#define OBJ_BLOCK_NUM ("object-tab-block-make-num")
 
 // OBJECT 包访
-#define OBJ         ("OBJECT")
-#define OBJ_KEY     ("OBJECT_FILE_KEY")
-#define OBJ_PATH    ("OBJECT_FILE_PATH")
-#define OBJ_NAME    ("OBJECT_FILE_NAME")
-#define OBJ_COL     ("OBJECT_COLLISION")
-#define OBJ_DES     ("OBJECT_DESTRUCTION")
-#define OBJ_ENE     ("OBJECT_ENEMY")
-#define OBJ_SCALE   ("OBJECT_SCALE")
-#define OBJ_ROTX    ("OBJECT_ROTATION_X")
-#define OBJ_ROTY    ("OBJECT_ROTATION_Y")
-#define OBJ_ROTZ    ("OBJECT_ROTATION_Z")
-#define OBJ_POSX    ("OBJECT_POSITION_X")
-#define OBJ_POSY    ("OBJECT_POSITION_Y")
-#define OBJ_POSZ    ("OBJECT_POSITION_Z")
+#define OBJ         ("object")
+#define OBJ_KEY     ("object-file-key")
+#define OBJ_PATH    ("object-file-path")
+#define OBJ_NAME    ("object-file-name")
+#define OBJ_COL     ("object-collision")
+#define OBJ_DES     ("object-destruction")
+#define OBJ_ENE     ("object-enemy")
+#define OBJ_SCALE   ("object-scale")
+#define OBJ_ROTX    ("object-rotation-x")
+#define OBJ_ROTY    ("object-rotation-y")
+#define OBJ_ROTZ    ("object-rotation-z")
+#define OBJ_POSX    ("object-position-x")
+#define OBJ_POSY    ("object-position-y")
+#define OBJ_POSZ    ("object-position-z")
 
 // BLOCK 包访
-#define BG          ("BLOCK_GROUP")         // array
-#define BG_NAME     ("BLOCK_GROUP_NAME")    // string
-#define BG_COLOR    ("BLOCK_GROUP_COLOR")   // DWORD
-#define BG_POINT    ("BLOCK_GROUP_POINT")   // array
-#define BG_PO_X     ("BLOCK_POINT_X")       // float
-#define BG_PO_Y     ("BLOCK_POINT_Y")       // float 
-#define BG_PO_Z     ("BLOCK_POINT_Z")       // float
+#define BG          ("block-group")         // array
+#define BG_NAME     ("block-group-name")    // string
+#define BG_COLOR    ("block-group-color")   // DWORD
+#define BG_POINT    ("block-group-point")   // array
+#define BG_PO_X     ("block-point-x")       // float
+#define BG_PO_Y     ("block-point-y")       // float 
+#define BG_PO_Z     ("block-point-z")       // float
 
 // EVENT 包访
 #define EVE         ("event")

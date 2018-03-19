@@ -5,7 +5,7 @@ class cMapObject
 {
 private:
     // 내부에서 활용할 값 //
-    cSkinnedMesh * m_pSkinnedMesh;     // 스킨드 메쉬
+    cSkinnedMesh*           m_pSkinnedMesh;     // 스킨드 메쉬
     Matrix4                 m_matScale;         // 스케일, 같은 값 반복 
     Matrix4                 m_matRot;           // X,Y,Z 가 모두 적용된 매트릭스 
     Matrix4                 m_matTrans;

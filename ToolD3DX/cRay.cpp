@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "cRay.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 
 cRay::cRay()
 	: m_vOrg(0, 0, 0)

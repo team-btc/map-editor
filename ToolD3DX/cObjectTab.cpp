@@ -111,6 +111,7 @@ BOOL cObjectTab::OnInitDialog()
 
 
     // 오브젝트 사이즈 슬라이더 기본 설정
+    m_pObjSizeSliderCtl->SetPos((int)m_fObjSize * 100);
     m_pObjSizeSliderCtl->SetRange(0, 2000);		// 사용영역 값 설정
     m_pObjSizeSliderCtl->SetRangeMin(0);		// 최소 값 설정
     m_pObjSizeSliderCtl->SetRangeMax(2000);		// 최대 값 설정

@@ -1,12 +1,6 @@
 #include "stdafx.h"
 #include "cMapObject.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 cMapObject::cMapObject()
 {
     m_pSkinnedMesh = NULL;
@@ -26,12 +20,12 @@ cMapObject::cMapObject()
 cMapObject::cMapObject(string key, string filePath, string fileName)
 {
     cMapObject();
-    m_pSkinnedMesh = g_pMeshManager->GetMesh(key, filePath, fileName);
+    m_pSkinnedMesh = new cSkinnedMesh(key, filePath, fileName);
 }
 
 cMapObject::~cMapObject()
 {
-    m_pSkinnedMesh = NULL;
+    SAFE_RELEASE(m_pSkinnedMesh);
 }
 
 void cMapObject::Setup(Vector3 vScale, Vector3 vRotationXYZ, Vector3 vPosition)

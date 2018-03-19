@@ -16,7 +16,7 @@ private:
     ST_SPHERE                   m_stBoundingSphere;
 
     // 객체마다 생성
-    LPANIMCONTROLLER   m_pAnimController;
+    LPANIMCONTROLLER            m_pAnimController;
     Vector3                     m_vPosition;
 
 private:

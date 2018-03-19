@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "cFontManager.h"
 
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#undef THIS_FILE
+static char THIS_FILE[] = __FILE__;
+#endif
+
 
 cFontManager::cFontManager()
 {
@@ -56,7 +62,9 @@ LPD3DXFONT cFontManager::GetFont(eFontType e)
 void cFontManager::Destory()
 {
     for each (auto p in m_mapFont)
+    {
         SAFE_RELEASE(p.second);
+    }
 
     m_mapFont.clear();
 }

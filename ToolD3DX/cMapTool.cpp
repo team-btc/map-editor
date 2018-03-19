@@ -172,7 +172,8 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
 
     // 맵사이즈 저장
     save["map"]["size"] = (int)g_pMapDataManager->GetMapSize();
-
+    save["texture"]["bgtex"]["key"] = g_pMapDataManager->GetTex1FileName();
+    save["texture"]["bgtex"]["density"] = g_pMapDataManager->GetTex1Density();
     save["texture"]["tex1"]["key"] = g_pMapDataManager->GetTex1FileName();
     save["texture"]["tex1"]["density"] = g_pMapDataManager->GetTex1Density();
     save["texture"]["tex2"]["key"] = g_pMapDataManager->GetTex2FileName();
@@ -181,8 +182,8 @@ json cMapTool::SaveByJson(string strFilePath, string strFileTitle)
     save["texture"]["tex3"]["density"] = g_pMapDataManager->GetTex3Density();
 
     save["water"]["enable"] = g_pMapDataManager->GetIsMakeWater();
-    save["water"]["file_name"] = g_pMapDataManager->GetWaterFileName();
-    save["water"]["file_path"] = g_pMapDataManager->GetWaterFilePath();
+    save["water"]["filename"] = g_pMapDataManager->GetWaterFileName();
+    save["water"]["filepath"] = g_pMapDataManager->GetWaterFilePath();
     save["water"]["height"] = g_pMapDataManager->GetWaterHeight();
     save["water"]["uvspeed"] = g_pMapDataManager->GetWaterUVSpeed();
     save["water"]["waveheight"] = g_pMapDataManager->GetWaterWaveHeight();
@@ -224,6 +225,11 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
 
     //======== 텍스쳐 1, 2, 3 세팅 ===========//
     // 텍스쳐1
+    string bgtex = jLoad["texture"]["bgtex"]["key"];
+    float den0 = jLoad["texture"]["bgtex"]["density"];
+    g_pMapDataManager->SetBgTex(bgtex);
+    g_pMapDataManager->SetBaseDen(den0);
+
     string tex1 = jLoad["texture"]["tex1"]["key"];
     float den1 = jLoad["texture"]["tex1"]["density"];
     g_pMapDataManager->SetTex1FileName(tex1);
@@ -259,9 +265,9 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     g_pMapDataManager->SetIsMakeWater(bMakeWater);
     g_pMapDataManager->GetWaterMakeCheck()->SetCheck(bMakeWater);
 
-    string str = jLoad["water"]["file_name"];
+    string str = jLoad["water"]["filename"];
     g_pMapDataManager->SetWaterFileName(str);
-    string str2 = jLoad["water"]["file_path"];
+    string str2 = jLoad["water"]["filepath"];
     g_pMapDataManager->SetWaterFilePath(str2);
     // 워터 텍스쳐 세팅
     m_pTerrainTool->SetWave(g_pMapDataManager->GetWaterFileName(), g_pMapDataManager->GetWaterFilePath());

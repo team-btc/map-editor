@@ -14,10 +14,10 @@ cMainGame::cMainGame(void)
     : m_szText("")
     , m_pCamera(NULL)
     , m_vRot(0, 0, 0)
-	, m_pMapTool(NULL)
+    , m_pMapTool(NULL)
     , m_pMainFormView(NULL)
 {
-    
+
 }
 
 
@@ -33,8 +33,8 @@ void cMainGame::OnInit()
     m_pCamera = new cCamera;
     m_pCamera->Setup(m_hWnd);
 
-	m_pMapTool = new cMapTool;
-	m_pMapTool->Setup();
+    m_pMapTool = new cMapTool;
+    m_pMapTool->Setup();
 }
 
 void cMainGame::OnUpdate()
@@ -76,11 +76,11 @@ void cMainGame::OnUpdate()
     {
         m_vRot.x -= 1.0f;
     }
-	
-	if (m_pMapTool)
-	{
-		m_pMapTool->Update();
-	}
+
+    if (m_pMapTool)
+    {
+        m_pMapTool->Update();
+    }
 }
 
 void cMainGame::OnRender()
@@ -90,15 +90,20 @@ void cMainGame::OnRender()
     Matrix4 matI;
     D3DXMatrixIdentity(&matI);
     g_pDevice->SetTransform(D3DTS_WORLD, &matI);
-    
-	if (m_pMapTool)
-	{
-		m_pMapTool->Render();
-	}
+
+    if (m_pMapTool)
+    {
+        m_pMapTool->Render();
+    }
 }
 
 void cMainGame::OnRelease()
 {
     SAFE_DELETE(m_pCamera);
-	SAFE_RELEASE(m_pMapTool);
+    SAFE_RELEASE(m_pMapTool);
+    g_pMeshManager->Destroy();
+    g_pFontManager->Destory();
+    g_pTextureManager->Destroy();
+    g_pShaderManager->Destroy();
+    g_pAutoReleasePool->Drain();
 }

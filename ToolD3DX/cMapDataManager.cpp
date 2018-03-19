@@ -3,6 +3,7 @@
 #include "cMapTool.h"
 
 cMapDataManager::cMapDataManager()
+    : m_fObjSize(1.0f)
 {
 }
 
@@ -30,15 +31,12 @@ void cMapDataManager::SetMapData()
     g_pTextureManager->AddTexture("Cliff.jpg", "Texture/Cliff.jpg");
     g_pTextureManager->AddTexture("Grass2.jpg", "Texture/Grass2.jpg");
 
-
     g_pTextureManager->AddTexture("Lava.jpg", "Texture/Lava.jpg");
     g_pTextureManager->AddTexture("Space.jpg", "Texture/Space.jpg");
     g_pTextureManager->AddTexture("mecha.jpg", "Texture/mecha.jpg");
     g_pTextureManager->AddTexture("mecha-dark.jpg", "Texture/mecha-dark.jpg");
 
     g_pTextureManager->AddTexture("Snow2.jpg", "Texture/Snow2.jpg");
-
- 
 
     g_pTextureManager->AddTexture("Water.jpg", "Shader/Texture/Water.jpg");
     g_pTextureManager->AddTexture("Magma.jpg", "Shader/Texture/magma.jpg");

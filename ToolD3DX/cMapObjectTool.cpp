@@ -70,6 +70,7 @@ cMapObjectTool::~cMapObjectTool()
         m_vecEventTrrigers.clear();
     }
 
+    SAFE_DELETE(m_pFollowObject);
     // 테스트 메쉬 해제
     SAFE_RELEASE(m_SphereMesh);
 }

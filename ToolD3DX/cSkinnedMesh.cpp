@@ -18,12 +18,15 @@ cSkinnedMesh::cSkinnedMesh(string szKey, string szFolder, string szFilename)
     m_pEffect = pSkinnedMesh->m_pEffect;
     m_stBoundingSphere = pSkinnedMesh->m_stBoundingSphere;
 
-    pSkinnedMesh->m_pAnimController->CloneAnimationController(
-        pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
-        pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
-        pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
-        pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
-        &m_pAnimController);
+    if (pSkinnedMesh->m_pAnimController)
+    {
+        pSkinnedMesh->m_pAnimController->CloneAnimationController(
+            pSkinnedMesh->m_pAnimController->GetMaxNumAnimationOutputs(),
+            pSkinnedMesh->m_pAnimController->GetMaxNumAnimationSets(),
+            pSkinnedMesh->m_pAnimController->GetMaxNumTracks(),
+            pSkinnedMesh->m_pAnimController->GetMaxNumEvents(),
+            &m_pAnimController);
+    }
 }
 
 cSkinnedMesh::cSkinnedMesh()
@@ -321,7 +324,8 @@ HRESULT cSkinnedMesh::Destroy()
     cAllocateHierarchy ah;
     D3DXFrameDestroy((LPFRAME)m_pRootFrame, &ah);
     SAFE_DELETE_ARRAY(m_pmWorkingPalette);
-    SAFE_RELEASE(m_pEffect);
+    //SAFE_RELEASE(m_pEffect);
+    ULONG l = m_pEffect->Release();
 
     return S_OK;
 }
