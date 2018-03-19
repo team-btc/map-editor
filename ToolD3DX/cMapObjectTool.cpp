@@ -918,7 +918,7 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         pos.x = (float)json[OBJ][i][OBJ_POSX];
         pos.y = (float)json[OBJ][i][OBJ_POSY];
         pos.z = (float)json[OBJ][i][OBJ_POSZ];
-        string path = "Assets\\Object\\" + key + "\\" + name;
+        string path = "Assets\\Object\\" + key;
         cMapObject* object = new cMapObject(key, path, name);
 
         object->Setup(scale, rot, pos);
