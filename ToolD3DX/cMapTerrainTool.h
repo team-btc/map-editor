@@ -160,9 +160,7 @@ public:
 
     void SetTerrainTexture()
     {
-        m_pTextureShader->SetTexture1();
-        m_pTextureShader->SetTexture2();
-        m_pTextureShader->SetTexture3();
+        m_pTextureShader->SetTexture();
     }
     void SetSkyBoxTexture()
     {

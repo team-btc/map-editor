@@ -27,7 +27,8 @@ void cTextureShader::SetTexture()
     SetTexture1();
     SetTexture2();
     SetTexture3();
-    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(g_pMapDataManager->GetBgTex());
+    string szBgTex = g_pMapDataManager->GetBgTex();
+    m_pBackGroundTexture = (LPDIRECT3DTEXTURE9)g_pTextureManager->GetTexture(szBgTex);
     m_fBackGroundDensity = 30.0f;
 }
 

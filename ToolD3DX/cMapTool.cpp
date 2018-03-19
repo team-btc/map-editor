@@ -227,11 +227,13 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     // 텍스쳐1
     string bgtex = jLoad["texture"]["bgtex"]["key"];
     float den0 = jLoad["texture"]["bgtex"]["density"];
+    g_pTextureManager->AddTexture(bgtex, "Assets\\Texture\\" + bgtex);
     g_pMapDataManager->SetBgTex(bgtex);
     g_pMapDataManager->SetBaseDen(den0);
 
     string tex1 = jLoad["texture"]["tex1"]["key"];
     float den1 = jLoad["texture"]["tex1"]["density"];
+    g_pTextureManager->AddTexture(tex1, "Assets\\Texture\\" + tex1);
     g_pMapDataManager->SetTex1FileName(tex1);
     g_pMapDataManager->SetTex1Density(den1);
     g_pMapDataManager->GetTex1DensitySliderCtl()->SetPos((int)den1);
@@ -242,6 +244,7 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     // 텍스쳐2
     string tex2 = jLoad["texture"]["tex2"]["key"];
     float den2 = jLoad["texture"]["tex2"]["density"];
+    g_pTextureManager->AddTexture(tex2, "Assets\\Texture\\" + tex2);
     g_pMapDataManager->SetTex2FileName(tex2);
     g_pMapDataManager->SetTex2Density(den2);
     g_pMapDataManager->GetTex2DensitySliderCtl()->SetPos((int)den2);
@@ -252,6 +255,7 @@ void cMapTool::LoadByJson(string sFilePath, string sFileTitle)
     // 텍스쳐3
     string tex3 = jLoad["texture"]["tex3"]["key"];
     float den3 = jLoad["texture"]["tex3"]["density"];
+    g_pTextureManager->AddTexture(tex3, "Assets\\Texture\\" + tex3);
     g_pMapDataManager->SetTex3FileName(tex3);
     g_pMapDataManager->SetTex3Density(den3);
     g_pMapDataManager->GetTex3DensitySliderCtl()->SetPos((int)den3);

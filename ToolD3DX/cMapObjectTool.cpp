@@ -255,17 +255,14 @@ HRESULT cMapObjectTool::Render()
                 g_pMapDataManager->GetObjectButtonState() == E_OBJ_TAB_BTN_REMOVE)
             {
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
-                if (m_vecObjects[i]->GetScale().x <= SCALE_FIX)
+                if (m_vecObjects[i]->GetScale().x <= 0.001f)
                 {
                     Matrix4 matS, matWorld;
-                    D3DXMatrixScaling(&matS, SCALE_FIX, SCALE_FIX, SCALE_FIX);
+                    D3DXMatrixScaling(&matS, 1, 1, 1);
                     matWorld = matS * m_vecObjects[i]->GetRotMatrix() * m_vecObjects[i]->GetTransMatrix();
                     g_pDevice->SetTransform(D3DTS_WORLD, &matWorld);
                 }
-                else
-                {
-                    g_pDevice->SetTransform(D3DTS_WORLD, &m_vecObjects[i]->GetWorldMatrix());
-                }
+                g_pDevice->SetTransform(D3DTS_WORLD, &m_vecObjects[i]->GetWorldMatrix());
                 m_SphereMesh->DrawSubset(0);
                 g_pDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
             }
@@ -906,7 +903,7 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
     for (int i = 0; i < json[OBJ].size(); i++)
     {
         string key = json[OBJ][i][OBJ_KEY];
-        string path = json[OBJ][i][OBJ_PATH];
+        //string path = json[OBJ][i][OBJ_PATH];
         string name = json[OBJ][i][OBJ_NAME];
 
         Vector3 scale;
@@ -921,7 +918,7 @@ void cMapObjectTool::LoadByJson(string sFilePath, string sFileTitle)
         pos.x = (float)json[OBJ][i][OBJ_POSX];
         pos.y = (float)json[OBJ][i][OBJ_POSY];
         pos.z = (float)json[OBJ][i][OBJ_POSZ];
-
+        string path = "Assets\\Object\\" + key + "\\" + name;
         cMapObject* object = new cMapObject(key, path, name);
 
         object->Setup(scale, rot, pos);

@@ -16,8 +16,8 @@
 // OBJECT ฐüทร
 #define OBJ         ("object")
 #define OBJ_KEY     ("object-file-key")
-#define OBJ_PATH    ("object-file-path")
-#define OBJ_NAME    ("object-file-name")
+#define OBJ_PATH    ("object-filepath")
+#define OBJ_NAME    ("object-filename")
 #define OBJ_COL     ("object-collision")
 #define OBJ_DES     ("object-destruction")
 #define OBJ_ENE     ("object-enemy")
